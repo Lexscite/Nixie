@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{b007407c-dc92-47c2-9c0d-251bde33d20f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{b341ae71-0cc1-4c2b-b9bf-7d829ddc88ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\database">
+      <UniqueIdentifier>{258f2f82-2137-4386-a3d5-ab6b43d6682f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\database\User.h">
+      <Filter>src\database</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Server.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\database\User.cpp">
+      <Filter>src\database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Server.cpp" />
+    <ClCompile Include="src\core\main.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

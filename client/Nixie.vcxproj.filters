@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{27cf1d40-f08e-474e-82c5-40591f50f2de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{e91cac3a-6a01-4570-8e65-3e641b7c373d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core\graphics">
+      <UniqueIdentifier>{d4ae0545-efb1-4a7e-93a8-8edf434d7326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core\utility">
+      <UniqueIdentifier>{9e5f4243-ed2d-4b79-aeeb-00844fdb311b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\game">
+      <UniqueIdentifier>{58e45eb3-c23c-4cd9-87d9-c26581491d5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\game\ui">
+      <UniqueIdentifier>{d22f8c8a-4bfc-4df4-9c6b-29cc9a89836c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core\network">
+      <UniqueIdentifier>{814b1610-46d2-4acc-bdce-8d99f876b613}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\winmain.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Game.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\graphics\DirectX.cpp">
+      <Filter>src\core\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\graphics\Graphics.cpp">
+      <Filter>src\core\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\utility\Memory.cpp">
+      <Filter>src\core\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\ui\Chat.cpp">
+      <Filter>src\game\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\network\Client.cpp">
+      <Filter>src\core\network</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\core\Game.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\graphics\DirectX.h">
+      <Filter>src\core\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\graphics\Graphics.h">
+      <Filter>src\core\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\ui\Chat.h">
+      <Filter>src\game\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\network\Client.h">
+      <Filter>src\core\network</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
