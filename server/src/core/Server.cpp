@@ -5,20 +5,18 @@ namespace
 	NixieServer::Server* g_pServer = nullptr;
 }
 
-int HandleClientThread(int index)
+void HandleClientThread(int id)
 {
-	char buffer[256];
+	PacketType packetType;
 	while (true)
-	{
-		recv(g_pServer->m_Connections[index], buffer, sizeof(buffer), NULL);
-		for (int i = 0; i < g_pServer->m_ConnectionCounter; i++)
-		{
-			if (i == index)
-				continue;
+	{ 
+		g_pServer->Recieve((char*)&packetType, sizeof(PacketType), id);
 
-			send(g_pServer->m_Connections[i], buffer, sizeof(buffer), NULL);
-		}
+		if (!g_pServer->ProcessPacket(id, packetType))
+			break;
 	}
+
+	closesocket(g_pServer->m_Connections[id]);
 }
 
 namespace NixieServer
@@ -50,13 +48,13 @@ namespace NixieServer
 		m_SocketListen = socket(AF_INET, SOCK_STREAM, NULL);
 		if (bind(m_SocketListen, (SOCKADDR*)&m_Address, sizeof(m_Address)) != 0)
 		{
-			std::cout << "Failed to bind the listening socket." << std::endl;
+			cout << "Failed to bind the listening socket." << endl;
 			return false;
 		}
 
 		if (listen(m_SocketListen, SOMAXCONN) != 0)
 		{
-			std::cout << "Failed to listen to the socket." << std::endl;
+			cout << "Failed to listen to the socket." << endl;
 			return false;
 		}
 
@@ -66,19 +64,76 @@ namespace NixieServer
 			newConnection = accept(m_SocketListen, (SOCKADDR*)&m_Address, &addressLen);
 			if (newConnection == 0)
 			{
-				std::cout << "Failed to accept the client's connection." << std::endl;
+				cout << "Failed to accept the client's connection." << endl;
 				return false;
 			}
 
-			std::cout << "Client connected." << std::endl;
-
-			char MOTD[256] = "Welcome! This is the message of the day.";
-			send(newConnection, MOTD, sizeof(MOTD), NULL);
+			cout << "Client connected." << endl;
 
 			m_Connections[i] = newConnection;
 			m_ConnectionCounter++;
 
 			CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)HandleClientThread, (LPVOID)(i), NULL, NULL);
+		}
+
+		return true;
+	}
+
+	int Server::Send(char* buffer, int length, int id)
+	{
+		int result = send(m_Connections[id], buffer, length, NULL);
+		if (result < 0)
+		{
+			cout << "Failed to send data." << endl;
+			return 0;
+		}
+
+		return result;
+	}
+
+	int Server::Recieve(char* buffer, int length, int id)
+	{
+		int result = recv(m_Connections[id], buffer, length, NULL);
+		if (result < 0)
+		{
+			cout << "Failed to recieve data." << endl;
+			return 0;
+		}
+
+		return result;
+	}
+
+	bool Server::ProcessPacket(int id, PacketType packetType)
+	{
+		switch (packetType)
+		{
+			case PT_CHAT_MESSAGE:
+			{
+				int bufferLength;
+				Recieve((char*)&bufferLength, sizeof(int), id);
+
+				char* buffer = new char[bufferLength];
+				Recieve(buffer, bufferLength, id);
+
+				cout << "Client sent a PK chat message: " << buffer << endl;
+
+				for (int i = 0; i < m_ConnectionCounter; i++)
+				{
+					if (i == id)
+						continue;
+
+					PacketType responsePacketType = PT_CHAT_MESSAGE;
+					Send((char*)&responsePacketType, sizeof(PacketType), i);
+					Send((char*)&bufferLength, sizeof(int), i);
+					Send(buffer, bufferLength, i);
+				}
+
+				delete[] buffer;
+				break;
+			}
+			default:
+				cout << "Unrecognized packet: " << packetType << endl;
+				break;
 		}
 
 		return true;
