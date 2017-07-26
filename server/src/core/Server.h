@@ -14,6 +14,7 @@ using namespace std;
 
 enum PacketType
 {
+	PT_LOGIN_DATA,
 	PT_CHAT_MESSAGE,
 };
 

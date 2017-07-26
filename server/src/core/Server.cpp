@@ -107,6 +107,11 @@ namespace NixieServer
 	{
 		switch (packetType)
 		{
+			case PT_LOGIN_DATA:
+			{
+				cout << "Client sent a PK login data:" << endl;
+				break;
+			}
 			case PT_CHAT_MESSAGE:
 			{
 				int bufferLength;
@@ -124,6 +129,7 @@ namespace NixieServer
 
 					PacketType responsePacketType = PT_CHAT_MESSAGE;
 					Send((char*)&responsePacketType, sizeof(PacketType), i);
+
 					Send((char*)&bufferLength, sizeof(int), i);
 					Send(buffer, bufferLength, i);
 				}

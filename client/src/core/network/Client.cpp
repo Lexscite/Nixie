@@ -10,12 +10,14 @@ void ClientThread()
 	PacketType packetType;
 	while (true)
 	{
-		g_pClient->Recieve((char*)&packetType, sizeof(PacketType));
+		if (!g_pClient->GetPacketType(packetType))
+			break;
 
 		if (!g_pClient->ProcessPacket(packetType))
 			break;
 	}
 
+	OutputDebugString("\nLost connection to the server.\n\n");
 	closesocket(g_pClient->m_Connection);
 }
 
@@ -54,53 +56,107 @@ namespace NixieClient
 
 		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientThread, NULL, NULL, NULL);
 
-		string hiMessage = "Hi Server!";
+		if (!SendPacketType(PT_CHAT_MESSAGE))
+			MessageBox(NULL, "Failed to send TEST packet type", "Network Error", MB_OK | MB_ICONERROR);
 
-		int bufferLength = hiMessage.size();
-		PacketType packetType = PT_CHAT_MESSAGE;
-		Send((char*)&packetType, sizeof(PacketType));
-		Send((char*)&bufferLength, sizeof(int));
-		send(m_Connection, hiMessage.c_str(), bufferLength, NULL);
+		string message = string("Hi Server!");
+
+		if (!SendString(message))
+			MessageBox(NULL, "Failed to send TEST string", "Network Error", MB_OK | MB_ICONERROR);
+
+		SendPacketType(PT_LOGIN_DATA);
 
 		return true;
 	}
 
 	int Client::Send(char* buffer, int bufferLength)
 	{
-		int result = send(m_Connection, buffer, bufferLength, NULL);
-		if (result < 0)
-		{
-			return 0;
-		}
-
-		return result;
+		return send(m_Connection, buffer, bufferLength, NULL);
 	}
 
 	int Client::Recieve(char* buffer, int bufferLength)
 	{
-		int result = recv(m_Connection, buffer, bufferLength, NULL);
-		if (result < 0)
-		{
-			return 0;
-		}
+		return recv(m_Connection, buffer, bufferLength, NULL);
+	}
 
-		return result;
+	bool Client::SendInt(int data)
+	{
+		if (Send((char*)&data, sizeof(int)) == SOCKET_ERROR)
+			return false;
+		
+		return true;
+	}
+
+	bool Client::GetInt(int &data)
+	{
+		if (Recieve((char*)&data, sizeof(int)) == SOCKET_ERROR)
+			return false;
+		
+		return true;
+	}
+
+	bool Client::SendPacketType(PacketType data)
+	{
+		if (Send((char*)&data, sizeof(PacketType)) == SOCKET_ERROR)
+			return false;
+		
+		return true;
+	}
+
+	bool Client::GetPacketType(PacketType &data)
+	{
+		if (Recieve((char*)&data, sizeof(PacketType)) == SOCKET_ERROR)
+			return false;
+		
+		return true;
+	}
+
+	bool Client::SendString(string &data)
+	{
+		int bufferLength = data.size();
+
+		if (!SendInt(bufferLength))
+			return false;
+
+		if (Send((char*)data.c_str(), bufferLength) == SOCKET_ERROR)
+			return false;
+
+		return true;
+	}
+
+	bool Client::GetString(string &data)
+	{
+		int bufferLength;
+
+		if (!GetInt(bufferLength))
+			return false;
+
+		char* buffer = new char[bufferLength + 1];
+		buffer[bufferLength] = '\0';
+
+		int result = Recieve(buffer, bufferLength);
+		data = buffer;
+		delete[] buffer;
+		if (result == SOCKET_ERROR)
+			return false;
+
+		return true;
 	}
 
 	bool Client::ProcessPacket(PacketType packetType)
 	{
 		switch (packetType)
 		{
+			case PT_LOGIN_DATA:
+			{
+				break;
+			}
 			case PT_CHAT_MESSAGE:
 			{
-				int bufferLength;
-				Recieve((char*)&bufferLength, sizeof(int));
+				string message;
+				if (!GetString(message))
+					return false;
 
-				char* buffer = new char[bufferLength + 1];
-				buffer[bufferLength] = '\0';
-				Recieve(buffer, bufferLength);
-
-				delete[] buffer;
 				break;
 			}
 			default:

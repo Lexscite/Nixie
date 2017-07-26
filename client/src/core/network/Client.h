@@ -14,6 +14,7 @@ using namespace std;
 
 enum PacketType
 {
+	PT_LOGIN_DATA,
 	PT_CHAT_MESSAGE,
 };
 
@@ -27,13 +28,20 @@ namespace NixieClient
 
 		bool Connect();
 
-		int Send(char* buffer, int bufferLength);
-		int Recieve(char* buffer, int bufferLength);
+		int Send(char *buffer, int bufferLength);
+		int Recieve(char *buffer, int bufferLength);
+
+		bool SendInt(int data);
+		bool GetInt(int &data);
+		bool SendPacketType(PacketType data);
+		bool GetPacketType(PacketType &data);
+		bool SendString(string &data);
+		bool GetString(string &data);
 
 		bool ProcessPacket(PacketType packetType);
 
 	public:
-		WSAData m_WSAData;
+		WSAData m_WSAData;     
 		WORD m_DllVersion;
 		SOCKADDR_IN m_Address;
 
