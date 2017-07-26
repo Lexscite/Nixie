@@ -1,13 +1,10 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include <windows.h>
-#include <stdio.h> 
 #include <iostream>
+#include <windows.h>
 
 #pragma comment(lib,"ws2_32.lib")
-
-using namespace std;
 
 namespace NixieClient
 {
@@ -17,17 +14,12 @@ namespace NixieClient
 		Client();
 		~Client();
 
-		bool Connect(char* ip, int port);
-
-		int Send(char* data, int length, int clientId);
-		int Recieve(char* data, int length, int clientId);
-
-		bool CloseSocket();
+		bool Connect();
 
 	public:
-		SOCKET m_Socket;
-		SOCKADDR_IN m_SocketAddress;
-		WSADATA m_SocketVersion;
+		WSAData m_WSAData;
+		WORD m_DllVersion;
+		SOCKADDR_IN m_Address;
 	};
 }
 

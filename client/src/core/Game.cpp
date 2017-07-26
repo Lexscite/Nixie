@@ -75,7 +75,7 @@ namespace NixieClient
 			return false;
 		}
 
-		if (!m_pClient->Connect("24.161.239.80", 1234))
+		if (!m_pClient->Connect())
 		{
 			return false;
 		}

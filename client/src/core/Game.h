@@ -1,10 +1,10 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <string>
-
 #include "graphics/Graphics.h"
 #include "network/Client.h"
+
+using namespace std;
 
 namespace NixieClient
 {

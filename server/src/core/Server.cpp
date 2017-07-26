@@ -1,113 +1,85 @@
 #include "Server.h"
 
+namespace
+{
+	NixieServer::Server* g_pServer = nullptr;
+}
+
+int HandleClientThread(int index)
+{
+	char buffer[256];
+	while (true)
+	{
+		recv(g_pServer->m_Connections[index], buffer, sizeof(buffer), NULL);
+		for (int i = 0; i < g_pServer->m_ConnectionCounter; i++)
+		{
+			if (i == index)
+				continue;
+
+			send(g_pServer->m_Connections[i], buffer, sizeof(buffer), NULL);
+		}
+	}
+}
+
 namespace NixieServer
 {
 	Server::Server()
 	{
-		m_NumMaxClients = 10;
-		m_NumMaxClients = 0;
+		g_pServer = this;
 	}
 
 	Server::~Server()
 	{
 	}
 
-	bool Server::Start(int port)
+	bool Server::Start()
 	{
-		if (WSAStartup(MAKEWORD(2, 2), &m_SocketVersion) != NO_ERROR)
+		m_DllVersion = MAKEWORD(2, 2);
+
+		if (WSAStartup(m_DllVersion, &m_WSAData) != 0)
 		{
-			cout << "(E) WSA startup failed." << endl;
+			MessageBox(NULL, "WinSock2 startup failed", "Error", MB_OK | MB_ICONERROR);
+			exit(1);
+		}
+
+		int addressLen = sizeof(m_Address);
+		m_Address.sin_addr.s_addr = inet_addr("127.0.0.1");
+		m_Address.sin_port = htons(1111);
+		m_Address.sin_family = AF_INET;
+
+		m_SocketListen = socket(AF_INET, SOCK_STREAM, NULL);
+		if (bind(m_SocketListen, (SOCKADDR*)&m_Address, sizeof(m_Address)) != 0)
+		{
+			std::cout << "Failed to bind the listening socket." << std::endl;
 			return false;
 		}
-		cout << "(OK) WSA started." << endl;
 
-		m_Socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-		if (m_Socket == INVALID_SOCKET)
+		if (listen(m_SocketListen, SOMAXCONN) != 0)
 		{
-			cout << "(E) Socket is invalid." << endl;
-			WSACleanup();
+			std::cout << "Failed to listen to the socket." << std::endl;
 			return false;
 		}
-		cout << "(OK) Socket created." << endl;
 
-		m_SocketAddress.sin_family = AF_INET;
-		m_SocketAddress.sin_addr.s_addr = htonl(INADDR_ANY);
-		m_SocketAddress.sin_port = htons(port);
-
-		if (bind(m_Socket, (LPSOCKADDR)&m_SocketAddress, sizeof(m_SocketAddress)) != NO_ERROR)
+		SOCKET newConnection;
+		for (int i = 0; i < ARRAYSIZE(m_Connections); i++)
 		{
-			cout << "(E) Socket binding failed." << endl;
-			return false;
-		}
-		cout << "(OK) Socket is binded." << endl;
-
-		while (true)
-		{
-			for (int i = 0; i < m_NumMaxClients; i++)
+			newConnection = accept(m_SocketListen, (SOCKADDR*)&m_Address, &addressLen);
+			if (newConnection == 0)
 			{
-				if (m_NumCurrentClients < m_NumMaxClients)
-				{
-					int clientSocketInfoLength = sizeof(m_ClientSocketAddress);
-
-					m_ClientSockets[m_NumCurrentClients] = accept(m_Socket, (sockaddr*)&m_ClientSocketAddress, &clientSocketInfoLength);
-					if (m_ClientSockets[m_NumCurrentClients] == INVALID_SOCKET)
-					{
-						cout << "(E) Invalid client socket." << endl;
-						return false;
-					}
-
-					cout << "(OK) Client has jouned the server (IP: " << m_ClientSocketAddress.sin_addr.s_addr << ")." << endl;
-
-					m_NumCurrentClients++;
-
-					continue;
-				}
-				else
-				{
-					break;
-				}
+				std::cout << "Failed to accept the client's connection." << std::endl;
+				return false;
 			}
+
+			std::cout << "Client connected." << std::endl;
+
+			char MOTD[256] = "Welcome! This is the message of the day.";
+			send(newConnection, MOTD, sizeof(MOTD), NULL);
+
+			m_Connections[i] = newConnection;
+			m_ConnectionCounter++;
+
+			CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)HandleClientThread, (LPVOID)(i), NULL, NULL);
 		}
-
-		return true;
-	}
-
-	int Server::Send(char* data, int length, int clientId)
-	{
-		int messageLength = send(m_ClientSockets[clientId], data, length, NULL);
-		if (messageLength < 0)
-		{
-			printf("Cannot send data!");
-			return 0;
-		}
-
-		return messageLength;
-	}
-
-	void Server::SendToAll(char* data, int length, int clientId)
-	{
-		for (int i = 0; i < m_NumCurrentClients; i++)
-		{
-			Send(data, length, i);
-		}
-	}
-
-	int Server::Recieve(char* data, int length, int clientId)
-	{
-		int messageLength = recv(m_ClientSockets[clientId], data, length, NULL);
-		if (messageLength < 0)
-		{
-			printf("Cannot recieve data!");
-			return 0;
-		}
-
-		return messageLength;
-	}
-
-	bool Server::CloseSocket()
-	{
-		closesocket(m_Socket);
-		WSACleanup();
 
 		return true;
 	}

@@ -1,13 +1,12 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <windows.h>
 #include <stdio.h>
+#include <iostream>
+#include <WinSock2.h>
 #include <iostream>
 
 #pragma comment(lib,"ws2_32.lib")
-
-using namespace std;
 
 namespace NixieServer
 {
@@ -17,23 +16,16 @@ namespace NixieServer
 		Server();
 		~Server();
 
-		bool Start(int port);
-
-		int Send(char* data, int length, int clientId);
-		void SendToAll(char* data, int length, int clientId);
-		int Recieve(char* data, int length, int clientId);
-
-		bool CloseSocket();
+		bool Start();
 
 	public:
-		SOCKET m_Socket;
-		SOCKET m_ClientSockets[10];
-		SOCKADDR_IN m_SocketAddress;
-		SOCKADDR_IN m_ClientSocketAddress;
-		WSADATA m_SocketVersion;
+		WSAData m_WSAData;
+		WORD m_DllVersion;
+		SOCKADDR_IN m_Address;
+		SOCKET m_SocketListen;
 
-		int m_NumCurrentClients;
-		int m_NumMaxClients;
+		SOCKET m_Connections[100];
+		int m_ConnectionCounter;
 	};
 }
 

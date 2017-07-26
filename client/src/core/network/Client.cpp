@@ -1,5 +1,5 @@
 #include "Client.h"
-#include <tchar.h>
+
 namespace NixieClient
 {
 	Client::Client()
@@ -10,57 +10,27 @@ namespace NixieClient
 	{
 	}
 
-	bool Client::Connect(char* ip, int port)
+	bool Client::Connect()
 	{
-		WSAStartup(MAKEWORD(2, 2), &m_SocketVersion);
+		m_DllVersion = MAKEWORD(2, 2);
 
-		m_Socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-		if (m_Socket == INVALID_SOCKET)
+		if (WSAStartup(m_DllVersion, &m_WSAData) != 0)
 		{
-			MessageBox(NULL, "Invalid socket", "Connection Error", MB_OK);
+			MessageBox(NULL, "WinSock2 startup failed", "Error", MB_OK | MB_ICONERROR);
 			return false;
 		}
 
-		m_SocketAddress.sin_family = AF_INET;
-		m_SocketAddress.sin_addr.s_addr = inet_addr(ip);
-		m_SocketAddress.sin_port = htons(port);
+		int addressLen = sizeof(m_Address);
+		m_Address.sin_addr.s_addr = inet_addr("127.0.0.1");
+		m_Address.sin_port = htons(1111);
+		m_Address.sin_family = AF_INET;
 
-		if (connect(m_Socket, (struct sockaddr*)&m_SocketAddress, sizeof(m_SocketAddress)) == SOCKET_ERROR)
+		SOCKET connection = socket(AF_INET, SOCK_STREAM, NULL);
+		if (connect(connection, (SOCKADDR*)&m_Address, addressLen) != 0)
 		{
-			OutputDebugString("\nERROR CONNECTING TO SERVER\n\n");
-			return 0;
+			MessageBox(NULL, "Failed to connect.", "Error", MB_OK | MB_ICONERROR);
+			return false;
 		}
-
-		return true;
-	}
-
-	int Client::Send(char * data, int length, int clientId)
-	{
-		int messageLength = send(m_Socket, data, length, NULL);
-		if (messageLength < 0)
-		{
-			return 0;
-		}
-
-		return messageLength;
-	}
-
-	int Client::Recieve(char* data, int length, int clientId)
-	{
-		int messageLength;
-		messageLength = recv(m_Socket, data, length, NULL);
-		if (messageLength < 0)
-		{
-			return 0;
-		}
-
-		return messageLength;
-	}
-
-	bool Client::CloseSocket()
-	{
-		closesocket(m_Socket);
-		WSACleanup();
 
 		return true;
 	}
