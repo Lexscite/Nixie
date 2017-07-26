@@ -8,6 +8,7 @@ namespace
 void ClientThread()
 {
 	PacketType packetType;
+
 	while (true)
 	{
 		if (!g_pClient->GetPacketType(packetType))
@@ -17,7 +18,7 @@ void ClientThread()
 			break;
 	}
 
-	OutputDebugString("\nLost connection to the server.\n\n");
+	MessageBox(NULL, "Lost connection to the server", "Network Error", MB_OK | MB_ICONERROR);
 	closesocket(g_pClient->m_Connection);
 }
 

@@ -45,6 +45,7 @@
     <ClCompile Include="src\core\network\Client.cpp">
       <Filter>src\core\network</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\ErrorHandle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h">
@@ -62,5 +63,6 @@
     <ClInclude Include="src\core\network\Client.h">
       <Filter>src\core\network</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\ErrorHandle.h" />
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@ namespace
 void HandleClientThread(int id)
 {
 	PacketType packetType;
+
 	while (true)
 	{ 
 		g_pServer->Recieve((char*)&packetType, sizeof(PacketType), id);

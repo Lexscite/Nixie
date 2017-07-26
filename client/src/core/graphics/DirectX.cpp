@@ -13,9 +13,7 @@ namespace NixieClient
 	DirectX::~DirectX()
 	{
 		if (m_pImmediateContext)
-		{
 			m_pImmediateContext->ClearState();
-		}
 
 		SafeRelease(m_pRenderTargetView);
 		SafeRelease(m_pSwapChain);

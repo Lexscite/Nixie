@@ -8,13 +8,9 @@ namespace
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (g_pGame)
-	{
 		return g_pGame->MsgProc(hwnd, msg, wParam, lParam);
-	}
 	else
-	{
 		return DefWindowProc(hwnd, msg, wParam, lParam);
-	}
 }
 
 
@@ -54,31 +50,21 @@ namespace NixieClient
 	bool Game::Init()
 	{
 		if (!CreateMainWindow())
-		{
 			return false;
-		}
 
 		m_pGraphics = new Graphics;
 		if (!m_pGraphics)
-		{
 			return false;
-		}
 
 		if (!m_pGraphics->Init(m_hMainWnd, m_ClientWidth, m_ClientHeight, m_Fullscreen))
-		{
 			return false;
-		}
 
 		m_pClient = new Client;
 		if (!m_pClient)
-		{
 			return false;
-		}
 
 		if (!m_pClient->Connect())
-		{
 			return false;
-		}
 
 		return true;
 	}
@@ -154,9 +140,7 @@ namespace NixieClient
 			return 0;
 		}
 		default:
-		{
 			return DefWindowProc(hwnd, msg, wParam, lParam);
-		}
 		}
 	}
 
@@ -171,9 +155,7 @@ namespace NixieClient
 				DispatchMessage(&msg);
 			}
 			else
-			{
 				Update(0.0f);
-			}
 		}
 
 		return static_cast<int>(msg.wParam);

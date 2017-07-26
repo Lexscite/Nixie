@@ -8,15 +8,10 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 	Game* game = new Game(hInstance);
 
 	if (game->Init())
-	{
 		game->Run();
-	}
 	else
-	{
 		return 1;
-	}
 
 	SafeDelete(game);
-
 	return 0;
 }
