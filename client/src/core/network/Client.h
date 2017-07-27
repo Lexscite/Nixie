@@ -3,10 +3,8 @@
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
-#include <iostream>
-#include <sstream>
 #include <windows.h>
-#include <vector>
+#include <string>
 
 #pragma comment(lib,"ws2_32.lib")
 
@@ -20,32 +18,36 @@ enum PacketType
 
 namespace NixieClient
 {
+
 	class Client
 	{
 	public:
 		Client();
 		~Client();
 
+		bool Init(string ip, int port);
 		bool Connect();
+		bool CloseConnection();
 
+		bool SendPacketType(PacketType data);
+		bool SendString(string &data);
+
+	private:
 		int Send(char *buffer, int bufferLength);
 		int Recieve(char *buffer, int bufferLength);
 
 		bool SendInt(int data);
 		bool GetInt(int &data);
-		bool SendPacketType(PacketType data);
 		bool GetPacketType(PacketType &data);
-		bool SendString(string &data);
 		bool GetString(string &data);
 
 		bool ProcessPacket(PacketType packetType);
+		static void Thread();
 
-	public:
-		WSAData m_WSAData;     
-		WORD m_DllVersion;
-		SOCKADDR_IN m_Address;
-
+	private:
 		SOCKET m_Connection;
+		SOCKADDR_IN m_Address;
+		int m_AddressSize;
 	};
 }
 

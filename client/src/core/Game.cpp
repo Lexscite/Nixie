@@ -63,8 +63,16 @@ namespace NixieClient
 		if (!m_pClient)
 			return false;
 
-		if (!m_pClient->Connect())
+		if (!m_pClient->Init("127.0.0.1", 1111))
 			return false;
+
+		if (!m_pClient->SendPacketType(PT_CHAT_MESSAGE))
+			MessageBox(NULL, "Failed to send TEST packet type", "Network Error", MB_OK | MB_ICONERROR);
+
+		string message = string("Hi Server!");
+
+		if (!m_pClient->SendString(message))
+			MessageBox(NULL, "Failed to send TEST string", "Network Error", MB_OK | MB_ICONERROR);
 
 		return true;
 	}

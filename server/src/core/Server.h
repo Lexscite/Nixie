@@ -3,10 +3,9 @@
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
-#include <stdio.h>
 #include <iostream>
 #include <WinSock2.h>
-#include <iostream>
+#include <string>
 
 #pragma comment(lib,"ws2_32.lib")
 
@@ -26,18 +25,30 @@ namespace NixieServer
 		Server();
 		~Server();
 
-		bool Start();
+		bool Start(int port, bool broadcastPublically = false);
 
-		int Send(char* buffer, int length, int id);
-		int Recieve(char* buffer, int length, int id);
+		bool ListenForNewConnection();
+
+
+	private:
+		int Send(int id, char* buffer, int length);
+		int Recieve(int id, char* buffer, int length);
+
+		bool SendInt(int id, int data);
+		bool GetInt(int id, int &data);
+		bool SendPacketType(int id, PacketType data);
+		bool GetPacketType(int id, PacketType &data);
+		bool SendString(int id, string &data);
+		bool GetString(int id, string &data);
 
 		bool ProcessPacket(int id, PacketType packetType);
 
-	public:
-		WSAData m_WSAData;
-		WORD m_DllVersion;
+		static void Thread(int id);
+
+	private:
+		SOCKET m_ListeningSocket;
 		SOCKADDR_IN m_Address;
-		SOCKET m_SocketListen;
+		int m_AddressSize;
 
 		SOCKET m_Connections[100];
 		int m_ConnectionCounter;

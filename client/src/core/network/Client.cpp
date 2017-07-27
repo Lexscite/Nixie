@@ -1,71 +1,67 @@
 #include "Client.h"
 
-namespace
-{
-	NixieClient::Client* g_pClient = nullptr;
-}
-
-void ClientThread()
-{
-	PacketType packetType;
-
-	while (true)
-	{
-		if (!g_pClient->GetPacketType(packetType))
-			break;
-
-		if (!g_pClient->ProcessPacket(packetType))
-			break;
-	}
-
-	MessageBox(NULL, "Lost connection to the server", "Network Error", MB_OK | MB_ICONERROR);
-	closesocket(g_pClient->m_Connection);
-}
+static NixieClient::Client* g_pClient;
 
 namespace NixieClient
 {
 	Client::Client()
 	{
 		g_pClient = this;
+		m_AddressSize = sizeof(m_Address);
 	}
 
 	Client::~Client()
 	{
 	}
 
-	bool Client::Connect()
+	bool Client::Init(string ip, int port)
 	{
-		m_DllVersion = MAKEWORD(2, 2);
+		WSADATA wsaData;
+		WORD dllVersion = MAKEWORD(2, 2);
 
-		if (WSAStartup(m_DllVersion, &m_WSAData) != 0)
+		if (WSAStartup(dllVersion, &wsaData) != 0)
 		{
-			MessageBox(NULL, "WinSock2 startup failed", "Error", MB_OK | MB_ICONERROR);
+			MessageBox(NULL, "WinSock2 startup failed", "Network Error", MB_OK | MB_ICONERROR);
 			return false;
 		}
 
-		int addressLen = sizeof(m_Address);
-		m_Address.sin_addr.s_addr = inet_addr("127.0.0.1");
-		m_Address.sin_port = htons(1111);
+		m_Address.sin_addr.s_addr = inet_addr(ip.c_str());
+		m_Address.sin_port = htons(port);
 		m_Address.sin_family = AF_INET;
 
-		m_Connection = socket(AF_INET, SOCK_STREAM, NULL);
-		if (connect(m_Connection, (SOCKADDR*)&m_Address, addressLen) != 0)
+		if (!Connect())
 		{
-			MessageBox(NULL, "Failed to connect.", "Error", MB_OK | MB_ICONERROR);
+			MessageBox(NULL, "Failed to connect to server.", "Network Error", MB_OK | MB_ICONERROR);
 			return false;
 		}
 
-		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientThread, NULL, NULL, NULL);
+		return true;
+	}
 
-		if (!SendPacketType(PT_CHAT_MESSAGE))
-			MessageBox(NULL, "Failed to send TEST packet type", "Network Error", MB_OK | MB_ICONERROR);
+	bool Client::Connect()
+	{
+		m_Connection = socket(AF_INET, SOCK_STREAM, NULL);
+		if (connect(m_Connection, (SOCKADDR*)&m_Address, m_AddressSize) != 0)
+		{
+			return false;
+		}
 
-		string message = string("Hi Server!");
+		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Thread, NULL, NULL, NULL);
 
-		if (!SendString(message))
-			MessageBox(NULL, "Failed to send TEST string", "Network Error", MB_OK | MB_ICONERROR);
+		return true;
+	}
 
-		SendPacketType(PT_LOGIN_DATA);
+	bool Client::CloseConnection()
+	{
+		if (closesocket(m_Connection) == SOCKET_ERROR)
+		{
+			if (WSAGetLastError() == WSAENOTSOCK)
+				return true;
+
+			string errorMessage = "Failed to close the socket. Winsock Error: " + to_string(WSAGetLastError()) + ".";
+			MessageBox(NULL, errorMessage.c_str(), "Network Error", MB_OK | MB_ICONERROR);
+			return false;
+		}
 
 		return true;
 	}
@@ -166,5 +162,29 @@ namespace NixieClient
 		}
 
 		return true;
+	}
+
+	void Client::Thread()
+	{
+		PacketType packetType;
+
+		while (true)
+		{
+			if (!g_pClient->GetPacketType(packetType))
+				break;
+
+			if (!g_pClient->ProcessPacket(packetType))
+				break;
+		}
+
+		MessageBox(NULL, "Lost connection to the server", "Network Error", MB_OK | MB_ICONERROR);
+		if (g_pClient->CloseConnection())
+		{
+			OutputDebugString("Socket to the server was closed successfuly.\n");
+		}
+		else
+		{
+			OutputDebugString("Socket was not able to be closed.\n");
+		}
 	}
 }

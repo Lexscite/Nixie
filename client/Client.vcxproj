@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\ErrorHandle.cpp" />
     <ClCompile Include="src\core\network\Client.cpp" />
     <ClCompile Include="src\core\Game.cpp" />
     <ClCompile Include="src\core\graphics\DirectX.cpp" />
@@ -29,7 +28,6 @@
     <ClCompile Include="src\game\ui\Chat.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\core\ErrorHandle.h" />
     <ClInclude Include="src\core\network\Client.h" />
     <ClInclude Include="src\core\Game.h" />
     <ClInclude Include="src\core\graphics\DirectX.h" />
