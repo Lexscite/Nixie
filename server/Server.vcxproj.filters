@@ -15,14 +15,18 @@
     <ClInclude Include="src\database\User.h">
       <Filter>src\database</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\Server.h" />
+    <ClInclude Include="src\core\Server.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\database\User.cpp">
       <Filter>src\database</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\Server.cpp" />
-    <ClCompile Include="src\core\main.cpp">
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Server.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
