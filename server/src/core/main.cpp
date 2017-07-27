@@ -15,7 +15,7 @@ int main()
 
 	for (int i = 0; i < 100; i++)
 	{
-		pServer->ListenForNewConnection();
+		pServer->Run();
 	}
 
 	return 0;

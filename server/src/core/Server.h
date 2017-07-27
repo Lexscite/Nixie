@@ -27,15 +27,15 @@ namespace NixieServer
 
 		bool Start(int port, bool broadcastPublically = false);
 
-		bool ListenForNewConnection();
+		bool Run();
 
 
 	private:
-		int Send(int id, char* buffer, int length);
-		int Recieve(int id, char* buffer, int length);
+		bool Send(int id, char* data, int totalBytes);
+		bool Recieve(int id, char* data, int totalBytes);
 
-		bool SendInt(int id, int data);
-		bool GetInt(int id, int &data);
+		bool SendInt32(int id, int32_t data);
+		bool GetInt32(int id, int32_t &data);
 		bool SendPacketType(int id, PacketType data);
 		bool GetPacketType(int id, PacketType &data);
 		bool SendString(int id, string &data);

@@ -29,12 +29,6 @@ namespace NixieClient
 		m_Address.sin_port = htons(port);
 		m_Address.sin_family = AF_INET;
 
-		if (!Connect())
-		{
-			MessageBox(NULL, "Failed to connect to server.", "Network Error", MB_OK | MB_ICONERROR);
-			return false;
-		}
-
 		return true;
 	}
 
@@ -66,35 +60,83 @@ namespace NixieClient
 		return true;
 	}
 
-	int Client::Send(char* buffer, int bufferLength)
+	bool Client::Send(char* data, int totalBytes)
 	{
-		return send(m_Connection, buffer, bufferLength, NULL);
+		int sentBytes = 0;
+		while (sentBytes < totalBytes)
+		{
+			int result = send(m_Connection, data + sentBytes, totalBytes - sentBytes, NULL);
+			if (result == SOCKET_ERROR)
+				return false;
+			else if (result == 0)
+			{
+				int iError = WSAGetLastError();
+				if (iError == WSAEWOULDBLOCK)
+					OutputDebugString("WS function send failed with error: WSAEWOULDBLOCK\n");
+				else
+				{
+					OutputDebugString("WS function send failed with error: %ld\n");
+					OutputDebugString(to_string(iError).c_str());
+					OutputDebugString("\n");
+				}
+				return false;
+			}
+
+			sentBytes += result;
+		}
+
+		return true;
 	}
 
-	int Client::Recieve(char* buffer, int bufferLength)
+	bool Client::Recieve(char* data, int totalBytes)
 	{
-		return recv(m_Connection, buffer, bufferLength, NULL);
+		int recievedBytes = 0;
+		while (recievedBytes < totalBytes)
+		{
+			int result = recv(m_Connection, data + recievedBytes, totalBytes - recievedBytes, NULL);
+			if (result == SOCKET_ERROR)
+				return false;
+			else if (result == 0)
+			{
+				int iError = WSAGetLastError();
+				if (iError == WSAEWOULDBLOCK)
+					OutputDebugString("WS function send failed with error: WSAEWOULDBLOCK\n");
+				else
+				{
+					OutputDebugString("WS function send failed with error: %ld\n");
+					OutputDebugString(to_string(iError).c_str());
+					OutputDebugString("\n");
+				} 
+				return false;
+			}
+
+			recievedBytes += result;
+		}
+
+		return true;
 	}
 
-	bool Client::SendInt(int data)
+	bool Client::SendInt32(int32_t data)
 	{
-		if (Send((char*)&data, sizeof(int)) == SOCKET_ERROR)
+		data = htonl(data);
+		if (!Send((char*)&data, sizeof(int32_t)))
 			return false;
 		
 		return true;
 	}
 
-	bool Client::GetInt(int &data)
+	bool Client::GetInt32(int32_t &data)
 	{
-		if (Recieve((char*)&data, sizeof(int)) == SOCKET_ERROR)
+		if (!Recieve((char*)&data, sizeof(int32_t)))
 			return false;
+		data = ntohl(data);
 		
 		return true;
 	}
 
 	bool Client::SendPacketType(PacketType data)
 	{
-		if (Send((char*)&data, sizeof(PacketType)) == SOCKET_ERROR)
+		if (!SendInt32(data))
 			return false;
 		
 		return true;
@@ -102,20 +144,22 @@ namespace NixieClient
 
 	bool Client::GetPacketType(PacketType &data)
 	{
-		if (Recieve((char*)&data, sizeof(PacketType)) == SOCKET_ERROR)
+		int32_t dataInt;
+		if (!GetInt32(dataInt))
 			return false;
+		data = (PacketType)dataInt;
 		
 		return true;
 	}
 
 	bool Client::SendString(string &data)
 	{
-		int bufferLength = data.size();
+		int32_t bufferLength = data.size();
 
-		if (!SendInt(bufferLength))
+		if (!SendInt32(bufferLength))
 			return false;
 
-		if (Send((char*)data.c_str(), bufferLength) == SOCKET_ERROR)
+		if (!Send((char*)data.c_str(), bufferLength))
 			return false;
 
 		return true;
@@ -123,19 +167,22 @@ namespace NixieClient
 
 	bool Client::GetString(string &data)
 	{
-		int bufferLength;
+		int32_t bufferLength;
 
-		if (!GetInt(bufferLength))
+		if (!GetInt32(bufferLength))
 			return false;
 
 		char* buffer = new char[bufferLength + 1];
 		buffer[bufferLength] = '\0';
 
-		int result = Recieve(buffer, bufferLength);
+		if (!Recieve(buffer, bufferLength))
+		{
+			delete[] buffer;
+			return false;
+		}
+
 		data = buffer;
 		delete[] buffer;
-		if (result == SOCKET_ERROR)
-			return false;
 
 		return true;
 	}
@@ -153,6 +200,9 @@ namespace NixieClient
 				string message;
 				if (!GetString(message))
 					return false;
+				OutputDebugString("Message from server recieved: ");
+				OutputDebugString(message.c_str());
+				OutputDebugString("\n");
 
 				break;
 			}

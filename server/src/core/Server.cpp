@@ -53,10 +53,9 @@ namespace NixieServer
 		return true;
 	}
 
-	bool Server::ListenForNewConnection()
+	bool Server::Run()
 	{
-		SOCKET newConnection;
-		newConnection = accept(m_ListeningSocket, (SOCKADDR*)&m_Address, &m_AddressSize);
+		SOCKET newConnection = accept(m_ListeningSocket, (SOCKADDR*)&m_Address, &m_AddressSize);
 		if (newConnection == 0)
 		{
 			cout << "Failed to accept the client's connection." << endl;
@@ -79,47 +78,74 @@ namespace NixieServer
 		return true;
 	}
 
-	int Server::Send(int id, char* buffer, int length)
+	bool Server::Send(int id, char* data, int totalBytes)
 	{
-		int result = send(m_Connections[id], buffer, length, NULL);
-		if (result < 0)
+		int sentBytes = 0;
+		while (sentBytes < totalBytes)
 		{
-			return 0;
+			int result = send(m_Connections[id], data + sentBytes, totalBytes - sentBytes, NULL);
+			if (result == SOCKET_ERROR)
+				return false;
+			else if (result == 0)
+			{
+				int iError = WSAGetLastError();
+				if (iError == WSAEWOULDBLOCK)
+					cout << "WS function send failed with error: WSAEWOULDBLOCK\n" << endl;
+				else
+					cout << "WS function send failed with error: %ld\n" << iError << endl;
+				return false;
+			}
+			sentBytes += result;
 		}
 
-		return result;
+		return true;
 	}
 
-	int Server::Recieve(int id, char* buffer, int length)
+	bool Server::Recieve(int id, char* data, int totalBytes)
 	{
-		int result = recv(m_Connections[id], buffer, length, NULL);
-		if (result < 0)
+		int recievedBytes = 0;
+		while (recievedBytes < totalBytes)
 		{
-			return 0;
+			int result = recv(m_Connections[id], data + recievedBytes, totalBytes - recievedBytes, NULL);
+			if (result == SOCKET_ERROR)
+				return false;
+			else if (result == 0)
+			{
+				int iError = WSAGetLastError();
+				if (iError == WSAEWOULDBLOCK)
+					cout << "WS function send failed with error: WSAEWOULDBLOCK\n" << endl;
+				else
+					cout << "WS function send failed with error: %ld\n" << iError << endl;
+				return false;
+			}
+
+			recievedBytes += result;
 		}
 
-		return result;
+		return true;
 	}
 
-	bool Server::SendInt(int id, int data)
+	bool Server::SendInt32(int id, int32_t data)
 	{
-		if (Send(id, (char*)&data, sizeof(int)) == SOCKET_ERROR)
+		data = htonl(data);
+		if (!Send(id, (char*)&data, sizeof(int32_t)))
 			return false;
 
 		return true;
 	}
 
-	bool Server::GetInt(int id, int &data)
+	bool Server::GetInt32(int id, int32_t &data)
 	{
-		if (Recieve(id, (char*)&data, sizeof(int)) == SOCKET_ERROR)
+		if (!Recieve(id, (char*)&data, sizeof(int32_t)))
 			return false;
+		data = ntohl(data);
 
 		return true;
 	}
 
 	bool Server::SendPacketType(int id, PacketType data)
 	{
-		if (Send(id, (char*)&data, sizeof(PacketType)) == SOCKET_ERROR)
+		if (!SendInt32(id, data))
 			return false;
 
 		return true;
@@ -127,20 +153,22 @@ namespace NixieServer
 
 	bool Server::GetPacketType(int id, PacketType &data)
 	{
-		if (Recieve(id, (char*)&data, sizeof(PacketType)) == SOCKET_ERROR)
+		int32_t dataInt;
+		if (!GetInt32(id, dataInt))
 			return false;
+		data = (PacketType)dataInt;
 
 		return true;
 	}
 
 	bool Server::SendString(int id, string &data)
 	{
-		int bufferLength = data.size();
+		int32_t bufferLength = data.size();
 
-		if (!SendInt(id, bufferLength))
+		if (!SendInt32(id, bufferLength))
 			return false;
 
-		if (Send(id, (char*)data.c_str(), bufferLength) == SOCKET_ERROR)
+		if (!Send(id, (char*)data.c_str(), bufferLength))
 			return false;
 
 		return true;
@@ -148,19 +176,22 @@ namespace NixieServer
 
 	bool Server::GetString(int id, string &data)
 	{
-		int bufferLength;
+		int32_t bufferLength;
 
-		if (!GetInt(id, bufferLength))
+		if (!GetInt32(id, bufferLength))
 			return false;
 
 		char* buffer = new char[bufferLength + 1];
 		buffer[bufferLength] = '\0';
 
-		int result = Recieve(id, buffer, bufferLength);
+		if (!Recieve(id, buffer, bufferLength))
+		{
+			delete[] buffer;
+			return false;
+		}
+
 		data = buffer;
 		delete[] buffer;
-		if (result == SOCKET_ERROR)
-			return false;
 
 		return true;
 	}
@@ -182,10 +213,10 @@ namespace NixieServer
 
 				for (int i = 0; i < ARRAYSIZE(m_Connections); i++)
 				{
-					if (i == id)
+					if (i != id)
 						continue;
 
-					if (!SendPacketType(i, PT_CHAT_MESSAGE))
+					if (!SendPacketType(i, packetType))
 					{
 						cout << "Failed to send PK type from the client (ID: " << id << ")" << endl;
 						break;
@@ -221,7 +252,7 @@ namespace NixieServer
 				break;
 		}
 
-		cout << "Lost connection to the client (ID:" << id << ")." << endl;
+		cout << "Lost connection to the client (ID: " << id << ")." << endl;
 		closesocket(g_pServer->m_Connections[id]);
 	}
 }

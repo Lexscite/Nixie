@@ -9,17 +9,15 @@ public:
 	User();
 	~User();
 
-	int getId();
+	int GetId();
 
-	static User* create(std::string username, std::string password);
-	void remove();
+	static User* Create(std::string username, std::string password);
+	void Delete();
 
-	static std::string generatePasswordHash(std::string password);
+	static std::string GeneratePasswordHash(std::string password);
 
-public:
+private:
 	int id;
-	std::string username;
-	std::string password;
 };
 
 #endif // !USER_H

@@ -33,11 +33,11 @@ namespace NixieClient
 		bool SendString(string &data);
 
 	private:
-		int Send(char *buffer, int bufferLength);
-		int Recieve(char *buffer, int bufferLength);
+		bool Send(char *data, int totalBytes);
+		bool Recieve(char *data, int totalBytes);
 
-		bool SendInt(int data);
-		bool GetInt(int &data);
+		bool SendInt32(int32_t data);
+		bool GetInt32(int32_t &data);
 		bool GetPacketType(PacketType &data);
 		bool GetString(string &data);
 

@@ -8,27 +8,23 @@ User::~User()
 {
 }
 
-int User::getId()
+int User::GetId()
 {
 	return this->id;
 }
 
-User* User::create(std::string username, std::string password)
+User* User::Create(std::string username, std::string password)
 {
 	User* newUser = new User;
-	newUser->username = username;
-	newUser->password = generatePasswordHash(password);
 
 	return newUser;
 }
 
-void User::remove()
+void User::Delete()
 {
 }
 
-std::string User::generatePasswordHash(std::string password)
+std::string User::GeneratePasswordHash(std::string password)
 {
-	//TODO: Hash realization
-
 	return password;
 }
