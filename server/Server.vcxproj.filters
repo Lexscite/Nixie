@@ -18,7 +18,15 @@
     <ClInclude Include="src\core\Server.h">
       <Filter>src\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\Packet.h" />
+    <ClInclude Include="src\core\Packet.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\PacketManager.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\ChatMessage.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\database\User.cpp">
@@ -30,6 +38,14 @@
     <ClCompile Include="src\core\Server.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\Packet.cpp" />
+    <ClCompile Include="src\core\Packet.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\PacketManager.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\ChatMessage.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

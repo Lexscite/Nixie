@@ -148,11 +148,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\core\ChatMessage.h" />
+    <ClInclude Include="src\core\PacketManager.h" />
     <ClInclude Include="src\core\Packet.h" />
     <ClInclude Include="src\core\Server.h" />
     <ClInclude Include="src\database\User.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\ChatMessage.cpp" />
+    <ClCompile Include="src\core\PacketManager.cpp" />
     <ClCompile Include="src\core\Packet.cpp" />
     <ClCompile Include="src\core\Server.cpp" />
     <ClCompile Include="src\database\User.cpp" />

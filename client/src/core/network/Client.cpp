@@ -136,7 +136,7 @@ namespace NixieClient
 
 	bool Client::SendPacketType(PacketType data)
 	{
-		if (!SendInt32(data))
+		if (!SendInt32((int32_t)data))
 			return false;
 		
 		return true;
@@ -191,11 +191,11 @@ namespace NixieClient
 	{
 		switch (packetType)
 		{
-			case PT_LOGIN_DATA:
+			case PacketType::LoginData:
 			{
 				break;
 			}
-			case PT_CHAT_MESSAGE:
+			case PacketType::ChatMessage:
 			{
 				string message;
 				if (!GetString(message))

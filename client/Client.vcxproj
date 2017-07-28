@@ -23,6 +23,7 @@
     <ClCompile Include="src\core\Game.cpp" />
     <ClCompile Include="src\core\graphics\DirectX.cpp" />
     <ClCompile Include="src\core\graphics\Graphics.cpp" />
+    <ClCompile Include="src\core\network\Packet.cpp" />
     <ClCompile Include="src\core\utility\Memory.cpp" />
     <ClCompile Include="src\winmain.cpp" />
     <ClCompile Include="src\game\ui\Chat.cpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="src\core\Game.h" />
     <ClInclude Include="src\core\graphics\DirectX.h" />
     <ClInclude Include="src\core\graphics\Graphics.h" />
+    <ClInclude Include="src\core\network\Packet.h" />
     <ClInclude Include="src\game\ui\Chat.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

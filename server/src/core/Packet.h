@@ -2,24 +2,35 @@
 #define PACKET_H
 
 #include <iostream>
-#include <WinSock2.h>
 #include <string>
+#include <queue>
+#include <mutex>
+#include <windows.h>
 
 #pragma comment(lib,"ws2_32.lib")
 
-using namespace std;
+using std::string;
 
-enum class PacketType
+namespace NixieServer
 {
-	PT_LOGIN_DATA,
-	PT_CHAT_MESSAGE,
-};
+	enum class PacketType
+	{
+		LoginData,
+		ChatMessage,
+	};
 
-class Packet
-{
-public:
-	Packet();
-	~Packet();
-};
+	class Packet
+	{
+	public:
+		Packet();
+		Packet(char* buffer, int size);
+		Packet(const Packet &packet);
+		~Packet();
+
+	public:
+		char* m_Buffer;
+		int m_Size;
+	};
+}
 
 #endif // !PACKET_H

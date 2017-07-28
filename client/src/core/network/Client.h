@@ -3,22 +3,14 @@
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
-#include <windows.h>
-#include <string>
+#include "Packet.h"
 
-#pragma comment(lib,"ws2_32.lib")
-
-using namespace std;
-
-enum PacketType
-{
-	PT_LOGIN_DATA,
-	PT_CHAT_MESSAGE,
-};
+using std::string;
+using std::to_string;
+using std::basic_string;
 
 namespace NixieClient
 {
-
 	class Client
 	{
 	public:

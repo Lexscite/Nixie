@@ -72,7 +72,7 @@ namespace NixieClient
 			return false;
 		}
 
-		if (!m_pClient->SendPacketType(PT_CHAT_MESSAGE))
+		if (!m_pClient->SendPacketType(PacketType::ChatMessage))
 			MessageBox(m_hMainWnd, "Failed to send TEST packet type", "Network Error", MB_OK | MB_ICONERROR);
 
 		if (!m_pClient->SendString(string("Hi Server!")))

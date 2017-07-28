@@ -45,6 +45,9 @@
     <ClCompile Include="src\winmain.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\network\Packet.cpp">
+      <Filter>src\core\network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h">
@@ -60,6 +63,9 @@
       <Filter>src\game\ui</Filter>
     </ClInclude>
     <ClInclude Include="src\core\network\Client.h">
+      <Filter>src\core\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\network\Packet.h">
       <Filter>src\core\network</Filter>
     </ClInclude>
   </ItemGroup>
