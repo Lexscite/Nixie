@@ -1,15 +1,17 @@
 #ifndef DIRECTX_H
 #define DIRECTX_H
 
+#include <iostream>
 #include <d3d11.h>
 #include <DirectXColors.h>
-
-#include "../utility/Memory.cpp"
 
 #pragma comment(lib, "d3d11.lib")
 
 using namespace DirectX;
-using namespace NixieUtility::Memory;
+
+using std::cout;
+using std::cerr;
+using std::endl;
 
 namespace NixieClient
 {

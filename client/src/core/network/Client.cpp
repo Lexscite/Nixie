@@ -36,9 +36,7 @@ namespace NixieClient
 	{
 		m_Connection = socket(AF_INET, SOCK_STREAM, NULL);
 		if (connect(m_Connection, (SOCKADDR*)&m_Address, m_AddressSize) != 0)
-		{
 			return false;
-		}
 
 		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Thread, NULL, NULL, NULL);
 

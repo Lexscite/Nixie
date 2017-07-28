@@ -162,7 +162,7 @@
     <ClCompile Include="src\core\Packet.cpp" />
     <ClCompile Include="src\core\Server.cpp" />
     <ClCompile Include="src\database\User.cpp" />
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -55,48 +55,51 @@ namespace NixieServer
 		return true;
 	}
 
-	bool Server::Run()
+	void Server::Run()
 	{
-		SOCKET newConnectionSocket;
-		newConnectionSocket = accept(m_ListeningSocket, (SOCKADDR*)&m_Address, &m_AddressSize);
-		if (newConnectionSocket == 0)
+		while (true)
 		{
-			cout << "Failed to accept the client's connection." << endl;
-			return false;
-		}
-
-		lock_guard<mutex> lock(m_ConnectionMutex);
-
-		int newConnectionId = m_pConnections.size();
-		if (m_NumUnusedConnections > 0)
-		{
-			for (size_t i = 0; i < m_pConnections.size(); i++)
+			SOCKET newConnectionSocket = INVALID_SOCKET;
+			newConnectionSocket = accept(m_ListeningSocket, (SOCKADDR*)&m_Address, &m_AddressSize);
+			if (newConnectionSocket == INVALID_SOCKET)
 			{
-				if (m_pConnections[i]->m_IsActive == false)
-				{
-					m_pConnections[i]->m_Socket = newConnectionSocket;
-					m_pConnections[i]->m_IsActive = true;
-					newConnectionId = i;
+				cout << "Failed to accept the client's connection." << endl;
+				continue;
+			}
+			else
+			{
+				lock_guard<mutex> lock(m_ConnectionMutex);
 
-					m_NumUnusedConnections--;
-					break;
+				int newConnectionId = (int)m_pConnections.size();
+				if (m_NumUnusedConnections > 0)
+				{
+					for (int i = 0; i < m_pConnections.size(); i++)
+					{
+						if (m_pConnections[i]->m_IsActive == false)
+						{
+							m_pConnections[i]->m_Socket = newConnectionSocket;
+							m_pConnections[i]->m_IsActive = true;
+							newConnectionId = i;
+
+							m_NumUnusedConnections--;
+							break;
+						}
+					}
+				}
+				else
+				{
+					shared_ptr<Connection> newConnection(new Connection(newConnectionSocket));
+					m_pConnections.push_back(newConnection);
+					cout << "Client connected (ID: " << newConnectionId << ")." << endl;
+
+					CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandlerThread, (LPVOID)(newConnectionId), NULL, NULL);
+
+					if (!SendPacketType(newConnectionId, PacketType::ChatMessage))
+						cout << "Failed to send welcome message PK type." << endl;
+					SendString(newConnectionId, string("Hi Client!"));
 				}
 			}
 		}
-		else
-		{
-			shared_ptr<Connection> newConnection(new Connection(newConnectionSocket));
-			m_pConnections.push_back(newConnection);
-		}
-		cout << "Client connected (ID: " << newConnectionId << ")." << endl;
-
-		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandlerThread, (LPVOID)(newConnectionId), NULL, NULL);
-
-		if (!SendPacketType(newConnectionId, PacketType::ChatMessage))
-			cout << "Failed to send welcome message PK type." << endl;
-		SendString(newConnectionId, string("Hi Client!"));
-
-		return true;
 	}
 
 	void Server::DisconnectClient(int id)
@@ -117,7 +120,7 @@ namespace NixieServer
 
 			if (m_pConnections.size() > 0)
 			{
-				for (size_t i = m_pConnections.size() - 1; i >= 0 && m_pConnections.size() > 0; i++)
+				for (size_t i = m_pConnections.size() - 1; i >= 0 && m_pConnections.size() > 0; i--)
 				{
 					if (m_pConnections[i]->m_IsActive)
 						break;

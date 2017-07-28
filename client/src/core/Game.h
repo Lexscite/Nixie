@@ -4,8 +4,6 @@
 #include "graphics/Graphics.h"
 #include "network/Client.h"
 
-using namespace std;
-
 namespace NixieClient
 {
 	class Game
@@ -17,6 +15,7 @@ namespace NixieClient
 		int Run();
 
 		bool Init();
+		void Release();
 		void Update(float deltaTime);
 		LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -30,7 +29,7 @@ namespace NixieClient
 		DWORD m_WndStyle;
 		UINT m_ClientWidth;
 		UINT m_ClientHeight;
-		string m_WndTitle;
+		LPCSTR m_WndTitle;
 
 		Graphics* m_pGraphics;
 		bool m_Fullscreen;

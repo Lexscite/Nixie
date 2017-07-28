@@ -15,10 +15,29 @@ namespace NixieClient
 		if (m_pImmediateContext)
 			m_pImmediateContext->ClearState();
 
-		SafeRelease(m_pRenderTargetView);
-		SafeRelease(m_pSwapChain);
-		SafeRelease(m_pImmediateContext);
-		SafeRelease(m_pDevice);
+		if (m_pRenderTargetView)
+		{
+			m_pRenderTargetView->Release();
+			m_pRenderTargetView = nullptr;
+		}
+
+		if (m_pSwapChain)
+		{
+			m_pSwapChain->Release();
+			m_pSwapChain = nullptr;
+		}
+
+		if (m_pImmediateContext)
+		{
+			m_pImmediateContext->Release();
+			m_pImmediateContext = nullptr;
+		}
+
+		if (m_pDevice)
+		{
+			m_pDevice->Release();
+			m_pDevice = nullptr;
+		}
 	}
 
 	bool DirectX::Init(HWND hwnd, int clientWidth, int clientHeight, bool vsync, bool fullscreen, float depth, float nearClip)
@@ -85,7 +104,7 @@ namespace NixieClient
 		}
 		if (FAILED(result))
 		{
-			MessageBox(hwnd, "Failed to create device and swap chain", "DirectX Error", MB_OK);
+			cerr << "Failed to create device and swap chain" << endl;
 			return false;
 		}
 
@@ -93,16 +112,17 @@ namespace NixieClient
 		result = m_pSwapChain->GetBuffer(NULL, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBufferTexture));
 		if (FAILED(result))
 		{
-			MessageBox(hwnd, "Failed to create back buffer texture", "DirectX Error", MB_OK);
+			cerr << "Failed to create back buffer texture" << endl;
 			return false;
 		}
 		result = m_pDevice->CreateRenderTargetView(pBackBufferTexture, nullptr, &m_pRenderTargetView);
 		if (FAILED(result))
 		{
-			MessageBox(hwnd, "Failed to create render target view", "DirectX Error", MB_OK);
+			cerr << "Failed to create render target view" << endl;
 			return false;
 		}
-		SafeRelease(pBackBufferTexture);
+		pBackBufferTexture->Release();
+		pBackBufferTexture = nullptr;
 
 		m_pImmediateContext->OMSetRenderTargets(1, &m_pRenderTargetView, nullptr);
 

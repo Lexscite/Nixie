@@ -24,8 +24,7 @@
     <ClCompile Include="src\core\graphics\DirectX.cpp" />
     <ClCompile Include="src\core\graphics\Graphics.cpp" />
     <ClCompile Include="src\core\network\Packet.cpp" />
-    <ClCompile Include="src\core\utility\Memory.cpp" />
-    <ClCompile Include="src\winmain.cpp" />
+    <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\game\ui\Chat.cpp" />
   </ItemGroup>
   <ItemGroup>

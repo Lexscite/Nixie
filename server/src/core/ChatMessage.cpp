@@ -13,7 +13,7 @@ namespace NixieServer
 
 	Packet ChatMessage::ToPacket()
 	{
-		const int packetSize = sizeof(int32_t) * 2 + m_Message.size() * sizeof(char*);
+		const int packetSize = (int)sizeof(int32_t) * 2 + (int)m_Message.size() * (int)sizeof(char*);
 		char * buffer = new char[packetSize];
 
 		int32_t packetType = htonl((int32_t)PacketType::ChatMessage);

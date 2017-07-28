@@ -13,7 +13,6 @@ LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-
 namespace NixieClient
 {
 	Game::Game(HINSTANCE hInstance)
@@ -44,13 +43,31 @@ namespace NixieClient
 
 	Game::~Game()
 	{
-		SafeDelete(m_pGraphics);
+		if (m_hMainWnd != nullptr)
+		{
+			DestroyWindow(m_hMainWnd);
+		}
+
+		if (m_pGraphics)
+		{
+			delete m_pGraphics;
+			m_pGraphics = nullptr;
+		}
+
+		if (m_pClient)
+		{
+			delete m_pClient;
+			m_pClient = nullptr;
+		}
 	}
 
 	bool Game::Init()
 	{
 		if (!CreateMainWindow())
+		{
+			cerr << "Failed to create window" << endl;
 			return false;
+		}
 
 		m_pGraphics = new Graphics;
 		if (!m_pGraphics)
@@ -59,24 +76,26 @@ namespace NixieClient
 		if (!m_pGraphics->Init(m_hMainWnd, m_ClientWidth, m_ClientHeight, m_Fullscreen))
 			return false;
 
+		cout << "Network initialization..." << endl;
 		m_pClient = new Client;
 		if (!m_pClient)
 			return false;
 
 		if (!m_pClient->Init("127.0.0.1", 1111))
 			return false;
+		cout << "OK" << endl;
 
+		cout << "Connecting to server..." << endl;
 		if (!m_pClient->Connect())
-		{
-			MessageBox(m_hMainWnd, "Failed to connect to server.", "Network Error", MB_OK | MB_ICONERROR);
-			return false;
-		}
+			cerr << "Failed to connect to server" << endl;
+		else
+			cout << "OK" << endl;
 
 		if (!m_pClient->SendPacketType(PacketType::ChatMessage))
-			MessageBox(m_hMainWnd, "Failed to send TEST packet type", "Network Error", MB_OK | MB_ICONERROR);
+			cerr << "Failed to send TEST packet type" << endl;
 
 		if (!m_pClient->SendString(string("Hi Server!")))
-			MessageBox(m_hMainWnd, "Failed to send TEST string", "Network Error", MB_OK | MB_ICONERROR);
+			cerr << "Failed to send TEST string" << endl;
 
 		return true;
 	}
@@ -102,7 +121,7 @@ namespace NixieClient
 
 		if (!RegisterClassEx(&wcex))
 		{
-			OutputDebugString("\nFAILED TO CREATE WINDOW CLASS\n");
+			cerr << "Failed to register window class" << endl;
 			return false;
 		}
 
@@ -129,11 +148,11 @@ namespace NixieClient
 			y = GetSystemMetrics(SM_CYSCREEN) / 2 - m_ClientHeight / 2;
 		}
 
-		m_hMainWnd = CreateWindowEx(WS_EX_APPWINDOW, className, m_WndTitle.c_str(), m_WndStyle,
+		m_hMainWnd = CreateWindowEx(WS_EX_APPWINDOW, className, m_WndTitle, m_WndStyle,
 			x, y, m_ClientWidth, m_ClientHeight, NULL, NULL, m_hAppInstance, NULL);
 		if (!m_hMainWnd)
 		{
-			OutputDebugString("\nFAILED TO CREATE MAIN WINDOW\n");
+			cerr << "Failed to create main window" << endl;
 			return false;
 		}
 

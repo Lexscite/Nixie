@@ -22,7 +22,7 @@ namespace NixieServer
 
 		bool Start(int port, bool broadcastPublically = false);
 
-		bool Run();
+		void Run();
 
 	private:
 		void DisconnectClient(int id);
