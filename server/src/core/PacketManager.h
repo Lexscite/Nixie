@@ -1,10 +1,11 @@
 #ifndef PACKETMANAGER_H
 
-#include "ChatMessage.h"
+#include "Packet.h"
 
 using std::queue;
 using std::mutex;
 using std::lock_guard;
+using std::swap;
 
 namespace NixieServer
 {
@@ -17,6 +18,8 @@ namespace NixieServer
 		bool HasPendingPackets();
 		void Append(Packet packet);
 		Packet Retrieve();
+		void Clear();
+
 	private:
 		queue<Packet> m_PacketsQueue;
 		mutex m_PacketsMutex;

@@ -27,6 +27,9 @@
     <ClInclude Include="src\core\ChatMessage.h">
       <Filter>src\core</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\Connection.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\database\User.cpp">
@@ -45,6 +48,9 @@
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\core\ChatMessage.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Connection.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>

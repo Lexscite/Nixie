@@ -8,7 +8,7 @@ namespace NixieServer
 	{
 		g_pServer = this;
 		m_AddressSize = sizeof(m_Address);
-		m_ConnectionCounter = 0;
+		m_NumUnusedConnections = 0;
 	}
 
 	Server::~Server()
@@ -57,27 +57,78 @@ namespace NixieServer
 
 	bool Server::Run()
 	{
-		SOCKET newSocket;
-		newSocket = accept(m_ListeningSocket, (SOCKADDR*)&m_Address, &m_AddressSize);
-		if (newSocket == 0)
+		SOCKET newConnectionSocket;
+		newConnectionSocket = accept(m_ListeningSocket, (SOCKADDR*)&m_Address, &m_AddressSize);
+		if (newConnectionSocket == 0)
 		{
 			cout << "Failed to accept the client's connection." << endl;
 			return false;
 		}
 
-		m_Connections[m_ConnectionCounter].socket = newSocket;
+		lock_guard<mutex> lock(m_ConnectionMutex);
 
-		cout << "Client connected (ID: " << m_ConnectionCounter << ")." << endl;
+		int newConnectionId = m_pConnections.size();
+		if (m_NumUnusedConnections > 0)
+		{
+			for (size_t i = 0; i < m_pConnections.size(); i++)
+			{
+				if (m_pConnections[i]->m_IsActive == false)
+				{
+					m_pConnections[i]->m_Socket = newConnectionSocket;
+					m_pConnections[i]->m_IsActive = true;
+					newConnectionId = i;
 
-		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandlerThread, (LPVOID)(m_ConnectionCounter), NULL, NULL);
+					m_NumUnusedConnections--;
+					break;
+				}
+			}
+		}
+		else
+		{
+			shared_ptr<Connection> newConnection(new Connection(newConnectionSocket));
+			m_pConnections.push_back(newConnection);
+		}
+		cout << "Client connected (ID: " << newConnectionId << ")." << endl;
 
-		if (!SendPacketType(m_ConnectionCounter, PacketType::ChatMessage))
+		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandlerThread, (LPVOID)(newConnectionId), NULL, NULL);
+
+		if (!SendPacketType(newConnectionId, PacketType::ChatMessage))
 			cout << "Failed to send welcome message PK type." << endl;
-		SendString(m_ConnectionCounter, string("Hi Client!"));
-
-		m_ConnectionCounter++;
+		SendString(newConnectionId, string("Hi Client!"));
 
 		return true;
+	}
+
+	void Server::DisconnectClient(int id)
+	{
+		lock_guard<mutex> lock(m_ConnectionMutex);
+
+		if (m_pConnections[id]->m_IsActive == false)
+			return;
+
+		m_pConnections[id]->m_PacketManager.Clear();
+
+		m_pConnections[id]->m_IsActive == false;
+		closesocket(m_pConnections[id]->m_Socket);
+
+		if (id == (m_pConnections.size() -1))
+		{
+			m_pConnections.pop_back();
+
+			if (m_pConnections.size() > 0)
+			{
+				for (size_t i = m_pConnections.size() - 1; i >= 0 && m_pConnections.size() > 0; i++)
+				{
+					if (m_pConnections[i]->m_IsActive)
+						break;
+
+					m_pConnections.pop_back();
+					m_NumUnusedConnections--;
+				}
+			}
+		}
+		else
+			m_NumUnusedConnections++;
 	}
 
 	bool Server::Send(int id, char* data, int totalBytes)
@@ -85,7 +136,7 @@ namespace NixieServer
 		int sentBytes = 0;
 		while (sentBytes < totalBytes)
 		{
-			int result = send(m_Connections[id].socket, data + sentBytes, totalBytes - sentBytes, NULL);
+			int result = send(m_pConnections[id]->m_Socket, data + sentBytes, totalBytes - sentBytes, NULL);
 			if (result == SOCKET_ERROR)
 				return false;
 			else if (result == 0)
@@ -108,7 +159,7 @@ namespace NixieServer
 		int recievedBytes = 0;
 		while (recievedBytes < totalBytes)
 		{
-			int result = recv(m_Connections[id].socket, data + recievedBytes, totalBytes - recievedBytes, NULL);
+			int result = recv(m_pConnections[id]->m_Socket, data + recievedBytes, totalBytes - recievedBytes, NULL);
 			if (result == SOCKET_ERROR)
 				return false;
 			else if (result == 0)
@@ -166,7 +217,7 @@ namespace NixieServer
 	void Server::SendString(int id, string &data)
 	{
 		ChatMessage message(data);
-		m_Connections[id].packetManager.Append(message.ToPacket());
+		m_pConnections[id]->m_PacketManager.Append(message.ToPacket());
 	}
 
 	bool Server::GetString(int id, string &data)
@@ -206,8 +257,11 @@ namespace NixieServer
 				if (!GetString(id, message))
 					return false;
 
-				for (int i = 0; i < ARRAYSIZE(m_Connections); i++)
+				for (size_t i = 0; i < m_pConnections.size(); i++)
 				{
+					if (m_pConnections[i]->m_IsActive == false)
+						continue;
+
 					if (i != id)
 						continue;
 
@@ -237,23 +291,22 @@ namespace NixieServer
 				break;
 		}
 
+		g_pServer->DisconnectClient(id);
 		cout << "Lost connection to the client (ID: " << id << ")." << endl;
-		closesocket(g_pServer->m_Connections[id].socket);
 	}
 
 	void Server::PacketSenderThread()
 	{
 		while (true)
 		{
-			for (int i = 0; i < g_pServer->m_ConnectionCounter; i++)
+			for (size_t i = 0; i < g_pServer->m_pConnections.size(); i++)
 			{
-				if (g_pServer->m_Connections[i].packetManager.HasPendingPackets())
+				if (g_pServer->m_pConnections[i]->m_PacketManager.HasPendingPackets())
 				{
-					Packet pendingPacket = g_pServer->m_Connections[i].packetManager.Retrieve();
+					Packet pendingPacket = g_pServer->m_pConnections[i]->m_PacketManager.Retrieve();
 					if (!g_pServer->Send(i, pendingPacket.m_Buffer, pendingPacket.m_Size))
-					{
 						cout << "Failed to send packet to client (ID: " << i << ")" << endl;
-					}
+
 					delete pendingPacket.m_Buffer;
 				}
 			}

@@ -31,4 +31,11 @@ namespace NixieServer
 
 		return frontPacket;
 	}
+
+	void PacketManager::Clear()
+	{
+		lock_guard<mutex> lock(m_PacketsMutex);
+		queue<Packet> empty;
+		swap(m_PacketsQueue, empty);
+	}
 }

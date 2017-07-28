@@ -1,20 +1,19 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "PacketManager.h"
 #include <windows.h>
+#include <vector>
+
+#include "Connection.h"
+#include "ChatMessage.h"
 
 using std::cout;
 using std::endl;
+using std::vector;
+using std::shared_ptr;
 
 namespace NixieServer
 {
-	struct Connection
-	{
-		SOCKET socket;
-		PacketManager packetManager;
-	};
-
 	class Server
 	{
 	public:
@@ -26,6 +25,8 @@ namespace NixieServer
 		bool Run();
 
 	private:
+		void DisconnectClient(int id);
+
 		bool Send(int id, char* data, int totalBytes);
 		bool Recieve(int id, char* data, int totalBytes);
 
@@ -46,8 +47,9 @@ namespace NixieServer
 		SOCKADDR_IN m_Address;
 		int m_AddressSize;
 
-		Connection m_Connections[100];
-		int m_ConnectionCounter;
+		vector<shared_ptr<Connection>> m_pConnections;
+		mutex m_ConnectionMutex;
+		int  m_NumUnusedConnections;
 	};
 }
 
