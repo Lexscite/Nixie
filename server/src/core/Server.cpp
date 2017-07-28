@@ -68,7 +68,7 @@ namespace NixieServer
 
 		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Thread, (LPVOID)(m_ConnectionCounter), NULL, NULL);
 
-		if (!SendPacketType(m_ConnectionCounter, PT_CHAT_MESSAGE))
+		if (!SendPacketType(m_ConnectionCounter, PacketType::PT_CHAT_MESSAGE))
 			cout << "Failed to send welcome message PK type." << endl;
 		if (!SendString(m_ConnectionCounter, string("Hi Client!")))
 			cout << "Failed to send welcome message." << endl;
@@ -145,7 +145,7 @@ namespace NixieServer
 
 	bool Server::SendPacketType(int id, PacketType data)
 	{
-		if (!SendInt32(id, data))
+		if (!SendInt32(id, (int32_t)data))
 			return false;
 
 		return true;
@@ -200,12 +200,12 @@ namespace NixieServer
 	{
 		switch (packetType)
 		{
-			case PT_LOGIN_DATA:
+			case PacketType::PT_LOGIN_DATA:
 			{
 				cout << "Client sent a PK login data:" << endl;
 				break;
 			}
-			case PT_CHAT_MESSAGE:
+			case PacketType::PT_CHAT_MESSAGE:
 			{
 				string message;
 				if (!GetString(id, message))
@@ -233,7 +233,7 @@ namespace NixieServer
 				break;
 			}
 			default:
-				cout << "Unrecognized packet: " << packetType << endl;
+				cout << "Unrecognized packet: " << (int32_t)packetType << endl;
 				break;
 		}
 

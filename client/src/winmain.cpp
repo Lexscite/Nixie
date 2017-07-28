@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "core/Game.h"
 
 using NixieClient::Game;
 using namespace std;

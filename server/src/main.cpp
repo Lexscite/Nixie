@@ -1,4 +1,4 @@
-#include "Server.h"
+#include "core/Server.h"
 
 using namespace NixieServer;
 

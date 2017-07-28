@@ -18,6 +18,7 @@
     <ClInclude Include="src\core\Server.h">
       <Filter>src\core</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\Packet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\database\User.cpp">
@@ -29,5 +30,6 @@
     <ClCompile Include="src\core\Server.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\Packet.cpp" />
   </ItemGroup>
 </Project>

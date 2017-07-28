@@ -148,10 +148,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\core\Packet.h" />
     <ClInclude Include="src\core\Server.h" />
     <ClInclude Include="src\database\User.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\Packet.cpp" />
     <ClCompile Include="src\core\Server.cpp" />
     <ClCompile Include="src\database\User.cpp" />
     <ClCompile Include="src\main.cpp" />
