@@ -23,9 +23,10 @@ namespace NixieServer
 	{
 	public:
 		Packet();
+		~Packet();
+
 		Packet(char* buffer, int size);
 		Packet(const Packet &packet);
-		~Packet();
 
 	public:
 		char* m_Buffer;

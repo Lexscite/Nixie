@@ -6,6 +6,10 @@ namespace NixieServer
 	{
 	}
 
+	Packet::~Packet()
+	{
+	}
+
 	Packet::Packet(char* buffer, int size)
 	{
 		m_Buffer = buffer;
@@ -17,9 +21,5 @@ namespace NixieServer
 		m_Size = packet.m_Size;
 		m_Buffer = new char[m_Size];
 		memcpy(m_Buffer, packet.m_Buffer, m_Size);
-	}
-
-	Packet::~Packet()
-	{
 	}
 }

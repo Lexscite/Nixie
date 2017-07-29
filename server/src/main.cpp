@@ -13,7 +13,10 @@ int main()
 		return 0;
 	}
 
-	pServer->Run();
+	for (int i = 0; i < 100; i++)
+	{
+		pServer->Run();
+	}
 
 	return 0;
 }
