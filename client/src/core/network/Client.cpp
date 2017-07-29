@@ -1,8 +1,8 @@
 #include "Client.h"
 
-static NixieClient::Client* g_pClient;
+static NXNetwork::Client* g_pClient;
 
-namespace NixieClient
+namespace NXNetwork
 {
 	Client::Client()
 	{
@@ -21,7 +21,7 @@ namespace NixieClient
 
 		if (WSAStartup(dllVersion, &wsaData) != 0)
 		{
-			MessageBox(NULL, "WinSock2 startup failed", "Network Error", MB_OK | MB_ICONERROR);
+			cerr << "WSAStartup failed. Error code: " << WSAGetLastError() << endl;
 			return false;
 		}
 
@@ -34,9 +34,12 @@ namespace NixieClient
 
 	bool Client::Connect()
 	{
-		m_Connection = socket(AF_INET, SOCK_STREAM, NULL);
+		m_Connection = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 		if (connect(m_Connection, (SOCKADDR*)&m_Address, m_AddressSize) != 0)
+		{
+			cerr << "Unable to connect. Error code: " << WSAGetLastError() << endl;
 			return false;
+		}
 
 		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Thread, NULL, NULL, NULL);
 
@@ -50,8 +53,7 @@ namespace NixieClient
 			if (WSAGetLastError() == WSAENOTSOCK)
 				return true;
 
-			string errorMessage = "Failed to close the socket. Winsock Error: " + to_string(WSAGetLastError()) + ".";
-			MessageBox(NULL, errorMessage.c_str(), "Network Error", MB_OK | MB_ICONERROR);
+			cerr << "Failed to close the connection. Error code: " << WSAGetLastError() << endl;
 			return false;
 		}
 
@@ -65,18 +67,18 @@ namespace NixieClient
 		{
 			int result = send(m_Connection, data + sentBytes, totalBytes - sentBytes, NULL);
 			if (result == SOCKET_ERROR)
+			{
+				cerr << "Failed to send data. Error code: " << WSAGetLastError() << endl;
 				return false;
+			}
 			else if (result == 0)
 			{
 				int iError = WSAGetLastError();
 				if (iError == WSAEWOULDBLOCK)
-					OutputDebugString("WS function send failed with error: WSAEWOULDBLOCK\n");
+					cerr << "Failed to send data. Error: WSAEWOULDBLOCK" << endl;
 				else
-				{
-					OutputDebugString("WS function send failed with error: %ld\n");
-					OutputDebugString(to_string(iError).c_str());
-					OutputDebugString("\n");
-				}
+					cerr << "Failed to send data. Error code: " << iError << endl;
+
 				return false;
 			}
 
@@ -93,18 +95,18 @@ namespace NixieClient
 		{
 			int result = recv(m_Connection, data + recievedBytes, totalBytes - recievedBytes, NULL);
 			if (result == SOCKET_ERROR)
+			{
+				cerr << "Failed to send data. Error code: " << WSAGetLastError() << endl;
 				return false;
+			}
 			else if (result == 0)
 			{
 				int iError = WSAGetLastError();
 				if (iError == WSAEWOULDBLOCK)
-					OutputDebugString("WS function send failed with error: WSAEWOULDBLOCK\n");
+					cerr << "Failed to send data. Error: WSAEWOULDBLOCK" << endl;
 				else
-				{
-					OutputDebugString("WS function send failed with error: %ld\n");
-					OutputDebugString(to_string(iError).c_str());
-					OutputDebugString("\n");
-				} 
+					cerr << "Failed to send data. Error code: " << iError << endl;
+
 				return false;
 			}
 
@@ -152,7 +154,7 @@ namespace NixieClient
 
 	bool Client::SendString(string &data)
 	{
-		int32_t bufferLength = data.size();
+		int32_t bufferLength = (int32_t)data.size();
 
 		if (!SendInt32(bufferLength))
 			return false;
@@ -198,14 +200,12 @@ namespace NixieClient
 				string message;
 				if (!GetString(message))
 					return false;
-				OutputDebugString("Message from server recieved: ");
-				OutputDebugString(message.c_str());
-				OutputDebugString("\n");
 
+				cout << "Message recieved: " << message << endl;
 				break;
 			}
 			default:
-				OutputDebugString("Unrecognized packet type");
+				cerr << "Unrecognized packet type" << endl;
 				break;
 		}
 
@@ -227,12 +227,8 @@ namespace NixieClient
 
 		MessageBox(NULL, "Lost connection to the server", "Network Error", MB_OK | MB_ICONERROR);
 		if (g_pClient->CloseConnection())
-		{
-			OutputDebugString("Socket to the server was closed successfuly.\n");
-		}
+			cout << "Socket to the server was closed successfuly" << endl;
 		else
-		{
-			OutputDebugString("Socket was not able to be closed.\n");
-		}
+			cerr << "Socket is't able to be closed" << endl;
 	}
 }

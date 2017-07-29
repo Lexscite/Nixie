@@ -1,9 +1,11 @@
 #include "core/Game.h"
 
-using NixieClient::Game;
+using std::cout;
+using std::cerr;
+using std::streambuf;
 
-#ifdef DEBUG
-class ConsoleBuffer : public std::streambuf {
+#ifdef _DEBUG
+class ConsoleBuffer : public streambuf {
 public:
 	ConsoleBuffer() {
 		setp(0, 0);
@@ -13,7 +15,7 @@ public:
 		return fputc(c, stdout) == EOF ? traits_type::eof() : c;
 	}
 };
-#endif // DEBUG
+#endif // _DEBUG
 
 int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, __in LPSTR lpCmdLine, __in int nShowCmd)
 {
@@ -24,10 +26,11 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
 	}
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	ConsoleBuffer consoleBuffer;
-	std::streambuf *streambuffer = std::cout.rdbuf(&consoleBuffer);
-#endif // DEBUG
+	streambuf *coutBuffer = cout.rdbuf(&consoleBuffer);
+	streambuf *cerrBuffer = cerr.rdbuf(&consoleBuffer);
+#endif // _DEBUG
 
 	Game* pGame = new Game(hInstance);
 	if (pGame->Init())
@@ -40,9 +43,10 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 	delete pGame;
 	pGame = nullptr;
 
-#ifdef DEBUG
-	std::cout.rdbuf(sb);
-#endif // DEBUG
+#ifdef _DEBUG
+	cout.rdbuf(coutBuffer);
+	cout.rdbuf(cerrBuffer);
+#endif // _DEBUG
 
 	return 0;
 }

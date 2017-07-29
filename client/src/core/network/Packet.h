@@ -6,7 +6,7 @@
 
 #pragma comment(lib,"ws2_32.lib")
 
-namespace NixieClient
+namespace NXNetwork
 {
 	enum class PacketType
 	{

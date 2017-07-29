@@ -4,12 +4,16 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 #include "Packet.h"
+#include <iostream>
 
+using std::cout;
+using std::cerr;
+using std::endl;
 using std::string;
 using std::to_string;
 using std::basic_string;
 
-namespace NixieClient
+namespace NXNetwork
 {
 	class Client
 	{

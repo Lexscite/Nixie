@@ -1,6 +1,6 @@
 #include "DirectX.h"
 
-namespace NixieClient
+namespace NXGraphics
 {
 	DirectX::DirectX()
 	{

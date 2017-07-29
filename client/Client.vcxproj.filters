@@ -10,14 +10,11 @@
     <Filter Include="src\core\graphics">
       <UniqueIdentifier>{d4ae0545-efb1-4a7e-93a8-8edf434d7326}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\game">
-      <UniqueIdentifier>{58e45eb3-c23c-4cd9-87d9-c26581491d5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\game\ui">
-      <UniqueIdentifier>{d22f8c8a-4bfc-4df4-9c6b-29cc9a89836c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\core\network">
       <UniqueIdentifier>{814b1610-46d2-4acc-bdce-8d99f876b613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core\gui">
+      <UniqueIdentifier>{d22f8c8a-4bfc-4df4-9c6b-29cc9a89836c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,9 +27,6 @@
     <ClCompile Include="src\core\graphics\Graphics.cpp">
       <Filter>src\core\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\ui\Chat.cpp">
-      <Filter>src\game\ui</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\network\Client.cpp">
       <Filter>src\core\network</Filter>
     </ClCompile>
@@ -41,6 +35,12 @@
     </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\gui\Window.cpp">
+      <Filter>src\core\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\gui\Interface.cpp">
+      <Filter>src\core\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,14 +53,17 @@
     <ClInclude Include="src\core\graphics\Graphics.h">
       <Filter>src\core\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\ui\Chat.h">
-      <Filter>src\game\ui</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\network\Client.h">
       <Filter>src\core\network</Filter>
     </ClInclude>
     <ClInclude Include="src\core\network\Packet.h">
       <Filter>src\core\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\gui\Window.h">
+      <Filter>src\core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\gui\Interface.h">
+      <Filter>src\core\gui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

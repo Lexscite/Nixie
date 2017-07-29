@@ -1,6 +1,6 @@
 #include "Graphics.h"
 
-namespace NixieClient
+namespace NXGraphics
 {
 	Graphics::Graphics()
 	{

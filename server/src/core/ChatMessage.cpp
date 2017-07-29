@@ -17,7 +17,7 @@ namespace NixieServer
 		char * buffer = new char[packetSize];
 
 		int32_t packetType = htonl((int32_t)PacketType::ChatMessage);
-		int32_t messageSize = htonl(m_Message.size());
+		int32_t messageSize = htonl((u_long)m_Message.size());
 
 		memcpy(buffer, &packetType, sizeof(int32_t));
 		memcpy(buffer + sizeof(int32_t), &messageSize, sizeof(int32_t));

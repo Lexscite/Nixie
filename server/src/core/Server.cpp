@@ -34,19 +34,17 @@ namespace NixieServer
 		m_Address.sin_port = htons(port);
 		m_Address.sin_family = AF_INET;
 
-		m_ListeningSocket = socket(AF_INET, SOCK_STREAM, NULL);
+		m_ListeningSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 		if (bind(m_ListeningSocket, (SOCKADDR*)&m_Address, m_AddressSize) == SOCKET_ERROR)
 		{
-			string errorMessage = "Failed to bind the address. Winsock Error: " + std::to_string(WSAGetLastError()) + ".";
-			cout << errorMessage.c_str() << endl;
+			cout << "Failed to bind the address. Winsock Error: " << WSAGetLastError() << endl;
 			return false;
 		}
 
 		if (listen(m_ListeningSocket, SOMAXCONN) == SOCKET_ERROR)
 		{
-			string errorMessage = "Failed to listen on listening socket. Winsock Error: " + std::to_string(WSAGetLastError()) + ".";
-			cout << errorMessage.c_str() << endl;
+			cout << "Failed to listen on listening socket. Winsock Error: " << WSAGetLastError() << endl;
 			return false;
 		}
 
@@ -92,7 +90,7 @@ namespace NixieServer
 					m_pConnections.push_back(newConnection);
 					cout << "Client connected (ID: " << newConnectionId << ")." << endl;
 
-					CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandlerThread, (LPVOID)(newConnectionId), NULL, NULL);
+					CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandlerThread, (LPVOID)(INT_PTR)newConnectionId, NULL, NULL);
 
 					if (!SendPacketType(newConnectionId, PacketType::ChatMessage))
 						cout << "Failed to send welcome message PK type." << endl;
@@ -110,8 +108,7 @@ namespace NixieServer
 			return;
 
 		m_pConnections[id]->m_PacketManager.Clear();
-
-		m_pConnections[id]->m_IsActive == false;
+		m_pConnections[id]->m_IsActive = false;
 		closesocket(m_pConnections[id]->m_Socket);
 
 		if (id == (m_pConnections.size() -1))
@@ -260,18 +257,22 @@ namespace NixieServer
 				if (!GetString(id, message))
 					return false;
 
-				for (size_t i = 0; i < m_pConnections.size(); i++)
+				for (int i = 0; i < (int)m_pConnections.size(); i++)
 				{
-					if (m_pConnections[i]->m_IsActive == false)
+					if (!m_pConnections[i]->m_IsActive)
 						continue;
 
 					if (i != id)
 						continue;
 
+					PacketType packetType = PacketType::ChatMessage;
+					if (!SendPacketType(i, packetType))
+						cerr << "Failed to send packet type" << endl;
+
 					SendString(i, message);
 				}
 
-				cout << "Processed chat message PK from the client (ID: " << id << "): " << message.c_str() << endl;
+				cout << "Processed chat message PK from the client (ID: " << id << "): " << message << endl;
 				break;
 			}
 			default:
@@ -302,7 +303,7 @@ namespace NixieServer
 	{
 		while (true)
 		{
-			for (size_t i = 0; i < g_pServer->m_pConnections.size(); i++)
+			for (int i = 0; i < (int)g_pServer->m_pConnections.size(); i++)
 			{
 				if (g_pServer->m_pConnections[i]->m_PacketManager.HasPendingPackets())
 				{

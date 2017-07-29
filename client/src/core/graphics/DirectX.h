@@ -13,7 +13,7 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-namespace NixieClient
+namespace NXGraphics
 {
 	class DirectX
 	{

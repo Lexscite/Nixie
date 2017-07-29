@@ -12,9 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\database\User.h">
-      <Filter>src\database</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\Server.h">
       <Filter>src\core</Filter>
     </ClInclude>
@@ -32,9 +29,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\database\User.cpp">
-      <Filter>src\database</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\Server.cpp">
       <Filter>src\core</Filter>
     </ClCompile>

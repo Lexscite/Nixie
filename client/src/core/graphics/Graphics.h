@@ -3,7 +3,7 @@
 
 #include "DirectX.h"
 
-namespace NixieClient
+namespace NXGraphics
 {
 	class Graphics
 	{

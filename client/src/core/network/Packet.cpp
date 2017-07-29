@@ -1,6 +1,6 @@
 #include "Packet.h"
 
-namespace NixieClient
+namespace NXNetwork
 {
 	Packet::Packet()
 	{
