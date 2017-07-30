@@ -2,10 +2,10 @@
 #define GAME_H
 
 #include "graphics/Graphics.h"
-#include "network/Client.h"
+#include "network/Connection.h"
 
 using NXGraphics::Graphics;
-using NXNetwork::Client;
+using NXNetwork::Connection;
 using NXNetwork::PacketType;
 
 class Game
@@ -36,7 +36,7 @@ protected:
 	Graphics* m_pGraphics;
 	bool m_Fullscreen;
 
-	Client* m_pClient;
+	Connection* m_pConnection;
 };
 
 #endif // !GAME_H

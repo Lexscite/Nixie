@@ -14,6 +14,7 @@ namespace NixieServer
 		SOCKET m_Socket;
 		PacketManager m_PacketManager;
 		bool m_IsActive;
+		HANDLE m_hThread;
 	};
 }
 

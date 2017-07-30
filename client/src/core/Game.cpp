@@ -36,7 +36,7 @@ Game::Game(HINSTANCE hInstance)
 	}
 
 	m_pGraphics = nullptr;
-	m_pClient = nullptr;
+	m_pConnection = nullptr;
 }
 
 Game::~Game()
@@ -52,10 +52,10 @@ Game::~Game()
 		m_pGraphics = nullptr;
 	}
 
-	if (m_pClient)
+	if (m_pConnection)
 	{
-		delete m_pClient;
-		m_pClient = nullptr;
+		delete m_pConnection;
+		m_pConnection = nullptr;
 	}
 }
 
@@ -74,26 +74,19 @@ bool Game::Init()
 	if (!m_pGraphics->Init(m_hMainWnd, m_ClientWidth, m_ClientHeight, m_Fullscreen))
 		return false;
 
-	cout << "Network initialization..." << endl;
-	m_pClient = new Client;
-	if (!m_pClient)
+	cout << "Connecting to server... " << endl;
+	m_pConnection = new Connection;
+	if (!m_pConnection)
 		return false;
 
-	if (!m_pClient->Init("127.0.0.1", 1111))
-		return false;
-	cout << "OK" << endl;
-
-	cout << "Connecting to server..." << endl;
-	if (!m_pClient->Connect())
+	if (!m_pConnection->Init("127.0.0.1", 1111))
 	{
-		cerr << "Failed to connect to server" << endl;
 		MessageBox(m_hMainWnd, "Failed to conenct to server", "Network Error", MB_OK | MB_ICONERROR);
 	}
-	else
-		cout << "OK" << endl;
+	cout << "OK" << endl;
 
-	m_pClient->SendPacketType(PacketType::ChatMessage);
-	m_pClient->SendString(string("Hi Server!"));
+	m_pConnection->SendPacketType(PacketType::ChatMessage);
+	m_pConnection->SendString(string("Hi Server!"));
 
 	return true;
 }

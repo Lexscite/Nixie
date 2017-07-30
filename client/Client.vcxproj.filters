@@ -27,9 +27,6 @@
     <ClCompile Include="src\core\graphics\Graphics.cpp">
       <Filter>src\core\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\network\Client.cpp">
-      <Filter>src\core\network</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\network\Packet.cpp">
       <Filter>src\core\network</Filter>
     </ClCompile>
@@ -42,6 +39,9 @@
     <ClCompile Include="src\core\gui\Interface.cpp">
       <Filter>src\core\gui</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\network\Connection.cpp">
+      <Filter>src\core\network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\core\Game.h">
@@ -53,9 +53,6 @@
     <ClInclude Include="src\core\graphics\Graphics.h">
       <Filter>src\core\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\network\Client.h">
-      <Filter>src\core\network</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\network\Packet.h">
       <Filter>src\core\network</Filter>
     </ClInclude>
@@ -64,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="src\core\gui\Interface.h">
       <Filter>src\core\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\network\Connection.h">
+      <Filter>src\core\network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

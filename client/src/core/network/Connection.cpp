@@ -1,20 +1,21 @@
-#include "Client.h"
+#include "Connection.h"
 
-static NXNetwork::Client* g_pClient;
+static NXNetwork::Connection* g_pClient;
 
 namespace NXNetwork
 {
-	Client::Client()
+	Connection::Connection()
 	{
 		g_pClient = this;
 		m_AddressSize = sizeof(m_Address);
 	}
 
-	Client::~Client()
+	Connection::~Connection()
 	{
+		Close();
 	}
 
-	bool Client::Init(string ip, int port)
+	bool Connection::Init(string ip, int port)
 	{
 		WSADATA wsaData;
 		WORD dllVersion = MAKEWORD(2, 2);
@@ -29,13 +30,9 @@ namespace NXNetwork
 		m_Address.sin_port = htons(port);
 		m_Address.sin_family = AF_INET;
 
-		return true;
-	}
 
-	bool Client::Connect()
-	{
-		m_Connection = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-		if (connect(m_Connection, (SOCKADDR*)&m_Address, m_AddressSize) != 0)
+		m_Socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+		if (connect(m_Socket, (SOCKADDR*)&m_Address, m_AddressSize) != 0)
 		{
 			cerr << "Unable to connect. Error code: " << WSAGetLastError() << endl;
 			return false;
@@ -46,9 +43,9 @@ namespace NXNetwork
 		return true;
 	}
 
-	bool Client::CloseConnection()
+	bool Connection::Close()
 	{
-		if (closesocket(m_Connection) == SOCKET_ERROR)
+		if (closesocket(m_Socket) == SOCKET_ERROR)
 		{
 			if (WSAGetLastError() == WSAENOTSOCK)
 				return true;
@@ -60,12 +57,12 @@ namespace NXNetwork
 		return true;
 	}
 
-	bool Client::Send(char* data, int totalBytes)
+	bool Connection::Send(char* data, int totalBytes)
 	{
 		int sentBytes = 0;
 		while (sentBytes < totalBytes)
 		{
-			int result = send(m_Connection, data + sentBytes, totalBytes - sentBytes, NULL);
+			int result = send(m_Socket, data + sentBytes, totalBytes - sentBytes, NULL);
 			if (result == SOCKET_ERROR)
 			{
 				cerr << "Failed to send data. Error code: " << WSAGetLastError() << endl;
@@ -88,12 +85,12 @@ namespace NXNetwork
 		return true;
 	}
 
-	bool Client::Recieve(char* data, int totalBytes)
+	bool Connection::Recieve(char* data, int totalBytes)
 	{
 		int recievedBytes = 0;
 		while (recievedBytes < totalBytes)
 		{
-			int result = recv(m_Connection, data + recievedBytes, totalBytes - recievedBytes, NULL);
+			int result = recv(m_Socket, data + recievedBytes, totalBytes - recievedBytes, NULL);
 			if (result == SOCKET_ERROR)
 			{
 				cerr << "Failed to send data. Error code: " << WSAGetLastError() << endl;
@@ -116,7 +113,7 @@ namespace NXNetwork
 		return true;
 	}
 
-	bool Client::SendInt32(int32_t data)
+	bool Connection::SendInt32(int32_t data)
 	{
 		data = htonl(data);
 		if (!Send((char*)&data, sizeof(int32_t)))
@@ -125,7 +122,7 @@ namespace NXNetwork
 		return true;
 	}
 
-	bool Client::GetInt32(int32_t &data)
+	bool Connection::GetInt32(int32_t &data)
 	{
 		if (!Recieve((char*)&data, sizeof(int32_t)))
 			return false;
@@ -134,7 +131,7 @@ namespace NXNetwork
 		return true;
 	}
 
-	bool Client::SendPacketType(PacketType data)
+	bool Connection::SendPacketType(PacketType data)
 	{
 		if (!SendInt32((int32_t)data))
 			return false;
@@ -142,7 +139,7 @@ namespace NXNetwork
 		return true;
 	}
 
-	bool Client::GetPacketType(PacketType &data)
+	bool Connection::GetPacketType(PacketType &data)
 	{
 		int32_t dataInt;
 		if (!GetInt32(dataInt))
@@ -152,7 +149,7 @@ namespace NXNetwork
 		return true;
 	}
 
-	bool Client::SendString(string &data)
+	bool Connection::SendString(string &data)
 	{
 		int32_t bufferLength = (int32_t)data.size();
 
@@ -165,7 +162,7 @@ namespace NXNetwork
 		return true;
 	}
 
-	bool Client::GetString(string &data)
+	bool Connection::GetString(string &data)
 	{
 		int32_t bufferLength;
 
@@ -187,7 +184,7 @@ namespace NXNetwork
 		return true;
 	}
 
-	bool Client::ProcessPacket(PacketType packetType)
+	bool Connection::ProcessPacket(PacketType packetType)
 	{
 		switch (packetType)
 		{
@@ -212,7 +209,7 @@ namespace NXNetwork
 		return true;
 	}
 
-	void Client::Thread()
+	void Connection::Thread()
 	{
 		PacketType packetType;
 
@@ -226,7 +223,7 @@ namespace NXNetwork
 		}
 
 		MessageBox(NULL, "Lost connection to the server", "Network Error", MB_OK | MB_ICONERROR);
-		if (g_pClient->CloseConnection())
+		if (g_pClient->Close())
 			cout << "Socket to the server was closed successfuly" << endl;
 		else
 			cerr << "Socket is't able to be closed" << endl;

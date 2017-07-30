@@ -21,7 +21,8 @@ namespace NixieServer
 		Server();
 		~Server();
 
-		bool Start(int port, bool broadcastPublically = false);
+		bool Start(int port, bool isPublic = false);
+		void Stop();
 
 		void Run();
 
@@ -51,6 +52,10 @@ namespace NixieServer
 		vector<shared_ptr<Connection>> m_pConnections;
 		mutex m_ConnectionMutex;
 		int  m_NumUnusedConnections;
+
+		HANDLE m_hPacketSenderThread;
+
+		bool m_IsRunning;
 	};
 }
 

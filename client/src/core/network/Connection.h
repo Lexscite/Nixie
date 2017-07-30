@@ -15,15 +15,14 @@ using std::basic_string;
 
 namespace NXNetwork
 {
-	class Client
+	class Connection
 	{
 	public:
-		Client();
-		~Client();
+		Connection();
+		~Connection();
 
 		bool Init(string ip, int port);
-		bool Connect();
-		bool CloseConnection();
+		bool Close();
 
 		bool SendPacketType(PacketType data);
 		bool SendString(string &data);
@@ -41,7 +40,7 @@ namespace NXNetwork
 		static void Thread();
 
 	private:
-		SOCKET m_Connection;
+		SOCKET m_Socket;
 		SOCKADDR_IN m_Address;
 		int m_AddressSize;
 	};
