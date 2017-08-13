@@ -1,10 +1,7 @@
 #include "Connection.h"
 
-namespace NixieServer
+CConnection::CConnection(SOCKET socket)
 {
-	Connection::Connection(SOCKET socket)
-	{
-		m_Socket = socket;
-		m_IsActive = true;
-	}
+	m_socket = socket;
+	m_isActive = true;
 }

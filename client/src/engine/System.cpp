@@ -1,29 +1,44 @@
-#include "Game.h"
+#include "System.h"
 
-namespace
+CSystem* CSystem::s_singleton;
+
+CSystem* CSystem::GetSingleton()
 {
-	Game* g_pGame = nullptr;
+	if (s_singleton == 0)
+		s_singleton = new CSystem;
+
+	return s_singleton;
+}
+
+CSystem::CSystem()
+{
+	m_hMainWnd = 0;
 }
 
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (g_pGame)
-		return g_pGame->MsgProc(hwnd, msg, wParam, lParam);
+	if (CSystem::GetSingleton())
+		return CSystem::GetSingleton()->MsgProc(hwnd, msg, wParam, lParam);
 	else
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-Game::Game(HINSTANCE hInstance)
+void CSystem::Release()
 {
-	g_pGame = this;
+	if (m_hMainWnd != nullptr)
+		DestroyWindow(m_hMainWnd);
 
+	safe_release(CGraphics::GetSingleton());
+	safe_release(CConnection::GetSingleton());
+}
+
+bool CSystem::Init(HINSTANCE hInstance)
+{
 	m_hAppInstance = hInstance;
-	m_hMainWnd = NULL;
-
 	m_WndTitle = "Nixie";
 	m_WndStyle = WS_OVERLAPPEDWINDOW;
-	m_Fullscreen = false;
 
+	m_Fullscreen = false;
 	if (m_Fullscreen)
 	{
 		m_ClientWidth = GetSystemMetrics(SM_CXSCREEN);
@@ -35,63 +50,27 @@ Game::Game(HINSTANCE hInstance)
 		m_ClientHeight = 600;
 	}
 
-	m_pGraphics = nullptr;
-	m_pConnection = nullptr;
-}
-
-Game::~Game()
-{
-	if (m_hMainWnd != nullptr)
-	{
-		DestroyWindow(m_hMainWnd);
-	}
-
-	if (m_pGraphics)
-	{
-		delete m_pGraphics;
-		m_pGraphics = nullptr;
-	}
-
-	if (m_pConnection)
-	{
-		delete m_pConnection;
-		m_pConnection = nullptr;
-	}
-}
-
-bool Game::Init()
-{
 	if (!CreateMainWindow())
 	{
-		cerr << "Failed to create window" << endl;
+		std::cerr << "Failed to create window" << std::endl;
 		return false;
 	}
 
-	m_pGraphics = new Graphics;
-	if (!m_pGraphics)
+	if (!CGraphics::GetSingleton()->Init(m_hMainWnd, m_ClientWidth, m_ClientHeight, m_Fullscreen))
 		return false;
 
-	if (!m_pGraphics->Init(m_hMainWnd, m_ClientWidth, m_ClientHeight, m_Fullscreen))
-		return false;
-
-	cout << "Connecting to server... " << endl;
-	m_pConnection = new Connection;
-	if (!m_pConnection)
-		return false;
-
-	if (!m_pConnection->Init("127.0.0.1", 1111))
-	{
+	std::cout << "Connecting to server... " << std::endl;
+	if (!CConnection::GetSingleton()->Init("127.0.0.1", 1111))
 		MessageBox(m_hMainWnd, "Failed to conenct to server", "Network Error", MB_OK | MB_ICONERROR);
-	}
-	cout << "OK" << endl;
+	std::cout << "OK" << std::endl;
 
-	m_pConnection->SendPacketType(PacketType::ChatMessage);
-	m_pConnection->SendString(string("Hi Server!"));
+	CConnection::GetSingleton()->SendPacketType(PacketType::ChatMessage);
+	CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
 
 	return true;
 }
 
-bool Game::CreateMainWindow()
+bool CSystem::CreateMainWindow()
 {
 	WNDCLASSEX wcex;
 	LPCSTR className = "MainWindowClass";
@@ -112,7 +91,7 @@ bool Game::CreateMainWindow()
 
 	if (!RegisterClassEx(&wcex))
 	{
-		cerr << "Failed to register window class" << endl;
+		std::cerr << "Failed to register window class" << std::endl;
 		return false;
 	}
 
@@ -143,7 +122,7 @@ bool Game::CreateMainWindow()
 		x, y, m_ClientWidth, m_ClientHeight, NULL, NULL, m_hAppInstance, NULL);
 	if (!m_hMainWnd)
 	{
-		cerr << "Failed to create main window" << endl;
+		std::cerr << "Failed to create main window" << std::endl;
 		return false;
 	}
 
@@ -152,7 +131,7 @@ bool Game::CreateMainWindow()
 	return true;
 }
 
-LRESULT Game::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CSystem::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
@@ -166,7 +145,7 @@ LRESULT Game::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-int Game::Run()
+int CSystem::Run()
 {
 	MSG msg = { 0 };
 	while (msg.message != WM_QUIT)
@@ -183,7 +162,7 @@ int Game::Run()
 	return static_cast<int>(msg.wParam);
 }
 
-void Game::Update(float deltaTime)
+void CSystem::Update(float deltaTime)
 {
-	m_pGraphics->Render();
+	CGraphics::GetSingleton()->Render();
 }

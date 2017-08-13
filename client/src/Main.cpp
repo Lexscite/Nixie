@@ -1,13 +1,9 @@
-#include "core/Game.h"
-
-using std::cout;
-using std::cerr;
-using std::streambuf;
+#include "engine/System.h"
 
 #ifdef _DEBUG
-class ConsoleBuffer : public streambuf {
+class CConsoleBuffer : public std::streambuf {
 public:
-	ConsoleBuffer() {
+	CConsoleBuffer() {
 		setp(0, 0);
 	}
 
@@ -15,7 +11,7 @@ public:
 		return fputc(c, stdout) == EOF ? traits_type::eof() : c;
 	}
 };
-#endif // _DEBUG
+#endif
 
 int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, __in LPSTR lpCmdLine, __in int nShowCmd)
 {
@@ -27,26 +23,27 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 	}
 
 #ifdef _DEBUG
-	ConsoleBuffer consoleBuffer;
-	streambuf *coutBuffer = cout.rdbuf(&consoleBuffer);
-	streambuf *cerrBuffer = cerr.rdbuf(&consoleBuffer);
+	CConsoleBuffer consoleBuffer;
+	std::streambuf *coutBuffer = std::cout.rdbuf(&consoleBuffer);
+	std::streambuf *cerrBuffer = std::cerr.rdbuf(&consoleBuffer);
 #endif // _DEBUG
 
-	Game* pGame = new Game(hInstance);
-	if (pGame->Init())
+	CSystem* pSystem = CSystem::GetSingleton();
+	if (pSystem->Init(hInstance))
 	{
-		pGame->Run();
+		pSystem->Run();
 	}
 	else
 		return 1;
 
-	delete pGame;
-	pGame = nullptr;
+	pSystem->Release();
+	delete pSystem;
+	pSystem = nullptr;
 
 #ifdef _DEBUG
-	cout.rdbuf(coutBuffer);
-	cout.rdbuf(cerrBuffer);
-#endif // _DEBUG
+	std::cout.rdbuf(coutBuffer);
+	std::cout.rdbuf(cerrBuffer);
+#endif
 
 	return 0;
 }

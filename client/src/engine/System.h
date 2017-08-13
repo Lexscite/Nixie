@@ -4,27 +4,26 @@
 #include "graphics/Graphics.h"
 #include "network/Connection.h"
 
-using NXGraphics::Graphics;
-using NXNetwork::Connection;
-using NXNetwork::PacketType;
-
-class Game
+class CSystem
 {
 public:
-	Game(HINSTANCE hInstance);
-	~Game();
+	static CSystem* GetSingleton();
 
-	int Run();
-
-	bool Init();
+	bool Init(HINSTANCE hInstance);
 	void Release();
+	int Run();
 	void Update(float deltaTime);
+
 	LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-protected:
+private:
+	CSystem();
+
 	bool CreateMainWindow();
 
-protected:
+private:
+	static CSystem* s_singleton;
+
 	HWND m_hMainWnd;
 	HINSTANCE m_hAppInstance;
 
@@ -33,10 +32,7 @@ protected:
 	UINT m_ClientHeight;
 	LPCSTR m_WndTitle;
 
-	Graphics* m_pGraphics;
 	bool m_Fullscreen;
-
-	Connection* m_pConnection;
 };
 
-#endif // !GAME_H
+#endif

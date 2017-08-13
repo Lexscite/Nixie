@@ -1,21 +1,18 @@
-#ifndef CONNECTION_H
-#define CONNECTION_H
+#ifndef __CONNECTION_H__
+#define __CONNECTION_H__
 
 #include "PacketManager.h"
 
-namespace NixieServer
+class CConnection
 {
-	class Connection
-	{
-	public:
-		Connection(SOCKET socket);
+public:
+	CConnection(SOCKET socket);
 
-	public:
-		SOCKET m_Socket;
-		PacketManager m_PacketManager;
-		bool m_IsActive;
-		HANDLE m_hThread;
-	};
-}
+public:
+	SOCKET m_socket;
+	CPacketManager m_packetManager;
+	bool m_isActive;
+	HANDLE m_hThread;
+};
 
-#endif // !CONNECTION_H
+#endif

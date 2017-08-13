@@ -1,5 +1,5 @@
-#ifndef PACKET_H
-#define PACKET_H
+#ifndef __PACKET_H__
+#define __PACKET_H__
 
 #include <iostream>
 #include <string>
@@ -11,27 +11,24 @@
 
 using std::string;
 
-namespace NixieServer
+enum class PacketType
 {
-	enum class PacketType
-	{
-		LoginData,
-		ChatMessage,
-	};
+	LoginData,
+	ChatMessage,
+};
 
-	class Packet
-	{
-	public:
-		Packet();
-		~Packet();
+class CPacket
+{
+public:
+	CPacket();
+	~CPacket();
 
-		Packet(char* buffer, int size);
-		Packet(const Packet &packet);
+	CPacket(char* buffer, int size);
+	CPacket(const CPacket &packet);
 
-	public:
-		char* m_Buffer;
-		int m_Size;
-	};
-}
+public:
+	char* m_buffer;
+	int m_size;
+};
 
-#endif // !PACKET_H
+#endif

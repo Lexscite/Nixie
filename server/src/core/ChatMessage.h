@@ -1,19 +1,17 @@
-#ifndef CHATMESSAGE_H
-#define CHATMESSAGE_H
+#ifndef __CHATMESSAGE_H__
+#define __CHATMESSAGE_H__
 
 #include "Packet.h"
 
-namespace NixieServer
+class CChatMessage
 {
-	class ChatMessage
-	{
-	public:
-		ChatMessage(string message);
-		~ChatMessage();
-		Packet ToPacket();
+public:
+	CChatMessage(string message);
+	~CChatMessage();
+	CPacket ToPacket();
 
-		string m_Message;
-	};
-}
+public:
+	string m_message;
+};
 
 #endif // !CHATMESSAGE_H

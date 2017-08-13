@@ -1,5 +1,5 @@
-#ifndef SERVER_H
-#define SERVER_H
+﻿#ifndef __SERVER_H__
+#define __SERVER_H__
 
 #include <windows.h>
 #include <vector>
@@ -7,56 +7,46 @@
 #include "Connection.h"
 #include "ChatMessage.h"
 
-using std::cout;
-using std::cerr;
-using std::endl;
-using std::vector;
-using std::shared_ptr;
-
-namespace NixieServer
+class CServer
 {
-	class Server
-	{
-	public:
-		Server();
-		~Server();
+public:
+	static CServer* GetSingleton();
+	
+	bool Start(int port, bool isPublic = false);
+	void Stop();
+	void Run();
 
-		bool Start(int port, bool isPublic = false);
-		void Stop();
+private:
+	CServer();
 
-		void Run();
+	void KillConnection(int id);
 
-	private:
-		void DisconnectClient(int id);
+	bool ProcessPacket(int id, PacketType _packetType);
+	bool Send(int id, char* data, int totalBytes);
+	bool Recieve(int id, char* data, int totalBytes);
+	bool SendInt32(int id, int32_t data);
+	bool GetInt32(int id, int32_t &data);
+	bool SendPacketType(int id, PacketType data);
+	bool GetPacketType(int id, PacketType &data);
+	void SendString(int id, string &data);
+	bool GetString(int id, string &data);
 
-		bool Send(int id, char* data, int totalBytes);
-		bool Recieve(int id, char* data, int totalBytes);
+	static void ClientHandlerThread(int id);
+	static void PacketSenderThread();
 
-		bool SendInt32(int id, int32_t data);
-		bool GetInt32(int id, int32_t &data);
-		bool SendPacketType(int id, PacketType data);
-		bool GetPacketType(int id, PacketType &data);
-		void SendString(int id, string &data);
-		bool GetString(int id, string &data);
+private:
+	static CServer* s_singleton;
 
-		bool ProcessPacket(int id, PacketType _packetType);
+	bool m_isRunning;
 
-		static void ClientHandlerThread(int id);
-		static void PacketSenderThread();
+	SOCKET m_socket;
+	SOCKADDR_IN m_addr;
+	int m_addrlen;
 
-	private:
-		SOCKET m_ListeningSocket;
-		SOCKADDR_IN m_Address;
-		int m_AddressSize;
+	std::vector<std::shared_ptr<CConnection>> m_pConnections;
+	HANDLE m_hPacketSenderThread;
+	mutex m_connectionsMutex;
+	int  m_nUnusedConnections;
+};
 
-		vector<shared_ptr<Connection>> m_pConnections;
-		mutex m_ConnectionMutex;
-		int  m_NumUnusedConnections;
-
-		HANDLE m_hPacketSenderThread;
-
-		bool m_IsRunning;
-	};
-}
-
-#endif // !SERVER_H
+#endif

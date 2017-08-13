@@ -1,25 +1,22 @@
 #include "Packet.h"
 
-namespace NixieServer
+CPacket::CPacket()
 {
-	Packet::Packet()
-	{
-	}
+}
 
-	Packet::~Packet()
-	{
-	}
+CPacket::~CPacket()
+{
+}
 
-	Packet::Packet(char* buffer, int size)
-	{
-		m_Buffer = buffer;
-		m_Size = size;
-	}
+CPacket::CPacket(char* buffer, int size)
+{
+	m_buffer = buffer;
+	m_size = size;
+}
 
-	Packet::Packet(const Packet &packet)
-	{
-		m_Size = packet.m_Size;
-		m_Buffer = new char[m_Size];
-		memcpy(m_Buffer, packet.m_Buffer, m_Size);
-	}
+CPacket::CPacket(const CPacket &packet)
+{
+	m_size = packet.m_size;
+	m_buffer = new char[m_size];
+	memcpy(m_buffer, packet.m_buffer, m_size);
 }

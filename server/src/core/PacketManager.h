@@ -1,4 +1,5 @@
-#ifndef PACKETMANAGER_H
+#ifndef __PACKETMANAGER_H__
+#define __PACKETMANAGER_H__
 
 #include "Packet.h"
 
@@ -7,23 +8,20 @@ using std::mutex;
 using std::lock_guard;
 using std::swap;
 
-namespace NixieServer
+class CPacketManager
 {
-	class PacketManager
-	{
-	public:
-		PacketManager();
-		~PacketManager();
+public:
+	CPacketManager();
+	~CPacketManager();
 
-		bool HasPendingPackets();
-		void Append(Packet packet);
-		Packet Retrieve();
-		void Clear();
+	bool HasPendingPackets();
+	void Append(CPacket packet);
+	CPacket Retrieve();
+	void Clear();
 
-	private:
-		queue<Packet> m_PacketsQueue;
-		mutex m_PacketsMutex;
-	};
-}
+private:
+	queue<CPacket> m_packetsQueue;
+	mutex m_packetsMutex;
+};
 
-#endif // !PACKETMANAGER_H
+#endif

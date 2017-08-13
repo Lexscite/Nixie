@@ -19,23 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\gui\Interface.cpp" />
-    <ClCompile Include="src\core\network\Connection.cpp" />
-    <ClCompile Include="src\core\Game.cpp" />
-    <ClCompile Include="src\core\graphics\DirectX.cpp" />
-    <ClCompile Include="src\core\graphics\Graphics.cpp" />
-    <ClCompile Include="src\core\network\Packet.cpp" />
+    <ClCompile Include="src\engine\graphics\DirectX.cpp" />
+    <ClCompile Include="src\engine\graphics\Graphics.cpp" />
+    <ClCompile Include="src\engine\network\Connection.cpp" />
+    <ClCompile Include="src\engine\network\Packet.cpp" />
+    <ClCompile Include="src\engine\System.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\core\gui\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\core\gui\Interface.h" />
-    <ClInclude Include="src\core\network\Connection.h" />
-    <ClInclude Include="src\core\Game.h" />
-    <ClInclude Include="src\core\graphics\DirectX.h" />
-    <ClInclude Include="src\core\graphics\Graphics.h" />
-    <ClInclude Include="src\core\network\Packet.h" />
-    <ClInclude Include="src\core\gui\Window.h" />
+    <ClInclude Include="src\engine\graphics\DirectX.h" />
+    <ClInclude Include="src\engine\graphics\Graphics.h" />
+    <ClInclude Include="src\engine\network\Connection.h" />
+    <ClInclude Include="src\engine\network\Packet.h" />
+    <ClInclude Include="src\engine\System.h" />
+    <ClInclude Include="src\engine\utils\Memory.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -1,42 +1,39 @@
 #include "PacketManager.h"
 
-namespace NixieServer
+CPacketManager::CPacketManager()
 {
-	PacketManager::PacketManager()
-	{
-	}
+}
 
-	PacketManager::~PacketManager()
-	{
-	}
+CPacketManager::~CPacketManager()
+{
+}
 
-	bool PacketManager::HasPendingPackets()
-	{
-		return (m_PacketsQueue.size() > 0);
-	}
+bool CPacketManager::HasPendingPackets()
+{
+	return (m_packetsQueue.size() > 0);
+}
 
-	void PacketManager::Append(Packet packet)
-	{
-		lock_guard<mutex> lock(m_PacketsMutex);
+void CPacketManager::Append(CPacket packet)
+{
+	lock_guard<mutex> lock(m_packetsMutex);
 
-		m_PacketsQueue.push(packet);
-	}
+	m_packetsQueue.push(packet);
+}
 
-	Packet PacketManager::Retrieve()
-	{
-		lock_guard<mutex> lock(m_PacketsMutex);
+CPacket CPacketManager::Retrieve()
+{
+	lock_guard<mutex> lock(m_packetsMutex);
 
-		Packet frontPacket = m_PacketsQueue.front();
-		m_PacketsQueue.pop();
+	CPacket frontPacket = m_packetsQueue.front();
+	m_packetsQueue.pop();
 
-		return frontPacket;
-	}
+	return frontPacket;
+}
 
-	void PacketManager::Clear()
-	{
-		lock_guard<mutex> lock(m_PacketsMutex);
+void CPacketManager::Clear()
+{
+	lock_guard<mutex> lock(m_packetsMutex);
 
-		queue<Packet> empty;
-		swap(m_PacketsQueue, empty);
-	}
+	queue<CPacket> empty;
+	swap(m_packetsQueue, empty);
 }
