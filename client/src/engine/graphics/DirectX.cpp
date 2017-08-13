@@ -12,7 +12,7 @@ CDirectX* CDirectX::GetSingleton()
 	return s_singleton;
 }
 
-bool CDirectX::Init()
+bool CDirectX::Init(HWND hwnd, UINT screenWidth, UINT screenHeight)
 {
 	return true;
 }

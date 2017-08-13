@@ -54,5 +54,6 @@
     <ClInclude Include="src\engine\Engine.h">
       <Filter>src\engine</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\utils\Exception.h" />
   </ItemGroup>
 </Project>

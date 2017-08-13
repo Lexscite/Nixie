@@ -1,6 +1,8 @@
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
 
+#pragma once
+
 #include "graphics/Graphics.h"
 #include "network/Connection.h"
 

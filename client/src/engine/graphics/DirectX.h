@@ -1,16 +1,19 @@
 #ifndef __DIRECTX_H__
 #define __DIRECTX_H__
 
-#include <windows.h>
+#pragma once
+
 #include <iostream>
-#include "../utils/Memory.h"
+
+#include "..\utils\Memory.h"
+#include "..\utils\Exception.h"
 
 class CDirectX
 {
 public:
 	static CDirectX* GetSingleton();
 
-	bool Init();
+	bool Init(HWND hwnd, UINT screenWidth, UINT screenHeight);
 	void Release();
 
 private:

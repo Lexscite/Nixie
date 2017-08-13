@@ -1,6 +1,8 @@
 #ifndef __PACKET_H__
 #define __PACKET_H__
 
+#pragma once
+
 #include <windows.h>
 #include <string>
 
