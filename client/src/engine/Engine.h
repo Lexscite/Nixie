@@ -1,13 +1,13 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef __ENGINE_H__
+#define __ENGINE_H__
 
 #include "graphics/Graphics.h"
 #include "network/Connection.h"
 
-class CSystem
+class CEngine
 {
 public:
-	static CSystem* GetSingleton();
+	static CEngine* GetSingleton();
 
 	bool Init(HINSTANCE hInstance);
 	void Release();
@@ -17,12 +17,12 @@ public:
 	LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 private:
-	CSystem();
+	CEngine();
 
 	bool CreateMainWindow();
 
 private:
-	static CSystem* s_singleton;
+	static CEngine* s_singleton;
 
 	HWND m_hMainWnd;
 	HINSTANCE m_hAppInstance;

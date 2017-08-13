@@ -1,4 +1,4 @@
-#include "engine/System.h"
+#include "engine/Engine.h"
 
 #ifdef _DEBUG
 class CConsoleBuffer : public std::streambuf {
@@ -26,19 +26,17 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 	CConsoleBuffer consoleBuffer;
 	std::streambuf *coutBuffer = std::cout.rdbuf(&consoleBuffer);
 	std::streambuf *cerrBuffer = std::cerr.rdbuf(&consoleBuffer);
-#endif // _DEBUG
+#endif
 
-	CSystem* pSystem = CSystem::GetSingleton();
-	if (pSystem->Init(hInstance))
+	CEngine* pEngine = CEngine::GetSingleton();
+	if (pEngine->Init(hInstance))
 	{
-		pSystem->Run();
+		pEngine->Run();
 	}
 	else
 		return 1;
 
-	pSystem->Release();
-	delete pSystem;
-	pSystem = nullptr;
+	safe_release(pEngine);
 
 #ifdef _DEBUG
 	std::cout.rdbuf(coutBuffer);

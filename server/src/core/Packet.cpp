@@ -1,12 +1,6 @@
 #include "Packet.h"
 
-CPacket::CPacket()
-{
-}
-
-CPacket::~CPacket()
-{
-}
+CPacket::CPacket() {}
 
 CPacket::CPacket(char* buffer, int size)
 {

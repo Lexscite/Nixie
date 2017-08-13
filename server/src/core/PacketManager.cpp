@@ -1,12 +1,6 @@
 #include "PacketManager.h"
 
-CPacketManager::CPacketManager()
-{
-}
-
-CPacketManager::~CPacketManager()
-{
-}
+CPacketManager::CPacketManager() {}
 
 bool CPacketManager::HasPendingPackets()
 {

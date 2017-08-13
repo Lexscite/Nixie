@@ -1,5 +1,5 @@
-#ifndef PACKET_H
-#define PACKET_H
+#ifndef __PACKET_H__
+#define __PACKET_H__
 
 #include <windows.h>
 #include <string>

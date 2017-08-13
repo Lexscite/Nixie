@@ -21,7 +21,6 @@ class CPacket
 {
 public:
 	CPacket();
-	~CPacket();
 
 	CPacket(char* buffer, int size);
 	CPacket(const CPacket &packet);

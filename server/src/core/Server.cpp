@@ -1,5 +1,13 @@
 #include "Server.h"
 
+CServer::CServer()
+{
+	m_addrlen = sizeof(m_addr);
+	m_nUnusedConnections = 0;
+	m_isRunning = false;
+	m_hPacketSenderThread = 0;
+}
+
 CServer* CServer::s_singleton;
 
 CServer* CServer::GetSingleton()
@@ -8,14 +16,6 @@ CServer* CServer::GetSingleton()
 		s_singleton = new CServer;
 
 	return s_singleton;
-}
-
-CServer::CServer()
-{
-	m_addrlen = sizeof(m_addr);
-	m_nUnusedConnections = 0;
-	m_isRunning = false;
-	m_hPacketSenderThread = 0;
 }
 
 bool CServer::Start(int port, bool isPublic)

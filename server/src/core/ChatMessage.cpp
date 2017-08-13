@@ -5,10 +5,6 @@ CChatMessage::CChatMessage(string message)
 	m_message = message;
 }
 
-CChatMessage::~CChatMessage()
-{
-}
-
 CPacket CChatMessage::ToPacket()
 {
 	const int packetSize = (int)sizeof(int32_t) * 2 + (int)m_message.size() * (int)sizeof(char*);

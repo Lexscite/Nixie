@@ -12,7 +12,6 @@ class CPacketManager
 {
 public:
 	CPacketManager();
-	~CPacketManager();
 
 	bool HasPendingPackets();
 	void Append(CPacket packet);

@@ -1,29 +1,21 @@
-#include "System.h"
+#include "Engine.h"
 
-CSystem* CSystem::s_singleton;
-
-CSystem* CSystem::GetSingleton()
-{
-	if (s_singleton == 0)
-		s_singleton = new CSystem;
-
-	return s_singleton;
-}
-
-CSystem::CSystem()
+CEngine::CEngine()
 {
 	m_hMainWnd = 0;
 }
 
-LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+CEngine* CEngine::s_singleton;
+
+CEngine* CEngine::GetSingleton()
 {
-	if (CSystem::GetSingleton())
-		return CSystem::GetSingleton()->MsgProc(hwnd, msg, wParam, lParam);
-	else
-		return DefWindowProc(hwnd, msg, wParam, lParam);
+	if (s_singleton == 0)
+		s_singleton = new CEngine;
+
+	return s_singleton;
 }
 
-void CSystem::Release()
+void CEngine::Release()
 {
 	if (m_hMainWnd != nullptr)
 		DestroyWindow(m_hMainWnd);
@@ -32,7 +24,15 @@ void CSystem::Release()
 	safe_release(CConnection::GetSingleton());
 }
 
-bool CSystem::Init(HINSTANCE hInstance)
+LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (CEngine::GetSingleton())
+		return CEngine::GetSingleton()->MsgProc(hwnd, msg, wParam, lParam);
+	else
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+}
+
+bool CEngine::Init(HINSTANCE hInstance)
 {
 	m_hAppInstance = hInstance;
 	m_WndTitle = "Nixie";
@@ -70,7 +70,7 @@ bool CSystem::Init(HINSTANCE hInstance)
 	return true;
 }
 
-bool CSystem::CreateMainWindow()
+bool CEngine::CreateMainWindow()
 {
 	WNDCLASSEX wcex;
 	LPCSTR className = "MainWindowClass";
@@ -131,7 +131,7 @@ bool CSystem::CreateMainWindow()
 	return true;
 }
 
-LRESULT CSystem::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CEngine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
@@ -145,7 +145,7 @@ LRESULT CSystem::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-int CSystem::Run()
+int CEngine::Run()
 {
 	MSG msg = { 0 };
 	while (msg.message != WM_QUIT)
@@ -162,7 +162,7 @@ int CSystem::Run()
 	return static_cast<int>(msg.wParam);
 }
 
-void CSystem::Update(float deltaTime)
+void CEngine::Update(float deltaTime)
 {
 	CGraphics::GetSingleton()->Render();
 }

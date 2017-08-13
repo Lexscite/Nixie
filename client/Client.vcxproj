@@ -23,7 +23,7 @@
     <ClCompile Include="src\engine\graphics\Graphics.cpp" />
     <ClCompile Include="src\engine\network\Connection.cpp" />
     <ClCompile Include="src\engine\network\Packet.cpp" />
-    <ClCompile Include="src\engine\System.cpp" />
+    <ClCompile Include="src\engine\Engine.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -31,7 +31,7 @@
     <ClInclude Include="src\engine\graphics\Graphics.h" />
     <ClInclude Include="src\engine\network\Connection.h" />
     <ClInclude Include="src\engine\network\Packet.h" />
-    <ClInclude Include="src\engine\System.h" />
+    <ClInclude Include="src\engine\Engine.h" />
     <ClInclude Include="src\engine\utils\Memory.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -33,7 +33,7 @@
     <ClCompile Include="src\engine\graphics\Graphics.cpp">
       <Filter>src\engine\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\System.cpp">
+    <ClCompile Include="src\engine\Engine.cpp">
       <Filter>src\engine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,9 +50,9 @@
     <ClInclude Include="src\engine\graphics\DirectX.h">
       <Filter>src\engine\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\System.h">
+    <ClInclude Include="src\engine\utils\Memory.h" />
+    <ClInclude Include="src\engine\Engine.h">
       <Filter>src\engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\utils\Memory.h" />
   </ItemGroup>
 </Project>

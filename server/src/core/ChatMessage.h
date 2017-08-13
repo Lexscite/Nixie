@@ -7,11 +7,11 @@ class CChatMessage
 {
 public:
 	CChatMessage(string message);
-	~CChatMessage();
+
 	CPacket ToPacket();
 
 public:
 	string m_message;
 };
 
-#endif // !CHATMESSAGE_H
+#endif
