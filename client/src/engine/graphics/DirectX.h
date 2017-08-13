@@ -3,10 +3,9 @@
 
 #pragma once
 
-#include <iostream>
 
 #include "..\utils\Memory.h"
-#include "..\utils\Exception.h"
+#include "..\utils\Debug.h"
 
 class CDirectX
 {

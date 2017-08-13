@@ -32,7 +32,7 @@
     <ClInclude Include="src\engine\network\Connection.h" />
     <ClInclude Include="src\engine\network\Packet.h" />
     <ClInclude Include="src\engine\Engine.h" />
-    <ClInclude Include="src\engine\utils\Exception.h" />
+    <ClInclude Include="src\engine\utils\Debug.h" />
     <ClInclude Include="src\engine\utils\Memory.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,11 +1,12 @@
-#ifndef __EXCEPTION_H__
-#define __EXCEPTION_H__
+#ifndef __DEBUG_H__
+#define __DEBUG_H__
 
 #pragma once
 
 #include <exception>
 #include <windows.h>
 #include <stdio.h>
+#include <iostream>
 
 class CException : public std::exception
 {
