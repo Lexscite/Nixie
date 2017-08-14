@@ -12,7 +12,7 @@ CConnection* CConnection::GetSingleton()
 	return s_singleton;
 }
 
-bool CConnection::Init(std::string ip, int port)
+bool CConnection::Establish(std::string ip, int port)
 {
 	m_AddressSize = sizeof(m_Address);
 	WSADATA wsaData;
@@ -43,13 +43,13 @@ bool CConnection::Init(std::string ip, int port)
 
 void CConnection::Release()
 {
-	bool done = Close();
+	bool done = Kill();
 
 	while (!done)
-		done = Close();
+		done = Kill();
 }
 
-bool CConnection::Close()
+bool CConnection::Kill()
 {
 	if (closesocket(m_Socket) == SOCKET_ERROR)
 	{
@@ -229,7 +229,7 @@ void CConnection::Thread()
 	}
 
 	MessageBox(NULL, "Lost connection to the server", "Network Error", MB_OK | MB_ICONERROR);
-	if (CConnection::GetSingleton()->Close())
+	if (CConnection::GetSingleton()->Kill())
 		std::cout << "Socket to the server was closed successfuly" << std::endl;
 	else
 		std::cerr << "Socket is't able to be closed" << std::endl;

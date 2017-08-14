@@ -10,7 +10,7 @@ class CGraphics
 public:
 	static CGraphics* GetSingleton();
 
-	bool Init(HWND hwnd, UINT screenWidth, UINT screenHeight, bool fullscreen);
+	bool Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool fullscreenEnabled);
 	void Release();
 	void Render();
 
@@ -20,7 +20,8 @@ private:
 private:
 	static CGraphics* s_singleton;
 
-	bool m_fullscreen;
+	bool m_vsyncEnabled;
+	bool m_fullscreenEnabled;
 };
 
 #endif

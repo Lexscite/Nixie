@@ -18,7 +18,7 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 	if (AllocConsole())
 	{
 		freopen("CONOUT$", "w", stdout);
-		SetConsoleTitle("Debug Console");
+		SetConsoleTitle("Nixie | Debug Console");
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
 	}
 

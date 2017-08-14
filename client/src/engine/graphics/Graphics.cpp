@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include "..\Engine.h"
 
 CGraphics::CGraphics() {}
 
@@ -17,18 +18,16 @@ void CGraphics::Release()
 	safe_release(CDirectX::GetSingleton());
 }
 
-bool CGraphics::Init(HWND hwnd, UINT screenWidth, UINT screenHeight, bool fullscreen)
+bool CGraphics::Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool fullscreenEnabled)
 {
-	m_fullscreen = fullscreen;
+	m_vsyncEnabled = vsyncEnabled;
+	m_fullscreenEnabled = fullscreenEnabled;
 
-	std::cout << "DirectX iniitialization..." << std::endl;
-	if (!CDirectX::GetSingleton()->Init(hwnd, screenWidth, screenHeight))
+	if (!CDirectX::GetSingleton()->Init(screenWidth, screenHeight, vsyncEnabled, fullscreenEnabled))
 	{
-		std::cerr << "Failed to initialize DirectX" << std::endl;
-		MessageBox(hwnd, "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
+		MessageBox(CEngine::GetSingleton()->GetHwnd(), "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
-	std::cout << "OK" << std::endl;
 
 	return true;
 }

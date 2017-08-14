@@ -1,8 +1,16 @@
 #include "Engine.h"
 
+LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (CEngine::GetSingleton())
+		return CEngine::GetSingleton()->MsgProc(hwnd, msg, wParam, lParam);
+	else
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+}
+
 CEngine::CEngine()
 {
-	m_hMainWnd = 0;
+	m_hwnd = 0;
 }
 
 CEngine* CEngine::s_singleton;
@@ -17,55 +25,50 @@ CEngine* CEngine::GetSingleton()
 
 void CEngine::Release()
 {
-	if (m_hMainWnd != nullptr)
-		DestroyWindow(m_hMainWnd);
+	if (m_hwnd != nullptr)
+		DestroyWindow(m_hwnd);
 
 	safe_release(CGraphics::GetSingleton());
 	safe_release(CConnection::GetSingleton());
 }
 
-LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	if (CEngine::GetSingleton())
-		return CEngine::GetSingleton()->MsgProc(hwnd, msg, wParam, lParam);
-	else
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-}
-
 bool CEngine::Init(HINSTANCE hInstance)
 {
-	m_hAppInstance = hInstance;
+	m_hInstance = hInstance;
 	m_WndTitle = "Nixie";
-	m_WndStyle = WS_OVERLAPPEDWINDOW;
+	m_wndStyle = WS_OVERLAPPEDWINDOW;
 
-	m_Fullscreen = false;
-	if (m_Fullscreen)
+	m_vsyncEnabled = true;
+	m_fullscreenEnabled = false;
+	if (m_fullscreenEnabled)
 	{
-		m_ClientWidth = GetSystemMetrics(SM_CXSCREEN);
-		m_ClientHeight = GetSystemMetrics(SM_CYSCREEN);
+		m_screenWidth = GetSystemMetrics(SM_CXSCREEN);
+		m_screenHeight = GetSystemMetrics(SM_CYSCREEN);
 	}
 	else
 	{
-		m_ClientWidth = 800;
-		m_ClientHeight = 600;
+		m_screenWidth = 800;
+		m_screenHeight = 600;
 	}
 
 	if (!CreateMainWindow())
 	{
-		std::cerr << "Failed to create window" << std::endl;
+		MessageBox(m_hwnd, "Failed to create window", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
 
-	if (!CGraphics::GetSingleton()->Init(m_hMainWnd, m_ClientWidth, m_ClientHeight, m_Fullscreen))
+	if (!CGraphics::GetSingleton()->Init(m_screenWidth, m_screenHeight, m_vsyncEnabled, m_fullscreenEnabled))
 		return false;
 
-	std::cout << "Connecting to server... " << std::endl;
-	if (!CConnection::GetSingleton()->Init("127.0.0.1", 1111))
-		MessageBox(m_hMainWnd, "Failed to conenct to server", "Network Error", MB_OK | MB_ICONERROR);
-	std::cout << "OK" << std::endl;
-
-	CConnection::GetSingleton()->SendPacketType(PacketType::ChatMessage);
-	CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
+	if (!CConnection::GetSingleton()->Establish("127.0.0.1", 1111))
+		MessageBox(m_hwnd, "Failed to conenct to server", "Network Error", MB_OK | MB_ICONERROR);
+	else
+	{
+		if (CConnection::GetSingleton()->SendPacketType(PacketType::ChatMessage))
+		{
+			CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
+		}
+	}
 
 	return true;
 }
@@ -80,7 +83,7 @@ bool CEngine::CreateMainWindow()
 	wcex.cbWndExtra = NULL;
 	wcex.cbSize = sizeof(WNDCLASSEX);
 	wcex.style = CS_HREDRAW | CS_VREDRAW;
-	wcex.hInstance = m_hAppInstance;
+	wcex.hInstance = m_hInstance;
 	wcex.lpfnWndProc = MainWndProc;
 	wcex.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	wcex.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
@@ -96,14 +99,14 @@ bool CEngine::CreateMainWindow()
 	}
 
 	UINT x, y;
-	if (m_Fullscreen)
+	if (m_fullscreenEnabled)
 	{
 		DEVMODE dmScreenSettings;
 
 		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
 		dmScreenSettings.dmSize = sizeof(dmScreenSettings);
-		dmScreenSettings.dmPelsWidth = static_cast<ULONG>(m_ClientWidth);
-		dmScreenSettings.dmPelsHeight = static_cast<ULONG>(m_ClientHeight);
+		dmScreenSettings.dmPelsWidth = static_cast<ULONG>(m_screenWidth);
+		dmScreenSettings.dmPelsHeight = static_cast<ULONG>(m_screenHeight);
 		dmScreenSettings.dmBitsPerPel = 32;
 		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
@@ -114,19 +117,19 @@ bool CEngine::CreateMainWindow()
 	}
 	else
 	{
-		x = GetSystemMetrics(SM_CXSCREEN) / 2 - m_ClientWidth / 2;
-		y = GetSystemMetrics(SM_CYSCREEN) / 2 - m_ClientHeight / 2;
+		x = GetSystemMetrics(SM_CXSCREEN) / 2 - m_screenWidth / 2;
+		y = GetSystemMetrics(SM_CYSCREEN) / 2 - m_screenHeight / 2;
 	}
 
-	m_hMainWnd = CreateWindowEx(WS_EX_APPWINDOW, className, m_WndTitle, m_WndStyle,
-		x, y, m_ClientWidth, m_ClientHeight, NULL, NULL, m_hAppInstance, NULL);
-	if (!m_hMainWnd)
+	m_hwnd = CreateWindowEx(WS_EX_APPWINDOW, className, m_WndTitle, m_wndStyle,
+		x, y, m_screenWidth, m_screenHeight, NULL, NULL, m_hInstance, NULL);
+	if (!m_hwnd)
 	{
 		std::cerr << "Failed to create main window" << std::endl;
 		return false;
 	}
 
-	ShowWindow(m_hMainWnd, SW_SHOW);
+	ShowWindow(m_hwnd, SW_SHOW);
 
 	return true;
 }
@@ -165,4 +168,9 @@ int CEngine::Run()
 void CEngine::Update(float deltaTime)
 {
 	CGraphics::GetSingleton()->Render();
+}
+
+HWND CEngine::GetHwnd()
+{
+	return m_hwnd;
 }

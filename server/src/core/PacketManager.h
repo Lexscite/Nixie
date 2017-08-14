@@ -1,12 +1,9 @@
 #ifndef __PACKETMANAGER_H__
 #define __PACKETMANAGER_H__
 
-#include "Packet.h"
+#pragma once
 
-using std::queue;
-using std::mutex;
-using std::lock_guard;
-using std::swap;
+#include "Packet.h"
 
 class CPacketManager
 {
@@ -19,8 +16,8 @@ public:
 	void Clear();
 
 private:
-	queue<CPacket> m_packetsQueue;
-	mutex m_packetsMutex;
+	std::queue<CPacket> m_packetsQueue;
+	std::mutex m_packetsMutex;
 };
 
 #endif

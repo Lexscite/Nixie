@@ -1,6 +1,8 @@
 #ifndef __PACKET_H__
 #define __PACKET_H__
 
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <queue>
@@ -8,8 +10,6 @@
 #include <windows.h>
 
 #pragma comment(lib,"ws2_32.lib")
-
-using std::string;
 
 enum class PacketType
 {

@@ -15,6 +15,8 @@ public:
 	void Release();
 	int Run();
 	void Update(float deltaTime);
+	
+	HWND GetHwnd();
 
 	LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -26,15 +28,16 @@ private:
 private:
 	static CEngine* s_singleton;
 
-	HWND m_hMainWnd;
-	HINSTANCE m_hAppInstance;
+	HWND m_hwnd;
+	HINSTANCE m_hInstance;
 
-	DWORD m_WndStyle;
-	UINT m_ClientWidth;
-	UINT m_ClientHeight;
+	DWORD m_wndStyle;
+	UINT m_screenWidth;
+	UINT m_screenHeight;
 	LPCSTR m_WndTitle;
 
-	bool m_Fullscreen;
+	bool m_vsyncEnabled;
+	bool m_fullscreenEnabled;
 };
 
 #endif

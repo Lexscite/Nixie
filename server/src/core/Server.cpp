@@ -111,14 +111,14 @@ void CServer::Run()
 
 			if (!SendPacketType(newConnectionId, PacketType::ChatMessage))
 				std::cout << "Failed to send welcome message PK type." << std::endl;
-			SendString(newConnectionId, string("Hi Client!"));
+			SendString(newConnectionId, std::string("Hi Client!"));
 		}
 	}
 }
 
 void CServer::KillConnection(int id)
 {
-	lock_guard<mutex> lock(m_connectionsMutex);
+	std::lock_guard<std::mutex> lock(m_connectionsMutex);
 
 	if (!m_pConnections[id]->m_isActive)
 		return;
@@ -230,13 +230,13 @@ bool CServer::GetPacketType(int id, PacketType &data)
 	return true;
 }
 
-void CServer::SendString(int id, string &data)
+void CServer::SendString(int id, std::string &data)
 {
 	CChatMessage message(data);
 	m_pConnections[id]->m_packetManager.Append(message.ToPacket());
 }
 
-bool CServer::GetString(int id, string &data)
+bool CServer::GetString(int id, std::string &data)
 {
 	int32_t bufferLength;
 
@@ -269,7 +269,7 @@ bool CServer::ProcessPacket(int id, PacketType _packetType)
 	}
 	case PacketType::ChatMessage:
 	{
-		string message;
+		std::string message;
 		if (!GetString(id, message))
 			return false;
 

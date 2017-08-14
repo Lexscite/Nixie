@@ -1,6 +1,8 @@
 ﻿#ifndef __SERVER_H__
 #define __SERVER_H__
 
+#pragma once
+
 #include <windows.h>
 #include <vector>
 
@@ -28,8 +30,8 @@ private:
 	bool GetInt32(int id, int32_t &data);
 	bool SendPacketType(int id, PacketType data);
 	bool GetPacketType(int id, PacketType &data);
-	void SendString(int id, string &data);
-	bool GetString(int id, string &data);
+	void SendString(int id, std::string &data);
+	bool GetString(int id, std::string &data);
 
 	static void ClientHandlerThread(int id);
 	static void PacketSenderThread();
@@ -45,7 +47,7 @@ private:
 
 	std::vector<std::shared_ptr<CConnection>> m_pConnections;
 	HANDLE m_hPacketSenderThread;
-	mutex m_connectionsMutex;
+	std::mutex m_connectionsMutex;
 	int  m_nUnusedConnections;
 };
 

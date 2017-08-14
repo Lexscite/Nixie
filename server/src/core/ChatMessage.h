@@ -1,17 +1,19 @@
 #ifndef __CHATMESSAGE_H__
 #define __CHATMESSAGE_H__
 
+#pragma once
+
 #include "Packet.h"
 
 class CChatMessage
 {
 public:
-	CChatMessage(string message);
+	CChatMessage(std::string message);
 
 	CPacket ToPacket();
 
 public:
-	string m_message;
+	std::string m_message;
 };
 
 #endif

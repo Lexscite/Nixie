@@ -9,14 +9,14 @@ bool CPacketManager::HasPendingPackets()
 
 void CPacketManager::Append(CPacket packet)
 {
-	lock_guard<mutex> lock(m_packetsMutex);
+	std::lock_guard<std::mutex> lock(m_packetsMutex);
 
 	m_packetsQueue.push(packet);
 }
 
 CPacket CPacketManager::Retrieve()
 {
-	lock_guard<mutex> lock(m_packetsMutex);
+	std::lock_guard<std::mutex> lock(m_packetsMutex);
 
 	CPacket frontPacket = m_packetsQueue.front();
 	m_packetsQueue.pop();
@@ -26,8 +26,8 @@ CPacket CPacketManager::Retrieve()
 
 void CPacketManager::Clear()
 {
-	lock_guard<mutex> lock(m_packetsMutex);
+	std::lock_guard<std::mutex> lock(m_packetsMutex);
 
-	queue<CPacket> empty;
-	swap(m_packetsQueue, empty);
+	std::queue<CPacket> empty;
+	std::swap(m_packetsQueue, empty);
 }

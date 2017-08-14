@@ -1,6 +1,6 @@
 #include "ChatMessage.h"
 
-CChatMessage::CChatMessage(string message)
+CChatMessage::CChatMessage(std::string message)
 {
 	m_message = message;
 }

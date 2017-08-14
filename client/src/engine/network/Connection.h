@@ -9,9 +9,9 @@
 class CConnection
 {
 public:
-	bool Init(std::string ip, int port);
+	bool Establish(std::string ip, int port);
 	void Release();
-	bool Close();
+	bool Kill();
 
 	bool SendPacketType(PacketType data);
 	bool SendString(std::string &data);

@@ -1,6 +1,8 @@
 #ifndef __CONNECTION_H__
 #define __CONNECTION_H__
 
+#pragma once
+
 #include "PacketManager.h"
 
 class CConnection

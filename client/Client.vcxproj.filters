@@ -50,10 +50,14 @@
     <ClInclude Include="src\engine\graphics\DirectX.h">
       <Filter>src\engine\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\utils\Memory.h" />
     <ClInclude Include="src\engine\Engine.h">
       <Filter>src\engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\utils\Debug.h" />
+    <ClInclude Include="src\engine\utils\Debug.h">
+      <Filter>src\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\utils\Memory.h">
+      <Filter>src\engine\utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
