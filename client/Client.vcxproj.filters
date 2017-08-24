@@ -7,6 +7,15 @@
     <Filter Include="src\engine">
       <UniqueIdentifier>{e91cac3a-6a01-4570-8e65-3e641b7c373d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\content">
+      <UniqueIdentifier>{0c9900b4-f21e-4cc6-842c-b62c545d5302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\content\scenes">
+      <UniqueIdentifier>{0889dd3d-aff4-4368-a881-5d65f74422e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\content\sceneObjects">
+      <UniqueIdentifier>{59bc6f45-71b5-4598-b954-93263ae0cd25}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\engine\graphics">
       <UniqueIdentifier>{d4ae0545-efb1-4a7e-93a8-8edf434d7326}</UniqueIdentifier>
     </Filter>
@@ -15,6 +24,9 @@
     </Filter>
     <Filter Include="src\engine\utils">
       <UniqueIdentifier>{41122b05-520d-4e05-b6db-b68e504debc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine\world">
+      <UniqueIdentifier>{2c7da10d-620c-4007-af17-37c1818aead8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +48,14 @@
     <ClCompile Include="src\engine\Engine.cpp">
       <Filter>src\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\world\Scene.cpp">
+      <Filter>src\engine\world</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\world\Cell.cpp" />
+    <ClCompile Include="src\engine\math\Vector.cpp" />
+    <ClCompile Include="src\engine\world\GameObject.cpp">
+      <Filter>src\engine\world</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\network\Connection.h">
@@ -50,14 +70,22 @@
     <ClInclude Include="src\engine\graphics\DirectX.h">
       <Filter>src\engine\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\Engine.h">
-      <Filter>src\engine</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\utils\Debug.h">
       <Filter>src\engine\utils</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\utils\Memory.h">
       <Filter>src\engine\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\Engine.h">
+      <Filter>src\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\world\Scene.h">
+      <Filter>src\engine\world</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\world\Cell.h" />
+    <ClInclude Include="src\engine\math\Vector.h" />
+    <ClInclude Include="src\engine\world\GameObject.h">
+      <Filter>src\engine\world</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

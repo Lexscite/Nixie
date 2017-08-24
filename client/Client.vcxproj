@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\math\Vector.cpp" />
+    <ClCompile Include="src\engine\world\Cell.cpp" />
+    <ClCompile Include="src\engine\world\Scene.cpp" />
+    <ClCompile Include="src\engine\world\GameObject.cpp" />
     <ClCompile Include="src\engine\graphics\DirectX.cpp" />
     <ClCompile Include="src\engine\graphics\Graphics.cpp" />
     <ClCompile Include="src\engine\network\Connection.cpp" />
@@ -27,6 +31,10 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\math\Vector.h" />
+    <ClInclude Include="src\engine\world\Cell.h" />
+    <ClInclude Include="src\engine\world\Scene.h" />
+    <ClInclude Include="src\engine\world\GameObject.h" />
     <ClInclude Include="src\engine\graphics\DirectX.h" />
     <ClInclude Include="src\engine\graphics\Graphics.h" />
     <ClInclude Include="src\engine\network\Connection.h" />

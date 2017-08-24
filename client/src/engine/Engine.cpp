@@ -61,14 +61,18 @@ bool CEngine::Init(HINSTANCE hInstance)
 		return false;
 
 	if (!CConnection::GetSingleton()->Establish("127.0.0.1", 1111))
+	{
 		MessageBox(m_hwnd, "Failed to conenct to server", "Network Error", MB_OK | MB_ICONERROR);
+		return false;
+	}
 	else
 	{
 		if (CConnection::GetSingleton()->SendPacketType(PacketType::ChatMessage))
-		{
 			CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
-		}
 	}
+
+	if (!LoadScene(new CScene))
+		return false;
 
 	return true;
 }
@@ -167,10 +171,21 @@ int CEngine::Run()
 
 void CEngine::Update(float deltaTime)
 {
+	m_currentScene->Update();
 	CGraphics::GetSingleton()->Render();
 }
 
 HWND CEngine::GetHwnd()
 {
 	return m_hwnd;
+}
+
+bool CEngine::LoadScene(CScene* scene)
+{
+	if (!scene->Init())
+		return false;
+
+	m_currentScene = scene;
+
+	return true;
 }

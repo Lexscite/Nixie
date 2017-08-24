@@ -3,8 +3,9 @@
 
 #pragma once
 
-#include "graphics/Graphics.h"
-#include "network/Connection.h"
+#include "graphics\Graphics.h"
+#include "network\Connection.h"
+#include "world\Scene.h"
 
 class CEngine
 {
@@ -17,6 +18,8 @@ public:
 	void Update(float deltaTime);
 	
 	HWND GetHwnd();
+
+	bool LoadScene(CScene* scene);
 
 	LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -38,6 +41,8 @@ private:
 
 	bool m_vsyncEnabled;
 	bool m_fullscreenEnabled;
+
+	CScene* m_currentScene;
 };
 
 #endif
