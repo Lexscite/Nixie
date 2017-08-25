@@ -36,5 +36,4 @@ void CGraphics::Render()
 {
 	CDirectX::GetSingleton()->BeginScene();
 	CDirectX::GetSingleton()->EndScene();
-
 }

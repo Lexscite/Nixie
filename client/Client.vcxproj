@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\engine\graphics\Mesh.cpp" />
+    <ClCompile Include="src\engine\math\Color.cpp" />
     <ClCompile Include="src\engine\math\Vector.cpp" />
     <ClCompile Include="src\engine\world\Cell.cpp" />
     <ClCompile Include="src\engine\world\Scene.cpp" />
@@ -33,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\graphics\Mesh.h" />
+    <ClInclude Include="src\engine\math\Color.h" />
     <ClInclude Include="src\engine\math\Vector.h" />
     <ClInclude Include="src\engine\world\Cell.h" />
     <ClInclude Include="src\engine\world\Scene.h" />
