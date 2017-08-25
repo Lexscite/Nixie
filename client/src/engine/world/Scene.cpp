@@ -2,19 +2,31 @@
 
 bool CScene::Init()
 {
-	m_currentCell = new CCell;
-	if (!m_currentCell->Load())
-		return false;
+	m_currentCell = new Cell;
+
+	for (int i = 0; i < (int)m_currentCell->m_gameObjects.size(); i++)
+	{
+		if (!(int)m_currentCell->m_gameObjects[i]->Init())
+			return false;
+	}
 
 	return true;
 }
 
 void CScene::Release()
 {
-	safe_release(m_currentCell);
+	for (int i = 0; i < (int)m_currentCell->m_gameObjects.size(); i++)
+	{
+		safe_delete(m_currentCell->m_gameObjects[i]);
+	}
+
+	safe_delete(m_currentCell);
 }
 
 void CScene::Update()
 {
-	m_currentCell->Update();
+	for (int i = 0; i < (int)m_currentCell->m_gameObjects.size(); i++)
+	{
+		m_currentCell->m_gameObjects[i]->Update();
+	}
 }

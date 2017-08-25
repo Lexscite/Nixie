@@ -3,12 +3,21 @@
 
 #pragma once
 
+#include "..\math\Vector.h"
+
 class CGameObject
 {
 public:
 	bool Init();
-	void Release();
 	void Update();
+
+private:
+	virtual void OnInit() = 0;
+	virtual void OnUpdate() = 0;
+
+public:
+	Vector3* m_position;
+	Vector3* m_scale;
 };
 
 #endif

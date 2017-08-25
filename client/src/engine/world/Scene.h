@@ -3,7 +3,17 @@
 
 #pragma once
 
-#include "Cell.h"
+#include <vector>
+
+#include "GameObject.h"
+#include "..\utils\Memory.h"
+#include "..\math\Vector.h"
+
+struct Cell
+{
+	std::vector<CGameObject*> m_gameObjects;
+	Vector2* position;
+};
 
 class CScene
 {
@@ -13,7 +23,7 @@ public:
 	void Update();
 
 private:
-	CCell* m_currentCell;
+	Cell* m_currentCell;
 };
 
 #endif

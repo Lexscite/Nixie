@@ -3,25 +3,41 @@
 
 #pragma once
 
-class CVector2
+struct Vector2
 {
-public:
-	CVector2(int x, int y);
+	Vector2(float x, float y);
+	static Vector2* Zero();
 
-public:
-	int m_x;
-	int m_y;
+	float x;
+	float y;
 };
 
-class CVector3
+struct Vector3
 {
-public:
-	CVector3(int x, int y, int z);
+	Vector3(float x, float y, float z);
+	static Vector3* Zero();
 
-public:
-	int m_x;
-	int m_y;
-	int m_z;
+	float x;
+	float y;
+	float z;
+};
+struct IntVector2
+{
+	IntVector2(int x, int y);
+	static IntVector2* Zero();
+
+	int x;
+	int y;
+};
+
+struct IntVector3
+{
+	IntVector3(int x, int y, int z);
+	static IntVector3* Zero();
+
+	int x;
+	int y;
+	int z;
 };
 
 #endif
