@@ -18,6 +18,9 @@ private:
 public:
 	Vector3* m_position;
 	Vector3* m_scale;
+
+private:
+	bool m_isStatic;
 };
 
 #endif

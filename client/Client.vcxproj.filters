@@ -51,6 +51,7 @@
     <ClCompile Include="src\engine\math\Vector.cpp">
       <Filter>src\engine\math</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\world\Cell.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\network\Connection.h">
@@ -83,5 +84,6 @@
     <ClInclude Include="src\engine\math\Vector.h">
       <Filter>src\engine\math</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\world\Cell.h" />
   </ItemGroup>
 </Project>
