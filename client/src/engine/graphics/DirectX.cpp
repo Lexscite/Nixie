@@ -316,15 +316,10 @@ void CDirectX::Release()
 		safe_release(m_pSwapChain);
 }
 
-void CDirectX::BeginScene()
+void CDirectX::BeginScene(Color* color)
 {
-	float color[4];
-	color[0] = 0;
-	color[1] = 0;
-	color[2] = 0;
-	color[3] = 1;
-
-	m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, color);
+	float clearColor[4] = { color->r, color->g, color->b, color->a };
+	m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, clearColor);
 	m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 

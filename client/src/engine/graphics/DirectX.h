@@ -8,6 +8,7 @@
 
 #include "..\utils\Memory.h"
 #include "..\utils\Debug.h"
+#include "..\math\Color.h"
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d11.lib")
@@ -23,7 +24,7 @@ public:
 	bool Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool fullscreenEnabled, float screenDepth, float screenNear);
 	void Release();
 
-	void BeginScene();
+	void BeginScene(Color* clearColor);
 	void EndScene();
 
 private:

@@ -12,14 +12,15 @@ class CEngine
 public:
 	static CEngine* GetSingleton();
 
+	HWND GetHwnd();
+
 	bool Init(HINSTANCE hInstance);
 	void Release();
 	int Run();
 	void Update(float deltaTime);
-	
-	HWND GetHwnd();
 
 	bool LoadScene(CScene* scene);
+	CScene* GetCurrentScene();
 
 	LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -42,7 +43,7 @@ private:
 	bool m_vsyncEnabled;
 	bool m_fullscreenEnabled;
 
-	CScene* m_currentScene;
+	CScene* m_pCurrentScene;
 };
 
 #endif

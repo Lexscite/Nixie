@@ -171,7 +171,7 @@ int CEngine::Run()
 
 void CEngine::Update(float deltaTime)
 {
-	m_currentScene->Update();
+	m_pCurrentScene->Update();
 	CGraphics::GetSingleton()->Render();
 }
 
@@ -185,7 +185,12 @@ bool CEngine::LoadScene(CScene* scene)
 	if (!scene->Init())
 		return false;
 
-	m_currentScene = scene;
+	m_pCurrentScene = scene;
 
 	return true;
+}
+
+CScene* CEngine::GetCurrentScene()
+{
+	return m_pCurrentScene;
 }

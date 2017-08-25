@@ -22,12 +22,6 @@
     <Filter Include="src\engine\math">
       <UniqueIdentifier>{d88927e2-a0d1-40cb-81be-a522bf79c283}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\content">
-      <UniqueIdentifier>{135e3344-01dd-4c31-9376-b78779fa7a7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\content\test">
-      <UniqueIdentifier>{9f679856-9d8a-40e0-b769-7b506640af19}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -57,11 +51,15 @@
     <ClCompile Include="src\engine\math\Vector.cpp">
       <Filter>src\engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\world\Cell.cpp" />
     <ClCompile Include="src\engine\graphics\Mesh.cpp">
       <Filter>src\engine\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\math\Color.cpp" />
+    <ClCompile Include="src\engine\math\Color.cpp">
+      <Filter>src\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\world\Cell.cpp">
+      <Filter>src\engine\world</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\network\Connection.h">
@@ -94,10 +92,17 @@
     <ClInclude Include="src\engine\math\Vector.h">
       <Filter>src\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\world\Cell.h" />
     <ClInclude Include="src\engine\graphics\Mesh.h">
       <Filter>src\engine\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\math\Color.h" />
+    <ClInclude Include="src\engine\math\Color.h">
+      <Filter>src\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\Math.h">
+      <Filter>src\engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\world\Cell.h">
+      <Filter>src\engine\world</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

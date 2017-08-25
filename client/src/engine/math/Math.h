@@ -3,22 +3,29 @@
 
 #pragma once
 
-int clamp(int number, int min, int max)
+namespace
 {
-	if (number > max)
-		number = max;
+	int clamp(int number, int min, int max)
+	{
+		if (number > max)
+			number = max;
 
-	if (number < min)
-		number = min;
-}
+		if (number < min)
+			number = min;
 
-float clamp(float number, float min, float max)
-{
-	if (number > max)
-		number = max;
+		return number;
+	}
 
-	if (number < min)
-		number = min;
+	float clamp(float number, float min, float max)
+	{
+		if (number > max)
+			number = max;
+
+		if (number < min)
+			number = min;
+
+		return number;
+	}
 }
 
 #endif

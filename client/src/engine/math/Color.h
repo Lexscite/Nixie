@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "Math.h"
 #include "Vector.h"
 
 struct Color

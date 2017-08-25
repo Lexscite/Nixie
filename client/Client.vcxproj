@@ -33,6 +33,7 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\math\Math.h" />
     <ClInclude Include="src\engine\graphics\Mesh.h" />
     <ClInclude Include="src\engine\math\Color.h" />
     <ClInclude Include="src\engine\math\Vector.h" />

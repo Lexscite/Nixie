@@ -34,6 +34,6 @@ bool CGraphics::Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, boo
 
 void CGraphics::Render()
 {
-	CDirectX::GetSingleton()->BeginScene();
+	CDirectX::GetSingleton()->BeginScene(CEngine::GetSingleton()->GetCurrentScene()->GetClearColor());
 	CDirectX::GetSingleton()->EndScene();
 }

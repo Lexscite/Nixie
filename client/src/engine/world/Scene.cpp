@@ -2,6 +2,8 @@
 
 bool CScene::Init()
 {
+	m_clearColor = new Color(100, 150, 255);
+
 	m_currentCell = new CCell;
 	
 	if (!m_currentCell->Load())
@@ -18,4 +20,9 @@ void CScene::Release()
 void CScene::Update()
 {
 	m_currentCell->Update();
+}
+
+Color* CScene::GetClearColor()
+{
+	return m_clearColor;
 }

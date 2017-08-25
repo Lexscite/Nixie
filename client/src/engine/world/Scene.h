@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "..\math\Color.h"
 #include "Cell.h"
 
 class CScene
@@ -12,8 +13,12 @@ public:
 	void Release();
 	void Update();
 
+	Color* GetClearColor();
+
 private:
 	CCell* m_currentCell;
+
+	Color* m_clearColor;
 };
 
 #endif
