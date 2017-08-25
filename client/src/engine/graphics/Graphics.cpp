@@ -23,7 +23,7 @@ bool CGraphics::Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, boo
 	m_vsyncEnabled = vsyncEnabled;
 	m_fullscreenEnabled = fullscreenEnabled;
 
-	if (!CDirectX::GetSingleton()->Init(screenWidth, screenHeight, vsyncEnabled, fullscreenEnabled))
+	if (!CDirectX::GetSingleton()->Init(screenWidth, screenHeight, vsyncEnabled, fullscreenEnabled, 1000.0f, 0.1f))
 	{
 		MessageBox(CEngine::GetSingleton()->GetHwnd(), "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
 		return false;
@@ -34,5 +34,7 @@ bool CGraphics::Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, boo
 
 void CGraphics::Render()
 {
+	CDirectX::GetSingleton()->BeginScene();
+	CDirectX::GetSingleton()->EndScene();
 
 }
