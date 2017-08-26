@@ -22,6 +22,18 @@
     <Filter Include="src\engine\math">
       <UniqueIdentifier>{d88927e2-a0d1-40cb-81be-a522bf79c283}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\content">
+      <UniqueIdentifier>{caf6f707-3b6d-4cd5-b2ea-ad569e448906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\content\meshes">
+      <UniqueIdentifier>{e1429088-e6f2-4ca7-a57a-5c61a68e2da6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\content\shaders">
+      <UniqueIdentifier>{6c84471a-da65-48fa-8d4c-fd38b77d953c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\content\game_objects">
+      <UniqueIdentifier>{c5dd8ffb-0209-4bf7-8cc7-f868d6b99e5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -59,6 +71,15 @@
     </ClCompile>
     <ClCompile Include="src\engine\world\Cell.cpp">
       <Filter>src\engine\world</Filter>
+    </ClCompile>
+    <ClCompile Include="src\content\game_objects\TestGameObject.cpp">
+      <Filter>src\content\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\graphics\ColorShader.cpp">
+      <Filter>src\engine\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\graphics\Camera.cpp">
+      <Filter>src\engine\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,5 +125,27 @@
     <ClInclude Include="src\engine\world\Cell.h">
       <Filter>src\engine\world</Filter>
     </ClInclude>
+    <ClInclude Include="src\content\game_objects\TestGameObject.h">
+      <Filter>src\content\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\graphics\ColorShader.h">
+      <Filter>src\engine\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\graphics\Camera.h">
+      <Filter>src\engine\graphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\content\meshes\Cube.txt">
+      <Filter>src\content\meshes</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\content\shaders\Color.vs">
+      <Filter>src\content\shaders</Filter>
+    </None>
+    <None Include="src\content\shaders\Color.ps">
+      <Filter>src\content\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

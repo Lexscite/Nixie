@@ -4,6 +4,7 @@
 #pragma once
 
 #include <d3d11.h>
+#include <d3dcompiler.h>
 #include <directxmath.h>
 
 #include "..\utils\Memory.h"
@@ -26,6 +27,13 @@ public:
 
 	void BeginScene(Color* clearColor);
 	void EndScene();
+
+	ID3D11Device* GetDevice();
+	ID3D11DeviceContext* GetDeviceContext();
+
+	void GetProjectionMatrix(XMMATRIX& matrix);
+	void GetWorldMatrix(XMMATRIX& matrix);
+	void GetOrthoMatrix(XMMATRIX& matrix);
 
 private:
 	CDirectX();

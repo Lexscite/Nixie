@@ -1,7 +1,13 @@
 #include "Cell.h"
+#include "..\..\content\game_objects\TestGameObject.h"
 
 bool CCell::Load()
 {
+	// test game object
+	TestGameObject* tgo = new TestGameObject;
+
+	m_gameObjects.push_back(tgo);
+
 	for each (CGameObject* gameObject in m_gameObjects)
 	{
 		if (!gameObject->Init())

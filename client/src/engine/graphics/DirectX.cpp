@@ -330,3 +330,30 @@ void CDirectX::EndScene()
 	else
 		m_pSwapChain->Present(0, 0);
 }
+
+ID3D11Device* CDirectX::GetDevice()
+{
+	return m_pDevice;
+}
+
+ID3D11DeviceContext* CDirectX::GetDeviceContext()
+{
+	return m_pDeviceContext;
+}
+
+void CDirectX::GetProjectionMatrix(XMMATRIX& projectionMatrix)
+{
+	projectionMatrix = m_projectionMatrix;
+}
+
+
+void CDirectX::GetWorldMatrix(XMMATRIX& worldMatrix)
+{
+	worldMatrix = m_worldMatrix;
+}
+
+
+void CDirectX::GetOrthoMatrix(XMMATRIX& orthoMatrix)
+{
+	orthoMatrix = m_orthoMatrix;
+}

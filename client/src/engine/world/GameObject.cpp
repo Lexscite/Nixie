@@ -2,7 +2,7 @@
 
 bool CGameObject::Init()
 {
-	m_position = Vector3::Zero();
+	m_position = new Vector3;
 	m_scale = new Vector3(1, 1, 1);
 	m_isStatic = false;
 

@@ -4,6 +4,8 @@
 #pragma once
 
 #include "DirectX.h"
+#include "Camera.h"
+#include "ColorShader.h"
 
 class CGraphics
 {
@@ -22,6 +24,9 @@ private:
 
 	bool m_vsyncEnabled;
 	bool m_fullscreenEnabled;
+
+	CCamera* m_pCamera;
+	CColorShader* m_pColorShader;
 };
 
 #endif

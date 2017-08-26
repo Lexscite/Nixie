@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\graphics\Camera.cpp" />
+    <ClCompile Include="src\engine\graphics\ColorShader.cpp" />
+    <ClCompile Include="src\content\game_objects\TestGameObject.cpp" />
     <ClCompile Include="src\engine\graphics\Mesh.cpp" />
     <ClCompile Include="src\engine\math\Color.cpp" />
     <ClCompile Include="src\engine\math\Vector.cpp" />
@@ -33,6 +36,9 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\graphics\Camera.h" />
+    <ClInclude Include="src\engine\graphics\ColorShader.h" />
+    <ClInclude Include="src\content\game_objects\TestGameObject.h" />
     <ClInclude Include="src\engine\math\Math.h" />
     <ClInclude Include="src\engine\graphics\Mesh.h" />
     <ClInclude Include="src\engine\math\Color.h" />
@@ -47,6 +53,13 @@
     <ClInclude Include="src\engine\Engine.h" />
     <ClInclude Include="src\engine\utils\Debug.h" />
     <ClInclude Include="src\engine\utils\Memory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\content\meshes\Cube.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\content\shaders\Color.ps" />
+    <None Include="src\content\shaders\Color.vs" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

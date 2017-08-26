@@ -4,6 +4,7 @@
 #pragma once
 
 #include "..\math\Vector.h"
+#include "..\graphics\Mesh.h"
 
 class CGameObject
 {
@@ -16,11 +17,10 @@ private:
 	virtual void OnUpdate() = 0;
 
 public:
+	bool m_isStatic;
+
 	Vector3* m_position;
 	Vector3* m_scale;
-
-private:
-	bool m_isStatic;
 };
 
 #endif

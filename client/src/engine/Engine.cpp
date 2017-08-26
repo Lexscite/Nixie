@@ -71,7 +71,8 @@ bool CEngine::Init(HINSTANCE hInstance)
 			CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
 	}
 
-	if (!LoadScene(new CScene))
+	CScene* startScene = new CScene;
+	if (!LoadScene(startScene))
 		return false;
 
 	return true;
@@ -171,8 +172,8 @@ int CEngine::Run()
 
 void CEngine::Update(float deltaTime)
 {
-	m_pCurrentScene->Update();
 	CGraphics::GetSingleton()->Render();
+	m_pCurrentScene->Update();
 }
 
 HWND CEngine::GetHwnd()
