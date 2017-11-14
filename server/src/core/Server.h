@@ -4,6 +4,7 @@
 #pragma once
 
 #include <windows.h>
+#include <map>
 #include <vector>
 
 #include "Connection.h"
@@ -21,7 +22,10 @@ public:
 private:
 	CServer();
 
+	void AcceptConnection(SOCKET socket);
 	void KillConnection(int id);
+
+	void SendHelloMessage(int id);
 
 	bool ProcessPacket(int id, PacketType _packetType);
 	bool Send(int id, char* data, int totalBytes);
@@ -45,10 +49,11 @@ private:
 	SOCKADDR_IN m_addr;
 	int m_addrlen;
 
-	std::vector<std::shared_ptr<CConnection>> m_pConnections;
+	std::map<unsigned int, std::shared_ptr<CConnection>> m_pConnections;
+	std::vector<unsigned int> m_unusedConnectionsIds;
+
 	HANDLE m_hPacketSenderThread;
-	std::mutex m_connectionsMutex;
-	int  m_nUnusedConnections;
+	std::recursive_mutex m_connectionsMutex;
 };
 
 #endif

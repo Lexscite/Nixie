@@ -17,7 +17,7 @@ public:
 
 private:
 	std::queue<CPacket> m_packetsQueue;
-	std::mutex m_packetsMutex;
+	std::recursive_mutex m_packetsMutex;
 };
 
 #endif

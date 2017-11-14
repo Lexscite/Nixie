@@ -13,8 +13,7 @@
 
 enum class PacketType
 {
-	LoginData,
-	ChatMessage,
+	HelloMessage,
 };
 
 class CPacket

@@ -2,7 +2,7 @@
 
 bool CScene::Init()
 {
-	m_clearColor = new Color(100, 150, 255);
+	m_clearColor = new Color(150, 150, 150);
 
 	m_currentCell = new CCell;
 	

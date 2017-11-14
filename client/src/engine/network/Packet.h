@@ -10,8 +10,7 @@
 
 enum class PacketType
 {
-	LoginData,
-	ChatMessage,
+	HelloMessage,
 };
 
 class Packet

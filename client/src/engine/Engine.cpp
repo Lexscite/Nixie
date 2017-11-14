@@ -67,7 +67,7 @@ bool CEngine::Init(HINSTANCE hInstance)
 	}
 	else
 	{
-		if (CConnection::GetSingleton()->SendPacketType(PacketType::ChatMessage))
+		if (CConnection::GetSingleton()->SendPacketType(PacketType::HelloMessage))
 			CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
 	}
 
@@ -172,8 +172,8 @@ int CEngine::Run()
 
 void CEngine::Update(float deltaTime)
 {
-	CGraphics::GetSingleton()->Render();
 	m_pCurrentScene->Update();
+	CGraphics::GetSingleton()->Render();
 }
 
 HWND CEngine::GetHwnd()

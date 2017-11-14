@@ -69,9 +69,6 @@
     <ClCompile Include="src\engine\math\Color.cpp">
       <Filter>src\engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\world\Cell.cpp">
-      <Filter>src\engine\world</Filter>
-    </ClCompile>
     <ClCompile Include="src\content\game_objects\TestGameObject.cpp">
       <Filter>src\content\game_objects</Filter>
     </ClCompile>
@@ -80,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="src\engine\graphics\Camera.cpp">
       <Filter>src\engine\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\world\Cell.cpp">
+      <Filter>src\engine\world</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +122,6 @@
     <ClInclude Include="src\engine\math\Math.h">
       <Filter>src\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\world\Cell.h">
-      <Filter>src\engine\world</Filter>
-    </ClInclude>
     <ClInclude Include="src\content\game_objects\TestGameObject.h">
       <Filter>src\content\game_objects</Filter>
     </ClInclude>
@@ -133,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="src\engine\graphics\Camera.h">
       <Filter>src\engine\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\world\Cell.h">
+      <Filter>src\engine\world</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

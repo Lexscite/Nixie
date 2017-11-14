@@ -3,7 +3,6 @@
 CServer::CServer()
 {
 	m_addrlen = sizeof(m_addr);
-	m_nUnusedConnections = 0;
 	m_isRunning = false;
 	m_hPacketSenderThread = 0;
 }
@@ -39,7 +38,7 @@ bool CServer::Start(int port, bool isPublic)
 
 	m_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	if (bind(m_socket, (SOCKADDR*)&m_addr, m_addrlen) == SOCKET_ERROR)
+	if (bind(m_socket, (SOCKADDR*)&m_addr, m_addrlen) == SOCKET_ERROR) 
 	{
 		std::cout << "Failed to bind the address. Winsock Error: " << WSAGetLastError() << std::endl;
 		return false;
@@ -62,7 +61,7 @@ void CServer::Stop()
 	m_isRunning = false;
 	TerminateThread(m_hPacketSenderThread, 0);
 
-	for (int i = 0; i < (int)m_pConnections.size(); i++)
+	for (int i = 0; i < (int)m_pConnections.size() - 1; i++)
 	{
 		TerminateThread(m_pConnections[i]->m_hThread, 0);
 	}
@@ -70,81 +69,83 @@ void CServer::Stop()
 
 void CServer::Run()
 {
+	SOCKET newSocket = INVALID_SOCKET;
 	while (m_isRunning)
 	{
-		SOCKET newConnectionSocket = INVALID_SOCKET;
-		newConnectionSocket = accept(m_socket, (SOCKADDR*)&m_addr, &m_addrlen);
-		if (newConnectionSocket == INVALID_SOCKET)
+		AcceptConnection(newSocket);
+	}
+}
+
+void CServer::AcceptConnection(SOCKET socket)
+{
+	socket = accept(m_socket, (SOCKADDR*)&m_addr, &m_addrlen);
+	if (socket == INVALID_SOCKET)
+	{
+		std::cout << "Failed to accept the client's connection." << std::endl;
+		return;
+	}
+	else
+	{
+		std::lock_guard<std::recursive_mutex> lockGuard(m_connectionsMutex);
+
+		if (m_unusedConnectionsIds.size() > 0)
 		{
-			std::cout << "Failed to accept the client's connection." << std::endl;
-			Stop();
-			return;
+			for (int i = 0; i < m_unusedConnectionsIds.size(); i++)
+			{
+				if (m_pConnections[m_unusedConnectionsIds[i]]->m_isActive == false)
+				{
+					m_pConnections[m_unusedConnectionsIds[i]]->m_socket = socket;
+					m_pConnections[m_unusedConnectionsIds[i]]->m_isActive = true;
+					m_unusedConnectionsIds.erase(m_unusedConnectionsIds.begin() + i);
+				}
+			}
 		}
 		else
 		{
-			std::lock_guard<std::mutex> lock(m_connectionsMutex);
+			std::shared_ptr<CConnection> newConnection(new CConnection(m_pConnections.size(), socket));
 
-			int newConnectionId = (int)m_pConnections.size();
-			if (m_nUnusedConnections > 0)
-			{
-				for (int i = 0; i < (int)m_pConnections.size(); i++)
-				{
-					if (m_pConnections[i]->m_isActive == false)
-					{
-						m_pConnections[i]->m_socket = newConnectionSocket;
-						m_pConnections[i]->m_isActive = true;
-						newConnectionId = i;
+			std::cout << "Client connected (ID: " << newConnection->m_id << ")." << std::endl;
+			newConnection->m_hThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandlerThread, (LPVOID)(INT_PTR)newConnection->m_id, NULL, NULL);
+			m_pConnections[newConnection->m_id] = newConnection;
 
-						m_nUnusedConnections--;
-						break;
-					}
-				}
-			}
-			else
-			{
-				std::shared_ptr<CConnection> newConnection(new CConnection(newConnectionSocket));
-
-				std::cout << "Client connected (ID: " << newConnectionId << ")." << std::endl;
-				newConnection->m_hThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandlerThread, (LPVOID)(INT_PTR)newConnectionId, NULL, NULL);
-				m_pConnections.push_back(newConnection);
-			}
-
-			if (!SendPacketType(newConnectionId, PacketType::ChatMessage))
-				std::cout << "Failed to send welcome message PK type." << std::endl;
-			SendString(newConnectionId, std::string("Hi Client!"));
+			SendHelloMessage(newConnection->m_id);
 		}
 	}
 }
 
+void CServer::SendHelloMessage(int id)
+{
+	if (!SendPacketType(id, PacketType::HelloMessage))
+		std::cout << "Failed to send welcome message PK type." << std::endl;
+	else
+		SendString(id, std::string("Hi Client!"));
+}
+
 void CServer::KillConnection(int id)
 {
-	std::lock_guard<std::mutex> lock(m_connectionsMutex);
+	std::lock_guard<std::recursive_mutex> lockGuard(m_connectionsMutex);
 
-	if (!m_pConnections[id]->m_isActive)
-		return;
-
-	m_pConnections[id]->m_packetManager.Clear();
-	m_pConnections[id]->m_isActive = false;
+	m_pConnections[id]->Kill();
 	closesocket(m_pConnections[id]->m_socket);
 
-	if (id == ((int)m_pConnections.size() - 1))
+	if (id == (m_pConnections.end()->second->m_id))
 	{
-		m_pConnections.pop_back();
+		m_pConnections.erase(--m_pConnections.rbegin().base());
 
 		if (m_pConnections.size() > 0)
 		{
-			for (int i = (int)m_pConnections.size() - 1; i >= 0 && (int)m_pConnections.size() > 0; i--)
+			for (auto i = m_pConnections.rbegin(); i != m_pConnections.rend(); ++i)
 			{
-				if (m_pConnections[i]->m_isActive)
+				if (i->second->m_isActive)
 					break;
 
-				m_pConnections.pop_back();
-				m_nUnusedConnections--;
+				m_pConnections.erase(i->first);
+				m_unusedConnectionsIds.erase(m_unusedConnectionsIds.begin() + i->first);
 			}
 		}
 	}
 	else
-		m_nUnusedConnections++;
+		m_unusedConnectionsIds.push_back(id);
 }
 
 bool CServer::Send(int id, char* data, int totalBytes)
@@ -262,18 +263,13 @@ bool CServer::ProcessPacket(int id, PacketType _packetType)
 {
 	switch (_packetType)
 	{
-	case PacketType::LoginData:
-	{
-		std::cout << "Client sent a PK login data:" << std::endl;
-		break;
-	}
-	case PacketType::ChatMessage:
+	case PacketType::HelloMessage:
 	{
 		std::string message;
 		if (!GetString(id, message))
 			return false;
 
-		for (int i = 0; i < (int)m_pConnections.size(); i++)
+		for (int i = 0; i <= (int)m_pConnections.size() - 1; i++)
 		{
 			if (!m_pConnections[i]->m_isActive)
 				continue;
@@ -281,9 +277,12 @@ bool CServer::ProcessPacket(int id, PacketType _packetType)
 			if (i == id)
 				continue;
 
-			PacketType packetType = PacketType::ChatMessage;
+			PacketType packetType = PacketType::HelloMessage;
 			if (!SendPacketType(i, packetType))
+			{
 				std::cerr << "Failed to send packet type" << std::endl;
+				continue;
+			}
 
 			SendString(i, message);
 		}
@@ -292,7 +291,6 @@ bool CServer::ProcessPacket(int id, PacketType _packetType)
 		break;
 	}
 	default:
-		std::cout << "Unrecognized packet: " << (int32_t)_packetType << std::endl;
 		break;
 	}
 
@@ -319,7 +317,7 @@ void CServer::PacketSenderThread()
 {
 	while (true)
 	{
-		for (int i = 0; i < (int)CServer::GetSingleton()->m_pConnections.size(); i++)
+		for (int i = 0; i < (int)CServer::GetSingleton()->m_pConnections.size() - 1; i++)
 		{
 			if (CServer::GetSingleton()->m_pConnections[i]->m_packetManager.HasPendingPackets())
 			{

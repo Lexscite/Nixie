@@ -8,9 +8,11 @@
 class CConnection
 {
 public:
-	CConnection(SOCKET socket);
+	CConnection(int id, SOCKET socket);
+	void Kill();
 
 public:
+	int m_id;
 	SOCKET m_socket;
 	CPacketManager m_packetManager;
 	bool m_isActive;

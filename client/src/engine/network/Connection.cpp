@@ -194,11 +194,7 @@ bool CConnection::ProcessPacket(PacketType packetType)
 {
 	switch (packetType)
 	{
-	case PacketType::LoginData:
-	{
-		break;
-	}
-	case PacketType::ChatMessage:
+	case PacketType::HelloMessage:
 	{
 		std::string message;
 		if (!GetString(message))
@@ -208,7 +204,6 @@ bool CConnection::ProcessPacket(PacketType packetType)
 		break;
 	}
 	default:
-		std::cerr << "Unrecognized packet type" << std::endl;
 		break;
 	}
 
