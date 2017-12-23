@@ -48,7 +48,7 @@ bool CGraphics::Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, boo
 		return false;
 	}
 
-	m_pCamera->SetPosition(0.0f, 0.0f, -5.0f);
+	m_pCamera->SetPosition(0.0f, 0.0f, -10.0f);
 
 	return true;
 }

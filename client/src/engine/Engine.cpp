@@ -29,7 +29,7 @@ void CEngine::Release()
 		DestroyWindow(m_hwnd);
 
 	safe_release(CGraphics::GetSingleton());
-	safe_release(CConnection::GetSingleton());
+	//safe_release(CConnection::GetSingleton());
 }
 
 bool CEngine::Init(HINSTANCE hInstance)
@@ -60,16 +60,14 @@ bool CEngine::Init(HINSTANCE hInstance)
 	if (!CGraphics::GetSingleton()->Init(m_screenWidth, m_screenHeight, m_vsyncEnabled, m_fullscreenEnabled))
 		return false;
 
-	if (!CConnection::GetSingleton()->Establish("127.0.0.1", 1111))
-	{
-		MessageBox(m_hwnd, "Failed to conenct to server", "Network Error", MB_OK | MB_ICONERROR);
-		return false;
-	}
-	else
-	{
-		if (CConnection::GetSingleton()->SendPacketType(PacketType::HelloMessage))
-			CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
-	}
+	//if (!CConnection::GetSingleton()->Establish("127.0.0.1", 1111))
+	//{
+	//	MessageBox(m_hwnd, "Failed to conenct to server", "Network Error", MB_OK | MB_ICONERROR);
+	//	return false;
+	//}
+	//else
+	//	if (CConnection::GetSingleton()->SendPacketType(PacketType::HelloMessage))
+	//		CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
 
 	CScene* startScene = new CScene;
 	if (!LoadScene(startScene))
