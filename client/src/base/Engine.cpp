@@ -38,7 +38,7 @@ bool Engine::Init(HINSTANCE instance)
 
 	InitSettings();
 
-	if (!CreateMainWindow())
+	if (!InitWindow())
 	{
 		MessageBox(window_, "Failed to create window", "Error", MB_OK | MB_ICONERROR);
 		return false;
@@ -79,12 +79,13 @@ void Engine::InitSettings()
 	}
 }
 
-bool Engine::CreateMainWindow()
+bool Engine::InitWindow()
 {
 	WNDCLASSEX wc;
 	LPCSTR class_name = "MainWindowClass";
 	LPCSTR title = "Nixie";
-	DWORD style = WS_OVERLAPPEDWINDOW | WS_THICKFRAME;
+	DWORD style = WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU;
+
 
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));
 	wc.cbClsExtra = NULL;

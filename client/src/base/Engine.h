@@ -25,7 +25,7 @@ public:
 private:
 	Engine();
 
-	bool CreateMainWindow();
+	bool InitWindow();
 	void InitSettings();
 	void Update(float delta_time);
 	bool LoadScene(Scene* scene);

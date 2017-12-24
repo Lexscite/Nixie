@@ -4,31 +4,31 @@
     <Filter Include="src">
       <UniqueIdentifier>{27cf1d40-f08e-474e-82c5-40591f50f2de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\engine">
+    <Filter Include="src\base">
       <UniqueIdentifier>{e91cac3a-6a01-4570-8e65-3e641b7c373d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\engine\graphics">
+    <Filter Include="src\base\graphics">
       <UniqueIdentifier>{d4ae0545-efb1-4a7e-93a8-8edf434d7326}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\engine\network">
+    <Filter Include="src\base\network">
       <UniqueIdentifier>{814b1610-46d2-4acc-bdce-8d99f876b613}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\engine\utils">
+    <Filter Include="src\base\utils">
       <UniqueIdentifier>{41122b05-520d-4e05-b6db-b68e504debc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\engine\world">
+    <Filter Include="src\base\world">
       <UniqueIdentifier>{2c7da10d-620c-4007-af17-37c1818aead8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\engine\math">
+    <Filter Include="src\base\math">
       <UniqueIdentifier>{d88927e2-a0d1-40cb-81be-a522bf79c283}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\content">
-      <UniqueIdentifier>{caf6f707-3b6d-4cd5-b2ea-ad569e448906}</UniqueIdentifier>
+    <Filter Include="data">
+      <UniqueIdentifier>{c3d50d9b-54f4-4a2f-8fe3-6edb3ba7339d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\content\meshes">
+    <Filter Include="data\meshes">
       <UniqueIdentifier>{e1429088-e6f2-4ca7-a57a-5c61a68e2da6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\content\shaders">
+    <Filter Include="data\shaders">
       <UniqueIdentifier>{6c84471a-da65-48fa-8d4c-fd38b77d953c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -36,107 +36,107 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\network\Connection.cpp">
-      <Filter>src\engine\network</Filter>
+    <ClCompile Include="src\base\graphics\Camera.cpp">
+      <Filter>src\base\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\network\Packet.cpp">
-      <Filter>src\engine\network</Filter>
+    <ClCompile Include="src\base\graphics\ColorShader.cpp">
+      <Filter>src\base\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\Graphics.cpp">
-      <Filter>src\engine\graphics</Filter>
+    <ClCompile Include="src\base\graphics\D3D.cpp">
+      <Filter>src\base\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\Engine.cpp">
-      <Filter>src\engine</Filter>
+    <ClCompile Include="src\base\graphics\Graphics.cpp">
+      <Filter>src\base\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\world\Scene.cpp">
-      <Filter>src\engine\world</Filter>
+    <ClCompile Include="src\base\graphics\Material.cpp">
+      <Filter>src\base\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\world\GameObject.cpp">
-      <Filter>src\engine\world</Filter>
+    <ClCompile Include="src\base\graphics\Mesh.cpp">
+      <Filter>src\base\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\math\Vector.cpp">
-      <Filter>src\engine\math</Filter>
+    <ClCompile Include="src\base\math\Color.cpp">
+      <Filter>src\base\math</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\Mesh.cpp">
-      <Filter>src\engine\graphics</Filter>
+    <ClCompile Include="src\base\math\Vector.cpp">
+      <Filter>src\base\math</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\math\Color.cpp">
-      <Filter>src\engine\math</Filter>
+    <ClCompile Include="src\base\network\Connection.cpp">
+      <Filter>src\base\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\ColorShader.cpp">
-      <Filter>src\engine\graphics</Filter>
+    <ClCompile Include="src\base\network\Packet.cpp">
+      <Filter>src\base\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\Camera.cpp">
-      <Filter>src\engine\graphics</Filter>
+    <ClCompile Include="src\base\world\GameObject.cpp">
+      <Filter>src\base\world</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>src\engine\graphics</Filter>
+    <ClCompile Include="src\base\world\Scene.cpp">
+      <Filter>src\base\world</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\D3D.cpp">
-      <Filter>src\engine\graphics</Filter>
+    <ClCompile Include="src\base\Engine.cpp">
+      <Filter>src\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\network\Connection.h">
-      <Filter>src\engine\network</Filter>
+    <ClInclude Include="src\base\graphics\Camera.h">
+      <Filter>src\base\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\network\Packet.h">
-      <Filter>src\engine\network</Filter>
+    <ClInclude Include="src\base\graphics\ColorShader.h">
+      <Filter>src\base\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\graphics\Graphics.h">
-      <Filter>src\engine\graphics</Filter>
+    <ClInclude Include="src\base\graphics\D3D.h">
+      <Filter>src\base\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\utils\Debug.h">
-      <Filter>src\engine\utils</Filter>
+    <ClInclude Include="src\base\graphics\Graphics.h">
+      <Filter>src\base\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\utils\Memory.h">
-      <Filter>src\engine\utils</Filter>
+    <ClInclude Include="src\base\graphics\Material.h">
+      <Filter>src\base\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\Engine.h">
-      <Filter>src\engine</Filter>
+    <ClInclude Include="src\base\graphics\Mesh.h">
+      <Filter>src\base\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\world\Scene.h">
-      <Filter>src\engine\world</Filter>
+    <ClInclude Include="src\base\math\Color.h">
+      <Filter>src\base\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\world\GameObject.h">
-      <Filter>src\engine\world</Filter>
+    <ClInclude Include="src\base\math\Math.h">
+      <Filter>src\base\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\math\Vector.h">
-      <Filter>src\engine\math</Filter>
+    <ClInclude Include="src\base\math\Vector.h">
+      <Filter>src\base\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\graphics\Mesh.h">
-      <Filter>src\engine\graphics</Filter>
+    <ClInclude Include="src\base\network\Connection.h">
+      <Filter>src\base\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\math\Color.h">
-      <Filter>src\engine\math</Filter>
+    <ClInclude Include="src\base\network\Packet.h">
+      <Filter>src\base\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\math\Math.h">
-      <Filter>src\engine\math</Filter>
+    <ClInclude Include="src\base\utils\Debug.h">
+      <Filter>src\base\utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\graphics\ColorShader.h">
-      <Filter>src\engine\graphics</Filter>
+    <ClInclude Include="src\base\utils\Memory.h">
+      <Filter>src\base\utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\graphics\Camera.h">
-      <Filter>src\engine\graphics</Filter>
+    <ClInclude Include="src\base\world\GameObject.h">
+      <Filter>src\base\world</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>src\engine\graphics</Filter>
+    <ClInclude Include="src\base\world\Scene.h">
+      <Filter>src\base\world</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\graphics\D3D.h">
-      <Filter>src\engine\graphics</Filter>
+    <ClInclude Include="src\base\Engine.h">
+      <Filter>src\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\content\meshes\Cube.txt">
-      <Filter>src\content\meshes</Filter>
+    <None Include="data\shaders\Color.ps">
+      <Filter>data\shaders</Filter>
+    </None>
+    <None Include="data\shaders\Color.vs">
+      <Filter>data\shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\meshes\Cube.txt">
+      <Filter>data\meshes</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\content\shaders\Color.vs">
-      <Filter>src\content\shaders</Filter>
-    </None>
-    <None Include="src\content\shaders\Color.ps">
-      <Filter>src\content\shaders</Filter>
-    </None>
   </ItemGroup>
 </Project>

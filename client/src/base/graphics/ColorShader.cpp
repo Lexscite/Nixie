@@ -11,7 +11,7 @@ ColorShader::ColorShader()
 
 bool ColorShader::Init()
 {
-	if (!InitShader(L"../../../client/src/content/shaders/color.vs", L"../../../Client/src/content/shaders/Color.ps"))
+	if (!InitShader(L"../data/shaders/Color.vs", L"../data/shaders/Color.ps"))
 		return false;
 
 	return true;

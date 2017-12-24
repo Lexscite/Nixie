@@ -19,45 +19,45 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="src\engine\graphics\Camera.cpp" />
-    <ClCompile Include="src\engine\graphics\ColorShader.cpp" />
-    <ClCompile Include="src\engine\graphics\Mesh.cpp" />
-    <ClCompile Include="src\engine\math\Color.cpp" />
-    <ClCompile Include="src\engine\math\Vector.cpp" />
-    <ClCompile Include="src\engine\world\Scene.cpp" />
-    <ClCompile Include="src\engine\world\GameObject.cpp" />
-    <ClCompile Include="src\engine\graphics\D3D.cpp" />
-    <ClCompile Include="src\engine\graphics\Graphics.cpp" />
-    <ClCompile Include="src\engine\network\Connection.cpp" />
-    <ClCompile Include="src\engine\network\Packet.cpp" />
-    <ClCompile Include="src\engine\Engine.cpp" />
+    <ClCompile Include="src\base\graphics\Material.cpp" />
+    <ClCompile Include="src\base\graphics\Camera.cpp" />
+    <ClCompile Include="src\base\graphics\ColorShader.cpp" />
+    <ClCompile Include="src\base\graphics\Mesh.cpp" />
+    <ClCompile Include="src\base\math\Color.cpp" />
+    <ClCompile Include="src\base\math\Vector.cpp" />
+    <ClCompile Include="src\base\world\Scene.cpp" />
+    <ClCompile Include="src\base\world\GameObject.cpp" />
+    <ClCompile Include="src\base\graphics\D3D.cpp" />
+    <ClCompile Include="src\base\graphics\Graphics.cpp" />
+    <ClCompile Include="src\base\network\Connection.cpp" />
+    <ClCompile Include="src\base\network\Packet.cpp" />
+    <ClCompile Include="src\base\Engine.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="src\engine\graphics\Camera.h" />
-    <ClInclude Include="src\engine\graphics\ColorShader.h" />
-    <ClInclude Include="src\engine\math\Math.h" />
-    <ClInclude Include="src\engine\graphics\Mesh.h" />
-    <ClInclude Include="src\engine\math\Color.h" />
-    <ClInclude Include="src\engine\math\Vector.h" />
-    <ClInclude Include="src\engine\world\Scene.h" />
-    <ClInclude Include="src\engine\world\GameObject.h" />
-    <ClInclude Include="src\engine\graphics\D3D.h" />
-    <ClInclude Include="src\engine\graphics\Graphics.h" />
-    <ClInclude Include="src\engine\network\Connection.h" />
-    <ClInclude Include="src\engine\network\Packet.h" />
-    <ClInclude Include="src\engine\Engine.h" />
-    <ClInclude Include="src\engine\utils\Debug.h" />
-    <ClInclude Include="src\engine\utils\Memory.h" />
+    <ClInclude Include="src\base\graphics\Material.h" />
+    <ClInclude Include="src\base\graphics\Camera.h" />
+    <ClInclude Include="src\base\graphics\ColorShader.h" />
+    <ClInclude Include="src\base\math\Math.h" />
+    <ClInclude Include="src\base\graphics\Mesh.h" />
+    <ClInclude Include="src\base\math\Color.h" />
+    <ClInclude Include="src\base\math\Vector.h" />
+    <ClInclude Include="src\base\world\Scene.h" />
+    <ClInclude Include="src\base\world\GameObject.h" />
+    <ClInclude Include="src\base\graphics\D3D.h" />
+    <ClInclude Include="src\base\graphics\Graphics.h" />
+    <ClInclude Include="src\base\network\Connection.h" />
+    <ClInclude Include="src\base\network\Packet.h" />
+    <ClInclude Include="src\base\Engine.h" />
+    <ClInclude Include="src\base\utils\Debug.h" />
+    <ClInclude Include="src\base\utils\Memory.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="src\content\meshes\Cube.txt" />
+    <Text Include="data\meshes\Cube.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\content\shaders\Color.ps" />
-    <None Include="src\content\shaders\Color.vs" />
+    <None Include="data\shaders\Color.ps" />
+    <None Include="data\shaders\Color.vs" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -114,13 +114,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\builds\$(Configuration)\client\</OutDir>
-    <IntDir>$(SolutionDir)\builds\$(Configuration)\client\int\</IntDir>
+    <OutDir>$(ProjectDir)\bin</OutDir>
+    <IntDir>$(ProjectDir)\bin\int\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\builds\$(Configuration)\client\</OutDir>
-    <IntDir>$(SolutionDir)\builds\$(Configuration)\client\int\</IntDir>
+    <OutDir>$(ProjectDir)\bin</OutDir>
+    <IntDir>$(ProjectDir)\bin\int\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
     <LinkIncremental>false</LinkIncremental>
