@@ -12,7 +12,7 @@ class Graphics
 public:
 	static Graphics* GetSingleton();
 
-	bool Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool fullscreenEnabled);
+	bool Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool fullscreen_enabled);
 	void Release();
 	void Render();
 
@@ -20,13 +20,10 @@ private:
 	Graphics();
 
 private:
-	static Graphics* s_singleton;
+	static Graphics* singleton_;
 
-	bool m_vsyncEnabled;
-	bool m_fullscreenEnabled;
-
-	Camera* m_pCamera;
-	ColorShader* m_pColorShader;
+	Camera* camera_;
+	ColorShader* color_shader_;
 };
 
 #endif

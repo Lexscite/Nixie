@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\base\graphics\Material.cpp" />
     <ClCompile Include="src\base\graphics\Camera.cpp" />
     <ClCompile Include="src\base\graphics\ColorShader.cpp" />
     <ClCompile Include="src\base\graphics\Mesh.cpp" />
@@ -35,7 +34,6 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\base\graphics\Material.h" />
     <ClInclude Include="src\base\graphics\Camera.h" />
     <ClInclude Include="src\base\graphics\ColorShader.h" />
     <ClInclude Include="src\base\math\Math.h" />

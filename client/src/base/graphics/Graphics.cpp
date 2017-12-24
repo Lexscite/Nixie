@@ -3,52 +3,49 @@
 
 Graphics::Graphics()
 {
-	m_pCamera = 0;
+	camera_ = nullptr;
 }
 
-Graphics* Graphics::s_singleton;
+Graphics* Graphics::singleton_;
 
 Graphics* Graphics::GetSingleton()
 {
-	if (s_singleton == 0)
-		s_singleton = new Graphics;
+	if (singleton_ == 0)
+		singleton_ = new Graphics;
 
-	return s_singleton;
+	return singleton_;
 }
 
 void Graphics::Release()
 {
-	safe_delete(m_pColorShader);
-	safe_delete(m_pCamera);
+	safe_delete(color_shader_);
+	safe_delete(camera_);
 	safe_release(D3D::GetSingleton());
 }
 
-bool Graphics::Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool fullscreenEnabled)
+bool Graphics::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool fullscreen_enabled)
 {
-	m_vsyncEnabled = vsyncEnabled;
-	m_fullscreenEnabled = fullscreenEnabled;
-
-	if (!D3D::GetSingleton()->Init(screenWidth, screenHeight, vsyncEnabled, fullscreenEnabled, 1000.0f, 0.1f))
+	if (!D3D::GetSingleton()->Init(screen_width, screen_height, vsync_enabled, fullscreen_enabled, 1000.0f, 0.1f))
 	{
 		MessageBox(Engine::GetSingleton()->GetHwnd(), "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
 
-	m_pCamera = new Camera;
-	if (!m_pCamera)
+	camera_ = new Camera;
+	if (!camera_)
 		return false;
 
-	m_pColorShader = new ColorShader;
-	if (!m_pColorShader)
+	color_shader_ = new ColorShader;
+	if (!color_shader_)
 		return false;
 
-	if (!m_pColorShader->Init())
+	if (!color_shader_->Init())
 	{
 		MessageBox(Engine::GetSingleton()->GetHwnd(), "Could not initialize the color shader object.", "Error", MB_OK);
 		return false;
 	}
 
-	m_pCamera->position_ = new Vector3(0.0f, 0.0f, -10.0f);
+	camera_->position_ = new Vector3(0.0f, 0.0f, -10.0f);
 
 	return true;
 }
@@ -57,14 +54,14 @@ void Graphics::Render()
 {
 	D3D::GetSingleton()->BeginScene(Engine::GetSingleton()->GetCurrentScene()->GetClearColor());
 
-	m_pCamera->Render();
+	XMMATRIX world_matrix;
+	XMMATRIX view_matrix;
+	XMMATRIX projection_matrix;
 
-	XMMATRIX worldMatrix;
-	D3D::GetSingleton()->GetWorldMatrix(worldMatrix);
-	XMMATRIX viewMatrix;
-	m_pCamera->GetViewMatrix(viewMatrix);
-	XMMATRIX projectionMatrix;
-	D3D::GetSingleton()->GetProjectionMatrix(projectionMatrix);
+	camera_->Render();
+	D3D::GetSingleton()->GetWorldMatrix(world_matrix);
+	camera_->GetViewMatrix(view_matrix);
+	D3D::GetSingleton()->GetProjectionMatrix(projection_matrix);
 
 	Engine::GetSingleton()->GetCurrentScene()->Update();
 

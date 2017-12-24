@@ -48,9 +48,6 @@
     <ClCompile Include="src\base\graphics\Graphics.cpp">
       <Filter>src\base\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\graphics\Material.cpp">
-      <Filter>src\base\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\base\graphics\Mesh.cpp">
       <Filter>src\base\graphics</Filter>
     </ClCompile>
@@ -87,9 +84,6 @@
       <Filter>src\base\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\base\graphics\Graphics.h">
-      <Filter>src\base\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\base\graphics\Material.h">
       <Filter>src\base\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\base\graphics\Mesh.h">

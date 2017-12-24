@@ -4,6 +4,7 @@
 #pragma once
 
 #include <fstream>
+
 #include "..\utils\Memory.h"
 #include  "..\math\Color.h"
 #include "D3D.h"
@@ -26,9 +27,9 @@ private:
 
 public:
 	Mesh();
-	bool Init(char* filePath);
+	bool Init(char* file_path);
 	void Release();
-	bool LoadFile(char* filePath);
+	bool LoadFile(char* file_path);
 	void Render();
 	int GetIndexCount();
 
@@ -36,15 +37,13 @@ private:
 	bool InitBuffers();
 	void RenderBuffers();
 
-	bool ApplyMaterial();
-
 private:
-	ID3D11Buffer* m_pVertexBuffer;
-	ID3D11Buffer* m_pIndexBuffer;
-	int m_vertexCount;
-	int m_indexCount;
+	ID3D11Buffer* vertex_buffer_;
+	ID3D11Buffer* index_buffer_;
+	int vertex_count_;
+	int index_count_;
 
-	ModelType* m_meshData;
+	ModelType* data_;
 };
 
 #endif

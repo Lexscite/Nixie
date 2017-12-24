@@ -22,10 +22,10 @@ class D3D
 public:
 	static D3D* GetSingleton();
 
-	bool Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool fullscreenEnabled, float screenDepth, float screenNear);
+	bool Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool fullscreen_enabled, float screen_depth, float screen_near);
 	void Release();
 
-	void BeginScene(Color* clearColor);
+	void BeginScene(Color* clear_color);
 	void EndScene();
 
 	ID3D11Device* GetDevice();
@@ -39,30 +39,28 @@ private:
 	D3D();
 
 private:
-	static D3D* s_singleton;
+	static D3D* singleton_;
 
-	UINT m_screenWidth;
-	UINT m_screenHeight;
-	bool m_vsyncEnabled;
-	bool m_fullscreenEnabled;
+	bool vsync_enabled_;
+	bool fullscreen_enabled_;
 
-	ID3D11Device* m_pDevice;
-	ID3D11DeviceContext* m_pDeviceContext;
-	IDXGISwapChain* m_pSwapChain;
-	D3D_FEATURE_LEVEL m_featureLevel;
+	ID3D11Device* device_;
+	ID3D11DeviceContext* device_context_;
+	IDXGISwapChain* swap_chain_;
+	D3D_FEATURE_LEVEL feature_level_;
 
-	UINT m_adapterMemory;
-	char m_pAdapterDesc[128];
+	UINT adapter_memory_;
+	char adapter_desc_[128];
 
-	ID3D11RenderTargetView* m_pRenderTargetView;
-	ID3D11Texture2D* m_pDepthStencilBuffer;
-	ID3D11DepthStencilState* m_pDepthStencilState;
-	ID3D11DepthStencilView* m_pDepthStencilView;
-	ID3D11RasterizerState* m_pRasterizerState;
+	ID3D11RenderTargetView* render_target_view_;
+	ID3D11Texture2D* depth_stencil_buffer_;
+	ID3D11DepthStencilState* depth_stencil_state_;
+	ID3D11DepthStencilView* depth_stencil_view_;
+	ID3D11RasterizerState* rasterizer_state_;
 
-	XMMATRIX m_projectionMatrix;
-	XMMATRIX m_worldMatrix;
-	XMMATRIX m_orthoMatrix;
+	XMMATRIX projection_matrix_;
+	XMMATRIX world_matrix_;
+	XMMATRIX ortho_matrix_;
 };
 
 #endif
