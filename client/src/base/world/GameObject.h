@@ -3,8 +3,9 @@
 
 #pragma once
 
-#include "..\math\Vector.h"
-#include "..\graphics\Mesh.h"
+#include "../math/Vector.h"
+#include "../graphics/Mesh.h"
+#include "../graphics/ColorShader.h"
 
 class GameObject
 {
@@ -12,12 +13,16 @@ public:
 	bool Init();
 	void Update();
 
+	Mesh* GetMesh();
+	ColorShader* GetShader();
+
 public:
-	Vector3* m_position;
-	Vector3* m_scale;
+	Vector3* position_;
+	Vector3* scale_;
 
 private:
-	Mesh * m_mesh;
+	Mesh* mesh_;
+	ColorShader* shader_;
 };
 
 #endif

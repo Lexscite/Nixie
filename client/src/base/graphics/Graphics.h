@@ -14,16 +14,13 @@ public:
 
 	bool Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool fullscreen_enabled);
 	void Release();
-	void Render();
+	bool Render();
 
 private: 
 	Graphics();
 
 private:
 	static Graphics* singleton_;
-
-	Camera* camera_;
-	ColorShader* color_shader_;
 };
 
 #endif

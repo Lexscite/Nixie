@@ -73,12 +73,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)\bin</OutDir>
+    <OutDir>$(ProjectDir)\bin\</OutDir>
     <IntDir>$(ProjectDir)\bin\int\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)\bin</OutDir>
+    <OutDir>$(ProjectDir)\bin\</OutDir>
     <IntDir>$(ProjectDir)\bin\int\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">

@@ -14,14 +14,19 @@
 class Scene
 {
 public:
+	Scene();
+
 	bool Init();
 	void Release();
 	void Update();
 
 	Color* GetClearColor();
+	Camera* GetCamera();
+	std::vector<GameObject*> GetGameObjects();
 
 private:
 	Color* clear_color_;
+	Camera* camera_;
 	std::vector<GameObject*> game_objects_;
 };
 

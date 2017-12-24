@@ -27,7 +27,7 @@ private:
 
 	bool InitWindow();
 	void InitSettings();
-	void Update(float delta_time);
+	bool Update(float delta_time);
 	bool LoadScene(Scene* scene);
 
 private:

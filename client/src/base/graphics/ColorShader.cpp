@@ -104,7 +104,7 @@ bool ColorShader::InitShader(WCHAR* vertex_shader_path, WCHAR* pixel_shader_path
 
 	D3D11_BUFFER_DESC matrix_buffer_desc;
 	matrix_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
-	matrix_buffer_desc.ByteWidth = sizeof(MatrixBufferType);
+	matrix_buffer_desc.ByteWidth = sizeof(MatrixBufferData);
 	matrix_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	matrix_buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	matrix_buffer_desc.MiscFlags = 0;
@@ -130,7 +130,7 @@ void ColorShader::OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* sha
 
 	fout.open("shader-error.txt");
 
-	for (i = 0; i<bufferSize; i++)
+	for (i = 0; i < bufferSize; i++)
 		fout << compile_errors[i];
 
 	fout.close();
@@ -153,11 +153,11 @@ bool ColorShader::SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matri
 	if (FAILED(result))
 		return false;
 
-	MatrixBufferType* data;
-	data = (MatrixBufferType*)mapped_resource.pData;
-	data->world = world_matrix;
-	data->view = view_matrix;
-	data->projection = projection_matrix;
+	MatrixBufferData* data;
+	data = (MatrixBufferData*)mapped_resource.pData;
+	data->world_matrix = world_matrix;
+	data->view_matrix = view_matrix;
+	data->projection_matrix = projection_matrix;
 
 	device_context->Unmap(matrix_buffer_, 0);
 	

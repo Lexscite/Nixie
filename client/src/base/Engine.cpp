@@ -165,16 +165,20 @@ int Engine::Run()
 			DispatchMessage(&message);
 		}
 		else
-			Update(0.0f);
+			if (!Update(0.0f))
+				return 100500;
 	}
 
 	return static_cast<int>(message.wParam);
 }
 
-void Engine::Update(float delta_time)
+bool Engine::Update(float delta_time)
 {
 	current_scene_->Update();
-	Graphics::GetSingleton()->Render();
+	if (!Graphics::GetSingleton()->Render())
+		return false;
+
+	return true;
 }
 
 HWND Engine::GetHwnd()

@@ -7,19 +7,13 @@ Mesh::Mesh()
 	data_ = 0;
 }
 
-bool Mesh::Init(char* file_path)
+bool Mesh::Init(char* file_path, Vector3* position)
 {
 	if (!LoadFile(file_path))
-	{
 		return false;
-		std::cerr << "Failed to load mesh" << std::endl;
-	}
 
-	if (!InitBuffers())
-	{
-		std::cerr << "Failed to load buffers" << std::endl;
+	if (!InitBuffers(position))
 		return false;
-	}
 
 	return true;
 }
@@ -58,9 +52,10 @@ bool Mesh::LoadFile(char* filePath)
 	fin.get(input);
 	fin.get(input);
 
-	for (size_t i = 0; i < vertex_count_; i++)
+	for (int i = 0; i < vertex_count_; i++)
 	{
 		fin >> data_[i].x >> data_[i].y >> data_[i].z;
+		fin >> data_[i].tu >> data_[i].tv;
 		fin >> data_[i].nx >> data_[i].ny >> data_[i].nz;
 	}
 
@@ -79,11 +74,8 @@ int Mesh::GetIndexCount()
 	return index_count_;
 }
 
-bool Mesh::InitBuffers()
+bool Mesh::InitBuffers(Vector3* position)
 {
-	vertex_count_ = 3;
-	index_count_ = 3;
-
 	VertexType* vertices = new VertexType[vertex_count_];
 	if (!vertices)
 		return false;
@@ -92,12 +84,13 @@ bool Mesh::InitBuffers()
 	if (!indices)
 		return false;
 
-	for  (size_t i = 0; i < vertex_count_; i++)
+	for  (int i = 0; i < vertex_count_; i++)
 	{
-		vertices[i].position = Vector3(data_[i].x, data_[i].y, data_[i].z);
+		vertices[i].position = Vector3(data_[i].x + position->x, data_[i].y + position->y, data_[i].z + position->z);
+		vertices[i].texture = Vector2(data_[i].tu, data_[i].tv);
 		vertices[i].normal = Vector3(data_[i].nx, data_[i].ny, data_[i].nz);
 
-		indices[i] = (ULONG)i;
+		indices[i] = i;
 	}
 
 	D3D11_BUFFER_DESC vertex_buffer_desc;

@@ -15,6 +15,7 @@ private:
 	struct VertexType
 	{
 		Vector3 position;
+		Vector2 texture;
 		Vector3 normal;
 		Color color;
 	};
@@ -22,19 +23,20 @@ private:
 	struct ModelType
 	{
 		float x, y, z;
+		float tu, tv;
 		float nx, ny, nz;
 	};
 
 public:
 	Mesh();
-	bool Init(char* file_path);
+	bool Init(char* file_path, Vector3* position);
 	void Release();
 	bool LoadFile(char* file_path);
 	void Render();
 	int GetIndexCount();
 
 private:
-	bool InitBuffers();
+	bool InitBuffers(Vector3* position);
 	void RenderBuffers();
 
 private:

@@ -13,11 +13,11 @@ using namespace DirectX;
 class ColorShader
 {
 private:
-	struct MatrixBufferType
+	struct MatrixBufferData
 	{
-		XMMATRIX world;
-		XMMATRIX view;
-		XMMATRIX projection;
+		XMMATRIX world_matrix;
+		XMMATRIX view_matrix;
+		XMMATRIX projection_matrix;
 	};
 
 public:
