@@ -1,18 +1,18 @@
 #include "Connection.h"
 
-CConnection::CConnection() {}
+Connection::Connection() {}
 
-CConnection* CConnection::s_singleton;
+Connection* Connection::s_singleton;
 
-CConnection* CConnection::GetSingleton()
+Connection* Connection::GetSingleton()
 {
 	if (s_singleton == 0)
-		s_singleton = new CConnection;
+		s_singleton = new Connection;
 
 	return s_singleton;
 }
 
-bool CConnection::Establish(std::string ip, int port)
+bool Connection::Establish(std::string ip, int port)
 {
 	m_AddressSize = sizeof(m_Address);
 	WSADATA wsaData;
@@ -41,7 +41,7 @@ bool CConnection::Establish(std::string ip, int port)
 	return true;
 }
 
-void CConnection::Release()
+void Connection::Release()
 {
 	bool done = Kill();
 
@@ -49,7 +49,7 @@ void CConnection::Release()
 		done = Kill();
 }
 
-bool CConnection::Kill()
+bool Connection::Kill()
 {
 	if (closesocket(m_Socket) == SOCKET_ERROR)
 	{
@@ -63,7 +63,7 @@ bool CConnection::Kill()
 	return true;
 }
 
-bool CConnection::Send(char* data, int totalBytes)
+bool Connection::Send(char* data, int totalBytes)
 {
 	int sentBytes = 0;
 	while (sentBytes < totalBytes)
@@ -91,7 +91,7 @@ bool CConnection::Send(char* data, int totalBytes)
 	return true;
 }
 
-bool CConnection::Recieve(char* data, int totalBytes)
+bool Connection::Recieve(char* data, int totalBytes)
 {
 	int recievedBytes = 0;
 	while (recievedBytes < totalBytes)
@@ -119,7 +119,7 @@ bool CConnection::Recieve(char* data, int totalBytes)
 	return true;
 }
 
-bool CConnection::SendInt32(int32_t data)
+bool Connection::SendInt32(int32_t data)
 {
 	data = htonl(data);
 	if (!Send((char*)&data, sizeof(int32_t)))
@@ -128,7 +128,7 @@ bool CConnection::SendInt32(int32_t data)
 	return true;
 }
 
-bool CConnection::GetInt32(int32_t &data)
+bool Connection::GetInt32(int32_t &data)
 {
 	if (!Recieve((char*)&data, sizeof(int32_t)))
 		return false;
@@ -137,7 +137,7 @@ bool CConnection::GetInt32(int32_t &data)
 	return true;
 }
 
-bool CConnection::SendPacketType(PacketType data)
+bool Connection::SendPacketType(PacketType data)
 {
 	if (!SendInt32((int32_t)data))
 		return false;
@@ -145,7 +145,7 @@ bool CConnection::SendPacketType(PacketType data)
 	return true;
 }
 
-bool CConnection::GetPacketType(PacketType &data)
+bool Connection::GetPacketType(PacketType &data)
 {
 	int32_t dataInt;
 	if (!GetInt32(dataInt))
@@ -155,7 +155,7 @@ bool CConnection::GetPacketType(PacketType &data)
 	return true;
 }
 
-bool CConnection::SendString(std::string &data)
+bool Connection::SendString(std::string &data)
 {
 	int32_t bufferLength = (int32_t)data.size();
 
@@ -168,7 +168,7 @@ bool CConnection::SendString(std::string &data)
 	return true;
 }
 
-bool CConnection::GetString(std::string &data)
+bool Connection::GetString(std::string &data)
 {
 	int32_t bufferLength;
 
@@ -190,7 +190,7 @@ bool CConnection::GetString(std::string &data)
 	return true;
 }
 
-bool CConnection::ProcessPacket(PacketType packetType)
+bool Connection::ProcessPacket(PacketType packetType)
 {
 	switch (packetType)
 	{
@@ -210,21 +210,21 @@ bool CConnection::ProcessPacket(PacketType packetType)
 	return true;
 }
 
-void CConnection::Thread()
+void Connection::Thread()
 {
 	PacketType packetType;
 
 	while (true)
 	{
-		if (!CConnection::GetSingleton()->GetPacketType(packetType))
+		if (!Connection::GetSingleton()->GetPacketType(packetType))
 			break;
 
-		if (!CConnection::GetSingleton()->ProcessPacket(packetType))
+		if (!Connection::GetSingleton()->ProcessPacket(packetType))
 			break;
 	}
 
 	MessageBox(NULL, "Lost connection to the server", "Network Error", MB_OK | MB_ICONERROR);
-	if (CConnection::GetSingleton()->Kill())
+	if (Connection::GetSingleton()->Kill())
 		std::cout << "Socket to the server was closed successfuly" << std::endl;
 	else
 		std::cerr << "Socket is't able to be closed" << std::endl;

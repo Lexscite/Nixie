@@ -1,5 +1,5 @@
-#ifndef __DEBUG_H__
-#define __DEBUG_H__
+#ifndef DEBUG_H
+#define DEBUG_H
 
 #pragma once
 
@@ -8,10 +8,10 @@
 #include <stdio.h>
 #include <iostream>
 
-class CException : public std::exception
+class Exception : public std::exception
 {
 public:
-	CException(HRESULT hr) : result(hr) {}
+	Exception(HRESULT hr) : result(hr) {}
 
 	virtual const char* what() const override
 	{
@@ -29,7 +29,7 @@ inline void ThrowIfFailed(HRESULT hr)
 {
 	if (FAILED(hr))
 	{
-		throw CException(hr);
+		throw Exception(hr);
 	}
 }
 

@@ -1,63 +1,50 @@
 #include "Engine.h"
 
-LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WindowProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
 {
-	if (CEngine::GetSingleton())
-		return CEngine::GetSingleton()->MsgProc(hwnd, msg, wParam, lParam);
+	if (Engine::GetSingleton())
+		return Engine::GetSingleton()->MessageProcessor(window, message, w_param, l_param);
 	else
-		return DefWindowProc(hwnd, msg, wParam, lParam);
+		return DefWindowProc(window, message, w_param, l_param);
 }
 
-CEngine::CEngine()
+Engine::Engine()
 {
-	m_hwnd = 0;
+	window_ = 0;
 }
 
-CEngine* CEngine::s_singleton;
+Engine* Engine::singleton_;
 
-CEngine* CEngine::GetSingleton()
+Engine* Engine::GetSingleton()
 {
-	if (s_singleton == 0)
-		s_singleton = new CEngine;
+	if (singleton_ == 0)
+		singleton_ = new Engine;
 
-	return s_singleton;
+	return singleton_;
 }
 
-void CEngine::Release()
+void Engine::Release()
 {
-	if (m_hwnd != nullptr)
-		DestroyWindow(m_hwnd);
+	if (window_ != nullptr)
+		DestroyWindow(window_);
 
-	safe_release(CGraphics::GetSingleton());
+	safe_release(Graphics::GetSingleton());
 	//safe_release(CConnection::GetSingleton());
 }
 
-bool CEngine::Init(HINSTANCE hInstance)
+bool Engine::Init(HINSTANCE instance)
 {
-	m_hInstance = hInstance;
-	m_WndTitle = "Nixie";
-	m_wndStyle = WS_OVERLAPPEDWINDOW;
+	instance_ = instance;
 
-	m_vsyncEnabled = true;
-	m_fullscreenEnabled = false;
-	if (m_fullscreenEnabled)
-	{
-		m_screenWidth = GetSystemMetrics(SM_CXSCREEN);
-		m_screenHeight = GetSystemMetrics(SM_CYSCREEN);
-	}
-	else
-	{
-		m_screenWidth = 800;
-		m_screenHeight = 600;
-	}
+	InitSettings();
 
 	if (!CreateMainWindow())
 	{
-		MessageBox(m_hwnd, "Failed to create window", "Error", MB_OK | MB_ICONERROR);
+		MessageBox(window_, "Failed to create window", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
 
-	if (!CGraphics::GetSingleton()->Init(m_screenWidth, m_screenHeight, m_vsyncEnabled, m_fullscreenEnabled))
+	if (!Graphics::GetSingleton()->Init(screen_width_, screen_height_, vsync_enabled_, fullscreen_enabled_))
 		return false;
 
 	//if (!CConnection::GetSingleton()->Establish("127.0.0.1", 1111))
@@ -69,47 +56,62 @@ bool CEngine::Init(HINSTANCE hInstance)
 	//	if (CConnection::GetSingleton()->SendPacketType(PacketType::HelloMessage))
 	//		CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
 
-	CScene* startScene = new CScene;
-	if (!LoadScene(startScene))
+	Scene* start_scene = new Scene;
+	if (!LoadScene(start_scene))
 		return false;
 
 	return true;
 }
 
-bool CEngine::CreateMainWindow()
+void Engine::InitSettings()
 {
-	WNDCLASSEX wcex;
-	LPCSTR className = "MainWindowClass";
-
-	ZeroMemory(&wcex, sizeof(WNDCLASSEX));
-	wcex.cbClsExtra = NULL;
-	wcex.cbWndExtra = NULL;
-	wcex.cbSize = sizeof(WNDCLASSEX);
-	wcex.style = CS_HREDRAW | CS_VREDRAW;
-	wcex.hInstance = m_hInstance;
-	wcex.lpfnWndProc = MainWndProc;
-	wcex.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-	wcex.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
-	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
-	wcex.lpszMenuName = NULL;
-	wcex.lpszClassName = className;
-
-	if (!RegisterClassEx(&wcex))
+	vsync_enabled_ = true;
+	fullscreen_enabled_ = false;
+	if (fullscreen_enabled_)
 	{
-		std::cerr << "Failed to register window class" << std::endl;
-		return false;
+		screen_width_ = GetSystemMetrics(SM_CXSCREEN);
+		screen_height_ = GetSystemMetrics(SM_CYSCREEN);
 	}
+	else
+	{
+		screen_width_ = 800;
+		screen_height_ = 600;
+	}
+}
+
+bool Engine::CreateMainWindow()
+{
+	WNDCLASSEX wc;
+	LPCSTR class_name = "MainWindowClass";
+	LPCSTR title = "Nixie";
+	DWORD style = WS_OVERLAPPEDWINDOW | WS_THICKFRAME;
+
+	ZeroMemory(&wc, sizeof(WNDCLASSEX));
+	wc.cbClsExtra = NULL;
+	wc.cbWndExtra = NULL;
+	wc.cbSize = sizeof(WNDCLASSEX);
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.hInstance = instance_;
+	wc.lpfnWndProc = WindowProcessor;
+	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
+	wc.lpszMenuName = NULL;
+	wc.lpszClassName = class_name;
+
+	if (!RegisterClassEx(&wc))
+		return false;
 
 	UINT x, y;
-	if (m_fullscreenEnabled)
+	if (fullscreen_enabled_)
 	{
 		DEVMODE dmScreenSettings;
 
 		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
 		dmScreenSettings.dmSize = sizeof(dmScreenSettings);
-		dmScreenSettings.dmPelsWidth = static_cast<ULONG>(m_screenWidth);
-		dmScreenSettings.dmPelsHeight = static_cast<ULONG>(m_screenHeight);
+		dmScreenSettings.dmPelsWidth = static_cast<ULONG>(screen_width_);
+		dmScreenSettings.dmPelsHeight = static_cast<ULONG>(screen_height_);
 		dmScreenSettings.dmBitsPerPel = 32;
 		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
@@ -120,26 +122,26 @@ bool CEngine::CreateMainWindow()
 	}
 	else
 	{
-		x = GetSystemMetrics(SM_CXSCREEN) / 2 - m_screenWidth / 2;
-		y = GetSystemMetrics(SM_CYSCREEN) / 2 - m_screenHeight / 2;
+		x = GetSystemMetrics(SM_CXSCREEN) / 2 - screen_width_ / 2;
+		y = GetSystemMetrics(SM_CYSCREEN) / 2 - screen_height_ / 2;
 	}
 
-	m_hwnd = CreateWindowEx(WS_EX_APPWINDOW, className, m_WndTitle, m_wndStyle,
-		x, y, m_screenWidth, m_screenHeight, NULL, NULL, m_hInstance, NULL);
-	if (!m_hwnd)
+	window_ = CreateWindowEx(WS_EX_APPWINDOW, class_name, title, style,
+		x, y, screen_width_, screen_height_, NULL, NULL, instance_, NULL);
+	if (!window_)
 	{
 		std::cerr << "Failed to create main window" << std::endl;
 		return false;
 	}
 
-	ShowWindow(m_hwnd, SW_SHOW);
+	ShowWindow(window_, SW_SHOW);
 
 	return true;
 }
 
-LRESULT CEngine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT Engine::MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
 {
-	switch (msg)
+	switch (message)
 	{
 	case WM_DESTROY:
 	{
@@ -147,49 +149,49 @@ LRESULT CEngine::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam);
+		return DefWindowProc(window, message, w_param, l_param);
 	}
 }
 
-int CEngine::Run()
+int Engine::Run()
 {
-	MSG msg = { 0 };
-	while (msg.message != WM_QUIT)
+	MSG message = { 0 };
+	while (message.message != WM_QUIT)
 	{
-		if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
+		if (PeekMessage(&message, NULL, NULL, NULL, PM_REMOVE))
 		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+			TranslateMessage(&message);
+			DispatchMessage(&message);
 		}
 		else
 			Update(0.0f);
 	}
 
-	return static_cast<int>(msg.wParam);
+	return static_cast<int>(message.wParam);
 }
 
-void CEngine::Update(float deltaTime)
+void Engine::Update(float delta_time)
 {
-	m_pCurrentScene->Update();
-	CGraphics::GetSingleton()->Render();
+	current_scene_->Update();
+	Graphics::GetSingleton()->Render();
 }
 
-HWND CEngine::GetHwnd()
+HWND Engine::GetHwnd()
 {
-	return m_hwnd;
+	return window_;
 }
 
-bool CEngine::LoadScene(CScene* scene)
+bool Engine::LoadScene(Scene* scene)
 {
 	if (!scene->Init())
 		return false;
 
-	m_pCurrentScene = scene;
+	current_scene_ = scene;
 
 	return true;
 }
 
-CScene* CEngine::GetCurrentScene()
+Scene* Engine::GetCurrentScene()
 {
-	return m_pCurrentScene;
+	return current_scene_;
 }

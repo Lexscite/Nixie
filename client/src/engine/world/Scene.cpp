@@ -1,28 +1,46 @@
 #include "Scene.h"
 
-bool CScene::Init()
+bool Scene::Init()
 {
-	m_clearColor = new Color(150, 150, 150);
+	clear_color_ = new Color(0, 100, 200);
 
-	m_currentCell = new CCell;
-	
-	if (!m_currentCell->Load())
-		return false;
+	GameObject* testGameObject = new GameObject;
+
+	game_objects_.push_back(testGameObject);
+
+	for each (GameObject* gameObject in game_objects_)
+	{
+		if (!gameObject->Init())
+			return false;
+	}
+
+	std::cout << "GameObjects count: " << game_objects_.size() << std::endl;
+	if (game_objects_.size() > 0)
+	{
+		for (int i = 0; i < static_cast<int>(game_objects_.size()); i++)
+		{
+			GameObject* game_object = game_objects_[i];
+			std::cout << std::endl << "GameObject #" << i << std::endl;
+			std::cout << "	pos: " << game_object->m_position->x << ", " << game_object->m_position->y << ", " << game_object->m_position->z << std::endl;
+		}
+	}
 
 	return true;
 }
 
-void CScene::Release()
+void Scene::Release()
 {
-	safe_release(m_currentCell);
+	for each (GameObject* game_object in game_objects_)
+		safe_delete(game_object);
 }
 
-void CScene::Update()
+void Scene::Update()
 {
-	m_currentCell->Update();
+	for each (GameObject* game_object in game_objects_)
+		game_object->Update();
 }
 
-Color* CScene::GetClearColor()
+Color* Scene::GetClearColor()
 {
-	return m_clearColor;
+	return clear_color_;
 }

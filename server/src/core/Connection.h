@@ -5,10 +5,10 @@
 
 #include "PacketManager.h"
 
-class CConnection
+class Connection
 {
 public:
-	CConnection(int id, SOCKET socket);
+	Connection(int id, SOCKET socket);
 	void Kill();
 
 public:

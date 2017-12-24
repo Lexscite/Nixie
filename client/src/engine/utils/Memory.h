@@ -1,5 +1,5 @@
-#ifndef __MEMORY_H__
-#define __MEMORY_H__
+#ifndef MEMORY_H
+#define MEMORY_H
 
 #pragma once
 

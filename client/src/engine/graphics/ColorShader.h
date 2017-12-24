@@ -1,16 +1,16 @@
-#ifndef __COLORSHADER_H__
-#define __COLORSHADER_H__
+#ifndef COLORSHADER_H
+#define COLORSHADER_H
 
 #pragma once
 
 #include <fstream>
 #include <string>
 
-#include "DirectX.h"
+#include "D3D.h"
 
 using namespace DirectX;
 
-class CColorShader
+class ColorShader
 {
 private:
 	struct MatrixBufferType
@@ -21,24 +21,24 @@ private:
 	};
 
 public:
-	CColorShader();
+	ColorShader();
 
 	bool Init();
 	void Release();
-	bool Render(int indexCount, XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix);
+	bool Render(int index_count, XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix);
 
 private:
 	bool InitShader(WCHAR*, WCHAR*);
-	void OutputShaderErrorMessage(ID3D10Blob* errorMessage, WCHAR* shaderPath);
+	void OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path);
 
-	bool SetShaderParameters(XMMATRIX worldMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix);
-	void RenderShader(int indexCount);
+	bool SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix);
+	void RenderShader(int index_count);
 
 private:
-	ID3D11VertexShader* m_pVertexShader;
-	ID3D11PixelShader* m_pPixelShader;
-	ID3D11InputLayout* m_pLayout;
-	ID3D11Buffer* m_pMatrixBuffer;
+	ID3D11VertexShader* vertex_shader_;
+	ID3D11PixelShader* pixel_shader_;
+	ID3D11InputLayout* layout_;
+	ID3D11Buffer* matrix_buffer_;
 };
 
 #endif

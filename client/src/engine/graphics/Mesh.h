@@ -1,14 +1,14 @@
-#ifndef __MESH_H__
-#define __MESH_H__
+#ifndef MESH_H
+#define MESH_H
 
 #pragma once
 
 #include <fstream>
 #include "..\utils\Memory.h"
 #include  "..\math\Color.h"
-#include "DirectX.h"
+#include "D3D.h"
 
-class CMesh
+class Mesh
 {
 private:
 	struct VertexType
@@ -25,16 +25,18 @@ private:
 	};
 
 public:
-	CMesh();
+	Mesh();
 	bool Init(char* filePath);
 	void Release();
-	bool Load(char* filePath);
+	bool LoadFile(char* filePath);
 	void Render();
 	int GetIndexCount();
 
 private:
 	bool InitBuffers();
 	void RenderBuffers();
+
+	bool ApplyMaterial();
 
 private:
 	ID3D11Buffer* m_pVertexBuffer;

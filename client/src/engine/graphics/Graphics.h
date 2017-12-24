@@ -1,32 +1,32 @@
-#ifndef __GRAPHICS_H__
-#define __GRAPHICS_H__
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
 
 #pragma once
 
-#include "DirectX.h"
+#include "D3D.h"
 #include "Camera.h"
 #include "ColorShader.h"
 
-class CGraphics
+class Graphics
 {
 public:
-	static CGraphics* GetSingleton();
+	static Graphics* GetSingleton();
 
 	bool Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool fullscreenEnabled);
 	void Release();
 	void Render();
 
 private: 
-	CGraphics();
+	Graphics();
 
 private:
-	static CGraphics* s_singleton;
+	static Graphics* s_singleton;
 
 	bool m_vsyncEnabled;
 	bool m_fullscreenEnabled;
 
-	CCamera* m_pCamera;
-	CColorShader* m_pColorShader;
+	Camera* m_pCamera;
+	ColorShader* m_pColorShader;
 };
 
 #endif

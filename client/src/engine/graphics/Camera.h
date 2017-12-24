@@ -1,28 +1,28 @@
-#ifndef __CAMERA_H__
-#define __CAMERA_H__
+#ifndef CAMERA_H
+#define CAMERA_H
+
+#pragma once
 
 #include <directxmath.h>
 
+#include "../math//Vector.h"
+
 using namespace DirectX;
 
-class CCamera
+class Camera
 {
 public:
-	CCamera();
-
-	void SetPosition(float, float, float);
-	void SetRotation(float, float, float);
-
-	XMFLOAT3 GetPosition();
-	XMFLOAT3 GetRotation();
+	Camera();
 
 	void Render();
 	void GetViewMatrix(XMMATRIX&);
 
+public:
+	Vector3* position_;
+	Vector3* rotation_;
+
 private:
-	float m_positionX, m_positionY, m_positionZ;
-	float m_rotationX, m_rotationY, m_rotationZ;
-	XMMATRIX m_viewMatrix;
+	XMMATRIX view_matrix_;
 };
 
 #endif

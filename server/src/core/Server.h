@@ -49,7 +49,7 @@ private:
 	SOCKADDR_IN m_addr;
 	int m_addrlen;
 
-	std::map<unsigned int, std::shared_ptr<CConnection>> m_pConnections;
+	std::map<unsigned int, std::shared_ptr<Connection>> m_pConnections;
 	std::vector<unsigned int> m_unusedConnectionsIds;
 
 	HANDLE m_hPacketSenderThread;

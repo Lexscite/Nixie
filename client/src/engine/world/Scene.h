@@ -1,12 +1,17 @@
-#ifndef __SCENE_H__
-#define __SCENE_H__
+#ifndef SCENE_H
+#define SCENE_H
 
 #pragma once
 
-#include "..\math\Color.h"
-#include "Cell.h"
+#include <vector>
 
-class CScene
+#include "../math/Color.h"
+#include "../graphics/Camera.h"
+#include "../utils/Memory.h"
+#include "../math/Vector.h"
+#include "GameObject.h"
+
+class Scene
 {
 public:
 	bool Init();
@@ -16,9 +21,8 @@ public:
 	Color* GetClearColor();
 
 private:
-	CCell* m_currentCell;
-
-	Color* m_clearColor;
+	Color* clear_color_;
+	std::vector<GameObject*> game_objects_;
 };
 
 #endif

@@ -1,83 +1,53 @@
 #include "Camera.h"
 
-CCamera::CCamera()
+Camera::Camera()
 {
-	m_positionX = 0.0f;
-	m_positionY = 0.0f;
-	m_positionZ = 0.0f;
-
-	m_rotationX = 0.0f;
-	m_rotationY = 0.0f;
-	m_rotationZ = 0.0f;
+	position_ = new Vector3;
+	rotation_ = new Vector3;
 }
 
-void CCamera::SetPosition(float x, float y, float z)
-{
-	m_positionX = x;
-	m_positionY = y;
-	m_positionZ = z;
-}
-
-void CCamera::SetRotation(float x, float y, float z)
-{
-	m_rotationX = x;
-	m_rotationY = y;
-	m_rotationZ = z;
-}
-
-XMFLOAT3 CCamera::GetPosition()
-{
-	return XMFLOAT3(m_positionX, m_positionY, m_positionZ);
-}
-
-
-XMFLOAT3 CCamera::GetRotation()
-{
-	return XMFLOAT3(m_rotationX, m_rotationY, m_rotationZ);
-}
-
-void CCamera::Render()
+void Camera::Render()
 {
 	XMFLOAT3 up;
 	up.x = 0.0f;
 	up.y = 1.0f;
 	up.z = 0.0f;
 
-	XMVECTOR upVector;
-	upVector = XMLoadFloat3(&up);
+	XMVECTOR up_vector;
+	up_vector = XMLoadFloat3(&up);
 
 	XMFLOAT3 position;
-	position.x = m_positionX;
-	position.y = m_positionY;
-	position.z = m_positionZ;
+	position.x = position_->x;
+	position.y = position_->y;
+	position.z = position_->z;
 
-	XMVECTOR positionVector;
-	positionVector = XMLoadFloat3(&position);
+	XMVECTOR position_vector;
+	position_vector = XMLoadFloat3(&position);
 
-	XMFLOAT3 lookAt;
-	lookAt.x = 0.0f;
-	lookAt.y = 0.0f;
-	lookAt.z = 1.0f;
+	XMFLOAT3 look_at;
+	look_at.x = 0.0f;
+	look_at.y = 0.0f;
+	look_at.z = 1.0f;
 
-	XMVECTOR lookAtVector;
-	lookAtVector = XMLoadFloat3(&lookAt);
+	XMVECTOR look_at_vector;
+	look_at_vector = XMLoadFloat3(&look_at);
 
-	float pitch = m_rotationX * 0.0174532925f;
-	float yaw = m_rotationY * 0.0174532925f;
-	float roll = m_rotationZ * 0.0174532925f;
+	float pitch = rotation_->x * 0.0174532925f;
+	float yaw = rotation_->y * 0.0174532925f;
+	float roll = rotation_->z * 0.0174532925f;
 
 	XMMATRIX rotationMatrix;
 	rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
-	lookAtVector = XMVector3TransformCoord(lookAtVector, rotationMatrix);
-	upVector = XMVector3TransformCoord(upVector, rotationMatrix);
+	look_at_vector = XMVector3TransformCoord(look_at_vector, rotationMatrix);
+	up_vector = XMVector3TransformCoord(up_vector, rotationMatrix);
 
-	lookAtVector = XMVectorAdd(positionVector, lookAtVector);
+	look_at_vector = XMVectorAdd(position_vector, look_at_vector);
 
-	m_viewMatrix = XMMatrixLookAtLH(positionVector, lookAtVector, upVector);
+	view_matrix_ = XMMatrixLookAtLH(position_vector, look_at_vector, up_vector);
 }
 
-void CCamera::GetViewMatrix(XMMATRIX& viewMatrix)
+void Camera::GetViewMatrix(XMMATRIX& view_matrix)
 {
-	viewMatrix = m_viewMatrix;
+	view_matrix = view_matrix_;
 }

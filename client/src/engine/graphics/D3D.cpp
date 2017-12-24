@@ -1,7 +1,7 @@
-#include "DirectX.h"
+#include "D3D.h"
 #include "..\Engine.h"
 
-CDirectX::CDirectX()
+D3D::D3D()
 {
 	m_pSwapChain = 0;
 	m_pDevice = 0;
@@ -13,17 +13,17 @@ CDirectX::CDirectX()
 	m_pRasterizerState = 0;
 }
 
-CDirectX* CDirectX::s_singleton;
+D3D* D3D::s_singleton;
 
-CDirectX* CDirectX::GetSingleton()
+D3D* D3D::GetSingleton()
 {
 	if (s_singleton == 0)
-		s_singleton = new CDirectX;
+		s_singleton = new D3D;
 
 	return s_singleton;
 }
 
-bool CDirectX::Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool fullscreenEnabled, float screenDepth, float screenNear)
+bool D3D::Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool fullscreenEnabled, float screenDepth, float screenNear)
 {
 	HRESULT result = S_OK;
 
@@ -116,7 +116,7 @@ bool CDirectX::Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool
 
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
-	swapChainDesc.OutputWindow = CEngine::GetSingleton()->GetHwnd();
+	swapChainDesc.OutputWindow = Engine::GetSingleton()->GetHwnd();
 	swapChainDesc.Windowed = !m_fullscreenEnabled;
 	swapChainDesc.BufferCount = 1;
 	swapChainDesc.BufferDesc.Width = screenWidth;
@@ -286,7 +286,7 @@ bool CDirectX::Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool
 	return true;
 }
 
-void CDirectX::Release()
+void D3D::Release()
 {
 	if (m_pSwapChain)
 		m_pSwapChain->SetFullscreenState(false, NULL);
@@ -316,14 +316,14 @@ void CDirectX::Release()
 		safe_release(m_pSwapChain);
 }
 
-void CDirectX::BeginScene(Color* color)
+void D3D::BeginScene(Color* color)
 {
 	float clearColor[4] = { color->r, color->g, color->b, color->a };
 	m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, clearColor);
 	m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
-void CDirectX::EndScene()
+void D3D::EndScene()
 {
 	if (m_vsyncEnabled)
 		m_pSwapChain->Present(1, 0);
@@ -331,29 +331,29 @@ void CDirectX::EndScene()
 		m_pSwapChain->Present(0, 0);
 }
 
-ID3D11Device* CDirectX::GetDevice()
+ID3D11Device* D3D::GetDevice()
 {
 	return m_pDevice;
 }
 
-ID3D11DeviceContext* CDirectX::GetDeviceContext()
+ID3D11DeviceContext* D3D::GetDeviceContext()
 {
 	return m_pDeviceContext;
 }
 
-void CDirectX::GetProjectionMatrix(XMMATRIX& projectionMatrix)
+void D3D::GetProjectionMatrix(XMMATRIX& projectionMatrix)
 {
 	projectionMatrix = m_projectionMatrix;
 }
 
 
-void CDirectX::GetWorldMatrix(XMMATRIX& worldMatrix)
+void D3D::GetWorldMatrix(XMMATRIX& worldMatrix)
 {
 	worldMatrix = m_worldMatrix;
 }
 
 
-void CDirectX::GetOrthoMatrix(XMMATRIX& orthoMatrix)
+void D3D::GetOrthoMatrix(XMMATRIX& orthoMatrix)
 {
 	orthoMatrix = m_orthoMatrix;
 }

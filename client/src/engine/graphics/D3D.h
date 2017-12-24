@@ -1,5 +1,5 @@
-#ifndef __DIRECTX_H__
-#define __DIRECTX_H__
+#ifndef DIRECTX_H
+#define DIRECTX_H
 
 #pragma once
 
@@ -17,10 +17,10 @@
 
 using namespace DirectX;
 
-class CDirectX
+class D3D
 {
 public:
-	static CDirectX* GetSingleton();
+	static D3D* GetSingleton();
 
 	bool Init(UINT screenWidth, UINT screenHeight, bool vsyncEnabled, bool fullscreenEnabled, float screenDepth, float screenNear);
 	void Release();
@@ -36,10 +36,10 @@ public:
 	void GetOrthoMatrix(XMMATRIX& matrix);
 
 private:
-	CDirectX();
+	D3D();
 
 private:
-	static CDirectX* s_singleton;
+	static D3D* s_singleton;
 
 	UINT m_screenWidth;
 	UINT m_screenHeight;

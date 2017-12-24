@@ -1,20 +1,18 @@
 #include "GameObject.h"
 
-bool CGameObject::Init()
+bool GameObject::Init()
 {
+	m_mesh = new Mesh;
+	if (!m_mesh->Init("../../../Client/src/content/meshes/Cube.txt"))
+		std::cerr << "Failed to init object" << std::endl;
+
 	m_position = new Vector3;
 	m_scale = new Vector3(1, 1, 1);
-	m_isStatic = false;
-
-	OnInit();
 
 	return true;
 }
 
-void CGameObject::Update()
+void GameObject::Update()
 {
-	if (m_isStatic)
-		return;
-
-	OnUpdate();
+	m_mesh->Render();
 }

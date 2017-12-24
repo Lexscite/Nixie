@@ -1,5 +1,5 @@
-#ifndef __ENGINE_H__
-#define __ENGINE_H__
+#ifndef ENGINE_H
+#define ENGINE_H
 
 #pragma once
 
@@ -7,43 +7,42 @@
 #include "network\Connection.h"
 #include "world\Scene.h"
 
-class CEngine
+class Engine
 {
 public:
-	static CEngine* GetSingleton();
+	static Engine* GetSingleton();
 
 	HWND GetHwnd();
 
-	bool Init(HINSTANCE hInstance);
+	bool Init(HINSTANCE instance);
 	void Release();
 	int Run();
-	void Update(float deltaTime);
 
-	bool LoadScene(CScene* scene);
-	CScene* GetCurrentScene();
+	Scene* GetCurrentScene();
 
-	LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param);
 
 private:
-	CEngine();
+	Engine();
 
 	bool CreateMainWindow();
+	void InitSettings();
+	void Update(float delta_time);
+	bool LoadScene(Scene* scene);
 
 private:
-	static CEngine* s_singleton;
+	static Engine* singleton_;
 
-	HWND m_hwnd;
-	HINSTANCE m_hInstance;
+	HWND window_;
+	HINSTANCE instance_;
 
-	DWORD m_wndStyle;
-	UINT m_screenWidth;
-	UINT m_screenHeight;
-	LPCSTR m_WndTitle;
+	UINT screen_width_;
+	UINT screen_height_;
 
-	bool m_vsyncEnabled;
-	bool m_fullscreenEnabled;
+	bool vsync_enabled_;
+	bool fullscreen_enabled_;
 
-	CScene* m_pCurrentScene;
+	Scene* current_scene_;
 };
 
 #endif

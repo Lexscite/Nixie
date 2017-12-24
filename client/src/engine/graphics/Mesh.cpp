@@ -1,15 +1,15 @@
 #include "Mesh.h"
 
-CMesh::CMesh()
+Mesh::Mesh()
 {
 	m_pVertexBuffer = 0;
 	m_pIndexBuffer = 0;
 	m_meshData = 0;
 }
 
-bool CMesh::Init(char* filePath)
+bool Mesh::Init(char* filePath)
 {
-	if (!Load(filePath))
+	if (!LoadFile(filePath))
 	{
 		return false;
 		std::cerr << "Failed to load mesh" << std::endl;
@@ -24,14 +24,14 @@ bool CMesh::Init(char* filePath)
 	return true;
 }
 
-void CMesh::Release()
+void Mesh::Release()
 {
 	safe_release(m_pIndexBuffer);
 	safe_release(m_pVertexBuffer);
 	safe_delete_arr(m_meshData);
 }
 
-bool CMesh::Load(char* filePath)
+bool Mesh::LoadFile(char* filePath)
 {
 	std::ifstream fin;
 	fin.open(filePath);
@@ -69,17 +69,17 @@ bool CMesh::Load(char* filePath)
 	return true;
 }
 
-void CMesh::Render()
+void Mesh::Render()
 {
 	RenderBuffers();
 }
 
-int CMesh::GetIndexCount()
+int Mesh::GetIndexCount()
 {
 	return m_indexCount;
 }
 
-bool CMesh::InitBuffers()
+bool Mesh::InitBuffers()
 {
 	m_vertexCount = 3;
 	m_indexCount = 3;
@@ -113,7 +113,7 @@ bool CMesh::InitBuffers()
 	vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;
 
-	ID3D11Device* device = CDirectX::GetSingleton()->GetDevice();
+	ID3D11Device* device = D3D::GetSingleton()->GetDevice();
 	HRESULT result = device->CreateBuffer(&vertexBufferDesc, &vertexData, &m_pVertexBuffer);
 	if (FAILED(result))
 		return false;
@@ -141,7 +141,7 @@ bool CMesh::InitBuffers()
 	return true;
 }
 
-void CMesh::RenderBuffers()
+void Mesh::RenderBuffers()
 {
 	unsigned int stride;
 	unsigned int offset;
@@ -149,7 +149,7 @@ void CMesh::RenderBuffers()
 	stride = sizeof(VertexType);
 	offset = 0;
 
-	ID3D11DeviceContext* deviceContext = CDirectX::GetSingleton()->GetDeviceContext();
+	ID3D11DeviceContext* deviceContext = D3D::GetSingleton()->GetDeviceContext();
 
 	deviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
 	deviceContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);

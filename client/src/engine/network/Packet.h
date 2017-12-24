@@ -1,5 +1,5 @@
-#ifndef __PACKET_H__
-#define __PACKET_H__
+#ifndef PACKET_H
+#define PACKET_H
 
 #pragma once
 

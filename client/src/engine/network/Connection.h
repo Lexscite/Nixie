@@ -1,12 +1,12 @@
-#ifndef __CLIENT_H__
-#define __CLIENT_H__
+#ifndef CLIENT_H
+#define CLIENT_H
 
 #pragma once
 
 #include "Packet.h"
 #include <iostream>
 
-class CConnection
+class Connection
 {
 public:
 	bool Establish(std::string ip, int port);
@@ -16,10 +16,10 @@ public:
 	bool SendPacketType(PacketType data);
 	bool SendString(std::string &data);
 
-	static CConnection* GetSingleton();
+	static Connection* GetSingleton();
 
 private:
-	CConnection();
+	Connection();
 
 	bool ProcessPacket(PacketType packetType);
 	bool Send(char *data, int totalBytes);
@@ -36,7 +36,7 @@ private:
 	SOCKADDR_IN m_Address;
 	int m_AddressSize;
 
-	static CConnection* s_singleton;
+	static Connection* s_singleton;
 };
 
 #endif

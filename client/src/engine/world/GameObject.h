@@ -1,26 +1,23 @@
-#ifndef __SCENEOBJECT_H__
-#define __SCENEOBJECT_H__
+#ifndef GAMEOBJECT_H
+#define GAMEOBJECT_H_
 
 #pragma once
 
 #include "..\math\Vector.h"
 #include "..\graphics\Mesh.h"
 
-class CGameObject
+class GameObject
 {
 public:
 	bool Init();
 	void Update();
 
-private:
-	virtual void OnInit() = 0;
-	virtual void OnUpdate() = 0;
-
 public:
-	bool m_isStatic;
-
 	Vector3* m_position;
 	Vector3* m_scale;
+
+private:
+	Mesh * m_mesh;
 };
 
 #endif

@@ -1,9 +1,9 @@
 #include "engine/Engine.h"
 
 #ifdef _DEBUG
-class CConsoleBuffer : public std::streambuf {
+class ConsoleBuffer : public std::streambuf {
 public:
-	CConsoleBuffer() {
+	ConsoleBuffer() {
 		setp(0, 0);
 	}
 
@@ -23,20 +23,20 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 	}
 
 #ifdef _DEBUG
-	CConsoleBuffer consoleBuffer;
+	ConsoleBuffer consoleBuffer;
 	std::streambuf *coutBuffer = std::cout.rdbuf(&consoleBuffer);
 	std::streambuf *cerrBuffer = std::cerr.rdbuf(&consoleBuffer);
 #endif
 
-	CEngine* pEngine = CEngine::GetSingleton();
-	if (pEngine->Init(hInstance))
+	Engine* engine = Engine::GetSingleton();
+	if (engine->Init(hInstance))
 	{
-		pEngine->Run();
+		engine->Run();
 	}
 	else
 		return 1;
 
-	safe_release(pEngine);
+	safe_release(engine);
 
 #ifdef _DEBUG
 	std::cout.rdbuf(coutBuffer);

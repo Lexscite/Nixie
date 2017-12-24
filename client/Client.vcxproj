@@ -19,16 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="src\engine\graphics\Camera.cpp" />
     <ClCompile Include="src\engine\graphics\ColorShader.cpp" />
-    <ClCompile Include="src\content\game_objects\TestGameObject.cpp" />
     <ClCompile Include="src\engine\graphics\Mesh.cpp" />
     <ClCompile Include="src\engine\math\Color.cpp" />
     <ClCompile Include="src\engine\math\Vector.cpp" />
-    <ClCompile Include="src\engine\world\Cell.cpp" />
     <ClCompile Include="src\engine\world\Scene.cpp" />
     <ClCompile Include="src\engine\world\GameObject.cpp" />
-    <ClCompile Include="src\engine\graphics\DirectX.cpp" />
+    <ClCompile Include="src\engine\graphics\D3D.cpp" />
     <ClCompile Include="src\engine\graphics\Graphics.cpp" />
     <ClCompile Include="src\engine\network\Connection.cpp" />
     <ClCompile Include="src\engine\network\Packet.cpp" />
@@ -36,17 +35,16 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Material.h" />
     <ClInclude Include="src\engine\graphics\Camera.h" />
     <ClInclude Include="src\engine\graphics\ColorShader.h" />
-    <ClInclude Include="src\content\game_objects\TestGameObject.h" />
     <ClInclude Include="src\engine\math\Math.h" />
     <ClInclude Include="src\engine\graphics\Mesh.h" />
     <ClInclude Include="src\engine\math\Color.h" />
     <ClInclude Include="src\engine\math\Vector.h" />
-    <ClInclude Include="src\engine\world\Cell.h" />
     <ClInclude Include="src\engine\world\Scene.h" />
     <ClInclude Include="src\engine\world\GameObject.h" />
-    <ClInclude Include="src\engine\graphics\DirectX.h" />
+    <ClInclude Include="src\engine\graphics\D3D.h" />
     <ClInclude Include="src\engine\graphics\Graphics.h" />
     <ClInclude Include="src\engine\network\Connection.h" />
     <ClInclude Include="src\engine\network\Packet.h" />

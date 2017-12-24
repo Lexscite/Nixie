@@ -102,7 +102,7 @@ void CServer::AcceptConnection(SOCKET socket)
 		}
 		else
 		{
-			std::shared_ptr<CConnection> newConnection(new CConnection(m_pConnections.size(), socket));
+			std::shared_ptr<Connection> newConnection(new Connection((int)m_pConnections.size(), socket));
 
 			std::cout << "Client connected (ID: " << newConnection->m_id << ")." << std::endl;
 			newConnection->m_hThread = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandlerThread, (LPVOID)(INT_PTR)newConnection->m_id, NULL, NULL);
