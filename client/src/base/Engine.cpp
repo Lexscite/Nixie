@@ -1,4 +1,4 @@
-#include "Engine.h"
+#include "engine.h"
 
 LRESULT CALLBACK WindowProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
 {
@@ -8,10 +8,8 @@ LRESULT CALLBACK WindowProcessor(HWND window, UINT message, WPARAM w_param, LPAR
 		return DefWindowProc(window, message, w_param, l_param);
 }
 
-Engine::Engine()
-{
-	window_ = 0;
-}
+
+Engine::Engine() = default;
 
 Engine* Engine::singleton_;
 
@@ -28,24 +26,27 @@ void Engine::Release()
 	if (window_ != nullptr)
 		DestroyWindow(window_);
 
-	safe_release(Graphics::GetSingleton());
 	//safe_release(CConnection::GetSingleton());
+	safe_release(scene_);
 }
 
 bool Engine::Init(HINSTANCE instance)
 {
-	instance_ = instance;
+	directx_ = D3D::GetSingleton();
 
 	InitSettings();
 
-	if (!InitWindow())
+	if (!InitWindow(instance))
 	{
 		MessageBox(window_, "Failed to create window", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
-
-	if (!Graphics::GetSingleton()->Init(screen_width_, screen_height_, vsync_enabled_, fullscreen_enabled_))
+	
+	if (!directx_->Init(resolution_->x, resolution_->y, vsync_enabled_, fullscreen_enabled_, 1000.0f, 0.1f))
+	{
+		MessageBox(Engine::GetSingleton()->GetHwnd(), "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
 		return false;
+	}
 
 	//if (!CConnection::GetSingleton()->Establish("127.0.0.1", 1111))
 	//{
@@ -56,8 +57,7 @@ bool Engine::Init(HINSTANCE instance)
 	//	if (CConnection::GetSingleton()->SendPacketType(PacketType::HelloMessage))
 	//		CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
 
-	Scene* start_scene = new Scene;
-	if (!LoadScene(start_scene))
+	if (!LoadScene(new Scene))
 		return false;
 
 	return true;
@@ -67,19 +67,18 @@ void Engine::InitSettings()
 {
 	vsync_enabled_ = true;
 	fullscreen_enabled_ = false;
+
 	if (fullscreen_enabled_)
 	{
-		screen_width_ = GetSystemMetrics(SM_CXSCREEN);
-		screen_height_ = GetSystemMetrics(SM_CYSCREEN);
+		resolution_ = new IntVector2(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 	}
 	else
 	{
-		screen_width_ = 800;
-		screen_height_ = 600;
+		resolution_ = new IntVector2(800, 600);
 	}
 }
 
-bool Engine::InitWindow()
+bool Engine::InitWindow(HINSTANCE instance)
 {
 	WNDCLASSEX wc;
 	LPCSTR class_name = "MainWindowClass";
@@ -92,7 +91,7 @@ bool Engine::InitWindow()
 	wc.cbWndExtra = NULL;
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.style = CS_HREDRAW | CS_VREDRAW;
-	wc.hInstance = instance_;
+	wc.hInstance = instance;
 	wc.lpfnWndProc = WindowProcessor;
 	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
@@ -104,31 +103,27 @@ bool Engine::InitWindow()
 	if (!RegisterClassEx(&wc))
 		return false;
 
-	UINT x, y;
+	IntVector2* window_size;
 	if (fullscreen_enabled_)
 	{
 		DEVMODE dmScreenSettings;
 
 		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
 		dmScreenSettings.dmSize = sizeof(dmScreenSettings);
-		dmScreenSettings.dmPelsWidth = static_cast<ULONG>(screen_width_);
-		dmScreenSettings.dmPelsHeight = static_cast<ULONG>(screen_height_);
+		dmScreenSettings.dmPelsWidth = static_cast<ULONG>(resolution_->x);
+		dmScreenSettings.dmPelsHeight = static_cast<ULONG>(resolution_->y);
 		dmScreenSettings.dmBitsPerPel = 32;
 		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
 		ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
 
-		x = 0;
-		y = 0;
+		window_size = new IntVector2();
 	}
 	else
-	{
-		x = GetSystemMetrics(SM_CXSCREEN) / 2 - screen_width_ / 2;
-		y = GetSystemMetrics(SM_CYSCREEN) / 2 - screen_height_ / 2;
-	}
+		window_size = new IntVector2(GetSystemMetrics(SM_CXSCREEN) / 2 - resolution_->x / 2, GetSystemMetrics(SM_CYSCREEN) / 2 - resolution_->y / 2);
 
 	window_ = CreateWindowEx(WS_EX_APPWINDOW, class_name, title, style,
-		x, y, screen_width_, screen_height_, NULL, NULL, instance_, NULL);
+		window_size->x, window_size->y, resolution_->x, resolution_->y, NULL, NULL, instance, NULL);
 	if (!window_)
 	{
 		std::cerr << "Failed to create main window" << std::endl;
@@ -165,20 +160,17 @@ int Engine::Run()
 			DispatchMessage(&message);
 		}
 		else
-			if (!Update(0.0f))
-				return 100500;
+			Update(0.0f);
 	}
 
 	return static_cast<int>(message.wParam);
 }
 
-bool Engine::Update(float delta_time)
+void Engine::Update(float delta_time)
 {
-	current_scene_->Update();
-	if (!Graphics::GetSingleton()->Render())
-		return false;
-
-	return true;
+	D3D::GetSingleton()->BeginScene(scene_->GetClearColor());
+	scene_->Update();
+	D3D::GetSingleton()->EndScene();
 }
 
 HWND Engine::GetHwnd()
@@ -186,17 +178,22 @@ HWND Engine::GetHwnd()
 	return window_;
 }
 
+D3D* Engine::GetDirectX()
+{
+	return directx_;
+}
+
+Scene* Engine::GetScene()
+{
+	return scene_;
+}
+
 bool Engine::LoadScene(Scene* scene)
 {
 	if (!scene->Init())
 		return false;
 
-	current_scene_ = scene;
+	scene_ = scene;
 
 	return true;
-}
-
-Scene* Engine::GetCurrentScene()
-{
-	return current_scene_;
 }

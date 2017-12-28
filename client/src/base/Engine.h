@@ -3,46 +3,43 @@
 
 #pragma once
 
-#include "graphics\Graphics.h"
-#include "network\Connection.h"
-#include "world\Scene.h"
+#include "network/connection.h"
+#include "content/scene.h"
 
-class Engine
+class Engine final
 {
 public:
 	static Engine* GetSingleton();
-
-	HWND GetHwnd();
 
 	bool Init(HINSTANCE instance);
 	void Release();
 	int Run();
 
-	Scene* GetCurrentScene();
-
 	LRESULT MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param);
+
+	HWND GetHwnd();
+	D3D* GetDirectX();
+	Scene* GetScene();
 
 private:
 	Engine();
 
-	bool InitWindow();
+	bool InitWindow(HINSTANCE instance);
 	void InitSettings();
-	bool Update(float delta_time);
+	void Update(float delta_time);
 	bool LoadScene(Scene* scene);
 
 private:
 	static Engine* singleton_;
 
 	HWND window_;
-	HINSTANCE instance_;
 
-	UINT screen_width_;
-	UINT screen_height_;
-
+	IntVector2* resolution_;
 	bool vsync_enabled_;
 	bool fullscreen_enabled_;
 
-	Scene* current_scene_;
+	D3D* directx_;
+	Scene* scene_;
 };
 
 #endif

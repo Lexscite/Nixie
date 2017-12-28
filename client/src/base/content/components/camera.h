@@ -5,21 +5,16 @@
 
 #include <directxmath.h>
 
-#include "../math//Vector.h"
+#include "../../math/vector.h"
+#include "../component.h"
 
 using namespace DirectX;
 
-class Camera
+class Camera : public Component
 {
 public:
-	Camera();
-
 	void Render();
 	void GetViewMatrix(XMMATRIX&);
-
-public:
-	Vector3* position_;
-	Vector3* rotation_;
 
 private:
 	XMMATRIX view_matrix_;

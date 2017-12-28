@@ -6,11 +6,11 @@
 #include <fstream>
 #include <string>
 
-#include "D3D.h"
+#include "d3d.h"
 
 using namespace DirectX;
 
-class ColorShader
+class Shader
 {
 private:
 	struct MatrixBufferData
@@ -21,14 +21,14 @@ private:
 	};
 
 public:
-	ColorShader();
+	Shader();
 
 	bool Init();
 	void Release();
-	bool Render(int index_count, XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix);
+	bool Render(int index_count);
 
 private:
-	bool InitShader(WCHAR*, WCHAR*);
+	bool InitShader(WCHAR* vs_file_path, WCHAR* ps_file_path);
 	void OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path);
 
 	bool SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix);

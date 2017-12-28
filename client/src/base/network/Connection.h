@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "Packet.h"
+#include "packet.h"
 #include <iostream>
 
 class Connection

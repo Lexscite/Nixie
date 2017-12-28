@@ -1,21 +1,25 @@
-#include "Mesh.h"
+#include "mesh.h"
 
-Mesh::Mesh()
+Mesh::Mesh(char* file_path)
 {
+	file_path_ = file_path;
 	vertex_buffer_ = 0;
 	index_buffer_ = 0;
 	data_ = 0;
 }
 
-bool Mesh::Init(char* file_path, Vector3* position)
+void Mesh::OnInit()
 {
-	if (!LoadFile(file_path))
-		return false;
+	if (!LoadFile())
+		return;
 
-	if (!InitBuffers(position))
-		return false;
+	if (!InitBuffers())
+		return;
+}
 
-	return true;
+void Mesh::OnUpdate()
+{
+	RenderBuffers();
 }
 
 void Mesh::Release()
@@ -25,10 +29,10 @@ void Mesh::Release()
 	safe_delete_arr(data_);
 }
 
-bool Mesh::LoadFile(char* filePath)
+bool Mesh::LoadFile()
 {
 	std::ifstream fin;
-	fin.open(filePath);
+	fin.open(file_path_);
 
 	if (fin.fail())
 		return false;
@@ -42,7 +46,7 @@ bool Mesh::LoadFile(char* filePath)
 
 	index_count_ = vertex_count_;
 
-	data_ = new ModelType[vertex_count_];
+	data_ = new ModelData[vertex_count_];
 	if (!data_)
 		return false;
 
@@ -64,29 +68,24 @@ bool Mesh::LoadFile(char* filePath)
 	return true;
 }
 
-void Mesh::Render()
-{
-	RenderBuffers();
-}
-
 int Mesh::GetIndexCount()
 {
 	return index_count_;
 }
 
-bool Mesh::InitBuffers(Vector3* position)
+bool Mesh::InitBuffers()
 {
-	VertexType* vertices = new VertexType[vertex_count_];
+	VertexData* vertices = new VertexData[vertex_count_];
 	if (!vertices)
 		return false;
 
-	ULONG* indices = new ULONG[index_count_];
+	unsigned long* indices = new ULONG[index_count_];
 	if (!indices)
 		return false;
 
-	for  (int i = 0; i < vertex_count_; i++)
+	for (int i = 0; i < vertex_count_; i++)
 	{
-		vertices[i].position = Vector3(data_[i].x + position->x, data_[i].y + position->y, data_[i].z + position->z);
+		vertices[i].position = Vector3(data_[i].x + GetGameObject()->GetPosition()->x, data_[i].y + GetGameObject()->GetPosition()->y, data_[i].z + GetGameObject()->GetPosition()->z);
 		vertices[i].texture = Vector2(data_[i].tu, data_[i].tv);
 		vertices[i].normal = Vector3(data_[i].nx, data_[i].ny, data_[i].nz);
 
@@ -95,7 +94,7 @@ bool Mesh::InitBuffers(Vector3* position)
 
 	D3D11_BUFFER_DESC vertex_buffer_desc;
 	vertex_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
-	vertex_buffer_desc.ByteWidth = sizeof(VertexType) * vertex_count_;
+	vertex_buffer_desc.ByteWidth = sizeof(VertexData) * vertex_count_;
 	vertex_buffer_desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertex_buffer_desc.CPUAccessFlags = 0;
 	vertex_buffer_desc.MiscFlags = 0;
@@ -139,7 +138,7 @@ void Mesh::RenderBuffers()
 	unsigned int stride;
 	unsigned int offset;
 
-	stride = sizeof(VertexType);
+	stride = sizeof(VertexData);
 	offset = 0;
 
 	ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();

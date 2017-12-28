@@ -19,43 +19,43 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\base\graphics\Camera.cpp" />
-    <ClCompile Include="src\base\graphics\ColorShader.cpp" />
-    <ClCompile Include="src\base\graphics\Mesh.cpp" />
-    <ClCompile Include="src\base\math\Color.cpp" />
-    <ClCompile Include="src\base\math\Vector.cpp" />
-    <ClCompile Include="src\base\world\Scene.cpp" />
-    <ClCompile Include="src\base\world\GameObject.cpp" />
-    <ClCompile Include="src\base\graphics\D3D.cpp" />
-    <ClCompile Include="src\base\graphics\Graphics.cpp" />
-    <ClCompile Include="src\base\network\Connection.cpp" />
-    <ClCompile Include="src\base\network\Packet.cpp" />
-    <ClCompile Include="src\base\Engine.cpp" />
-    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\base\content\component.cpp" />
+    <ClCompile Include="src\base\content\game_object.cpp" />
+    <ClCompile Include="src\base\content\components\camera.cpp" />
+    <ClCompile Include="src\base\graphics\shader.cpp" />
+    <ClCompile Include="src\base\content\components\material.cpp" />
+    <ClCompile Include="src\base\content\components\mesh.cpp" />
+    <ClCompile Include="src\base\content\scene.cpp" />
+    <ClCompile Include="src\base\graphics\d3d.cpp" />
+    <ClCompile Include="src\base\network\connection.cpp" />
+    <ClCompile Include="src\base\network\packet.cpp" />
+    <ClCompile Include="src\base\engine.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\base\graphics\Camera.h" />
-    <ClInclude Include="src\base\graphics\ColorShader.h" />
-    <ClInclude Include="src\base\math\Math.h" />
-    <ClInclude Include="src\base\graphics\Mesh.h" />
-    <ClInclude Include="src\base\math\Color.h" />
-    <ClInclude Include="src\base\math\Vector.h" />
-    <ClInclude Include="src\base\world\Scene.h" />
-    <ClInclude Include="src\base\world\GameObject.h" />
-    <ClInclude Include="src\base\graphics\D3D.h" />
-    <ClInclude Include="src\base\graphics\Graphics.h" />
-    <ClInclude Include="src\base\network\Connection.h" />
-    <ClInclude Include="src\base\network\Packet.h" />
-    <ClInclude Include="src\base\Engine.h" />
-    <ClInclude Include="src\base\utils\Debug.h" />
-    <ClInclude Include="src\base\utils\Memory.h" />
+    <ClInclude Include="src\base\content\component.h" />
+    <ClInclude Include="src\base\content\game_object.h" />
+    <ClInclude Include="src\base\content\components\camera.h" />
+    <ClInclude Include="src\base\graphics\shader.h" />
+    <ClInclude Include="src\base\math\math.h" />
+    <ClInclude Include="src\base\content\components\material.h" />
+    <ClInclude Include="src\base\content\components\mesh.h" />
+    <ClInclude Include="src\base\math\color.h" />
+    <ClInclude Include="src\base\math\vector.h" />
+    <ClInclude Include="src\base\content\scene.h" />
+    <ClInclude Include="src\base\graphics\d3d.h" />
+    <ClInclude Include="src\base\network\connection.h" />
+    <ClInclude Include="src\base\network\packet.h" />
+    <ClInclude Include="src\base\engine.h" />
+    <ClInclude Include="src\base\utils\debug.h" />
+    <ClInclude Include="src\base\utils\memory.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data\meshes\Cube.txt" />
+    <Text Include="data\meshes\cube.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="data\shaders\Color.ps" />
-    <None Include="data\shaders\Color.vs" />
+    <None Include="data\shaders\color.ps" />
+    <None Include="data\shaders\color.vs" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -71,26 +71,28 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -122,9 +124,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)\bin\</OutDir>
+    <IntDir>$(ProjectDir)\bin\int\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)\bin\</OutDir>
+    <IntDir>$(ProjectDir)\bin\int\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
     <ClCompile>

@@ -1,7 +1,7 @@
-#include "ColorShader.h"
-#include "..\Engine.h"
+#include "shader.h"
+#include "..\engine.h"
 
-ColorShader::ColorShader()
+Shader::Shader()
 {
 	vertex_shader_ = nullptr;
 	pixel_shader_ = nullptr;
@@ -9,15 +9,15 @@ ColorShader::ColorShader()
 	matrix_buffer_ = nullptr;
 }
 
-bool ColorShader::Init()
+bool Shader::Init()
 {
-	if (!InitShader(L"../data/shaders/Color.vs", L"../data/shaders/Color.ps"))
+	if (!InitShader(L"../data/shaders/color.vs", L"../data/shaders/color.ps"))
 		return false;
 
 	return true;
 }
 
-void ColorShader::Release()
+void Shader::Release()
 {
 	safe_release(matrix_buffer_);
 	safe_release(layout_);
@@ -25,8 +25,15 @@ void ColorShader::Release()
 	safe_release(vertex_shader_);
 }
 
-bool ColorShader::Render(int index_count, XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix)
+bool Shader::Render(int index_count)
 {
+	XMMATRIX world_matrix;
+	XMMATRIX projection_matrix;
+	XMMATRIX view_matrix;
+	Engine::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix(view_matrix);
+	D3D::GetSingleton()->GetWorldMatrix(world_matrix);
+	D3D::GetSingleton()->GetProjectionMatrix(projection_matrix);
+
 	if (!SetShaderParameters(world_matrix, view_matrix, projection_matrix))
 		return false;
 
@@ -35,34 +42,34 @@ bool ColorShader::Render(int index_count, XMMATRIX world_matrix, XMMATRIX view_m
 	return true;
 }
 
-bool ColorShader::InitShader(WCHAR* vertex_shader_path, WCHAR* pixel_shader_path)
+bool Shader::InitShader(WCHAR* vs_file_path, WCHAR* ps_file_path)
 {
 	HRESULT result;
 
 	ID3D10Blob* vertex_shader_buffer = 0;
 	ID3D10Blob* error_message = 0;
 	
-	result = D3DCompileFromFile(vertex_shader_path, 0, 0, "ColorVertexShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+	result = D3DCompileFromFile(vs_file_path, 0, 0, "ColorVertexShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
 		&vertex_shader_buffer, &error_message);
 	if (FAILED(result))
 	{
 		if (error_message)
-			OutputShaderErrorMessage(error_message, vertex_shader_path);
+			OutputShaderErrorMessage(error_message, vs_file_path);
 		else
-			MessageBox(Engine::GetSingleton()->GetHwnd(), (LPCSTR)(vertex_shader_path), "Missing Shader File", MB_OK);
+			MessageBox(Engine::GetSingleton()->GetHwnd(), (LPCSTR)(vs_file_path), "Missing Shader File", MB_OK);
 
 		return false;
 	}
 
 	ID3D10Blob* pixel_shader_buffer = 0;
-	result = D3DCompileFromFile(pixel_shader_path, 0, 0, "ColorPixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+	result = D3DCompileFromFile(ps_file_path, 0, 0, "ColorPixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
 		&pixel_shader_buffer, &error_message);
 	if (FAILED(result))
 	{
 		if (error_message)
-			OutputShaderErrorMessage(error_message, pixel_shader_path);
+			OutputShaderErrorMessage(error_message, ps_file_path);
 		else
-			MessageBox(Engine::GetSingleton()->GetHwnd(), (LPCSTR)pixel_shader_path, "Missing Shader File", MB_OK);
+			MessageBox(Engine::GetSingleton()->GetHwnd(), (LPCSTR)ps_file_path, "Missing Shader File", MB_OK);
 
 		return false;
 	}
@@ -117,7 +124,7 @@ bool ColorShader::InitShader(WCHAR* vertex_shader_path, WCHAR* pixel_shader_path
 	return true;
 }
 
-void ColorShader::OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path)
+void Shader::OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path)
 {
 	char* compile_errors;
 	unsigned long long bufferSize, i;
@@ -141,7 +148,7 @@ void ColorShader::OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* sha
 	MessageBox(Engine::GetSingleton()->GetHwnd(), "Error compiling shader.  Check shader-error.txt for message.", (LPCSTR)shader_path, MB_OK);
 }
 
-bool ColorShader::SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix)
+bool Shader::SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix)
 {
 	world_matrix = XMMatrixTranspose(world_matrix);
 	view_matrix = XMMatrixTranspose(view_matrix);
@@ -167,7 +174,7 @@ bool ColorShader::SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matri
 	return true;
 }
 
-void ColorShader::RenderShader(int index_count)
+void Shader::RenderShader(int index_count)
 {
 	ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();
 	device_context->IASetInputLayout(layout_);

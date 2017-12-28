@@ -4,14 +4,14 @@
 #pragma once
 
 #include <vector>
+#include <iostream>
 
-#include "../math/Color.h"
-#include "../graphics/Camera.h"
-#include "../utils/Memory.h"
-#include "../math/Vector.h"
-#include "GameObject.h"
+#include "game_object.h"
+#include "components/camera.h"
+#include "components/mesh.h"
+#include "components/material.h"
 
-class Scene
+class Scene final
 {
 public:
 	Scene();
@@ -25,8 +25,11 @@ public:
 	std::vector<GameObject*> GetGameObjects();
 
 private:
+	void OutputDebugMessage();
+
+private:
 	Color* clear_color_;
-	Camera* camera_;
+	Camera* current_camera_;
 	std::vector<GameObject*> game_objects_;
 };
 

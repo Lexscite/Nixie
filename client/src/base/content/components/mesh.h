@@ -5,14 +5,15 @@
 
 #include <fstream>
 
-#include "..\utils\Memory.h"
-#include  "..\math\Color.h"
-#include "D3D.h"
+#include "../../utils/memory.h"
+#include "../../math/color.h"
+#include "../../graphics/d3d.h"
+#include "../component.h"
 
-class Mesh
+class Mesh : public Component
 {
 private:
-	struct VertexType
+	struct VertexData
 	{
 		Vector3 position;
 		Vector2 texture;
@@ -20,7 +21,7 @@ private:
 		Color color;
 	};
 	
-	struct ModelType
+	struct ModelData
 	{
 		float x, y, z;
 		float tu, tv;
@@ -28,24 +29,28 @@ private:
 	};
 
 public:
-	Mesh();
-	bool Init(char* file_path, Vector3* position);
+	Mesh(char* file_path);
+
 	void Release();
-	bool LoadFile(char* file_path);
-	void Render();
+	bool LoadFile();
 	int GetIndexCount();
 
 private:
-	bool InitBuffers(Vector3* position);
+	virtual void OnInit() override;
+	virtual void OnUpdate() override;
+
+	bool InitBuffers();
 	void RenderBuffers();
 
 private:
+	char* file_path_;
+
 	ID3D11Buffer* vertex_buffer_;
 	ID3D11Buffer* index_buffer_;
 	int vertex_count_;
 	int index_count_;
 
-	ModelType* data_;
+	ModelData* data_;
 };
 
 #endif

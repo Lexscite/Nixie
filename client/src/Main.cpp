@@ -1,4 +1,4 @@
-#include "base/Engine.h"
+#include "base/engine.h"
 
 #ifdef _DEBUG
 class ConsoleBuffer : public std::streambuf {
@@ -11,10 +11,11 @@ public:
 		return fputc(c, stdout) == EOF ? traits_type::eof() : c;
 	}
 };
-#endif
+#endif _DEBUG
 
 int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, __in LPSTR lpCmdLine, __in int nShowCmd)
 {
+#ifdef _DEBUG
 	if (AllocConsole())
 	{
 		freopen("CONOUT$", "w", stdout);
@@ -22,26 +23,23 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
 	}
 
-#ifdef _DEBUG
-	ConsoleBuffer consoleBuffer;
-	std::streambuf *coutBuffer = std::cout.rdbuf(&consoleBuffer);
-	std::streambuf *cerrBuffer = std::cerr.rdbuf(&consoleBuffer);
+	ConsoleBuffer console_buffer;
+	std::streambuf *cout_buffer = std::cout.rdbuf(&console_buffer);
+	std::streambuf *cerr_buffer = std::cerr.rdbuf(&console_buffer);
 #endif
+
+	int exit_code = 0;
 
 	Engine* engine = Engine::GetSingleton();
 	if (engine->Init(hInstance))
-	{
-		engine->Run();
-	}
-	else
-		return 1;
+		exit_code = engine->Run();
 
 	safe_release(engine);
 
 #ifdef _DEBUG
-	std::cout.rdbuf(coutBuffer);
-	std::cout.rdbuf(cerrBuffer);
+	std::cout.rdbuf(cout_buffer);
+	std::cout.rdbuf(cerr_buffer);
 #endif
 
-	return 0;
+	return exit_code;
 }

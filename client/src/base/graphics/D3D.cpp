@@ -139,13 +139,18 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 		D3D_FEATURE_LEVEL_9_1,
 	};
 
+	UINT creation_flags = 0;
+#if defined(_DEBUG)
+	creation_flags = D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
 	for (int i = 0; i < ARRAYSIZE(feature_level); i++)
 	{
 		result = D3D11CreateDeviceAndSwapChain(
 			NULL,
 			D3D_DRIVER_TYPE_REFERENCE,
 			NULL,
-			0,
+			creation_flags,
 			&feature_level[i],
 			6,
 			D3D11_SDK_VERSION,
@@ -280,6 +285,8 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	projection_matrix_ = XMMatrixPerspectiveFovLH(fov, screen_aspect, screen_near, screen_depth);
 	world_matrix_ = XMMatrixIdentity();
 	ortho_matrix_ = XMMatrixOrthographicLH((float)screen_width, (float)screen_height, screen_near, screen_depth);
+
+	device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	return true;
 }

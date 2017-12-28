@@ -1,10 +1,4 @@
-#include "Camera.h"
-
-Camera::Camera()
-{
-	position_ = new Vector3;
-	rotation_ = new Vector3;
-}
+#include "camera.h"
 
 void Camera::Render()
 {
@@ -17,9 +11,9 @@ void Camera::Render()
 	up_vector = XMLoadFloat3(&up);
 
 	XMFLOAT3 position;
-	position.x = position_->x;
-	position.y = position_->y;
-	position.z = position_->z;
+	position.x = GetGameObject()->GetPosition()->x;
+	position.y = GetGameObject()->GetPosition()->y;
+	position.z = GetGameObject()->GetPosition()->z;
 
 	XMVECTOR position_vector;
 	position_vector = XMLoadFloat3(&position);
@@ -32,16 +26,15 @@ void Camera::Render()
 	XMVECTOR look_at_vector;
 	look_at_vector = XMLoadFloat3(&look_at);
 
-	float pitch = rotation_->x * 0.0174532925f;
-	float yaw = rotation_->y * 0.0174532925f;
-	float roll = rotation_->z * 0.0174532925f;
+	float pitch = GetGameObject()->GetRotation()->x * 0.0174532925f;
+	float yaw = GetGameObject()->GetRotation()->y * 0.0174532925f;
+	float roll = GetGameObject()->GetRotation()->z * 0.0174532925f;
 
 	XMMATRIX rotationMatrix;
 	rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
-	look_at_vector = XMVector3TransformCoord(look_at_vector, rotationMatrix);
 	up_vector = XMVector3TransformCoord(up_vector, rotationMatrix);
-
+	look_at_vector = XMVector3TransformCoord(look_at_vector, rotationMatrix);
 	look_at_vector = XMVectorAdd(position_vector, look_at_vector);
 
 	view_matrix_ = XMMatrixLookAtLH(position_vector, look_at_vector, up_vector);

@@ -7,9 +7,9 @@
 #include <d3dcompiler.h>
 #include <directxmath.h>
 
-#include "..\utils\Memory.h"
-#include "..\utils\Debug.h"
-#include "..\math\Color.h"
+#include "..\utils\memory.h"
+#include "..\utils\debug.h"
+#include "..\math\color.h"
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d11.lib")
@@ -17,7 +17,7 @@
 
 using namespace DirectX;
 
-class D3D
+class D3D final
 {
 public:
 	static D3D* GetSingleton();
