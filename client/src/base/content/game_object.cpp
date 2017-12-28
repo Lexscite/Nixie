@@ -1,7 +1,8 @@
 #include "game_object.h"
 
-GameObject::GameObject()
+GameObject::GameObject(std::string name)
 {
+	name_ = name;
 	position_ = new Vector3();
 	rotation_ = new Vector3();
 	scale_ = new Vector3(1, 1, 1);

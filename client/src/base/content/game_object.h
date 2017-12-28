@@ -17,7 +17,7 @@ class Component;
 class GameObject final
 {
 public:
-	GameObject();
+	GameObject(std::string name);
 
 	bool Init();
 	void Update();
@@ -33,6 +33,9 @@ public:
 	void SetRotation(Vector3* value);
 	Vector3* GetScale();
 	void SetScale(Vector3* value);
+
+public:
+	std::string name_;
 
 private:
 	GameObject* parent_;
