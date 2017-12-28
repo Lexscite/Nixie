@@ -22,6 +22,9 @@ public:
 
 	Color* GetClearColor();
 	Camera* GetCamera();
+
+	bool AddGameObject(GameObject* new_game_object);
+	GameObject* GetGameObject(std::string name);
 	std::vector<GameObject*> GetGameObjects();
 
 private:
@@ -30,7 +33,7 @@ private:
 private:
 	Color* clear_color_;
 	Camera* current_camera_;
-	std::vector<GameObject*> game_objects_;
+	std::map<std::string, GameObject*> game_objects_;
 };
 
 #endif

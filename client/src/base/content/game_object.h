@@ -23,10 +23,11 @@ public:
 	void Update();
 	void Release();
 
-	std::vector<Component*> GetComponents();
 	bool AddComponent(Component* new_component);
 	Component* GetComponent(std::string name);
+	std::vector<Component*> GetComponents();
 
+	std::string GetName();
 	Vector3* GetPosition();
 	void SetPosition(Vector3* value);
 	Vector3* GetRotation();
@@ -34,10 +35,9 @@ public:
 	Vector3* GetScale();
 	void SetScale(Vector3* value);
 
-public:
+private:
 	std::string name_;
 
-private:
 	GameObject* parent_;
 
 	Vector3* position_;

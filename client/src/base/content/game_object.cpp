@@ -32,16 +32,6 @@ void GameObject::Release()
 		safe_delete(component);
 }
 
-std::vector<Component*> GameObject::GetComponents()
-{
-	std::vector<Component*> result;
-
-	for (std::map<std::string, Component*>::iterator it = components_.begin(); it != components_.end(); ++it)
-		result.push_back(it->second);
-
-	return result;
-}
-
 bool GameObject::AddComponent(Component* new_component)
 {
 	std::string name = new_component->GetName();
@@ -60,6 +50,21 @@ Component* GameObject::GetComponent(std::string name)
 		return nullptr;
 	else
 		return result->second;
+}
+
+std::vector<Component*> GameObject::GetComponents()
+{
+	std::vector<Component*> result;
+
+	for (std::map<std::string, Component*>::iterator it = components_.begin(); it != components_.end(); ++it)
+		result.push_back(it->second);
+
+	return result;
+}
+
+std::string GameObject::GetName()
+{
+	return name_;
 }
 
 Vector3* GameObject::GetPosition()

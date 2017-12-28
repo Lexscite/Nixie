@@ -85,7 +85,6 @@ bool Engine::InitWindow(HINSTANCE instance)
 	LPCSTR title = "Nixie";
 	DWORD style = WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU;
 
-
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));
 	wc.cbClsExtra = NULL;
 	wc.cbWndExtra = NULL;
@@ -168,9 +167,9 @@ int Engine::Run()
 
 void Engine::Update(float delta_time)
 {
-	D3D::GetSingleton()->BeginScene(scene_->GetClearColor());
+	directx_->BeginScene(scene_->GetClearColor());
 	scene_->Update();
-	D3D::GetSingleton()->EndScene();
+	directx_->EndScene();
 }
 
 HWND Engine::GetHwnd()
