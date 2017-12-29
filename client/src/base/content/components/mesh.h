@@ -13,19 +13,11 @@
 class Mesh : public Component
 {
 private:
-	struct VertexData
+	struct Vertex
 	{
 		Vector3 position;
 		Vector2 texture;
 		Vector3 normal;
-		Color color;
-	};
-	
-	struct ModelData
-	{
-		float x, y, z;
-		float tu, tv;
-		float nx, ny, nz;
 	};
 
 public:
@@ -41,6 +33,7 @@ private:
 
 	bool InitBuffers();
 	void RenderBuffers();
+	void UpdateVertices();
 
 private:
 	char* file_path_;
@@ -50,7 +43,7 @@ private:
 	int vertex_count_;
 	int index_count_;
 
-	ModelData* data_;
+	Vertex* vertices_;
 };
 
 #endif
