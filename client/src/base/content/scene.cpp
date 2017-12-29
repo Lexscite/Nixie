@@ -4,10 +4,10 @@ Scene::Scene() = default;
 
 bool Scene::Init()
 {
-	clear_color_ = new Color(0.5f, 0.5f, 0.5f);
+	clear_color_ = new Color(0, 100, 150);
 
 	GameObject* test_camera_object = new GameObject("Camera");
-	test_camera_object->SetPosition(new Vector3(5, 7, -5));
+	test_camera_object->SetPosition(new Vector3(6, 8, -6));
 	test_camera_object->SetRotation(new Vector3(45, -45, 0));
 	test_camera_object->AddComponent(new Camera);
 	current_camera_ = static_cast<Camera*>(test_camera_object->GetComponent("Camera"));
@@ -16,7 +16,26 @@ bool Scene::Init()
 	GameObject* test_game_object = new GameObject("Cube");
 	test_game_object->AddComponent(new Mesh("../data/meshes/cube.txt"));
 	test_game_object->AddComponent(new Material);
+	test_game_object->SetPosition(new Vector3(1.5, 0, 1.5));
 	AddGameObject(test_game_object);
+
+	GameObject* test_game_object2 = new GameObject("Cube2");
+	test_game_object2->AddComponent(new Mesh("../data/meshes/cube.txt"));
+	test_game_object2->AddComponent(new Material);
+	test_game_object2->SetPosition(new Vector3(-1.5, 0, 1.5));
+	AddGameObject(test_game_object2);
+
+	GameObject* test_game_object3 = new GameObject("Cube3");
+	test_game_object3->AddComponent(new Mesh("../data/meshes/cube.txt"));
+	test_game_object3->AddComponent(new Material);
+	test_game_object3->SetPosition(new Vector3(-1.5, 0, -1.5));
+	AddGameObject(test_game_object3);
+
+	GameObject* test_game_object4 = new GameObject("Cube4");
+	test_game_object4->AddComponent(new Mesh("../data/meshes/cube.txt"));
+	test_game_object4->AddComponent(new Material);
+	test_game_object4->SetPosition(new Vector3(1.5, 0, -1.5));
+	AddGameObject(test_game_object4);
 
 	for each (GameObject* game_object in GetGameObjects())
 		if (!game_object->Init())

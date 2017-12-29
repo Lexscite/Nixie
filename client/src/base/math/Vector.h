@@ -22,7 +22,7 @@ public:
 
 	float GetMagnitude()
 	{
-		return sqrt(pow(x, 2) + pow(y, 2));
+		return (float)sqrt((float)pow(x, 2) + (float)pow(y, 2));
 	}
 };
 
@@ -43,7 +43,7 @@ public:
 
 	float GetMagnitude()
 	{
-		return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+		return (float)sqrt((float)pow(x, 2) + (float)pow(y, 2) + (float)pow(z, 2));
 	}
 
 	static Vector3* Sum(Vector3* left, Vector3* right)

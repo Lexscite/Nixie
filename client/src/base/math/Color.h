@@ -6,10 +6,9 @@
 #include "math.h"
 #include "vector.h"
 
-struct Color
+class Color
 {
-	float r, g, b, a;
-
+public:
 	Color()
 	{
 		r = 0.0f;
@@ -18,37 +17,67 @@ struct Color
 		a = 1.0f;
 	}
 
-	Color(float r, float g, float b)
+	Color(int r, int g, int b)
 	{
-		this->r = clamp(r, 0.0f, 1.0f);
-		this->g = clamp(g, 0.0f, 1.0f);
-		this->b = clamp(b, 0.0f, 1.0f);
+		this->r = ClampValue(r);
+		this->g = ClampValue(g);
+		this->b = ClampValue(b);
 		a = 1.0f;
 	}
 
-	Color(float r, float g, float b, float a)
+	Color(int r, int g, int b, int a)
 	{
-		this->r = clamp(r, 0.0f, 1.0f);
-		this->g = clamp(g, 0.0f, 1.0f);
-		this->b = clamp(b, 0.0f, 1.0f);
-		this->a = clamp(a, 0.0f, 1.0f);
+		this->r = ClampValue(r);
+		this->g = ClampValue(g);
+		this->b = ClampValue(b);
+		this->a = ClampValue(a);
 	}
 
 	Color(Vector3 vector)
 	{
-		this->r = clamp(vector.x, 0.0f, 1.0f);
-		this->g = clamp(vector.y, 0.0f, 1.0f);
-		this->b = clamp(vector.z, 0.0f, 1.0f);
+		this->r = ClampValue(vector.x);
+		this->g = ClampValue(vector.y);
+		this->b = ClampValue(vector.z);
 		a = 1.0f;
 	}
 
 	Color(Vector4 vector)
 	{
-		this->r = clamp(vector.x, 0.0f, 1.0f);
-		this->g = clamp(vector.y, 0.0f, 1.0f);
-		this->b = clamp(vector.z, 0.0f, 1.0f);
-		this->a = clamp(vector.t, 0.0f, 1.0f);
+		this->r = ClampValue(vector.x);
+		this->g = ClampValue(vector.y);
+		this->b = ClampValue(vector.z);
+		this->a = ClampValue(vector.t);
 	}
+
+	Color(IntVector3 vector)
+	{
+		this->r = ClampValue(vector.x);
+		this->g = ClampValue(vector.y);
+		this->b = ClampValue(vector.z);
+		a = 1.0f;
+	}
+
+	Color(IntVector4 vector)
+	{
+		this->r = ClampValue(vector.x);
+		this->g = ClampValue(vector.y);
+		this->b = ClampValue(vector.z);
+		this->a = ClampValue(vector.t);
+	}
+
+private:
+	float ClampValue(int value)
+	{
+		return clamp((float)value, 0.0f, 255.0f) / 255;
+	}
+
+	float ClampValue(float value)
+	{
+		return clamp(value, 0.0f, 255.0f) / 255;
+	}
+
+public:
+	float r, g, b, a;
 };
 
 #endif
