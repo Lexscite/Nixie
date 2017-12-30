@@ -31,9 +31,9 @@ public:
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetDeviceContext();
 
-	void GetProjectionMatrix(XMMATRIX& matrix);
-	void GetWorldMatrix(XMMATRIX& matrix);
-	void GetOrthoMatrix(XMMATRIX& matrix);
+	XMMATRIX GetProjectionMatrix();
+	XMMATRIX GetWorldMatrix();
+	XMMATRIX GetOrthoMatrix();
 
 private:
 	D3D();

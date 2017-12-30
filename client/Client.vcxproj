@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\base\graphics\mesh_data.cpp" />
     <ClCompile Include="src\base\content\component.cpp" />
     <ClCompile Include="src\base\content\game_object.cpp" />
     <ClCompile Include="src\base\content\components\camera.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\base\graphics\mesh_data.h" />
     <ClInclude Include="src\base\content\component.h" />
     <ClInclude Include="src\base\content\game_object.h" />
     <ClInclude Include="src\base\content\components\camera.h" />

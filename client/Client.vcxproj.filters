@@ -72,6 +72,9 @@
     <ClCompile Include="src\base\content\components\camera.cpp">
       <Filter>src\base\content\components</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\graphics\mesh_data.cpp">
+      <Filter>src\base\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\base\graphics\d3d.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="src\base\content\components\camera.h">
       <Filter>src\base\content\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\graphics\mesh_data.h">
+      <Filter>src\base\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -27,14 +27,10 @@ void Shader::Release()
 
 bool Shader::Render(int index_count)
 {
-	XMMATRIX world_matrix;
-	XMMATRIX projection_matrix;
-	XMMATRIX view_matrix;
-	Engine::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix(view_matrix);
-	D3D::GetSingleton()->GetWorldMatrix(world_matrix);
-	D3D::GetSingleton()->GetProjectionMatrix(projection_matrix);
-
-	if (!SetShaderParameters(world_matrix, view_matrix, projection_matrix))
+	if (!SetShaderParameters(
+		D3D::GetSingleton()->GetWorldMatrix(),
+		Engine::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix(),
+		D3D::GetSingleton()->GetProjectionMatrix()))
 		return false;
 
 	RenderShader(index_count);
