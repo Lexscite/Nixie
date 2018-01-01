@@ -32,6 +32,8 @@ void App::Release()
 
 bool App::Init(HINSTANCE instance)
 {
+	time_ = new Time;
+
 	directx_ = D3D::GetSingleton();
 
 	InitSettings();
@@ -41,7 +43,7 @@ bool App::Init(HINSTANCE instance)
 		MessageBox(window_, "Failed to create window", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
-	
+
 	if (!directx_->Init(resolution_->x, resolution_->y, vsync_enabled_, fullscreen_enabled_, 1000.0f, 0.1f))
 	{
 		MessageBox(App::GetSingleton()->GetHwnd(), "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
@@ -82,7 +84,7 @@ bool App::InitWindow(HINSTANCE instance)
 {
 	WNDCLASSEX wc;
 	LPCSTR class_name = "MainWindowClass";
-	LPCSTR title = "Nixie";
+	window_caption_ = "Nixie";
 	DWORD style = WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU;
 
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));
@@ -121,7 +123,7 @@ bool App::InitWindow(HINSTANCE instance)
 	else
 		window_size = new IntVector2(GetSystemMetrics(SM_CXSCREEN) / 2 - resolution_->x / 2, GetSystemMetrics(SM_CYSCREEN) / 2 - resolution_->y / 2);
 
-	window_ = CreateWindowEx(WS_EX_APPWINDOW, class_name, title, style,
+	window_ = CreateWindowEx(WS_EX_APPWINDOW, class_name, window_caption_, style,
 		window_size->x, window_size->y, resolution_->x, resolution_->y, NULL, NULL, instance, NULL);
 	if (!window_)
 	{
@@ -139,10 +141,26 @@ LRESULT App::MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM 
 	switch (message)
 	{
 	case WM_DESTROY:
-	{
 		PostQuitMessage(0);
 		return 0;
-	}
+	case WM_ACTIVATE:
+		if (LOWORD(w_param) == WA_INACTIVE)
+		{
+			is_paused_ = true;
+			time_->Stop();
+		}
+		else
+		{
+			is_paused_ = false;
+			time_->Start();
+		}
+		return 0;
+	case WM_MENUCHAR:
+		return MAKELRESULT(0, MNC_CLOSE);
+	case WM_GETMINMAXINFO:
+		((MINMAXINFO*)l_param)->ptMinTrackSize.x = 200;
+		((MINMAXINFO*)l_param)->ptMinTrackSize.y = 200;
+		return 0;
 	default:
 		return DefWindowProc(window, message, w_param, l_param);
 	}
@@ -150,19 +168,32 @@ LRESULT App::MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM 
 
 int App::Run()
 {
-	MSG message = { 0 };
-	while (message.message != WM_QUIT)
+	time_->Reset();
+
+	MSG msg = { 0 };
+	while (msg.message != WM_QUIT)
 	{
-		if (PeekMessage(&message, NULL, NULL, NULL, PM_REMOVE))
+		if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
 		{
-			TranslateMessage(&message);
-			DispatchMessage(&message);
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
 		}
 		else
-			Update(0.0f);
+		{
+			time_->Tick();
+			if (!is_paused_)
+			{
+#ifdef _DEBUG
+				CalculateFrameStats();
+#endif
+				Update(0.0f);
+			}
+			else
+				Sleep(100);
+		}
 	}
 
-	return static_cast<int>(message.wParam);
+	return static_cast<int>(msg.wParam);
 }
 
 void App::Update(float delta_time)
@@ -185,6 +216,27 @@ D3D* App::GetDirectX()
 Scene* App::GetScene()
 {
 	return scene_;
+}
+
+void App::CalculateFrameStats()
+{
+	static int frame_count = 0;
+	static float time_elapsed = 0;
+
+	frame_count++;
+
+	if ((time_->GetTime() - time_elapsed) >= 1)
+	{
+		float fps = static_cast<float>(frame_count);
+		float mspf = 1000 / fps;
+
+		std::wostringstream outs;
+		outs.precision(6);
+		outs << window_caption_ << " | FPS: " << fps << " Frame time: " << mspf << "(ms)";
+		SetWindowTextW(window_, (LPCWSTR)outs.str().c_str());
+		frame_count = 0;
+		time_elapsed += 1;
+	}
 }
 
 bool App::LoadScene(Scene* scene)

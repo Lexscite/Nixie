@@ -75,6 +75,9 @@
     <ClCompile Include="src\base\app.cpp">
       <Filter>src\base</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\time.cpp">
+      <Filter>src\base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\base\graphics\d3d.h">
@@ -126,6 +129,9 @@
       <Filter>src\base\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\base\app.h">
+      <Filter>src\base</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\time.h">
       <Filter>src\base</Filter>
     </ClInclude>
   </ItemGroup>

@@ -32,6 +32,7 @@
     <ClCompile Include="src\base\network\packet.cpp" />
     <ClCompile Include="src\base\app.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\base\time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\base\graphics\mesh_data.h" />
@@ -51,6 +52,7 @@
     <ClInclude Include="src\base\app.h" />
     <ClInclude Include="src\base\utils\debug.h" />
     <ClInclude Include="src\base\utils\memory.h" />
+    <ClInclude Include="src\base\time.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\meshes\cube.txt" />

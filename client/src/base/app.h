@@ -3,8 +3,11 @@
 
 #pragma once
 
+#include <sstream>
+
 #include "network/connection.h"
 #include "content/scene.h"
+#include "time.h"
 
 class App final
 {
@@ -27,17 +30,23 @@ private:
 	bool InitWindow(HINSTANCE instance);
 	void InitSettings();
 	void Update(float delta_time);
+
+	void CalculateFrameStats();
+
 	bool LoadScene(Scene* scene);
 
 private:
 	static App* singleton_;
 
 	HWND window_;
+	LPCSTR window_caption_;
+	bool is_paused_;
 
 	IntVector2* resolution_;
 	bool vsync_enabled_;
 	bool fullscreen_enabled_;
 
+	Time* time_;
 	D3D* directx_;
 	Scene* scene_;
 };

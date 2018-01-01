@@ -15,11 +15,11 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
-#if defined(DEBUG) | defined(_DEBUG)
+#ifdef _DEBUG
 #ifndef HR
 #define HR(x) { HRESULT hr = (x); if(FAILED(hr)) { DXTrace(__FILE__, (DWORD)__LINE__, hr, L#x, true); } }
 #endif
-#endif
+#endif
 
 using namespace DirectX;
 

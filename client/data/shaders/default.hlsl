@@ -32,7 +32,13 @@ VertexOutput DefaultVertexShader(VertexInput input)
     return output;
 }
 
-float4 DefaultPixelShader(VertexInput input) : SV_TARGET
+struct PixelInput
+{
+    float4 position : SV_POSITION;
+    float4 color : COLOR;
+};
+
+float4 DefaultPixelShader(PixelInput input) : SV_TARGET
 {
     return input.color;
 }

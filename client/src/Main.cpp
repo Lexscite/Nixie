@@ -24,8 +24,8 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 	}
 
 	ConsoleBuffer console_buffer;
-	std::streambuf *cout_buffer = std::cout.rdbuf(&console_buffer);
-	std::streambuf *cerr_buffer = std::cerr.rdbuf(&console_buffer);
+	std::streambuf* cout_buffer = std::cout.rdbuf(&console_buffer);
+	std::streambuf* cerr_buffer = std::cerr.rdbuf(&console_buffer);
 #endif
 
 	int exit_code = 0;
