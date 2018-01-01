@@ -1,27 +1,27 @@
-#include "engine.h"
+#include "app.h"
 
 LRESULT CALLBACK WindowProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
 {
-	if (Engine::GetSingleton())
-		return Engine::GetSingleton()->MessageProcessor(window, message, w_param, l_param);
+	if (App::GetSingleton())
+		return App::GetSingleton()->MessageProcessor(window, message, w_param, l_param);
 	else
 		return DefWindowProc(window, message, w_param, l_param);
 }
 
 
-Engine::Engine() = default;
+App::App() = default;
 
-Engine* Engine::singleton_;
+App* App::singleton_;
 
-Engine* Engine::GetSingleton()
+App* App::GetSingleton()
 {
 	if (singleton_ == 0)
-		singleton_ = new Engine;
+		singleton_ = new App;
 
 	return singleton_;
 }
 
-void Engine::Release()
+void App::Release()
 {
 	if (window_ != nullptr)
 		DestroyWindow(window_);
@@ -30,7 +30,7 @@ void Engine::Release()
 	safe_release(scene_);
 }
 
-bool Engine::Init(HINSTANCE instance)
+bool App::Init(HINSTANCE instance)
 {
 	directx_ = D3D::GetSingleton();
 
@@ -44,7 +44,7 @@ bool Engine::Init(HINSTANCE instance)
 	
 	if (!directx_->Init(resolution_->x, resolution_->y, vsync_enabled_, fullscreen_enabled_, 1000.0f, 0.1f))
 	{
-		MessageBox(Engine::GetSingleton()->GetHwnd(), "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
+		MessageBox(App::GetSingleton()->GetHwnd(), "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
 
@@ -63,7 +63,7 @@ bool Engine::Init(HINSTANCE instance)
 	return true;
 }
 
-void Engine::InitSettings()
+void App::InitSettings()
 {
 	vsync_enabled_ = true;
 	fullscreen_enabled_ = false;
@@ -78,7 +78,7 @@ void Engine::InitSettings()
 	}
 }
 
-bool Engine::InitWindow(HINSTANCE instance)
+bool App::InitWindow(HINSTANCE instance)
 {
 	WNDCLASSEX wc;
 	LPCSTR class_name = "MainWindowClass";
@@ -134,7 +134,7 @@ bool Engine::InitWindow(HINSTANCE instance)
 	return true;
 }
 
-LRESULT Engine::MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
+LRESULT App::MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
 {
 	switch (message)
 	{
@@ -148,7 +148,7 @@ LRESULT Engine::MessageProcessor(HWND window, UINT message, WPARAM w_param, LPAR
 	}
 }
 
-int Engine::Run()
+int App::Run()
 {
 	MSG message = { 0 };
 	while (message.message != WM_QUIT)
@@ -165,29 +165,29 @@ int Engine::Run()
 	return static_cast<int>(message.wParam);
 }
 
-void Engine::Update(float delta_time)
+void App::Update(float delta_time)
 {
 	directx_->BeginScene(scene_->GetClearColor());
 	scene_->Update();
 	directx_->EndScene();
 }
 
-HWND Engine::GetHwnd()
+HWND App::GetHwnd()
 {
 	return window_;
 }
 
-D3D* Engine::GetDirectX()
+D3D* App::GetDirectX()
 {
 	return directx_;
 }
 
-Scene* Engine::GetScene()
+Scene* App::GetScene()
 {
 	return scene_;
 }
 
-bool Engine::LoadScene(Scene* scene)
+bool App::LoadScene(Scene* scene)
 {
 	if (!scene->Init())
 		return false;

@@ -1,5 +1,5 @@
-#include "D3D.h"
-#include "..\Engine.h"
+#include "d3d.h"
+#include "../app.h"
 
 D3D::D3D()
 {
@@ -25,38 +25,38 @@ D3D* D3D::GetSingleton()
 
 bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool fullscreen_enabled, float screen_depth, float screen_near)
 {
-	HRESULT result = S_OK;
+	HRESULT hr = S_OK;
 
 	vsync_enabled_ = vsync_enabled;
 	fullscreen_enabled_ = fullscreen_enabled;
 
 	IDXGIFactory* factory;
-	result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
-	if (FAILED(result))
+	hr = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to create DXGIFactory" << std::endl;
 		return false;
 	}
 
 	IDXGIAdapter* adapter;
-	result = factory->EnumAdapters(0, &adapter);
-	if (FAILED(result))
+	hr = factory->EnumAdapters(0, &adapter);
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to enum adapters" << std::endl;
 		return false;
 	}
 
 	IDXGIOutput* adapter_output;
-	result = adapter->EnumOutputs(0, &adapter_output);
-	if (FAILED(result))
+	hr = adapter->EnumOutputs(0, &adapter_output);
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to enum adapter outputs" << std::endl;
 		return false;
 	}
 
 	UINT num_modes;
-	result = adapter_output->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &num_modes, NULL);
-	if (FAILED(result))
+	hr = adapter_output->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &num_modes, NULL);
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to get the number of modes" << std::endl;
 		return false;
@@ -70,8 +70,8 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 		return false;
 	}
 
-	result = adapter_output->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &num_modes, display_mode_list);
-	if (FAILED(result))
+	hr = adapter_output->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &num_modes, display_mode_list);
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to fill display mode list struct" << std::endl;
 		return false;
@@ -91,8 +91,8 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	}
 
 	DXGI_ADAPTER_DESC adapter_desc;
-	result = adapter->GetDesc(&adapter_desc);
-	if (FAILED(result))
+	hr = adapter->GetDesc(&adapter_desc);
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to get adapter desc" << std::endl;
 		return false;
@@ -114,7 +114,7 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 
 	DXGI_SWAP_CHAIN_DESC swap_chain_desc;
 	ZeroMemory(&swap_chain_desc, sizeof(swap_chain_desc));
-	swap_chain_desc.OutputWindow = Engine::GetSingleton()->GetHwnd();
+	swap_chain_desc.OutputWindow = App::GetSingleton()->GetHwnd();
 	swap_chain_desc.Windowed = !fullscreen_enabled_;
 	swap_chain_desc.BufferCount = 1;
 	swap_chain_desc.BufferDesc.Width = screen_width;
@@ -146,7 +146,7 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 
 	for (int i = 0; i < ARRAYSIZE(feature_level); i++)
 	{
-		result = D3D11CreateDeviceAndSwapChain(
+		hr = D3D11CreateDeviceAndSwapChain(
 			NULL,
 			D3D_DRIVER_TYPE_REFERENCE,
 			NULL,
@@ -161,25 +161,25 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 			&device_context_
 		);
 
-		if (SUCCEEDED(result))
+		if (SUCCEEDED(hr))
 			break;
 	}
-	if (FAILED(result))
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to create DirectX device and swap chain" << std::endl;
 		return false;
 	}
 
 	ID3D11Texture2D* back_buffer;
-	result = swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&back_buffer);
-	if (FAILED(result))
+	hr = swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&back_buffer);
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to get the back buffer pointer" << std::endl;
 		return false;
 	}
 
-	result = device_->CreateRenderTargetView(back_buffer, NULL, &render_target_view_);
-	if (FAILED(result))
+	hr = device_->CreateRenderTargetView(back_buffer, NULL, &render_target_view_);
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to create render target view" << std::endl;
 		return false;
@@ -201,8 +201,8 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	depth_buffer_desc.CPUAccessFlags = 0;
 	depth_buffer_desc.MiscFlags = 0;
 
-	result = device_->CreateTexture2D(&depth_buffer_desc, NULL, &depth_stencil_buffer_);
-	if (FAILED(result))
+	hr = device_->CreateTexture2D(&depth_buffer_desc, NULL, &depth_stencil_buffer_);
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to create back buffer texture" << std::endl;
 		return false;
@@ -225,8 +225,8 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	depth_stencil_desc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
 	depth_stencil_desc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 	
-	result = device_->CreateDepthStencilState(&depth_stencil_desc, &depth_stencil_state_);
-	if (FAILED(result))
+	hr = device_->CreateDepthStencilState(&depth_stencil_desc, &depth_stencil_state_);
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to create depth stencil state" << std::endl;
 		return false;
@@ -240,10 +240,10 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	depth_stencil_view_desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	depth_stencil_view_desc.Texture2D.MipSlice = 0;
 
-	result = device_->CreateDepthStencilView(depth_stencil_buffer_, &depth_stencil_view_desc, &depth_stencil_view_);
-	if (FAILED(result))
+	hr = device_->CreateDepthStencilView(depth_stencil_buffer_, &depth_stencil_view_desc, &depth_stencil_view_);
+	if (FAILED(hr))
 	{
-		std::cerr << "Failed to create depth stencil view" << result << std::endl;
+		std::cerr << "Failed to create depth stencil view" << hr << std::endl;
 		return false;
 	}
 
@@ -261,8 +261,8 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	rasterizer_desc.ScissorEnable = false;
 	rasterizer_desc.SlopeScaledDepthBias = 0.0f;
 
-	result = device_->CreateRasterizerState(&rasterizer_desc, &rasterizer_state_);
-	if (FAILED(result))
+	hr = device_->CreateRasterizerState(&rasterizer_desc, &rasterizer_state_);
+	if (FAILED(hr))
 	{
 		std::cerr << "Failed to create rasterizer state" << std::endl;
 		return false;
@@ -271,8 +271,8 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	device_context_->RSSetState(rasterizer_state_);
 
 	D3D11_VIEWPORT viewport;
-	viewport.Width = (FLOAT)screen_width;
-	viewport.Height = (FLOAT)screen_height;
+	viewport.Width = static_cast<float>(screen_width);
+	viewport.Height = static_cast<float>(screen_height);
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	viewport.TopLeftX = 0.0f;
@@ -281,10 +281,10 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	device_context_->RSSetViewports(1, &viewport);
 
 	float fov = 3.141592654f / 4.0f;
-	float screen_aspect = (float)(screen_width / screen_height);
+	float screen_aspect = static_cast<float>(screen_width / screen_height);
 	projection_matrix_ = XMMatrixPerspectiveFovLH(fov, screen_aspect, screen_near, screen_depth);
 	world_matrix_ = XMMatrixIdentity();
-	ortho_matrix_ = XMMatrixOrthographicLH((float)screen_width, (float)screen_height, screen_near, screen_depth);
+	ortho_matrix_ = XMMatrixOrthographicLH(static_cast<float>(screen_width), static_cast<float>(screen_height), screen_near, screen_depth);
 
 	device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

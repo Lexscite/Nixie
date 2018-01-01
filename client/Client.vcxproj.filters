@@ -48,9 +48,6 @@
     <ClCompile Include="src\base\network\packet.cpp">
       <Filter>src\base\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\engine.cpp">
-      <Filter>src\base</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -74,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="src\base\graphics\mesh_data.cpp">
       <Filter>src\base\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\app.cpp">
+      <Filter>src\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,9 +104,6 @@
     <ClInclude Include="src\base\utils\memory.h">
       <Filter>src\base\utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\engine.h">
-      <Filter>src\base</Filter>
-    </ClInclude>
     <ClInclude Include="src\base\content\components\material.h">
       <Filter>src\base\content\components</Filter>
     </ClInclude>
@@ -127,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="src\base\graphics\mesh_data.h">
       <Filter>src\base\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\app.h">
+      <Filter>src\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

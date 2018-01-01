@@ -15,8 +15,3 @@ void Mesh::OnUpdate()
 {
 	mesh_data_->Render();
 }
-
-int Mesh::GetIndexCount()
-{
-	return mesh_data_->GetIndexCount();
-}

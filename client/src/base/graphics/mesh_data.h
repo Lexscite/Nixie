@@ -6,7 +6,6 @@
 #include <fstream>
 
 #include "d3d.h"
-#include "../math/vector.h"
 
 class MeshData
 {
@@ -24,8 +23,6 @@ public:
 	void Release();
 
 	void Render();
-
-	int GetIndexCount();
 
 private:
 	bool LoadFile(char* file_path);

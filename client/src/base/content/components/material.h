@@ -13,7 +13,6 @@ class Material : public Component
 public:
 	Material();
 	Shader* GetShader();
-	virtual void AfterInit() override;
 
 private:
 	virtual void OnInit() override;
@@ -21,7 +20,6 @@ private:
 
 private:
 	Shader* shader_;
-	Mesh* mesh_;
 };
 
 #endif

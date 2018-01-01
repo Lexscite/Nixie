@@ -1,5 +1,5 @@
 #include "shader.h"
-#include "..\engine.h"
+#include "..\app.h"
 
 Shader::Shader()
 {
@@ -25,15 +25,15 @@ void Shader::Release()
 	safe_release(vertex_shader_);
 }
 
-bool Shader::Render(int index_count)
+bool Shader::Render()
 {
 	if (!SetShaderParameters(
 		D3D::GetSingleton()->GetWorldMatrix(),
-		Engine::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix(),
+		App::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix(),
 		D3D::GetSingleton()->GetProjectionMatrix()))
 		return false;
 
-	RenderShader(index_count);
+	RenderShader();
 
 	return true;
 }
@@ -52,7 +52,7 @@ bool Shader::InitShader(WCHAR* vs_file_path, WCHAR* ps_file_path)
 		if (error_message)
 			OutputShaderErrorMessage(error_message, vs_file_path);
 		else
-			MessageBox(Engine::GetSingleton()->GetHwnd(), (LPCSTR)(vs_file_path), "Missing Shader File", MB_OK);
+			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)(vs_file_path), "Missing Shader File", MB_OK);
 
 		return false;
 	}
@@ -65,7 +65,7 @@ bool Shader::InitShader(WCHAR* vs_file_path, WCHAR* ps_file_path)
 		if (error_message)
 			OutputShaderErrorMessage(error_message, ps_file_path);
 		else
-			MessageBox(Engine::GetSingleton()->GetHwnd(), (LPCSTR)ps_file_path, "Missing Shader File", MB_OK);
+			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)ps_file_path, "Missing Shader File", MB_OK);
 
 		return false;
 	}
@@ -141,7 +141,7 @@ void Shader::OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_p
 	error_message->Release();
 	error_message = 0;
 
-	MessageBox(Engine::GetSingleton()->GetHwnd(), "Error compiling shader.  Check shader-error.txt for message.", (LPCSTR)shader_path, MB_OK);
+	MessageBox(App::GetSingleton()->GetHwnd(), "Error compiling shader.  Check shader-error.txt for message.", (LPCSTR)shader_path, MB_OK);
 }
 
 bool Shader::SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix)
@@ -170,11 +170,10 @@ bool Shader::SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matrix, XM
 	return true;
 }
 
-void Shader::RenderShader(int index_count)
+void Shader::RenderShader()
 {
 	ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();
 	device_context->IASetInputLayout(layout_);
 	device_context->VSSetShader(vertex_shader_, 0, 0);
 	device_context->PSSetShader(pixel_shader_, 0, 0);
-	device_context->DrawIndexed(index_count, 0, 0);
 }

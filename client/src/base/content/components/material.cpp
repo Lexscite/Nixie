@@ -3,12 +3,6 @@
 Material::Material()
 {
 	shader_ = nullptr;
-	mesh_ = nullptr;
-}
-
-void Material::AfterInit()
-{
-	mesh_ = static_cast<Mesh*>(GetGameObject()->GetComponent("Mesh"));
 }
 
 void Material::OnInit()
@@ -19,7 +13,7 @@ void Material::OnInit()
 
 void Material::OnUpdate()
 {
-	shader_->Render(mesh_->GetIndexCount());
+	shader_->Render();
 }
 
 Shader* Material::GetShader()

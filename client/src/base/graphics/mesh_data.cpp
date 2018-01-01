@@ -52,7 +52,7 @@ bool MeshData::LoadFile(char * file_path)
 	fin.get(input);
 	fin.get(input);
 
-	for (int i = 0; i < vertex_count_; i++)
+	for (unsigned int i = 0; i < vertex_count_; i++)
 	{
 		fin >> vertices_[i].position.x >> vertices_[i].position.y >> vertices_[i].position.z;
 		fin >> vertices_[i].texture.x >> vertices_[i].texture.y;
@@ -64,20 +64,17 @@ bool MeshData::LoadFile(char * file_path)
 	return true;
 }
 
-int MeshData::GetIndexCount()
-{
-	return index_count_;
-}
-
 bool MeshData::InitBuffers()
 {
-	HRESULT result;
+	HRESULT hr;
+
+	ID3D11Device* device = D3D::GetSingleton()->GetDevice();
 
 	unsigned long* indices = new unsigned long[index_count_];
 	if (!indices)
 		return false;
 
-	for (int i = 0; i < vertex_count_; i++)
+	for (unsigned int i = 0; i < vertex_count_; i++)
 		indices[i] = i;
 
 	D3D11_BUFFER_DESC vertex_buffer_desc;
@@ -90,12 +87,9 @@ bool MeshData::InitBuffers()
 
 	D3D11_SUBRESOURCE_DATA vertex_buffer_data;
 	vertex_buffer_data.pSysMem = vertices_;
-	vertex_buffer_data.SysMemPitch = 0;
-	vertex_buffer_data.SysMemSlicePitch = 0;
 
-	ID3D11Device* device = D3D::GetSingleton()->GetDevice();
-	result = device->CreateBuffer(&vertex_buffer_desc, &vertex_buffer_data, &vertex_buffer_);
-	if (FAILED(result))
+	hr = device->CreateBuffer(&vertex_buffer_desc, &vertex_buffer_data, &vertex_buffer_);
+	if (FAILED(hr))
 		return false;
 
 	D3D11_BUFFER_DESC index_buffer_desc;
@@ -108,11 +102,9 @@ bool MeshData::InitBuffers()
 
 	D3D11_SUBRESOURCE_DATA index_data;
 	index_data.pSysMem = indices;
-	index_data.SysMemPitch = 0;
-	index_data.SysMemSlicePitch = 0;
 
-	result = device->CreateBuffer(&index_buffer_desc, &index_data, &index_buffer_);
-	if (FAILED(result))
+	hr = device->CreateBuffer(&index_buffer_desc, &index_data, &index_buffer_);
+	if (FAILED(hr))
 		return false;
 
 	safe_delete_arr(indices);
@@ -122,14 +114,11 @@ bool MeshData::InitBuffers()
 
 void MeshData::Render()
 {
-	unsigned int stride;
-	unsigned int offset;
-
-	stride = sizeof(Vertex);
-	offset = 0;
-
 	ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();
+	unsigned int stride = sizeof(Vertex);
+	unsigned int offset = 0;
+
 	device_context->IASetVertexBuffers(0, 1, &vertex_buffer_, &stride, &offset);
 	device_context->IASetIndexBuffer(index_buffer_, DXGI_FORMAT_R32_UINT, 0);
-	device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	device_context->DrawIndexed(index_count_, 0, 0);
 }

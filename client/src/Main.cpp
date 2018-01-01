@@ -1,4 +1,4 @@
-#include "base/engine.h"
+#include "base/app.h"
 
 #ifdef _DEBUG
 class ConsoleBuffer : public std::streambuf {
@@ -30,11 +30,11 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 
 	int exit_code = 0;
 
-	Engine* engine = Engine::GetSingleton();
-	if (engine->Init(hInstance))
-		exit_code = engine->Run();
+	App* app = App::GetSingleton();
+	if (app->Init(hInstance))
+		exit_code = app->Run();
 
-	safe_release(engine);
+	safe_release(app);
 
 #ifdef _DEBUG
 	std::cout.rdbuf(cout_buffer);

@@ -6,10 +6,10 @@
 #include "network/connection.h"
 #include "content/scene.h"
 
-class Engine final
+class App final
 {
 public:
-	static Engine* GetSingleton();
+	static App* GetSingleton();
 
 	bool Init(HINSTANCE instance);
 	void Release();
@@ -22,7 +22,7 @@ public:
 	Scene* GetScene();
 
 private:
-	Engine();
+	App();
 
 	bool InitWindow(HINSTANCE instance);
 	void InitSettings();
@@ -30,7 +30,7 @@ private:
 	bool LoadScene(Scene* scene);
 
 private:
-	static Engine* singleton_;
+	static App* singleton_;
 
 	HWND window_;
 
