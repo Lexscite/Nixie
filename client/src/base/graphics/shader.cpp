@@ -11,7 +11,7 @@ Shader::Shader()
 
 bool Shader::Init()
 {
-	if (!InitShader(L"../data/shaders/color.vs", L"../data/shaders/color.ps"))
+	if (!InitShader(L"../data/shaders/default.hlsl."))
 		return false;
 
 	return true;
@@ -38,34 +38,33 @@ bool Shader::Render()
 	return true;
 }
 
-bool Shader::InitShader(WCHAR* vs_file_path, WCHAR* ps_file_path)
+bool Shader::InitShader(WCHAR* file_path)
 {
 	HRESULT result;
-
-	ID3D10Blob* vertex_shader_buffer = 0;
 	ID3D10Blob* error_message = 0;
 	
-	result = D3DCompileFromFile(vs_file_path, 0, 0, "ColorVertexShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+	ID3D10Blob* vertex_shader_buffer = 0;
+	result = D3DCompileFromFile(file_path, 0, 0, "DefaultVertexShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
 		&vertex_shader_buffer, &error_message);
 	if (FAILED(result))
 	{
 		if (error_message)
-			OutputShaderErrorMessage(error_message, vs_file_path);
+			OutputShaderErrorMessage(error_message, file_path);
 		else
-			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)(vs_file_path), "Missing Shader File", MB_OK);
+			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)(file_path), "Missing Shader File", MB_OK);
 
 		return false;
 	}
 
 	ID3D10Blob* pixel_shader_buffer = 0;
-	result = D3DCompileFromFile(ps_file_path, 0, 0, "ColorPixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+	result = D3DCompileFromFile(file_path, 0, 0, "DefaultPixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
 		&pixel_shader_buffer, &error_message);
 	if (FAILED(result))
 	{
 		if (error_message)
-			OutputShaderErrorMessage(error_message, ps_file_path);
+			OutputShaderErrorMessage(error_message, file_path);
 		else
-			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)ps_file_path, "Missing Shader File", MB_OK);
+			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)file_path, "Missing Shader File", MB_OK);
 
 		return false;
 	}

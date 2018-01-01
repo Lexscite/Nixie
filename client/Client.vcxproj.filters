@@ -133,13 +133,11 @@
     <Text Include="data\meshes\cube.txt">
       <Filter>data\meshes</Filter>
     </Text>
+    <Text Include="data\meshes\sphere.txt">
+      <Filter>data\meshes</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="data\shaders\color.ps">
-      <Filter>data\shaders</Filter>
-    </None>
-    <None Include="data\shaders\color.vs">
-      <Filter>data\shaders</Filter>
-    </None>
+    <FxCompile Include="data\shaders\default.hlsl" />
   </ItemGroup>
 </Project>

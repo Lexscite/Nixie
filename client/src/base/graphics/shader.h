@@ -28,7 +28,7 @@ public:
 	bool Render();
 
 private:
-	bool InitShader(WCHAR* vs_file_path, WCHAR* ps_file_path);
+	bool InitShader(WCHAR* file_path);
 	void OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path);
 
 	bool SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix);
