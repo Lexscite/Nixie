@@ -29,6 +29,7 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 
 	vsync_enabled_ = vsync_enabled;
 	fullscreen_enabled_ = fullscreen_enabled;
+	msaa_enabled_ = false;
 
 	IDXGIFactory* factory;
 	hr = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
@@ -78,11 +79,11 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	}
 
 	UINT numerator, denominator;
-	for (UINT i = 0; i<num_modes; i++)
+	for (UINT i = 0; i < num_modes; i++)
 	{
-		if (display_mode_list[i].Width == (unsigned int)screen_width)
+		if (display_mode_list[i].Width == static_cast<UINT>(screen_width))
 		{
-			if (display_mode_list[i].Height == (unsigned int)screen_height)
+			if (display_mode_list[i].Height == static_cast<UINT>(screen_height))
 			{
 				numerator = display_mode_list[i].RefreshRate.Numerator;
 				denominator = display_mode_list[i].RefreshRate.Denominator;
@@ -94,7 +95,7 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	hr = adapter->GetDesc(&adapter_desc);
 	if (FAILED(hr))
 	{
-		std::cerr << "Failed to get adapter desc" << std::endl;
+		std::cerr << "Failed to get adapter description" << std::endl;
 		return false;
 	}
 
@@ -107,30 +108,12 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 		return false;
 	}
 
-	safe_delete_arr(display_mode_list);
-	safe_release(adapter_output);
-	safe_release(adapter);
-	safe_release(factory);
+	UINT device_creation_flags = 0;
+#if defined(_DEBUG)
+	device_creation_flags = D3D11_CREATE_DEVICE_DEBUG;
+#endif
 
-	DXGI_SWAP_CHAIN_DESC swap_chain_desc;
-	ZeroMemory(&swap_chain_desc, sizeof(swap_chain_desc));
-	swap_chain_desc.OutputWindow = App::GetSingleton()->GetHwnd();
-	swap_chain_desc.Windowed = !fullscreen_enabled_;
-	swap_chain_desc.BufferCount = 1;
-	swap_chain_desc.BufferDesc.Width = screen_width;
-	swap_chain_desc.BufferDesc.Height = screen_height;
-	swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	swap_chain_desc.BufferDesc.RefreshRate.Numerator = vsync_enabled_ ? numerator : 0;
-	swap_chain_desc.BufferDesc.RefreshRate.Denominator = vsync_enabled_ ? denominator : 1;
-	swap_chain_desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-	swap_chain_desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swap_chain_desc.SampleDesc.Count = 1;
-	swap_chain_desc.SampleDesc.Quality = 0;
-	swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	swap_chain_desc.Flags = 0;
-
-	D3D_FEATURE_LEVEL feature_level[] = {
+	D3D_FEATURE_LEVEL feature_levels[] = {
 		D3D_FEATURE_LEVEL_11_0,
 		D3D_FEATURE_LEVEL_10_1,
 		D3D_FEATURE_LEVEL_10_0,
@@ -139,44 +122,117 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 		D3D_FEATURE_LEVEL_9_1,
 	};
 
-	UINT creation_flags = 0;
-#if defined(_DEBUG)
-	creation_flags = D3D11_CREATE_DEVICE_DEBUG;
-#endif
-
-	for (int i = 0; i < ARRAYSIZE(feature_level); i++)
+	for (int i = 0; i < ARRAYSIZE(feature_levels); i++)
 	{
-		hr = D3D11CreateDeviceAndSwapChain(
-			NULL,
-			D3D_DRIVER_TYPE_REFERENCE,
-			NULL,
-			creation_flags,
-			&feature_level[i],
-			6,
+		hr = D3D11CreateDevice(
+			0,
+			D3D_DRIVER_TYPE_HARDWARE,
+			0,
+			device_creation_flags,
+			&feature_levels[i], ARRAYSIZE(feature_levels),
 			D3D11_SDK_VERSION,
-			&swap_chain_desc,
-			&swap_chain_,
 			&device_,
 			&feature_level_,
-			&device_context_
-		);
+			&device_context_);
 
 		if (SUCCEEDED(hr))
 			break;
 	}
 	if (FAILED(hr))
 	{
-		std::cerr << "Failed to create DirectX device and swap chain" << std::endl;
+		std::cerr << "Failed to create DirectX device" << std::endl;
 		return false;
 	}
+
+	UINT msaa_quality;
+	hr = device_->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &msaa_quality);
+	if (FAILED(hr))
+	{
+		std::cerr << "Failed to check multisample quality levels" << std::endl;
+		return false;
+	}
+	assert(msaa_quality > 0);
+
+	DXGI_SWAP_CHAIN_DESC swap_chain_desc;
+	ZeroMemory(&swap_chain_desc, sizeof(swap_chain_desc));
+	swap_chain_desc.OutputWindow = App::GetSingleton()->GetHwnd();
+	swap_chain_desc.Windowed = !fullscreen_enabled_;
+	swap_chain_desc.BufferDesc.Width = screen_width;
+	swap_chain_desc.BufferDesc.Height = screen_height;
+	swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	swap_chain_desc.BufferDesc.RefreshRate.Numerator = vsync_enabled_ ? numerator : 0;
+	swap_chain_desc.BufferDesc.RefreshRate.Denominator = vsync_enabled_ ? denominator : 1;
+	swap_chain_desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	swap_chain_desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+	swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swap_chain_desc.BufferCount = 1;
+	swap_chain_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	swap_chain_desc.Flags = 0;
+	if (msaa_enabled_)
+	{
+		swap_chain_desc.SampleDesc.Count = 4;
+		swap_chain_desc.SampleDesc.Quality = msaa_quality - 1;
+	}
+	else
+	{
+	swap_chain_desc.SampleDesc.Count = 1;
+	swap_chain_desc.SampleDesc.Quality = 0;
+	}
+
+	hr = factory->CreateSwapChain(device_, &swap_chain_desc, &swap_chain_);
+	if (FAILED(hr))
+	{
+		std::cerr << "Failed to create swap chain" << std::endl;
+		return false;
+	}
+
+	safe_delete_arr(display_mode_list);
+	safe_release(adapter_output);
+	safe_release(adapter);
+	safe_release(factory);
 
 	ID3D11Texture2D* back_buffer;
 	hr = swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&back_buffer);
 	if (FAILED(hr))
 	{
-		std::cerr << "Failed to get the back buffer pointer" << std::endl;
+		std::cerr << "Failed to get the back buffer" << std::endl;
 		return false;
 	}
+
+	//D3D11_TEXTURE2D_DESC render_target_texture_desc;
+	//ZeroMemory(&render_target_texture_desc, sizeof(render_target_texture_desc));
+	//render_target_texture_desc.Width = screen_width;
+	//render_target_texture_desc.Height = screen_height;
+	//render_target_texture_desc.MipLevels = 1;
+	//render_target_texture_desc.ArraySize = 1;
+	//render_target_texture_desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	//render_target_texture_desc.Usage = D3D11_USAGE_DEFAULT;
+	//render_target_texture_desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	//render_target_texture_desc.CPUAccessFlags = 0;
+	//render_target_texture_desc.MiscFlags = 0;
+	//if (msaa_enabled_)
+	//{
+	//	rtTextureDesc.SampleDesc.Count = 4;
+	//	rtTextureDesc.SampleDesc.Quality = msaa_quality - 1;
+	//}
+	//else
+	//{
+	//render_target_texture_desc.SampleDesc.Count = 1;
+	//render_target_texture_desc.SampleDesc.Quality = 0;
+	//}
+
+	//D3D11_RENDER_TARGET_VIEW_DESC render_target_view_desc;
+	//render_target_view_desc.Format = render_target_texture_desc.Format;
+	//render_target_view_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	//render_target_view_desc.Texture2D.MipSlice = 0;
+
+	//ID3D11Texture2D* render_target_texture;
+	//hr = device_->CreateTexture2D(&render_target_texture_desc, NULL, &render_target_texture);
+	//if (FAILED(hr))
+	//{
+	//	std::cerr << "Failed to create back buffer texture" << std::endl;
+	//	return false;
+	//}
 
 	hr = device_->CreateRenderTargetView(back_buffer, NULL, &render_target_view_);
 	if (FAILED(hr))
@@ -194,12 +250,20 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	depth_buffer_desc.MipLevels = 1;
 	depth_buffer_desc.ArraySize = 1;
 	depth_buffer_desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	depth_buffer_desc.SampleDesc.Count = 1;
-	depth_buffer_desc.SampleDesc.Quality = 0;
 	depth_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
 	depth_buffer_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	depth_buffer_desc.CPUAccessFlags = 0;
 	depth_buffer_desc.MiscFlags = 0;
+	if (msaa_enabled_)
+	{
+		depth_buffer_desc.SampleDesc.Count = 4;
+		depth_buffer_desc.SampleDesc.Quality = msaa_quality - 1;
+	}
+	else
+	{
+	depth_buffer_desc.SampleDesc.Count = 1;
+	depth_buffer_desc.SampleDesc.Quality = 0;
+	}
 
 	hr = device_->CreateTexture2D(&depth_buffer_desc, NULL, &depth_stencil_buffer_);
 	if (FAILED(hr))
@@ -224,7 +288,7 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	depth_stencil_desc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
 	depth_stencil_desc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
 	depth_stencil_desc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-	
+
 	hr = device_->CreateDepthStencilState(&depth_stencil_desc, &depth_stencil_state_);
 	if (FAILED(hr))
 	{
@@ -271,12 +335,13 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	device_context_->RSSetState(rasterizer_state_);
 
 	D3D11_VIEWPORT viewport;
+	ZeroMemory(&viewport, sizeof(viewport));
 	viewport.Width = static_cast<float>(screen_width);
 	viewport.Height = static_cast<float>(screen_height);
-	viewport.MinDepth = 0.0f;
-	viewport.MaxDepth = 1.0f;
-	viewport.TopLeftX = 0.0f;
-	viewport.TopLeftY = 0.0f;
+	viewport.MinDepth = 0;
+	viewport.MaxDepth = 1;
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
 
 	device_context_->RSSetViewports(1, &viewport);
 

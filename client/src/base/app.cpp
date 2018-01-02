@@ -232,7 +232,7 @@ void App::CalculateFrameStats()
 
 		std::wostringstream outs;
 		outs.precision(6);
-		outs << window_caption_ << " | FPS: " << fps << " Frame time: " << mspf << "(ms)";
+		outs << window_caption_ << " | FPS: " << fps << " Frame time: " << mspf << "ms";
 		SetWindowTextW(window_, (LPCWSTR)outs.str().c_str());
 		frame_count = 0;
 		time_elapsed += 1;

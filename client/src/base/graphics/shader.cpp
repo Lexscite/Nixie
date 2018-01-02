@@ -44,7 +44,7 @@ bool Shader::InitShader(WCHAR* file_path)
 	ID3D10Blob* error_message = 0;
 	
 	ID3D10Blob* vertex_shader_buffer = 0;
-	result = D3DCompileFromFile(file_path, 0, 0, "DefaultVertexShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+	result = D3DCompileFromFile(file_path, 0, 0, "DefaultVertexShader", "vs_4_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
 		&vertex_shader_buffer, &error_message);
 	if (FAILED(result))
 	{
@@ -57,7 +57,7 @@ bool Shader::InitShader(WCHAR* file_path)
 	}
 
 	ID3D10Blob* pixel_shader_buffer = 0;
-	result = D3DCompileFromFile(file_path, 0, 0, "DefaultPixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+	result = D3DCompileFromFile(file_path, 0, 0, "DefaultPixelShader", "ps_4_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
 		&pixel_shader_buffer, &error_message);
 	if (FAILED(result))
 	{

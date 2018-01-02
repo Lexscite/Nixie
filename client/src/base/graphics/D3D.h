@@ -15,12 +15,6 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
-#ifdef _DEBUG
-#ifndef HR
-#define HR(x) { HRESULT hr = (x); if(FAILED(hr)) { DXTrace(__FILE__, (DWORD)__LINE__, hr, L#x, true); } }
-#endif
-#endif
-
 using namespace DirectX;
 
 class D3D final
@@ -49,6 +43,7 @@ private:
 
 	bool vsync_enabled_;
 	bool fullscreen_enabled_;
+	bool msaa_enabled_;
 
 	ID3D11Device* device_;
 	ID3D11DeviceContext* device_context_;
