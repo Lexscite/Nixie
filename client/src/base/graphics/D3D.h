@@ -60,7 +60,6 @@ private:
 	ID3D11RasterizerState* rasterizer_state_;
 
 	XMMATRIX projection_matrix_;
-	XMMATRIX world_matrix_;
 	XMMATRIX ortho_matrix_;
 };
 

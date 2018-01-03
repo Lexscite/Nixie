@@ -363,7 +363,6 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	float aspect_ratio = static_cast<float>(screen_width / screen_height);
 
 	projection_matrix_ = XMMatrixPerspectiveFovLH(fov, aspect_ratio, screen_near, screen_depth);
-	world_matrix_ = XMMatrixIdentity();
 	ortho_matrix_ = XMMatrixOrthographicLH(static_cast<float>(screen_width), static_cast<float>(screen_height), screen_near, screen_depth);
 
 	device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -429,12 +428,6 @@ ID3D11DeviceContext* D3D::GetDeviceContext()
 XMMATRIX D3D::GetProjectionMatrix()
 {
 	return projection_matrix_;
-}
-
-
-XMMATRIX D3D::GetWorldMatrix()
-{
-	return world_matrix_;
 }
 
 
