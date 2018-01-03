@@ -46,6 +46,13 @@ public:
 		return (float)sqrt((float)pow(x, 2) + (float)pow(y, 2) + (float)pow(z, 2));
 	}
 
+	void Add(Vector3* value)
+	{
+		x += value->x;
+		y += value->y;
+		z += value->z;
+	}
+
 	static Vector3* Sum(Vector3* left, Vector3* right)
 	{
 		return new Vector3(

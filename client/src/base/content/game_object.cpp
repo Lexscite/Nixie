@@ -105,3 +105,8 @@ void GameObject::SetScale(Vector3* value)
 {
 	scale_ = value;
 }
+
+void GameObject::Translate(Vector3* value)
+{
+	position_->Add(value);
+}
