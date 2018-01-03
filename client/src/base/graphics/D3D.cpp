@@ -113,27 +113,41 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	device_creation_flags = D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
+	D3D_DRIVER_TYPE driver_types[] = {
+		D3D_DRIVER_TYPE_HARDWARE,
+		D3D_DRIVER_TYPE_WARP,
+		D3D_DRIVER_TYPE_SOFTWARE
+	};
+
 	D3D_FEATURE_LEVEL feature_levels[] = {
 		D3D_FEATURE_LEVEL_11_0,
 		D3D_FEATURE_LEVEL_10_1,
 		D3D_FEATURE_LEVEL_10_0,
 		D3D_FEATURE_LEVEL_9_3,
 		D3D_FEATURE_LEVEL_9_2,
-		D3D_FEATURE_LEVEL_9_1,
+		D3D_FEATURE_LEVEL_9_1
 	};
 
-	for (int i = 0; i < ARRAYSIZE(feature_levels); i++)
+	for (int i = 0; i < ARRAYSIZE(driver_types); i++)
 	{
-		hr = D3D11CreateDevice(
-			0,
-			D3D_DRIVER_TYPE_HARDWARE,
-			0,
-			device_creation_flags,
-			&feature_levels[i], ARRAYSIZE(feature_levels),
-			D3D11_SDK_VERSION,
-			&device_,
-			&feature_level_,
-			&device_context_);
+		D3D_DRIVER_TYPE driver_type = driver_types[i];
+
+		for (int y = 0; y < ARRAYSIZE(feature_levels); y++)
+		{
+			hr = D3D11CreateDevice(
+				0,
+				driver_type,
+				0,
+				device_creation_flags,
+				&feature_levels[y], ARRAYSIZE(feature_levels),
+				D3D11_SDK_VERSION,
+				&device_,
+				&feature_level_,
+				&device_context_);
+
+			if (SUCCEEDED(hr))
+				break;
+		}
 
 		if (SUCCEEDED(hr))
 			break;
@@ -175,8 +189,8 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	}
 	else
 	{
-	swap_chain_desc.SampleDesc.Count = 1;
-	swap_chain_desc.SampleDesc.Quality = 0;
+		swap_chain_desc.SampleDesc.Count = 1;
+		swap_chain_desc.SampleDesc.Quality = 0;
 	}
 
 	hr = factory->CreateSwapChain(device_, &swap_chain_desc, &swap_chain_);
@@ -261,8 +275,8 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	}
 	else
 	{
-	depth_buffer_desc.SampleDesc.Count = 1;
-	depth_buffer_desc.SampleDesc.Quality = 0;
+		depth_buffer_desc.SampleDesc.Count = 1;
+		depth_buffer_desc.SampleDesc.Quality = 0;
 	}
 
 	hr = device_->CreateTexture2D(&depth_buffer_desc, NULL, &depth_stencil_buffer_);
@@ -346,8 +360,9 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 	device_context_->RSSetViewports(1, &viewport);
 
 	float fov = 3.141592654f / 4.0f;
-	float screen_aspect = static_cast<float>(screen_width / screen_height);
-	projection_matrix_ = XMMatrixPerspectiveFovLH(fov, screen_aspect, screen_near, screen_depth);
+	float aspect_ratio = static_cast<float>(screen_width / screen_height);
+
+	projection_matrix_ = XMMatrixPerspectiveFovLH(fov, aspect_ratio, screen_near, screen_depth);
 	world_matrix_ = XMMatrixIdentity();
 	ortho_matrix_ = XMMatrixOrthographicLH(static_cast<float>(screen_width), static_cast<float>(screen_height), screen_near, screen_depth);
 

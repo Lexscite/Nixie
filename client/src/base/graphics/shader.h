@@ -13,7 +13,7 @@ using namespace DirectX;
 class Shader
 {
 private:
-	struct MatrixBufferData
+	struct MatrixBuffer
 	{
 		XMMATRIX world_matrix;
 		XMMATRIX view_matrix;
@@ -25,14 +25,13 @@ public:
 
 	bool Init();
 	void Release();
-	bool Render();
+
+	bool Update(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix);
 
 private:
 	bool InitShader(WCHAR* file_path);
 	void OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path);
 
-	bool SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix);
-	void RenderShader();
 
 private:
 	ID3D11VertexShader* vertex_shader_;

@@ -13,11 +13,11 @@ bool Scene::Init()
 	current_camera_ = static_cast<Camera*>(camera->GetComponent("Camera"));
 	AddGameObject(camera);
 
-	//GameObject* cube = new GameObject("Cube");
-	//cube->AddComponent(new Mesh("../data/meshes/cube.txt"));
-	//cube->AddComponent(new Material);
-	//cube->SetPosition(new Vector3(-1.5, 0, -1.5));
-	//AddGameObject(cube);
+	GameObject* cube = new GameObject("Cube");
+	cube->AddComponent(new Mesh("../data/meshes/cube.txt"));
+	cube->AddComponent(new Material);
+	cube->SetPosition(new Vector3(-1.5, 0, -1.5));
+	AddGameObject(cube);
 
 	GameObject* sphere = new GameObject("Sphere");
 	sphere->AddComponent(new Mesh("../data/meshes/sphere.txt"));

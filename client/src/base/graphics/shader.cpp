@@ -25,19 +25,6 @@ void Shader::Release()
 	safe_release(vertex_shader_);
 }
 
-bool Shader::Render()
-{
-	if (!SetShaderParameters(
-		D3D::GetSingleton()->GetWorldMatrix(),
-		App::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix(),
-		D3D::GetSingleton()->GetProjectionMatrix()))
-		return false;
-
-	RenderShader();
-
-	return true;
-}
-
 bool Shader::InitShader(WCHAR* file_path)
 {
 	HRESULT result;
@@ -106,7 +93,7 @@ bool Shader::InitShader(WCHAR* file_path)
 
 	D3D11_BUFFER_DESC matrix_buffer_desc;
 	matrix_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
-	matrix_buffer_desc.ByteWidth = sizeof(MatrixBufferData);
+	matrix_buffer_desc.ByteWidth = sizeof(MatrixBuffer);
 	matrix_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	matrix_buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	matrix_buffer_desc.MiscFlags = 0;
@@ -143,20 +130,20 @@ void Shader::OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_p
 	MessageBox(App::GetSingleton()->GetHwnd(), "Error compiling shader.  Check shader-error.txt for message.", (LPCSTR)shader_path, MB_OK);
 }
 
-bool Shader::SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix)
+bool Shader::Update(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix)
 {
 	world_matrix = XMMatrixTranspose(world_matrix);
 	view_matrix = XMMatrixTranspose(view_matrix);
 	projection_matrix = XMMatrixTranspose(projection_matrix);
-	
+
 	D3D11_MAPPED_SUBRESOURCE mapped_resource;
 	ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();
 	HRESULT result = device_context->Map(matrix_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
 	if (FAILED(result))
 		return false;
 
-	MatrixBufferData* data;
-	data = (MatrixBufferData*)mapped_resource.pData;
+	MatrixBuffer* data;
+	data = (MatrixBuffer*)mapped_resource.pData;
 	data->world_matrix = world_matrix;
 	data->view_matrix = view_matrix;
 	data->projection_matrix = projection_matrix;
@@ -165,14 +152,9 @@ bool Shader::SetShaderParameters(XMMATRIX world_matrix, XMMATRIX view_matrix, XM
 	
 	UINT buffer_num = 0;
 	device_context->VSSetConstantBuffers(buffer_num, 1, &matrix_buffer_);
-
-	return true;
-}
-
-void Shader::RenderShader()
-{
-	ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();
 	device_context->IASetInputLayout(layout_);
 	device_context->VSSetShader(vertex_shader_, 0, 0);
 	device_context->PSSetShader(pixel_shader_, 0, 0);
+
+	return true;
 }

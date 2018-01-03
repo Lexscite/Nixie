@@ -170,7 +170,8 @@ int App::Run()
 {
 	time_->Reset();
 
-	MSG msg = { 0 };
+	MSG msg;
+	ZeroMemory(&msg, sizeof(msg));
 	while (msg.message != WM_QUIT)
 	{
 		if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
@@ -228,14 +229,14 @@ void App::CalculateFrameStats()
 	if ((time_->GetTime() - time_elapsed) >= 1)
 	{
 		float fps = static_cast<float>(frame_count);
-		float mspf = 1000 / fps;
+		float ms_per_frame = 1000 / fps;
 
-		std::wostringstream outs;
-		outs.precision(6);
-		outs << window_caption_ << " | FPS: " << fps << " Frame time: " << mspf << "ms";
-		SetWindowTextW(window_, (LPCWSTR)outs.str().c_str());
+		std::wostringstream window_caption;
+		window_caption.precision(6);
+		window_caption << window_caption_ << " | FPS: " << fps << " Frame time: " << ms_per_frame << "ms";
+		SetWindowTextW(window_, static_cast<LPCWSTR>(window_caption.str().c_str()));
 		frame_count = 0;
-		time_elapsed += 1;
+		time_elapsed++;
 	}
 }
 
