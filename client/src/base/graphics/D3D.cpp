@@ -359,7 +359,7 @@ bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool f
 
 	device_context_->RSSetViewports(1, &viewport);
 
-	float fov = 3.141592654f / 4.0f;
+	float fov = XM_PI / 4.0f;
 	float aspect_ratio = static_cast<float>(screen_width / screen_height);
 
 	projection_matrix_ = XMMatrixPerspectiveFovLH(fov, aspect_ratio, screen_near, screen_depth);
