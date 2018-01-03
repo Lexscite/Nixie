@@ -28,6 +28,7 @@ public:
 	std::vector<Component*> GetComponents();
 
 	std::string GetName();
+
 	Vector3* GetPosition();
 	void SetPosition(Vector3* value);
 	Vector3* GetRotation();

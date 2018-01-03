@@ -23,15 +23,12 @@ private:
 public:
 	Shader();
 
-	bool Init();
+	bool Init(WCHAR* file_path);
+	bool Update(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix);
 	void Release();
 
-	bool Update(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix);
-
 private:
-	bool InitShader(WCHAR* file_path);
 	void OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path);
-
 
 private:
 	ID3D11VertexShader* vertex_shader_;

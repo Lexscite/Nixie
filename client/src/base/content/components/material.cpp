@@ -9,14 +9,14 @@ Material::Material()
 void Material::OnInit()
 {
 	shader_ = new Shader;
-	shader_->Init();
+	shader_->Init(L"../data/shaders/default.hlsl.");
 }
 
 void Material::OnUpdate()
 {
-	Vector3* position = GetGameObject()->GetPosition();
-	Vector3* rotation = GetGameObject()->GetRotation();
-	Vector3* scale = GetGameObject()->GetScale();
+	Vector3* position = GetPosition();
+	Vector3* rotation = GetRotation();
+	Vector3* scale = GetScale();
 
 	XMMATRIX translation_matrix = XMMatrixTranslation(position->x, position->y, position->z);
 	XMMATRIX rotation_matrix = XMMatrixRotationRollPitchYaw(rotation->x, rotation->y, rotation->z);

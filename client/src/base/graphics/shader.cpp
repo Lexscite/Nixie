@@ -9,14 +9,6 @@ Shader::Shader()
 	matrix_buffer_ = nullptr;
 }
 
-bool Shader::Init()
-{
-	if (!InitShader(L"../data/shaders/default.hlsl."))
-		return false;
-
-	return true;
-}
-
 void Shader::Release()
 {
 	safe_release(matrix_buffer_);
@@ -25,7 +17,7 @@ void Shader::Release()
 	safe_release(vertex_shader_);
 }
 
-bool Shader::InitShader(WCHAR* file_path)
+bool Shader::Init(WCHAR* file_path)
 {
 	HRESULT result;
 	ID3D10Blob* error_message = 0;
@@ -106,30 +98,6 @@ bool Shader::InitShader(WCHAR* file_path)
 	return true;
 }
 
-void Shader::OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path)
-{
-	char* compile_errors;
-	unsigned long long bufferSize, i;
-	std::ofstream fout;
-
-
-	compile_errors = static_cast<char*>(error_message->GetBufferPointer());
-
-	bufferSize = error_message->GetBufferSize();
-
-	fout.open("shader-error.txt");
-
-	for (i = 0; i < bufferSize; i++)
-		fout << compile_errors[i];
-
-	fout.close();
-
-	error_message->Release();
-	error_message = 0;
-
-	MessageBox(App::GetSingleton()->GetHwnd(), "Error compiling shader.  Check shader-error.txt for message.", (LPCSTR)shader_path, MB_OK);
-}
-
 bool Shader::Update(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix)
 {
 	world_matrix = XMMatrixTranspose(world_matrix);
@@ -157,4 +125,28 @@ bool Shader::Update(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projec
 	device_context->PSSetShader(pixel_shader_, 0, 0);
 
 	return true;
+}
+
+void Shader::OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path)
+{
+	char* compile_errors;
+	unsigned long long bufferSize, i;
+	std::ofstream fout;
+
+
+	compile_errors = static_cast<char*>(error_message->GetBufferPointer());
+
+	bufferSize = error_message->GetBufferSize();
+
+	fout.open("shader-error.txt");
+
+	for (i = 0; i < bufferSize; i++)
+		fout << compile_errors[i];
+
+	fout.close();
+
+	error_message->Release();
+	error_message = 0;
+
+	MessageBox(App::GetSingleton()->GetHwnd(), "Error compiling shader.  Check shader-error.txt for message.", (LPCSTR)shader_path, MB_OK);
 }
