@@ -4,10 +4,13 @@
 Material::Material()
 {
 	shader_ = nullptr;
+	texture_ = nullptr;
 }
 
 void Material::OnInit()
 {
+	LoadTexture(L"../data/textures/placeholder.jpg");
+
 	shader_ = new Shader;
 	shader_->Init(L"../data/shaders/default.hlsl.");
 }
@@ -25,7 +28,17 @@ void Material::OnUpdate()
 	shader_->Update(
 		translation_matrix * rotation_matrix * scaling_matrix,
 		App::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix(),
-		D3D::GetSingleton()->GetProjectionMatrix());
+		D3D::GetSingleton()->GetProjectionMatrix(),
+		texture_->GetTextureView());
+}
+
+bool Material::LoadTexture(const wchar_t* file_path)
+{
+	texture_ = new Texture;
+	if (!texture_->Init(file_path))
+		return false;
+
+	return true;
 }
 
 Shader* Material::GetShader()

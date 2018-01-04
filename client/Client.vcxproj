@@ -67,6 +67,9 @@
   <ItemGroup>
     <Image Include="data\textures\placeholder.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\meshes\cube.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{97560842-44DD-46B5-9756-ED7D75D68EBB}</ProjectGuid>

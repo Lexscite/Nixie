@@ -4,9 +4,10 @@
 #pragma once
 
 #include "../component.h"
+#include "../../graphics/texture.h"
+#include "../../graphics/shader.h"
 #include "mesh.h"
 #include "camera.h"
-#include "../../graphics/shader.h"
 
 class Material : public Component
 {
@@ -18,8 +19,11 @@ private:
 	virtual void OnInit() override;
 	virtual void OnUpdate() override;
 
+	bool LoadTexture(const wchar_t* file_path);
+
 private:
 	Shader* shader_;
+	Texture* texture_;
 };
 
 #endif

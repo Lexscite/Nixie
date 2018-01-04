@@ -145,4 +145,7 @@
       <Filter>data\shaders</Filter>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\meshes\cube.txt" />
+  </ItemGroup>
 </Project>

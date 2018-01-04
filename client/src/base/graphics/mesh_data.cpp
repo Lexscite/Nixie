@@ -5,15 +5,11 @@ MeshData::MeshData()
 	vertex_buffer_ = nullptr;
 	index_buffer_ = nullptr;
 	vertices_ = nullptr;
-	texture_ = nullptr;
 }
 
 bool MeshData::Init(char * file_path)
 {
 	if (!LoadFile(file_path))
-		return false;
-
-	if (!LoadTexture(L"../data/textures/placeholder.jpg"))
 		return false;
 
 	if (!InitBuffers())
@@ -24,7 +20,6 @@ bool MeshData::Init(char * file_path)
 
 void MeshData::Release()
 {
-	safe_release(texture_);
 	safe_release(index_buffer_);
 	safe_release(vertex_buffer_);
 	safe_delete_arr(vertices_);
@@ -126,19 +121,4 @@ void MeshData::Render()
 	device_context->IASetVertexBuffers(0, 1, &vertex_buffer_, &stride, &offset);
 	device_context->IASetIndexBuffer(index_buffer_, DXGI_FORMAT_R32_UINT, 0);
 	device_context->DrawIndexed(index_count_, 0, 0);
-}
-
-bool MeshData::LoadTexture(const wchar_t* file_path)
-{
-	texture_ = new Texture;
-
-	if (!texture_->Init(file_path))
-		return false;
-
-	return true;
-}
-
-ID3D11ShaderResourceView* MeshData::GetTextureView()
-{
-	return texture_->GetTextureView();
 }

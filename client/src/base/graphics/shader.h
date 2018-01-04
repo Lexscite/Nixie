@@ -24,7 +24,7 @@ public:
 	Shader();
 
 	bool Init(WCHAR* file_path);
-	bool Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_matrix);
+	bool Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_matrix, ID3D11ShaderResourceView* texture);
 	void Release();
 
 private:

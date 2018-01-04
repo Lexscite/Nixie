@@ -5,7 +5,7 @@
 
 #include <fstream>
 
-#include "texture.h"
+#include "d3d.h"
 
 class MeshData
 {
@@ -24,13 +24,9 @@ public:
 
 	void Render();
 
-	ID3D11ShaderResourceView* GetTextureView();
-
 private:
 	bool LoadFile(char* file_path);
 	bool InitBuffers();
-
-	bool LoadTexture(const wchar_t* file_path);
 
 private:
 	ID3D11Buffer* vertex_buffer_;
@@ -40,7 +36,6 @@ private:
 	unsigned long index_count_;
 
 	Vertex* vertices_;
-	Texture* texture_;
 };
 
 #endif

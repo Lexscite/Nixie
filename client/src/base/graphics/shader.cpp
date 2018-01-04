@@ -149,7 +149,7 @@ bool Shader::Init(WCHAR* file_path)
 	return true;
 }
 
-bool Shader::Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_matrix)
+bool Shader::Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_matrix, ID3D11ShaderResourceView* texture)
 {
 	ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();
 
@@ -171,6 +171,7 @@ bool Shader::Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_m
 	device_context->Unmap(matrix_buffer_, 0);
 
 	UINT buffer_num = 0;
+	device_context->PSSetShaderResources(0, 1, &texture);
 	device_context->VSSetConstantBuffers(buffer_num, 1, &matrix_buffer_);
 	device_context->IASetInputLayout(layout_);
 	device_context->VSSetShader(vertex_shader_, 0, 0);
