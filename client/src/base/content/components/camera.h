@@ -5,7 +5,6 @@
 
 #include <directxmath.h>
 
-#include "../../math/vector.h"
 #include "../component.h"
 
 using namespace DirectX;

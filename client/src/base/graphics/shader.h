@@ -15,16 +15,16 @@ class Shader
 private:
 	struct MatrixBuffer
 	{
-		XMMATRIX world_matrix;
-		XMMATRIX view_matrix;
-		XMMATRIX projection_matrix;
+		Matrix world_matrix;
+		Matrix view_matrix;
+		Matrix projection_matrix;
 	};
 
 public:
 	Shader();
 
 	bool Init(WCHAR* file_path);
-	bool Update(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix);
+	bool Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_matrix);
 	void Release();
 
 private:

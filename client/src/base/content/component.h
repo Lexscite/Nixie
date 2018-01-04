@@ -6,6 +6,7 @@
 #include <typeinfo>
 #include <string>
 
+#include "../graphics/d3d.h"
 #include "game_object.h"
 
 class GameObject;
@@ -20,14 +21,14 @@ public:
 	virtual std::string GetName() final;
 	virtual GameObject* GetGameObject() final;
 
-	Vector3* GetPosition();
-	void SetPosition(Vector3* value);
-	Vector3* GetRotation();
-	void SetRotation(Vector3* value);
-	Vector3* GetScale();
-	void SetScale(Vector3* value);
+	Vector3 GetPosition();
+	void SetPosition(Vector3 value);
+	Vector3 GetRotation();
+	void SetRotation(Vector3 value);
+	Vector3 GetScale();
+	void SetScale(Vector3 value);
 
-	void Translate(Vector3* value);
+	void Translate(Vector3 value);
 
 private:
 	virtual void OnInit();

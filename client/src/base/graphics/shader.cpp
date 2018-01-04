@@ -98,7 +98,7 @@ bool Shader::Init(WCHAR* file_path)
 	return true;
 }
 
-bool Shader::Update(XMMATRIX world_matrix, XMMATRIX view_matrix, XMMATRIX projection_matrix)
+bool Shader::Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_matrix)
 {
 	world_matrix = XMMatrixTranspose(world_matrix);
 	view_matrix = XMMatrixTranspose(view_matrix);

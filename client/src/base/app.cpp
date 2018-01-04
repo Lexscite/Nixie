@@ -8,7 +8,6 @@ LRESULT CALLBACK WindowProcessor(HWND window, UINT message, WPARAM w_param, LPAR
 		return DefWindowProc(window, message, w_param, l_param);
 }
 
-
 App::App() = default;
 
 App* App::singleton_;
@@ -44,7 +43,7 @@ bool App::Init(HINSTANCE instance)
 		return false;
 	}
 
-	if (!directx_->Init(resolution_->x, resolution_->y, vsync_enabled_, fullscreen_enabled_, 1000.0f, 0.1f))
+	if (!directx_->Init(screen_width_, screen_height_, vsync_enabled_, fullscreen_enabled_, 1000.0f, 0.1f))
 	{
 		MessageBox(App::GetSingleton()->GetHwnd(), "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
 		return false;
@@ -72,11 +71,13 @@ void App::InitSettings()
 
 	if (fullscreen_enabled_)
 	{
-		resolution_ = new IntVector2(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+		screen_width_ = GetSystemMetrics(SM_CXSCREEN);
+		screen_height_ = GetSystemMetrics(SM_CYSCREEN);
 	}
 	else
 	{
-		resolution_ = new IntVector2(800, 600);
+		screen_width_ = 800;
+		screen_height_ = 600;
 	}
 }
 
@@ -104,27 +105,31 @@ bool App::InitWindow(HINSTANCE instance)
 	if (!RegisterClassEx(&wc))
 		return false;
 
-	IntVector2* window_size;
+	int window_pos_x, window_pos_y;
 	if (fullscreen_enabled_)
 	{
 		DEVMODE dmScreenSettings;
 
 		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
 		dmScreenSettings.dmSize = sizeof(dmScreenSettings);
-		dmScreenSettings.dmPelsWidth = static_cast<ULONG>(resolution_->x);
-		dmScreenSettings.dmPelsHeight = static_cast<ULONG>(resolution_->y);
+		dmScreenSettings.dmPelsWidth = static_cast<ULONG>(screen_width_);
+		dmScreenSettings.dmPelsHeight = static_cast<ULONG>(screen_height_);
 		dmScreenSettings.dmBitsPerPel = 32;
 		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
 
 		ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
 
-		window_size = new IntVector2();
+		window_pos_x = 0;
+		window_pos_y = 0;
 	}
 	else
-		window_size = new IntVector2(GetSystemMetrics(SM_CXSCREEN) / 2 - resolution_->x / 2, GetSystemMetrics(SM_CYSCREEN) / 2 - resolution_->y / 2);
+	{
+		window_pos_x = GetSystemMetrics(SM_CXSCREEN) / 2 - screen_width_ / 2;
+		window_pos_y = GetSystemMetrics(SM_CYSCREEN) / 2 - screen_height_ / 2;
+	}
 
 	window_ = CreateWindowEx(WS_EX_APPWINDOW, class_name, window_caption_, style,
-		window_size->x, window_size->y, resolution_->x, resolution_->y, NULL, NULL, instance, NULL);
+		window_pos_x, window_pos_y, screen_width_, screen_height_, NULL, NULL, instance, NULL);
 	if (!window_)
 	{
 		std::cerr << "Failed to create main window" << std::endl;

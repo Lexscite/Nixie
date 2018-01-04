@@ -23,7 +23,13 @@ D3D* D3D::GetSingleton()
 	return singleton_;
 }
 
-bool D3D::Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool fullscreen_enabled, float screen_depth, float screen_near)
+bool D3D::Init(
+	unsigned int screen_width,
+	unsigned int screen_height,
+	bool vsync_enabled,
+	bool fullscreen_enabled,
+	float screen_depth,
+	float screen_near)
 {
 	HRESULT hr = S_OK;
 
@@ -400,10 +406,9 @@ void D3D::Release()
 		safe_release(swap_chain_);
 }
 
-void D3D::BeginScene(Color* color)
+void D3D::BeginScene(Color color)
 {
-	float clear_color[4] = { color->r, color->g, color->b, color->a };
-	device_context_->ClearRenderTargetView(render_target_view_, clear_color);
+	device_context_->ClearRenderTargetView(render_target_view_, color);
 	device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
@@ -425,13 +430,12 @@ ID3D11DeviceContext* D3D::GetDeviceContext()
 	return device_context_;
 }
 
-XMMATRIX D3D::GetProjectionMatrix()
+Matrix D3D::GetProjectionMatrix()
 {
 	return projection_matrix_;
 }
 
-
-XMMATRIX D3D::GetOrthoMatrix()
+Matrix D3D::GetOrthoMatrix()
 {
 	return ortho_matrix_;
 }

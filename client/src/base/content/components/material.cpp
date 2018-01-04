@@ -14,13 +14,13 @@ void Material::OnInit()
 
 void Material::OnUpdate()
 {
-	Vector3* position = GetPosition();
-	Vector3* rotation = GetRotation();
-	Vector3* scale = GetScale();
+	Vector3 position = GetPosition();
+	Vector3 rotation = GetRotation();
+	Vector3 scale = GetScale();
 
-	XMMATRIX translation_matrix = XMMatrixTranslation(position->x, position->y, position->z);
-	XMMATRIX rotation_matrix = XMMatrixRotationRollPitchYaw(rotation->x, rotation->y, rotation->z);
-	XMMATRIX scaling_matrix = XMMatrixScaling(scale->x, scale->y, scale->z);
+	XMMATRIX translation_matrix = XMMatrixTranslation(position.x, position.y, position.z);
+	XMMATRIX rotation_matrix = XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z);
+	XMMATRIX scaling_matrix = XMMatrixScaling(scale.x, scale.y, scale.z);
 
 	shader_->Update(
 		translation_matrix * rotation_matrix * scaling_matrix,

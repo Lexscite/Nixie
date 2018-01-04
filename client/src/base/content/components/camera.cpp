@@ -10,9 +10,9 @@ void Camera::Render()
 	XMVECTOR up_vector = XMLoadFloat3(&up);
 
 	XMFLOAT3 position;
-	position.x = GetGameObject()->GetPosition()->x;
-	position.y = GetGameObject()->GetPosition()->y;
-	position.z = GetGameObject()->GetPosition()->z;
+	position.x = GetGameObject()->GetPosition().x;
+	position.y = GetGameObject()->GetPosition().y;
+	position.z = GetGameObject()->GetPosition().z;
 
 	XMVECTOR position_vector = XMLoadFloat3(&position);
 
@@ -23,9 +23,9 @@ void Camera::Render()
 
 	XMVECTOR look_at_vector = XMLoadFloat3(&look_at);
 
-	float pitch = GetGameObject()->GetRotation()->x * 0.0174532925f;
-	float yaw = GetGameObject()->GetRotation()->y * 0.0174532925f;
-	float roll = GetGameObject()->GetRotation()->z * 0.0174532925f;
+	float pitch = GetGameObject()->GetRotation().x * 0.0174532925f;
+	float yaw = GetGameObject()->GetRotation().y * 0.0174532925f;
+	float roll = GetGameObject()->GetRotation().z * 0.0174532925f;
 
 	XMMATRIX rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 

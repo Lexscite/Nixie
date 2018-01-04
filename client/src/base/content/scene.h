@@ -20,7 +20,7 @@ public:
 	void Release();
 	void Update();
 
-	Color* GetClearColor();
+	Color GetClearColor();
 	Camera* GetCamera();
 
 	bool AddGameObject(GameObject* new_game_object);
@@ -31,7 +31,7 @@ private:
 	void OutputDebugMessage();
 
 private:
-	Color* clear_color_;
+	Color clear_color_;
 	Camera* current_camera_;
 	std::map<std::string, GameObject*> game_objects_;
 };

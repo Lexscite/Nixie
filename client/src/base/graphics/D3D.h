@@ -3,37 +3,43 @@
 
 #pragma once
 
-#include <d3d11.h>
-#include <d3dcompiler.h>
-#include <directxmath.h>
-
-#include "..\utils\memory.h"
-#include "..\utils\debug.h"
-#include "..\math\color.h"
-
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
+#include <d3d11.h>
+#include <d3dcompiler.h>
+
+#include "SimpleMath.h"
+
+#include "..\utils\memory.h"
+#include "..\utils\debug.h"
+
 using namespace DirectX;
+using namespace DirectX::SimpleMath;
 
 class D3D final
 {
 public:
 	static D3D* GetSingleton();
 
-	bool Init(UINT screen_width, UINT screen_height, bool vsync_enabled, bool fullscreen_enabled, float screen_depth, float screen_near);
+	bool Init(
+		unsigned int screen_width,
+		unsigned int screen_height,
+		bool vsync_enabled,
+		bool fullscreen_enabled,
+		float screen_depth,
+		float screen_near);
 	void Release();
 
-	void BeginScene(Color* clear_color);
+	void BeginScene(Color clear_color);
 	void EndScene();
 
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetDeviceContext();
 
-	XMMATRIX GetProjectionMatrix();
-	XMMATRIX GetWorldMatrix();
-	XMMATRIX GetOrthoMatrix();
+	Matrix GetProjectionMatrix();
+	Matrix GetOrthoMatrix();
 
 private:
 	D3D();
@@ -59,8 +65,8 @@ private:
 	ID3D11DepthStencilView* depth_stencil_view_;
 	ID3D11RasterizerState* rasterizer_state_;
 
-	XMMATRIX projection_matrix_;
-	XMMATRIX ortho_matrix_;
+	Matrix projection_matrix_;
+	Matrix ortho_matrix_;
 };
 
 #endif

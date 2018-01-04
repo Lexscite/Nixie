@@ -86,15 +86,6 @@
     <ClInclude Include="src\base\graphics\shader.h">
       <Filter>src\base\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\math\color.h">
-      <Filter>src\base\math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\base\math\math.h">
-      <Filter>src\base\math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\base\math\vector.h">
-      <Filter>src\base\math</Filter>
-    </ClInclude>
     <ClInclude Include="src\base\network\connection.h">
       <Filter>src\base\network</Filter>
     </ClInclude>
@@ -145,5 +136,8 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\shaders\default.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

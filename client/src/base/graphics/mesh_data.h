@@ -29,7 +29,7 @@ private:
 	bool InitBuffers();
 
 private:
-	ID3D11Buffer * vertex_buffer_;
+	ID3D11Buffer* vertex_buffer_;
 	ID3D11Buffer* index_buffer_;
 
 	unsigned long vertex_count_;

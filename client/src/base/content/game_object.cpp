@@ -3,9 +3,9 @@
 GameObject::GameObject(std::string name)
 {
 	name_ = name;
-	position_ = new Vector3();
-	rotation_ = new Vector3();
-	scale_ = new Vector3(1, 1, 1);
+	position_ = Vector3();
+	rotation_ = Vector3();
+	scale_ = Vector3(1, 1, 1);
 	parent_ = nullptr;
 }
 
@@ -67,46 +67,46 @@ std::string GameObject::GetName()
 	return name_;
 }
 
-Vector3* GameObject::GetPosition()
+Vector3 GameObject::GetPosition()
 {
 	if (parent_ == nullptr)
 		return position_;
 	else
-		return Vector3::Sum(parent_->GetPosition(), position_);
+		return parent_->GetPosition() + position_;
 }
 
-void GameObject::SetPosition(Vector3* value)
+void GameObject::SetPosition(Vector3 value)
 {
 	position_ = value;
 }
 
-Vector3* GameObject::GetRotation()
+Vector3 GameObject::GetRotation()
 {
 	if (parent_ == nullptr)
 		return rotation_;
 	else
-		return Vector3::Sum(parent_->GetRotation(), rotation_);
+		return parent_->GetRotation() + rotation_;
 }
 
-void GameObject::SetRotation(Vector3* value)
+void GameObject::SetRotation(Vector3 value)
 {
 	rotation_ = value;
 }
 
-Vector3* GameObject::GetScale()
+Vector3 GameObject::GetScale()
 {
 	if (parent_ == nullptr)
 		return scale_;
 	else
-		return Vector3::Sum(parent_->GetScale(), scale_);
+		return parent_->GetScale() + scale_;
 }
 
-void GameObject::SetScale(Vector3* value)
+void GameObject::SetScale(Vector3 value)
 {
 	scale_ = value;
 }
 
-void GameObject::Translate(Vector3* value)
+void GameObject::Translate(Vector3 value)
 {
-	position_->Add(value);
+	position_ += value;
 }

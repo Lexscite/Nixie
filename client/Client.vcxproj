@@ -40,11 +40,8 @@
     <ClInclude Include="src\base\content\game_object.h" />
     <ClInclude Include="src\base\content\components\camera.h" />
     <ClInclude Include="src\base\graphics\shader.h" />
-    <ClInclude Include="src\base\math\math.h" />
     <ClInclude Include="src\base\content\components\material.h" />
     <ClInclude Include="src\base\content\components\mesh.h" />
-    <ClInclude Include="src\base\math\color.h" />
-    <ClInclude Include="src\base\math\vector.h" />
     <ClInclude Include="src\base\content\scene.h" />
     <ClInclude Include="src\base\graphics\d3d.h" />
     <ClInclude Include="src\base\network\connection.h" />
@@ -65,6 +62,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -199,5 +199,12 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\directxtk_desktop_2013.2017.12.13.1\build\native\directxtk_desktop_2013.targets" Condition="Exists('..\packages\directxtk_desktop_2013.2017.12.13.1\build\native\directxtk_desktop_2013.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\directxtk_desktop_2013.2017.12.13.1\build\native\directxtk_desktop_2013.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\directxtk_desktop_2013.2017.12.13.1\build\native\directxtk_desktop_2013.targets'))" />
+  </Target>
 </Project>

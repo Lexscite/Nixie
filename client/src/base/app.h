@@ -40,13 +40,16 @@ private:
 
 	HWND window_;
 	LPCSTR window_caption_;
-	bool is_paused_;
 
-	IntVector2* resolution_;
+	unsigned int screen_width_;
+	unsigned int screen_height_;
+
 	bool vsync_enabled_;
 	bool fullscreen_enabled_;
 
 	Time* time_;
+	bool is_paused_;
+
 	D3D* directx_;
 	Scene* scene_;
 };

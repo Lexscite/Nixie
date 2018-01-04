@@ -4,11 +4,11 @@ Scene::Scene() = default;
 
 bool Scene::Init()
 {
-	clear_color_ = new Color(0, 100, 150);
+	clear_color_ = Color(0.5, 0.5, 0.5);
 
 	GameObject* camera = new GameObject("Camera");
-	camera->SetPosition(new Vector3(6, 8, -6));
-	camera->SetRotation(new Vector3(45, -45, 0));
+	camera->SetPosition(Vector3(6, 8, -6));
+	camera->SetRotation(Vector3(45, -45, 0));
 	camera->AddComponent(new Camera);
 	current_camera_ = static_cast<Camera*>(camera->GetComponent("Camera"));
 	AddGameObject(camera);
@@ -16,13 +16,13 @@ bool Scene::Init()
 	GameObject* cube = new GameObject("Cube");
 	cube->AddComponent(new Mesh("../data/meshes/cube.txt"));
 	cube->AddComponent(new Material);
-	cube->SetPosition(new Vector3(-1.5, 0, -1.5));
+	cube->SetPosition(Vector3(-1.5, 0, -1.5));
 	AddGameObject(cube);
 
 	GameObject* sphere = new GameObject("Sphere");
 	sphere->AddComponent(new Mesh("../data/meshes/sphere.txt"));
 	sphere->AddComponent(new Material);
-	sphere->SetPosition(new Vector3(1.5, 0, 1.5));
+	sphere->SetPosition(Vector3(1.5, 0, 1.5));
 	AddGameObject(sphere);
 
 	for each (GameObject* game_object in GetGameObjects())
@@ -50,7 +50,7 @@ void Scene::Update()
 		game_object->Update();
 }
 
-Color* Scene::GetClearColor()
+Color Scene::GetClearColor()
 {
 	return clear_color_;
 }
@@ -99,9 +99,9 @@ void Scene::OutputDebugMessage()
 	for each (GameObject* game_object in GetGameObjects())
 	{
 		std::cout << std::endl << "GameObject: " << game_object->GetName() << std::endl;
-		std::cout << "\tPosition: " << game_object->GetPosition()->x << ", " << game_object->GetPosition()->y << ", " << game_object->GetPosition()->z << std::endl;
-		std::cout << "\tRotation: " << game_object->GetRotation()->x << ", " << game_object->GetRotation()->y << ", " << game_object->GetRotation()->z << std::endl;
-		std::cout << "\tScale: " << game_object->GetScale()->x << ", " << game_object->GetScale()->y << ", " << game_object->GetScale()->z << std::endl;
+		std::cout << "\tPosition: " << game_object->GetPosition().x << ", " << game_object->GetPosition().y << ", " << game_object->GetPosition().z << std::endl;
+		std::cout << "\tRotation: " << game_object->GetRotation().x << ", " << game_object->GetRotation().y << ", " << game_object->GetRotation().z << std::endl;
+		std::cout << "\tScale: " << game_object->GetScale().x << ", " << game_object->GetScale().y << ", " << game_object->GetScale().z << std::endl;
 		std::cout << "\tComponents:" << std::endl;
 
 		for each (Component* component in game_object->GetComponents())
