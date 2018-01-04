@@ -34,6 +34,9 @@
     <Filter Include="src\base\content\components">
       <UniqueIdentifier>{a40a03f6-0afa-45b9-b304-4c7ab8620bf6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="data\textures">
+      <UniqueIdentifier>{e406450e-0643-4a3a-9519-542f07350ae5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\base\graphics\d3d.cpp">
@@ -77,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="src\base\time.cpp">
       <Filter>src\base</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\graphics\texture.cpp">
+      <Filter>src\base\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +131,9 @@
     <ClInclude Include="src\base\time.h">
       <Filter>src\base</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\graphics\texture.h">
+      <Filter>src\base\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\meshes\cube.txt">
@@ -135,9 +144,16 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="data\shaders\default.hlsl" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Image Include="data\textures\placeholder.jpg">
+      <Filter>data\textures</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="data\shaders\default.hlsl">
+      <Filter>data\shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

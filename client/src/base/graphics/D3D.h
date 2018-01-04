@@ -11,6 +11,7 @@
 #include <d3dcompiler.h>
 
 #include "SimpleMath.h"
+#include "WICTextureLoader.h"
 
 #include "..\utils\memory.h"
 #include "..\utils\debug.h"

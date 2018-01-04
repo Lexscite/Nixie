@@ -1,3 +1,7 @@
+#include <Windows.Foundation.h>
+#include <wrl/wrappers/corewrappers.h>
+#include <wrl/client.h>
+
 #include "base/app.h"
 
 #ifdef _DEBUG
@@ -15,6 +19,16 @@ public:
 
 int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, __in LPSTR lpCmdLine, __in int nShowCmd)
 {
+#if (_WIN32_WINNT >= 0x0A00)
+	Microsoft::WRL::Wrappers::RoInitializeWrapper initialize(RO_INIT_MULTITHREADED);
+	if (FAILED(initialize))
+		return 0;
+#else
+	HRESULT hr = CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
+	if (FAILED(hr))
+		return 0;
+#endif
+
 #ifdef _DEBUG
 	if (AllocConsole())
 	{
