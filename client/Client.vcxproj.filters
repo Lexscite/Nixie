@@ -16,9 +16,6 @@
     <Filter Include="src\base\utils">
       <UniqueIdentifier>{41122b05-520d-4e05-b6db-b68e504debc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\base\math">
-      <UniqueIdentifier>{d88927e2-a0d1-40cb-81be-a522bf79c283}</UniqueIdentifier>
-    </Filter>
     <Filter Include="data">
       <UniqueIdentifier>{c3d50d9b-54f4-4a2f-8fe3-6edb3ba7339d}</UniqueIdentifier>
     </Filter>
@@ -134,14 +131,6 @@
     <ClInclude Include="src\base\graphics\texture.h">
       <Filter>src\base\graphics</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="data\meshes\cube.txt">
-      <Filter>data\meshes</Filter>
-    </Text>
-    <Text Include="data\meshes\sphere.txt">
-      <Filter>data\meshes</Filter>
-    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

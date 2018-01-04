@@ -54,10 +54,6 @@
     <ClInclude Include="src\base\time.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data\meshes\cube.txt" />
-    <Text Include="data\meshes\sphere.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <FxCompile Include="data\shaders\default.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">true</ExcludedFromBuild>

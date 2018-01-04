@@ -16,14 +16,7 @@ bool Scene::Init()
 	GameObject* cube = new GameObject("Cube");
 	cube->AddComponent(new Mesh("../data/meshes/cube.txt"));
 	cube->AddComponent(new Material);
-	cube->SetPosition(Vector3(-1.5, 0, -1.5));
 	AddGameObject(cube);
-
-	GameObject* sphere = new GameObject("Sphere");
-	sphere->AddComponent(new Mesh("../data/meshes/sphere.txt"));
-	sphere->AddComponent(new Material);
-	sphere->SetPosition(Vector3(1.5, 0, 1.5));
-	AddGameObject(sphere);
 
 	for each (GameObject* game_object in GetGameObjects())
 		if (!game_object->Init())
