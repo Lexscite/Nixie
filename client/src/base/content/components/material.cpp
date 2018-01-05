@@ -12,7 +12,7 @@ void Material::OnInit()
 	LoadTexture(L"../data/textures/placeholder.jpg");
 
 	shader_ = new Shader;
-	shader_->Init(L"../data/shaders/default.hlsl.");
+	shader_->Init(L"../data/shaders/default_vs.hlsl.", L"../data/shaders/default_ps.hlsl.");
 }
 
 void Material::OnUpdate()

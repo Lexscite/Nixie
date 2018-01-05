@@ -141,11 +141,16 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="data\shaders\default.hlsl">
-      <Filter>data\shaders</Filter>
-    </FxCompile>
+    <Text Include="data\meshes\cube.txt">
+      <Filter>data\meshes</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data\meshes\cube.txt" />
+    <FxCompile Include="data\shaders\default_vs.hlsl">
+      <Filter>data\shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="data\shaders\default_ps.hlsl">
+      <Filter>data\shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

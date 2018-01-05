@@ -19,14 +19,14 @@ void Shader::Release()
 	safe_release(sampler_state_);
 }
 
-bool Shader::Init(WCHAR* file_path)
+bool Shader::Init(WCHAR* vs_path, WCHAR* ps_path)
 {
 	HRESULT hr;
 	ID3D10Blob* error_message = 0;
 
 	ID3D10Blob* vertex_shader_buffer = 0;
 	hr = D3DCompileFromFile(
-		file_path,
+		vs_path,
 		0, 0,
 		"DefaultVertexShader",
 		"vs_4_0",
@@ -37,16 +37,16 @@ bool Shader::Init(WCHAR* file_path)
 	if (FAILED(hr))
 	{
 		if (error_message)
-			OutputShaderErrorMessage(error_message, file_path);
+			OutputShaderErrorMessage(error_message, vs_path);
 		else
-			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)(file_path), "Missing Shader File", MB_OK);
+			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)(vs_path), "Missing Shader File", MB_OK);
 
 		return false;
 	}
 
 	ID3D10Blob* pixel_shader_buffer = 0;
 	hr = D3DCompileFromFile(
-		file_path,
+		ps_path,
 		0, 0,
 		"DefaultPixelShader",
 		"ps_4_0",
@@ -57,9 +57,9 @@ bool Shader::Init(WCHAR* file_path)
 	if (FAILED(hr))
 	{
 		if (error_message)
-			OutputShaderErrorMessage(error_message, file_path);
+			OutputShaderErrorMessage(error_message, ps_path);
 		else
-			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)file_path, "Missing Shader File", MB_OK);
+			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)ps_path, "Missing Shader File", MB_OK);
 
 		return false;
 	}
@@ -81,7 +81,7 @@ bool Shader::Init(WCHAR* file_path)
 	if (FAILED(hr))
 		return false;
 
-	D3D11_INPUT_ELEMENT_DESC polygon_layout[3];
+	D3D11_INPUT_ELEMENT_DESC polygon_layout[2];
 	polygon_layout[0].SemanticName = "POSITION";
 	polygon_layout[0].SemanticIndex = 0;
 	polygon_layout[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -97,14 +97,6 @@ bool Shader::Init(WCHAR* file_path)
 	polygon_layout[1].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 	polygon_layout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	polygon_layout[1].InstanceDataStepRate = 0;
-
-	polygon_layout[2].SemanticName = "COLOR";
-	polygon_layout[2].SemanticIndex = 0;
-	polygon_layout[2].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	polygon_layout[2].InputSlot = 0;
-	polygon_layout[2].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-	polygon_layout[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	polygon_layout[2].InstanceDataStepRate = 0;
 
 	UINT num_elements = sizeof(polygon_layout) / sizeof(polygon_layout[0]);
 	hr = device->CreateInputLayout(polygon_layout, num_elements, vertex_shader_buffer->GetBufferPointer(),
