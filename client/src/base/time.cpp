@@ -81,9 +81,9 @@ void Time::Tick()
 		delta_time_ = 0;
 }
 
-float Time::GetDeltaTime() const
+float Time::GetDeltaTime()
 {
-	return static_cast<float>(delta_time_);
+	return static_cast<float>(Time::GetSingleton()->delta_time_);
 }
 
 float Time::GetTime() const

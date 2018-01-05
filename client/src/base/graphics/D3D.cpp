@@ -37,6 +37,8 @@ bool D3D::Init(
 	fullscreen_enabled_ = fullscreen_enabled;
 	msaa_enabled_ = false;
 
+	wireframe_mode_enabled_ = false;
+
 	IDXGIFactory* factory;
 	hr = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);
 	if (FAILED(hr))
@@ -333,26 +335,11 @@ bool D3D::Init(
 
 	device_context_->OMSetRenderTargets(1, &render_target_view_, depth_stencil_view_);
 
-	D3D11_RASTERIZER_DESC rasterizer_desc;
-	rasterizer_desc.AntialiasedLineEnable = false;
-	rasterizer_desc.CullMode = D3D11_CULL_BACK;
-	rasterizer_desc.DepthBias = 0;
-	rasterizer_desc.DepthBiasClamp = 0.0f;
-	rasterizer_desc.DepthClipEnable = true;
-	rasterizer_desc.FillMode = D3D11_FILL_SOLID;
-	rasterizer_desc.FrontCounterClockwise = false;
-	rasterizer_desc.MultisampleEnable = false;
-	rasterizer_desc.ScissorEnable = false;
-	rasterizer_desc.SlopeScaledDepthBias = 0.0f;
-
-	hr = device_->CreateRasterizerState(&rasterizer_desc, &rasterizer_state_);
-	if (FAILED(hr))
+	if (!SetRasterizer())
 	{
 		std::cerr << "Failed to create rasterizer state" << std::endl;
 		return false;
 	}
-
-	device_context_->RSSetState(rasterizer_state_);
 
 	D3D11_VIEWPORT viewport;
 	ZeroMemory(&viewport, sizeof(viewport));
@@ -374,6 +361,40 @@ bool D3D::Init(
 	device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	return true;
+}
+
+bool D3D::SetRasterizer()
+{
+	HRESULT hr;
+
+	D3D11_RASTERIZER_DESC rasterizer_desc;
+	rasterizer_desc.AntialiasedLineEnable = false;
+	rasterizer_desc.CullMode = D3D11_CULL_BACK;
+	if (wireframe_mode_enabled_)
+		rasterizer_desc.FillMode = D3D11_FILL_WIREFRAME;
+	else
+		rasterizer_desc.FillMode = D3D11_FILL_SOLID;
+	rasterizer_desc.DepthBias = 0;
+	rasterizer_desc.DepthBiasClamp = 0.0f;
+	rasterizer_desc.DepthClipEnable = true;
+	rasterizer_desc.FrontCounterClockwise = false;
+	rasterizer_desc.MultisampleEnable = false;
+	rasterizer_desc.ScissorEnable = false;
+	rasterizer_desc.SlopeScaledDepthBias = 0.0f;
+
+	hr = device_->CreateRasterizerState(&rasterizer_desc, &rasterizer_state_);
+	if (FAILED(hr))
+		return false;
+
+	device_context_->RSSetState(rasterizer_state_);
+
+	return true;
+}
+
+void D3D::ToggleWireframe()
+{
+	wireframe_mode_enabled_ = !wireframe_mode_enabled_;
+	SetRasterizer();
 }
 
 void D3D::Release()
@@ -408,6 +429,11 @@ void D3D::Release()
 
 void D3D::BeginScene(Color color)
 {
+#ifdef _DEBUG
+	if (Input::IsKeyPressed(Keyboard::Keys::F1))
+		ToggleWireframe();
+#endif
+
 	device_context_->ClearRenderTargetView(render_target_view_, color);
 	device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }

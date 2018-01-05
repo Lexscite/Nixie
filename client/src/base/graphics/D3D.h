@@ -36,6 +36,9 @@ public:
 	void BeginScene(Color clear_color);
 	void EndScene();
 
+	bool SetRasterizer();
+	void ToggleWireframe();
+
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetDeviceContext();
 
@@ -51,6 +54,8 @@ private:
 	bool vsync_enabled_;
 	bool fullscreen_enabled_;
 	bool msaa_enabled_;
+
+	bool wireframe_mode_enabled_;
 
 	ID3D11Device* device_;
 	ID3D11DeviceContext* device_context_;

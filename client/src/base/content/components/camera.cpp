@@ -2,17 +2,17 @@
 
 void Camera::OnUpdate()
 {
-	if (Input::GetSingleton()->GetState().W && !Input::GetSingleton()->GetState().S)
-		Translate(Vector3(0, 0, 2 * Time::GetSingleton()->GetDeltaTime()));
+	if (Input::IsKeyDown(Keyboard::Keys::W) && !Input::IsKeyDown(Keyboard::Keys::S))
+		Translate(Vector3(0, 0, 2 * Time::GetDeltaTime()));
 
-	if (Input::GetSingleton()->GetState().S && !Input::GetSingleton()->GetState().W)
-		Translate(Vector3(0, 0, -2 * Time::GetSingleton()->GetDeltaTime()));
+	if (Input::IsKeyDown(Keyboard::Keys::S) && !Input::IsKeyDown(Keyboard::Keys::W))
+		Translate(Vector3(0, 0, -2 * Time::GetDeltaTime()));
 
-	if (Input::GetSingleton()->GetState().D && !Input::GetSingleton()->GetState().A)
-		Translate(Vector3(2 * Time::GetSingleton()->GetDeltaTime(), 0, 0));
+	if (Input::IsKeyDown(Keyboard::Keys::D) && !Input::IsKeyDown(Keyboard::Keys::A))
+		Translate(Vector3(2 * Time::GetDeltaTime(), 0, 0));
 
-	if (Input::GetSingleton()->GetState().A && !Input::GetSingleton()->GetState().D)
-		Translate(Vector3(-2 * Time::GetSingleton()->GetDeltaTime(), 0, 0));
+	if (Input::IsKeyDown(Keyboard::Keys::A) && !Input::IsKeyDown(Keyboard::Keys::D))
+		Translate(Vector3(-2 * Time::GetDeltaTime(), 0, 0));
 }
 
 void Camera::Render()

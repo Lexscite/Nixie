@@ -16,7 +16,7 @@ public:
 	void Tick();
 
 	float GetTime() const;
-	float GetDeltaTime() const;
+	static float GetDeltaTime();
 
 private:
 	Time();

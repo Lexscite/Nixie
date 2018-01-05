@@ -17,6 +17,8 @@ Input* Input::GetSingleton()
 
 bool Input::Init()
 {
+	keyboard_state_ = keyboard_->GetState();
+
 	return true;
 }
 
@@ -27,6 +29,7 @@ void Input::Release()
 
 bool Input::Update()
 {
+	keyboard_state_prev_ = keyboard_state_;
 	keyboard_state_ = keyboard_->GetState();
 
 	return true;
@@ -35,4 +38,17 @@ bool Input::Update()
 Keyboard::State Input::GetState()
 {
 	return keyboard_state_;
+}
+
+bool Input::IsKeyDown(Keyboard::Keys key)
+{
+	return Input::GetSingleton()->keyboard_state_.IsKeyDown(key);
+}
+
+bool Input::IsKeyPressed(Keyboard::Keys key)
+{
+	if (!Input::GetSingleton()->keyboard_state_prev_.IsKeyDown(key))
+		return Input::GetSingleton()->keyboard_state_.IsKeyDown(key);
+	else
+		return false;
 }
