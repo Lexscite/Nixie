@@ -21,12 +21,24 @@ void Shader::Release()
 
 bool Shader::Init(WCHAR* vs_path, WCHAR* ps_path)
 {
-	HRESULT hr;
-	ID3D10Blob* error_message = 0;
+	if (!InitVS(vs_path))
+		return false;
 
-	ID3D10Blob* vertex_shader_buffer = 0;
+	if (!InitPS(ps_path))
+		return false;
+
+	return true;
+}
+
+bool Shader::InitVS(WCHAR* file_path)
+{
+	HRESULT hr;
+
+	ID3D10Blob* error_message = nullptr;
+	ID3D10Blob* vertex_shader_buffer = nullptr;
+
 	hr = D3DCompileFromFile(
-		vs_path,
+		file_path,
 		0, 0,
 		"DefaultVertexShader",
 		"vs_4_0",
@@ -37,29 +49,9 @@ bool Shader::Init(WCHAR* vs_path, WCHAR* ps_path)
 	if (FAILED(hr))
 	{
 		if (error_message)
-			OutputShaderErrorMessage(error_message, vs_path);
+			OutputShaderErrorMessage(error_message, file_path);
 		else
-			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)(vs_path), "Missing Shader File", MB_OK);
-
-		return false;
-	}
-
-	ID3D10Blob* pixel_shader_buffer = 0;
-	hr = D3DCompileFromFile(
-		ps_path,
-		0, 0,
-		"DefaultPixelShader",
-		"ps_4_0",
-		D3D10_SHADER_ENABLE_STRICTNESS,
-		0,
-		&pixel_shader_buffer,
-		&error_message);
-	if (FAILED(hr))
-	{
-		if (error_message)
-			OutputShaderErrorMessage(error_message, ps_path);
-		else
-			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)ps_path, "Missing Shader File", MB_OK);
+			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)(file_path), "Missing Shader File", MB_OK);
 
 		return false;
 	}
@@ -70,14 +62,6 @@ bool Shader::Init(WCHAR* vs_path, WCHAR* ps_path)
 		vertex_shader_buffer->GetBufferSize(),
 		0,
 		&vertex_shader_);
-	if (FAILED(hr))
-		return false;
-
-	hr = device->CreatePixelShader(
-		pixel_shader_buffer->GetBufferPointer(),
-		pixel_shader_buffer->GetBufferSize(),
-		NULL,
-		&pixel_shader_);
 	if (FAILED(hr))
 		return false;
 
@@ -105,7 +89,6 @@ bool Shader::Init(WCHAR* vs_path, WCHAR* ps_path)
 		return false;
 
 	safe_release(vertex_shader_buffer);
-	safe_release(pixel_shader_buffer);
 
 	D3D11_BUFFER_DESC matrix_buffer_desc;
 	matrix_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
@@ -118,6 +101,46 @@ bool Shader::Init(WCHAR* vs_path, WCHAR* ps_path)
 	hr = device->CreateBuffer(&matrix_buffer_desc, NULL, &matrix_buffer_);
 	if (FAILED(hr))
 		return false;
+
+	return true;
+}
+
+bool Shader::InitPS(WCHAR* file_path)
+{
+	HRESULT hr;
+
+	ID3D10Blob* error_message = nullptr;
+	ID3D10Blob* pixel_shader_buffer = nullptr;
+
+	hr = D3DCompileFromFile(
+		file_path,
+		0, 0,
+		"DefaultPixelShader",
+		"ps_4_0",
+		D3D10_SHADER_ENABLE_STRICTNESS,
+		0,
+		&pixel_shader_buffer,
+		&error_message);
+	if (FAILED(hr))
+	{
+		if (error_message)
+			OutputShaderErrorMessage(error_message, file_path);
+		else
+			MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)file_path, "Missing Shader File", MB_OK);
+
+		return false;
+	}
+
+	ID3D11Device* device = D3D::GetSingleton()->GetDevice();
+	hr = device->CreatePixelShader(
+		pixel_shader_buffer->GetBufferPointer(),
+		pixel_shader_buffer->GetBufferSize(),
+		NULL,
+		&pixel_shader_);
+	if (FAILED(hr))
+		return false;
+
+	safe_release(pixel_shader_buffer);
 
 	D3D11_SAMPLER_DESC sampler_desc;
 	sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -141,7 +164,12 @@ bool Shader::Init(WCHAR* vs_path, WCHAR* ps_path)
 	return true;
 }
 
-bool Shader::Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_matrix, ID3D11ShaderResourceView* texture)
+void Shader::SetTexture(ID3D11ShaderResourceView* texture)
+{
+	D3D::GetSingleton()->GetDeviceContext()->PSSetShaderResources(0, 1, &texture);
+}
+
+bool Shader::Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_matrix)
 {
 	ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();
 
@@ -163,12 +191,14 @@ bool Shader::Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_m
 	device_context->Unmap(matrix_buffer_, 0);
 
 	UINT buffer_num = 0;
-	device_context->PSSetShaderResources(0, 1, &texture);
-	device_context->VSSetConstantBuffers(buffer_num, 1, &matrix_buffer_);
+
 	device_context->IASetInputLayout(layout_);
+
+	device_context->VSSetConstantBuffers(buffer_num, 1, &matrix_buffer_);
 	device_context->VSSetShader(vertex_shader_, 0, 0);
-	device_context->PSSetShader(pixel_shader_, 0, 0);
+
 	device_context->PSSetSamplers(0, 1, &sampler_state_);
+	device_context->PSSetShader(pixel_shader_, 0, 0);
 
 	return true;
 }

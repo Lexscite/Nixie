@@ -13,6 +13,7 @@ void Material::OnInit()
 
 	shader_ = new Shader;
 	shader_->Init(L"../data/shaders/default_vs.hlsl.", L"../data/shaders/default_ps.hlsl.");
+	shader_->SetTexture(texture_->GetTextureView());
 }
 
 void Material::OnUpdate()
@@ -28,8 +29,7 @@ void Material::OnUpdate()
 	shader_->Update(
 		translation_matrix * rotation_matrix * scaling_matrix,
 		App::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix(),
-		D3D::GetSingleton()->GetProjectionMatrix(),
-		texture_->GetTextureView());
+		D3D::GetSingleton()->GetProjectionMatrix());
 }
 
 bool Material::LoadTexture(const wchar_t* file_path)

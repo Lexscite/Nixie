@@ -24,10 +24,15 @@ public:
 	Shader();
 
 	bool Init(WCHAR* vs_path, WCHAR* ps_path);
-	bool Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_matrix, ID3D11ShaderResourceView* texture);
+	void SetTexture(ID3D11ShaderResourceView* texture);
 	void Release();
 
+	bool Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_matrix);
+
 private:
+	bool InitVS(WCHAR* file_path);
+	bool InitPS(WCHAR* file_path);
+
 	void OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path);
 
 private:
