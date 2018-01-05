@@ -169,6 +169,18 @@ bool Shader::InitPS(WCHAR* file_path)
 	if (FAILED(hr))
 		return false;
 
+	D3D11_BUFFER_DESC light_buffer_desc;
+	light_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
+	light_buffer_desc.ByteWidth = sizeof(LightBuffer);
+	light_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	light_buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	light_buffer_desc.MiscFlags = 0;
+	light_buffer_desc.StructureByteStride = 0;
+
+	hr = device->CreateBuffer(&light_buffer_desc, NULL, &light_buffer_);
+	if (FAILED(hr))
+		return false;
+
 	return true;
 }
 
@@ -190,23 +202,35 @@ bool Shader::Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_m
 	if (FAILED(result))
 		return false;
 
-	MatrixBuffer* data;
-	data = (MatrixBuffer*)mapped_resource.pData;
-	data->world_matrix = world_matrix;
-	data->view_matrix = view_matrix;
-	data->projection_matrix = projection_matrix;
+	UINT buffer_num;
 
+	MatrixBuffer* matrix_buffer;
+	matrix_buffer = (MatrixBuffer*)mapped_resource.pData;
+	matrix_buffer->world_matrix = world_matrix;
+	matrix_buffer->view_matrix = view_matrix;
+	matrix_buffer->projection_matrix = projection_matrix;
 	device_context->Unmap(matrix_buffer_, 0);
 
-	UINT buffer_num = 0;
-
-	device_context->IASetInputLayout(layout_);
-
+	buffer_num = 0;
 	device_context->VSSetConstantBuffers(buffer_num, 1, &matrix_buffer_);
 	device_context->VSSetShader(vertex_shader_, 0, 0);
 
+	result = device_context->Map(light_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
+	if (FAILED(result))
+		return false;
+
+	LightBuffer* light_buffer = (LightBuffer*)mapped_resource.pData;
+	light_buffer->diffuse_color = Color(1, 1, 1);
+	light_buffer->direction = Vector3(-1, -1, 1);
+	light_buffer->padding = 0.0f;
+	device_context->Unmap(light_buffer_, 0);
+
+	buffer_num = 0;
+	device_context->PSSetConstantBuffers(buffer_num, 1, &light_buffer_);
 	device_context->PSSetSamplers(0, 1, &sampler_state_);
 	device_context->PSSetShader(pixel_shader_, 0, 0);
+
+	device_context->IASetInputLayout(layout_);
 
 	return true;
 }

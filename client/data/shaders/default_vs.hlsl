@@ -31,7 +31,7 @@ VertexOutput DefaultVertexShader(VertexInput input)
     
     output.tex = input.tex;
 
-    output.normal = mul(input.normal, (float3x3) world_matrix);
+    output.normal = mul(input.normal, (float3x3)world_matrix);
     output.normal = normalize(output.normal);
     
     return output;
