@@ -65,7 +65,7 @@ bool Shader::InitVS(WCHAR* file_path)
 	if (FAILED(hr))
 		return false;
 
-	D3D11_INPUT_ELEMENT_DESC polygon_layout[2];
+	D3D11_INPUT_ELEMENT_DESC polygon_layout[3];
 	polygon_layout[0].SemanticName = "POSITION";
 	polygon_layout[0].SemanticIndex = 0;
 	polygon_layout[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -81,6 +81,14 @@ bool Shader::InitVS(WCHAR* file_path)
 	polygon_layout[1].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 	polygon_layout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	polygon_layout[1].InstanceDataStepRate = 0;
+
+	polygon_layout[2].SemanticName = "NORMAL";
+	polygon_layout[2].SemanticIndex = 0;
+	polygon_layout[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	polygon_layout[2].InputSlot = 0;
+	polygon_layout[2].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+	polygon_layout[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	polygon_layout[2].InstanceDataStepRate = 0;
 
 	UINT num_elements = sizeof(polygon_layout) / sizeof(polygon_layout[0]);
 	hr = device->CreateInputLayout(polygon_layout, num_elements, vertex_shader_buffer->GetBufferPointer(),
