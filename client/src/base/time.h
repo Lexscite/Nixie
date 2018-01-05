@@ -1,9 +1,9 @@
 #ifndef TIME_H
 #define TIME_H
 
-#include <windows.h>
-
 #pragma once
+
+#include <windows.h>
 
 class Time
 {

@@ -15,6 +15,8 @@ public:
 	void Render();
 	XMMATRIX GetViewMatrix();
 
+	virtual void OnUpdate() override;
+
 private:
 	XMMATRIX view_matrix_;
 };

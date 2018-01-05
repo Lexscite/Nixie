@@ -10,8 +10,11 @@ LRESULT CALLBACK WindowProcessor(HWND window, UINT message, WPARAM w_param, LPAR
 
 App::App()
 {
-	time_ = nullptr;
+	input_ = nullptr;
 	directx_ = nullptr;
+
+	time_ = nullptr;
+
 	scene_ = nullptr;
 
 	is_paused_ = false;
@@ -32,14 +35,21 @@ void App::Release()
 	if (window_ != nullptr)
 		DestroyWindow(window_);
 
+	safe_release(input_);
+	safe_release(directx_);
 	//safe_release(CConnection::GetSingleton());
+
+	safe_delete(time_);
+
 	safe_release(scene_);
 }
 
 bool App::Init(HINSTANCE instance)
 {
-	time_ = Time::GetSingleton();
+	input_ = Input::GetSingleton();
 	directx_ = D3D::GetSingleton();
+
+	time_ = Time::GetSingleton();
 
 	InitSettings();
 
@@ -49,9 +59,15 @@ bool App::Init(HINSTANCE instance)
 		return false;
 	}
 
+	if (!input_->Init(instance, window_, screen_width_, screen_height_))
+	{
+		MessageBox(window_, "Failed to initialize input system", "Error", MB_OK | MB_ICONERROR);
+		return false;
+	}
+
 	if (!directx_->Init(screen_width_, screen_height_, vsync_enabled_, fullscreen_enabled_, 1000.0f, 0.1f))
 	{
-		MessageBox(App::GetSingleton()->GetHwnd(), "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
+		MessageBox(window_, "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
 		return false;
 	}
 
@@ -210,6 +226,7 @@ int App::Run()
 
 void App::Update(float delta_time)
 {
+	input_->Update();
 	directx_->BeginScene(scene_->GetClearColor());
 	scene_->Update();
 	directx_->EndScene();

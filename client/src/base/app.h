@@ -51,6 +51,8 @@ private:
 	bool is_paused_;
 
 	D3D* directx_;
+	Input* input_;
+
 	Scene* scene_;
 };
 

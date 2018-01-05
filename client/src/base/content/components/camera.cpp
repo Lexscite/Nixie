@@ -1,5 +1,20 @@
 #include "camera.h"
 
+void Camera::OnUpdate()
+{
+	if (Input::GetSingleton()->IsButtonPressed(DIK_W) && !Input::GetSingleton()->IsButtonPressed(DIK_S))
+		Translate(Vector3(0, 0, 2 * Time::GetSingleton()->GetDeltaTime()));
+
+	if (Input::GetSingleton()->IsButtonPressed(DIK_S) && !Input::GetSingleton()->IsButtonPressed(DIK_W))
+		Translate(Vector3(0, 0, -2 * Time::GetSingleton()->GetDeltaTime()));
+
+	if (Input::GetSingleton()->IsButtonPressed(DIK_D) && !Input::GetSingleton()->IsButtonPressed(DIK_A))
+		Translate(Vector3(2 * Time::GetSingleton()->GetDeltaTime(), 0, 0));
+
+	if (Input::GetSingleton()->IsButtonPressed(DIK_A) && !Input::GetSingleton()->IsButtonPressed(DIK_D))
+		Translate(Vector3(-2 * Time::GetSingleton()->GetDeltaTime(), 0, 0));
+}
+
 void Camera::Render()
 {
 	XMFLOAT3 up;
@@ -10,9 +25,9 @@ void Camera::Render()
 	XMVECTOR up_vector = XMLoadFloat3(&up);
 
 	XMFLOAT3 position;
-	position.x = GetGameObject()->GetPosition().x;
-	position.y = GetGameObject()->GetPosition().y;
-	position.z = GetGameObject()->GetPosition().z;
+	position.x = GetPosition().x;
+	position.y = GetPosition().y;
+	position.z = GetPosition().z;
 
 	XMVECTOR position_vector = XMLoadFloat3(&position);
 
@@ -23,9 +38,9 @@ void Camera::Render()
 
 	XMVECTOR look_at_vector = XMLoadFloat3(&look_at);
 
-	float pitch = GetGameObject()->GetRotation().x * 0.0174532925f;
-	float yaw = GetGameObject()->GetRotation().y * 0.0174532925f;
-	float roll = GetGameObject()->GetRotation().z * 0.0174532925f;
+	float pitch = GetRotation().x * 0.0174532925f;
+	float yaw = GetRotation().y * 0.0174532925f;
+	float roll = GetRotation().z * 0.0174532925f;
 
 	XMMATRIX rotationMatrix = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
