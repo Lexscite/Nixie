@@ -17,8 +17,6 @@ bool Texture::Init(const wchar_t* file_path)
 	if (FAILED(hr))
 		return false;
 
-	std::cout << "Texture successfully created!" << std::endl;
-
 	return true;
 }
 
