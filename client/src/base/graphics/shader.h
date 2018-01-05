@@ -23,6 +23,7 @@ private:
 	struct LightBuffer
 	{
 		Color diffuse_color;
+		Color ambient_color;
 		Vector3 direction;
 		float padding;
 	};

@@ -221,7 +221,8 @@ bool Shader::Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_m
 
 	LightBuffer* light_buffer = (LightBuffer*)mapped_resource.pData;
 	light_buffer->diffuse_color = Color(1, 1, 1);
-	light_buffer->direction = Vector3(-1, -1, 1);
+	light_buffer->ambient_color = Color(0.2f, 0.2f, 0.2f);
+	light_buffer->direction = Vector3(0, -1, 1);
 	light_buffer->padding = 0.0f;
 	device_context->Unmap(light_buffer_, 0);
 
