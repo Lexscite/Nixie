@@ -8,7 +8,7 @@
 class Time
 {
 public:
-	Time();
+	static Time* GetSingleton();
 
 	void Start();
 	void Stop();
@@ -19,6 +19,11 @@ public:
 	float GetDeltaTime() const;
 
 private:
+	Time();
+
+private:
+	static Time* singleton_;
+
 	double seconds_per_count_;
 	double delta_time_;
 

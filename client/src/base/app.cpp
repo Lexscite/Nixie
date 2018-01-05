@@ -8,7 +8,14 @@ LRESULT CALLBACK WindowProcessor(HWND window, UINT message, WPARAM w_param, LPAR
 		return DefWindowProc(window, message, w_param, l_param);
 }
 
-App::App() = default;
+App::App()
+{
+	time_ = nullptr;
+	directx_ = nullptr;
+	scene_ = nullptr;
+
+	is_paused_ = false;
+}
 
 App* App::singleton_;
 
@@ -31,8 +38,7 @@ void App::Release()
 
 bool App::Init(HINSTANCE instance)
 {
-	time_ = new Time;
-
+	time_ = Time::GetSingleton();
 	directx_ = D3D::GetSingleton();
 
 	InitSettings();
@@ -148,8 +154,8 @@ LRESULT App::MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM 
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
-	case WM_ACTIVATE:
-		if (LOWORD(w_param) == WA_INACTIVE)
+	case WM_MOVE:
+		if (LOWORD(w_param) == WM_MOVING)
 		{
 			is_paused_ = true;
 			time_->Stop();

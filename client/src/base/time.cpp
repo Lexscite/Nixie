@@ -1,5 +1,15 @@
 #include "time.h"
 
+Time* Time::singleton_;
+
+Time* Time::GetSingleton()
+{
+	if (singleton_ == nullptr)
+		singleton_ = new Time;
+	
+	return singleton_;
+}
+
 Time::Time() :
 	seconds_per_count_(0),
 	delta_time_(-1),

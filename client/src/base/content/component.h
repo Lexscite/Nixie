@@ -7,6 +7,7 @@
 #include <string>
 
 #include "../graphics/d3d.h"
+#include "../time.h"
 #include "game_object.h"
 
 class GameObject;
