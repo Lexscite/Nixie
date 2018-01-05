@@ -7,7 +7,7 @@ bool Scene::Init()
 	clear_color_ = Color(0.5, 0.5, 0.5);
 
 	GameObject* camera = new GameObject("Camera");
-	camera->SetPosition(Vector3(3, 4, -3));
+	camera->SetPosition(Vector3(2, 2.8f, -2));
 	camera->SetRotation(Vector3(45, -45, 0));
 	camera->AddComponent(new Camera);
 	current_camera_ = static_cast<Camera*>(camera->GetComponent("Camera"));

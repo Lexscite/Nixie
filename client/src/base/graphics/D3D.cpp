@@ -366,7 +366,7 @@ bool D3D::Init(
 	device_context_->RSSetViewports(1, &viewport);
 
 	float fov = XM_PIDIV4;
-	float aspect_ratio = static_cast<float>(screen_width / screen_height);
+	float aspect_ratio = static_cast<float>(screen_width) / static_cast<float>(screen_height);
 
 	projection_matrix_ = XMMatrixPerspectiveFovLH(fov, aspect_ratio, screen_near, screen_depth);
 	ortho_matrix_ = XMMatrixOrthographicLH(static_cast<float>(screen_width), static_cast<float>(screen_height), screen_near, screen_depth);
