@@ -13,8 +13,6 @@ private:
 public:
 	Mesh(char* file_path);
 
-	int GetIndexCount();
-
 private:
 	virtual void OnInit() override;
 	virtual void OnUpdate() override;

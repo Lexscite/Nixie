@@ -13,5 +13,6 @@ void Mesh::OnInit()
 
 void Mesh::OnUpdate()
 {
+	Rotate(Vector3(0, 0.01f, 0));
 	mesh_data_->Render();
 }

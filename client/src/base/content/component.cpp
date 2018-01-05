@@ -63,3 +63,8 @@ void Component::Translate(Vector3 value)
 {
 	game_object_->Translate(value);
 }
+
+void Component::Rotate(Vector3 value)
+{
+	game_object_->Rotate(value);
+}

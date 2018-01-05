@@ -29,6 +29,7 @@ public:
 	void SetScale(Vector3 value);
 
 	void Translate(Vector3 value);
+	void Rotate(Vector3 value);
 
 private:
 	virtual void OnInit();

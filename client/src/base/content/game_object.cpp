@@ -110,3 +110,8 @@ void GameObject::Translate(Vector3 value)
 {
 	position_ += value;
 }
+
+void GameObject::Rotate(Vector3 value)
+{
+	rotation_ += value;
+}
