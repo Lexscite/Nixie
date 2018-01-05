@@ -2,16 +2,16 @@
 
 void Camera::OnUpdate()
 {
-	if (Input::GetSingleton()->IsButtonPressed(DIK_W) && !Input::GetSingleton()->IsButtonPressed(DIK_S))
+	if (Input::GetSingleton()->GetState().W && !Input::GetSingleton()->GetState().S)
 		Translate(Vector3(0, 0, 2 * Time::GetSingleton()->GetDeltaTime()));
 
-	if (Input::GetSingleton()->IsButtonPressed(DIK_S) && !Input::GetSingleton()->IsButtonPressed(DIK_W))
+	if (Input::GetSingleton()->GetState().S && !Input::GetSingleton()->GetState().W)
 		Translate(Vector3(0, 0, -2 * Time::GetSingleton()->GetDeltaTime()));
 
-	if (Input::GetSingleton()->IsButtonPressed(DIK_D) && !Input::GetSingleton()->IsButtonPressed(DIK_A))
+	if (Input::GetSingleton()->GetState().D && !Input::GetSingleton()->GetState().A)
 		Translate(Vector3(2 * Time::GetSingleton()->GetDeltaTime(), 0, 0));
 
-	if (Input::GetSingleton()->IsButtonPressed(DIK_A) && !Input::GetSingleton()->IsButtonPressed(DIK_D))
+	if (Input::GetSingleton()->GetState().A && !Input::GetSingleton()->GetState().D)
 		Translate(Vector3(-2 * Time::GetSingleton()->GetDeltaTime(), 0, 0));
 }
 

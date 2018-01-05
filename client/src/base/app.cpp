@@ -59,7 +59,7 @@ bool App::Init(HINSTANCE instance)
 		return false;
 	}
 
-	if (!input_->Init(instance, window_, screen_width_, screen_height_))
+	if (!input_->Init())
 	{
 		MessageBox(window_, "Failed to initialize input system", "Error", MB_OK | MB_ICONERROR);
 		return false;
@@ -187,6 +187,15 @@ LRESULT App::MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM 
 	case WM_GETMINMAXINFO:
 		((MINMAXINFO*)l_param)->ptMinTrackSize.x = 200;
 		((MINMAXINFO*)l_param)->ptMinTrackSize.y = 200;
+		return 0;
+	case WM_ACTIVATEAPP:
+		Keyboard::ProcessMessage(message, w_param, l_param);
+		return 0;
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		Keyboard::ProcessMessage(message, w_param, l_param);
 		return 0;
 	default:
 		return DefWindowProc(window, message, w_param, l_param);

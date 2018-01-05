@@ -3,47 +3,30 @@
 
 #pragma once
 
-#define DIRECTINPUT_VERSION 0x0800
-
-#pragma comment (lib, "dinput8.lib")
-#pragma comment (lib, "dxguid.lib")
-
-#include <dinput.h>
+#include <memory>
 
 #include "../graphics/d3d.h"
+#include "keyboard.h"
 
 class Input
 {
 public:
 	static Input* GetSingleton();
 
-	bool Init(HINSTANCE instance, HWND window, int screen_width, int screen_height);
+	bool Init();
 	void Release();
 	bool Update();
 
-	Vector2 GetMouseLocation();
-
-	bool IsButtonPressed(BYTE button);
+	Keyboard::State GetState();
 
 private:
 	Input();
 
-	bool UpdateKeyboard();
-	bool UpdateMouse();
-	void NormalizeMousePosition();
-
 private:
 	static Input* singleton_;
 
-	IDirectInput8* direct_input_;
-	IDirectInputDevice8* mouse_;
-	IDirectInputDevice8* keyboard_;
-
-	unsigned char keyboard_state_[256];
-	DIMOUSESTATE mouse_state_;
-
-	int screen_width_, screen_height_;
-	int mouse_x_, mouse_y_;
+	std::unique_ptr<Keyboard> keyboard_;
+	Keyboard::State keyboard_state_;
 };
 
 #endif
