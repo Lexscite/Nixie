@@ -391,7 +391,7 @@ bool D3D::SetRasterizer()
 	return true;
 }
 
-void D3D::ToggleWireframe()
+void D3D::ToggleWireframeMode()
 {
 	wireframe_mode_enabled_ = !wireframe_mode_enabled_;
 	SetRasterizer();
@@ -431,7 +431,7 @@ void D3D::BeginScene(Color color)
 {
 #ifdef _DEBUG
 	if (Input::IsKeyPressed(Keyboard::Keys::F1))
-		ToggleWireframe();
+		ToggleWireframeMode();
 #endif
 
 	device_context_->ClearRenderTargetView(render_target_view_, color);

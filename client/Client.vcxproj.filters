@@ -39,9 +39,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\base\graphics\d3d.cpp">
-      <Filter>src\base\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\base\graphics\shader.cpp">
       <Filter>src\base\graphics</Filter>
     </ClCompile>
@@ -87,11 +84,11 @@
     <ClCompile Include="src\base\input\input.cpp">
       <Filter>src\base\input</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\graphics\d3d.cpp">
+      <Filter>src\base\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\base\graphics\d3d.h">
-      <Filter>src\base\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\base\graphics\shader.h">
       <Filter>src\base\graphics</Filter>
     </ClInclude>
@@ -139,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="src\base\input\input.h">
       <Filter>src\base\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\graphics\d3d.h">
+      <Filter>src\base\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
