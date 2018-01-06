@@ -37,14 +37,13 @@ public:
 	void EndScene();
 
 	bool SetRasterizer();
+	void ToggleWireframeMode();
 
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetDeviceContext();
 
 	Matrix GetProjectionMatrix();
 	Matrix GetOrthoMatrix();
-
-	void ToggleWireframeMode();
 
 private:
 	D3D();
