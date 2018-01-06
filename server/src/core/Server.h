@@ -7,8 +7,8 @@
 #include <map>
 #include <vector>
 
-#include "Connection.h"
-#include "ChatMessage.h"
+#include "connection.h"
+#include "chat_message.h"
 
 class CServer
 {

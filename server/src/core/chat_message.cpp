@@ -1,4 +1,4 @@
-#include "ChatMessage.h"
+#include "chat_message.h"
 
 CChatMessage::CChatMessage(std::string message)
 {
