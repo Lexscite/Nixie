@@ -354,11 +354,11 @@ namespace Nixie
 
 		device_context_->RSSetViewports(1, &viewport);
 
-		float fov = XM_PIDIV4;
+		float fov = DirectX::XM_PIDIV4;
 		float aspect_ratio = static_cast<float>(screen_width) / static_cast<float>(screen_height);
 
-		projection_matrix_ = XMMatrixPerspectiveFovLH(fov, aspect_ratio, screen_near, screen_depth);
-		ortho_matrix_ = XMMatrixOrthographicLH(static_cast<float>(screen_width), static_cast<float>(screen_height), screen_near, screen_depth);
+		projection_matrix_ = DirectX::XMMatrixPerspectiveFovLH(fov, aspect_ratio, screen_near, screen_depth);
+		ortho_matrix_ = DirectX::XMMatrixOrthographicLH(static_cast<float>(screen_width), static_cast<float>(screen_height), screen_near, screen_depth);
 
 		device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -432,7 +432,7 @@ namespace Nixie
 	void D3D::BeginScene(DirectX::SimpleMath::Color color)
 	{
 #ifdef _DEBUG
-		if (Input::IsKeyPressed(Keyboard::Keys::F1))
+		if (Input::IsKeyPressed(DirectX::Keyboard::Keys::F1))
 			ToggleWireframeMode();
 #endif
 

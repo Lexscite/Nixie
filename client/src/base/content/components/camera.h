@@ -7,20 +7,18 @@
 
 #include "../component.h"
 
-using namespace DirectX;
-
 namespace Nixie
 {
 	class Camera : public Component
 	{
 	public:
 		void Render();
-		XMMATRIX GetViewMatrix();
+		DirectX::SimpleMath::Matrix GetViewMatrix();
 
 		virtual void OnUpdate() override;
 
 	private:
-		XMMATRIX view_matrix_;
+		DirectX::SimpleMath::Matrix view_matrix_;
 	};
 }
 

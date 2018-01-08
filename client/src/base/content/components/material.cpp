@@ -20,13 +20,9 @@ namespace Nixie
 
 	void Material::OnUpdate()
 	{
-		DirectX::SimpleMath::Vector3 position = GetPosition();
-		DirectX::SimpleMath::Vector3 rotation = GetRotation();
-		DirectX::SimpleMath::Vector3 scale = GetScale();
-
-		XMMATRIX translation_matrix = XMMatrixTranslation(position.x, position.y, position.z);
-		XMMATRIX rotation_matrix = XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z);
-		XMMATRIX scaling_matrix = XMMatrixScaling(scale.x, scale.y, scale.z);
+		DirectX::SimpleMath::Matrix translation_matrix = DirectX::XMMatrixTranslationFromVector(GetPosition());
+		DirectX::SimpleMath::Matrix rotation_matrix = DirectX::XMMatrixRotationRollPitchYawFromVector(GetRotation());
+		DirectX::SimpleMath::Matrix scaling_matrix = DirectX::XMMatrixScalingFromVector(GetScale());
 
 		shader_->Update(
 			translation_matrix * rotation_matrix * scaling_matrix,

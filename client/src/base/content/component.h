@@ -42,7 +42,7 @@ namespace Nixie
 		virtual void OnUpdate();
 
 	private:
-		GameObject * game_object_;
+		GameObject* game_object_;
 	};
 }
 
