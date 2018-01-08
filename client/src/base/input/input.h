@@ -9,29 +9,32 @@
 #include "../graphics/d3d.h"
 #include "keyboard.h"
 
-class Input
+namespace Nixie
 {
-public:
-	static Input* GetSingleton();
+	class Input
+	{
+	public:
+		static Input* GetSingleton();
 
-	bool Init();
-	void Release();
-	bool Update();
+		bool Init();
+		void Release();
+		bool Update();
 
-	Keyboard::State GetState();
+		DirectX::Keyboard::State GetState();
 
-	static bool IsKeyDown(Keyboard::Keys key);
-	static bool Input::IsKeyPressed(Keyboard::Keys key);
+		static bool IsKeyDown(DirectX::Keyboard::Keys key);
+		static bool Input::IsKeyPressed(DirectX::Keyboard::Keys key);
 
-private:
-	Input();
+	private:
+		Input();
 
-private:
-	static Input* singleton_;
+	private:
+		static Input* singleton_;
 
-	std::unique_ptr<Keyboard> keyboard_;
-	Keyboard::State keyboard_state_prev_;
-	Keyboard::State keyboard_state_;
-};
+		std::unique_ptr<DirectX::Keyboard> keyboard_;
+		DirectX::Keyboard::State keyboard_state_prev_;
+		DirectX::Keyboard::State keyboard_state_;
+	};
+}
 
 #endif

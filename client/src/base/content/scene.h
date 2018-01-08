@@ -11,29 +11,32 @@
 #include "components/mesh.h"
 #include "components/material.h"
 
-class Scene final
+namespace Nixie
 {
-public:
-	Scene();
+	class Scene final
+	{
+	public:
+		Scene();
 
-	bool Init();
-	void Release();
-	void Update();
+		bool Init();
+		void Release();
+		void Update();
 
-	Color GetClearColor();
-	Camera* GetCamera();
+		DirectX::SimpleMath::Color GetClearColor();
+		Camera* GetCamera();
 
-	bool AddGameObject(GameObject* new_game_object);
-	GameObject* GetGameObject(std::string name);
-	std::vector<GameObject*> GetGameObjects();
+		bool AddGameObject(GameObject* new_game_object);
+		GameObject* GetGameObject(std::string name);
+		std::vector<GameObject*> GetGameObjects();
 
-private:
-	void OutputDebugMessage();
+	private:
+		void OutputDebugMessage();
 
-private:
-	Color clear_color_;
-	Camera* current_camera_;
-	std::map<std::string, GameObject*> game_objects_;
-};
+	private:
+		DirectX::SimpleMath::Color clear_color_;
+		Camera* current_camera_;
+		std::map<std::string, GameObject*> game_objects_;
+	};
+}
 
 #endif

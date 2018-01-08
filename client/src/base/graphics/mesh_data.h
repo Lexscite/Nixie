@@ -7,35 +7,38 @@
 
 #include "d3d.h"
 
-class MeshData
+namespace Nixie
 {
-public:
-	struct Vertex
+	class MeshData
 	{
-		Vector3 position;
-		Vector2 texture;
-		Vector3 normal;
+	public:
+		struct Vertex
+		{
+			DirectX::SimpleMath::Vector3 position;
+			DirectX::SimpleMath::Vector2 texture;
+			DirectX::SimpleMath::Vector3 normal;
+		};
+
+		MeshData();
+
+		bool Init(char* file_path);
+		void Release();
+
+		void Render();
+
+	private:
+		bool LoadFile(char* file_path);
+		bool InitBuffers();
+
+	private:
+		ID3D11Buffer * vertex_buffer_;
+		ID3D11Buffer* index_buffer_;
+
+		unsigned long vertex_count_;
+		unsigned long index_count_;
+
+		Vertex* vertices_;
 	};
-
-	MeshData();
-
-	bool Init(char* file_path);
-	void Release();
-
-	void Render();
-
-private:
-	bool LoadFile(char* file_path);
-	bool InitBuffers();
-
-private:
-	ID3D11Buffer* vertex_buffer_;
-	ID3D11Buffer* index_buffer_;
-
-	unsigned long vertex_count_;
-	unsigned long index_count_;
-
-	Vertex* vertices_;
-};
+}
 
 #endif

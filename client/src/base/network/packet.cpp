@@ -1,9 +1,12 @@
 #include "packet.h"
 
-Packet::Packet()
+namespace Nixie
 {
-}
+	Packet::Packet()
+	{
+	}
 
-Packet::~Packet()
-{
+	Packet::~Packet()
+	{
+	}
 }

@@ -3,42 +3,47 @@
 
 #pragma once
 
-#include <typeinfo>
 #include <string>
+#include <vector>
+#include <map>
+#include <utility>
+#include <typeinfo>
 
 #include "../graphics/d3d.h"
 #include "../input/input.h"
 #include "../time.h"
 #include "game_object.h"
 
-class GameObject;
-
-class Component
+namespace Nixie
 {
-public:
-	virtual void Init(GameObject* game_object) final;
-	virtual void AfterInit();
-	virtual void Update() final;
+	class GameObject;
 
-	virtual std::string GetName() final;
-	virtual GameObject* GetGameObject() final;
+	class Component
+	{
+	public:
+		virtual void Init(GameObject* game_object) final;
+		virtual void Update();
 
-	Vector3 GetPosition();
-	void SetPosition(Vector3 value);
-	Vector3 GetRotation();
-	void SetRotation(Vector3 value);
-	Vector3 GetScale();
-	void SetScale(Vector3 value);
+		virtual std::string GetName() final;
+		virtual GameObject* GetGameObject() final;
 
-	void Translate(Vector3 value);
-	void Rotate(Vector3 value);
+		DirectX::SimpleMath::Vector3 GetPosition();
+		void SetPosition(DirectX::SimpleMath::Vector3 value);
+		DirectX::SimpleMath::Vector3 GetRotation();
+		void SetRotation(DirectX::SimpleMath::Vector3 value);
+		DirectX::SimpleMath::Vector3 GetScale();
+		void SetScale(DirectX::SimpleMath::Vector3 value);
 
-private:
-	virtual void OnInit();
-	virtual void OnUpdate();
+		void Translate(DirectX::SimpleMath::Vector3 value);
+		void Rotate(DirectX::SimpleMath::Vector3 value);
 
-private:
-	GameObject* game_object_;
-};
+	private:
+		virtual void OnInit();
+		virtual void OnUpdate();
+
+	private:
+		GameObject * game_object_;
+	};
+}
 
 #endif

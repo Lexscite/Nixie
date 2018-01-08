@@ -9,21 +9,24 @@
 #include "mesh.h"
 #include "camera.h"
 
-class Material : public Component
+namespace Nixie
 {
-public:
-	Material();
-	Shader* GetShader();
+	class Material : public Component
+	{
+	public:
+		Material();
+		Shader* GetShader();
 
-private:
-	virtual void OnInit() override;
-	virtual void OnUpdate() override;
+	private:
+		virtual void OnInit() override;
+		virtual void OnUpdate() override;
 
-	bool LoadTexture(const wchar_t* file_path);
+		bool LoadTexture(const wchar_t* file_path);
 
-private:
-	Shader* shader_;
-	Texture* texture_;
-};
+	private:
+		Shader * shader_;
+		Texture* texture_;
+	};
+}
 
 #endif

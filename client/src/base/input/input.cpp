@@ -1,54 +1,57 @@
 #include "input.h"
 
-Input::Input()
+namespace Nixie
 {
-	keyboard_ = std::make_unique<Keyboard>();
-}
+	Input::Input()
+	{
+		keyboard_ = std::make_unique<DirectX::Keyboard>();
+	}
 
-Input* Input::singleton_;
+	Input* Input::singleton_;
 
-Input* Input::GetSingleton()
-{
-	if (singleton_ == nullptr)
-		singleton_ = new Input;
+	Input* Input::GetSingleton()
+	{
+		if (singleton_ == nullptr)
+			singleton_ = new Input;
 
-	return singleton_;
-}
+		return singleton_;
+	}
 
-bool Input::Init()
-{
-	keyboard_state_ = keyboard_->GetState();
+	bool Input::Init()
+	{
+		keyboard_state_ = keyboard_->GetState();
 
-	return true;
-}
+		return true;
+	}
 
-void Input::Release()
-{
+	void Input::Release()
+	{
 
-}
+	}
 
-bool Input::Update()
-{
-	keyboard_state_prev_ = keyboard_state_;
-	keyboard_state_ = keyboard_->GetState();
+	bool Input::Update()
+	{
+		keyboard_state_prev_ = keyboard_state_;
+		keyboard_state_ = keyboard_->GetState();
 
-	return true;
-}
+		return true;
+	}
 
-Keyboard::State Input::GetState()
-{
-	return keyboard_state_;
-}
+	DirectX::Keyboard::State Input::GetState()
+	{
+		return keyboard_state_;
+	}
 
-bool Input::IsKeyDown(Keyboard::Keys key)
-{
-	return Input::GetSingleton()->keyboard_state_.IsKeyDown(key);
-}
-
-bool Input::IsKeyPressed(Keyboard::Keys key)
-{
-	if (!Input::GetSingleton()->keyboard_state_prev_.IsKeyDown(key))
+	bool Input::IsKeyDown(DirectX::Keyboard::Keys key)
+	{
 		return Input::GetSingleton()->keyboard_state_.IsKeyDown(key);
-	else
-		return false;
+	}
+
+	bool Input::IsKeyPressed(DirectX::Keyboard::Keys key)
+	{
+		if (!Input::GetSingleton()->keyboard_state_prev_.IsKeyDown(key))
+			return Input::GetSingleton()->keyboard_state_.IsKeyDown(key);
+		else
+			return false;
+	}
 }

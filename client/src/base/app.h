@@ -9,51 +9,54 @@
 #include "content/scene.h"
 #include "time.h"
 
-class App final
+namespace Nixie
 {
-public:
-	static App* GetSingleton();
+	class App final
+	{
+	public:
+		static App* GetSingleton();
 
-	bool Init(HINSTANCE instance);
-	void Release();
-	int Run();
+		bool Init(HINSTANCE instance);
+		void Release();
+		int Run();
 
-	LRESULT MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param);
+		LRESULT MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param);
 
-	HWND GetHwnd();
-	D3D* GetDirectX();
-	Scene* GetScene();
+		HWND GetHwnd();
+		D3D* GetDirectX();
+		Scene* GetScene();
 
-private:
-	App();
+	private:
+		App();
 
-	bool InitWindow(HINSTANCE instance);
-	void InitSettings();
-	void Update(float delta_time);
+		bool InitWindow(HINSTANCE instance);
+		void InitSettings();
+		void Update(float delta_time);
 
-	void CalculateFrameStats();
+		void CalculateFrameStats();
 
-	bool LoadScene(Scene* scene);
+		bool LoadScene(Scene* scene);
 
-private:
-	static App* singleton_;
+	private:
+		static App* singleton_;
 
-	HWND window_;
-	LPCSTR window_caption_;
+		HWND window_;
+		LPCSTR window_caption_;
 
-	unsigned int screen_width_;
-	unsigned int screen_height_;
+		unsigned int screen_width_;
+		unsigned int screen_height_;
 
-	bool vsync_enabled_;
-	bool fullscreen_enabled_;
+		bool vsync_enabled_;
+		bool fullscreen_enabled_;
 
-	Time* time_;
-	bool is_paused_;
+		Time* time_;
+		bool is_paused_;
 
-	D3D* directx_;
-	Input* input_;
+		D3D* directx_;
+		Input* input_;
 
-	Scene* scene_;
-};
+		Scene* scene_;
+	};
+}
 
 #endif

@@ -3,50 +3,49 @@
 
 #pragma once
 
-#include <map>
-#include <vector>
-#include <utility>
-
 #include "../utils/memory.h"
 #include "component.h"
 
-class Component;
-
-class GameObject final
+namespace Nixie
 {
-public:
-	GameObject(std::string name);
+	class Component;
 
-	bool Init();
-	void Update();
-	void Release();
+	class GameObject final
+	{
+	public:
+		GameObject(std::string name);
 
-	bool AddComponent(Component* new_component);
-	Component* GetComponent(std::string name);
-	std::vector<Component*> GetComponents();
+		bool Init();
+		void Update();
+		void Release();
 
-	std::string GetName();
+		bool AddComponent(Component* new_component);
+		Component* GetComponent(std::string name);
+		std::vector<Component*> GetComponents();
 
-	Vector3 GetPosition();
-	void SetPosition(Vector3 value);
-	Vector3 GetRotation();
-	void SetRotation(Vector3 value);
-	Vector3 GetScale();
-	void SetScale(Vector3 value);
+		std::string GetName();
 
-	void Translate(Vector3 value);
-	void Rotate(Vector3 value);
+		DirectX::SimpleMath::Vector3 GetPosition();
+		void SetPosition(DirectX::SimpleMath::Vector3 value);
+		DirectX::SimpleMath::Vector3 GetRotation();
+		void SetRotation(DirectX::SimpleMath::Vector3 value);
+		DirectX::SimpleMath::Vector3 GetScale();
+		void SetScale(DirectX::SimpleMath::Vector3 value);
 
-private:
-	std::string name_;
+		void Translate(DirectX::SimpleMath::Vector3 value);
+		void Rotate(DirectX::SimpleMath::Vector3 value);
 
-	GameObject* parent_;
+	private:
+		std::string name_;
 
-	Vector3 position_;
-	Vector3 rotation_;
-	Vector3 scale_;
+		GameObject* parent_;
 
-	std::map<std::string, Component*> components_;
-};
+		DirectX::SimpleMath::Vector3 position_;
+		DirectX::SimpleMath::Vector3 rotation_;
+		DirectX::SimpleMath::Vector3 scale_;
+
+		std::map<std::string, Component*> components_;
+	};
+}
 
 #endif

@@ -8,49 +8,50 @@
 
 #include "d3d.h"
 
-using namespace DirectX;
-
-class Shader
+namespace Nixie
 {
-private:
-	struct MatrixBuffer
+	class Shader
 	{
-		Matrix world_matrix;
-		Matrix view_matrix;
-		Matrix projection_matrix;
+	private:
+		struct MatrixBuffer
+		{
+			DirectX::SimpleMath::Matrix world_matrix;
+			DirectX::SimpleMath::Matrix view_matrix;
+			DirectX::SimpleMath::Matrix projection_matrix;
+		};
+
+		struct LightBuffer
+		{
+			DirectX::SimpleMath::Color diffuse_color;
+			DirectX::SimpleMath::Color ambient_color;
+			DirectX::SimpleMath::Vector3 direction;
+			float padding;
+		};
+
+	public:
+		Shader();
+
+		bool Init(WCHAR* vs_path, WCHAR* ps_path);
+		void SetTexture(ID3D11ShaderResourceView* texture);
+		void Release();
+
+		bool Update(DirectX::SimpleMath::Matrix world_matrix, DirectX::SimpleMath::Matrix view_matrix, DirectX::SimpleMath::Matrix projection_matrix);
+
+	private:
+		bool InitVS(WCHAR* file_path);
+		bool InitPS(WCHAR* file_path);
+
+		void OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path);
+
+	private:
+		ID3D11VertexShader * vertex_shader_;
+		ID3D11PixelShader* pixel_shader_;
+		ID3D11InputLayout* layout_;
+		ID3D11SamplerState* sampler_state_;
+
+		ID3D11Buffer* matrix_buffer_;
+		ID3D11Buffer* light_buffer_;
 	};
-
-	struct LightBuffer
-	{
-		Color diffuse_color;
-		Color ambient_color;
-		Vector3 direction;
-		float padding;
-	};
-
-public:
-	Shader();
-
-	bool Init(WCHAR* vs_path, WCHAR* ps_path);
-	void SetTexture(ID3D11ShaderResourceView* texture);
-	void Release();
-
-	bool Update(Matrix world_matrix, Matrix view_matrix, Matrix projection_matrix);
-
-private:
-	bool InitVS(WCHAR* file_path);
-	bool InitPS(WCHAR* file_path);
-
-	void OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path);
-
-private:
-	ID3D11VertexShader * vertex_shader_;
-	ID3D11PixelShader* pixel_shader_;
-	ID3D11InputLayout* layout_;
-	ID3D11SamplerState* sampler_state_;
-
-	ID3D11Buffer* matrix_buffer_;
-	ID3D11Buffer* light_buffer_;
-};
+}
 
 #endif

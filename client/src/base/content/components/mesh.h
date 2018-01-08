@@ -6,22 +6,25 @@
 #include "../component.h"
 #include "../../graphics/mesh_data.h"
 
-class Mesh : public Component
+namespace Nixie
 {
-private:
+	class Mesh : public Component
+	{
+	private:
 
-public:
-	Mesh(char* file_path);
+	public:
+		Mesh(char* file_path);
 
-private:
-	virtual void OnInit() override;
-	virtual void OnUpdate() override;
+	private:
+		virtual void OnInit() override;
+		virtual void OnUpdate() override;
 
-private:
-	char* file_path_;
-	MeshData* mesh_data_;
+	private:
+		char* file_path_;
+		MeshData* mesh_data_;
 
-private:
-};
+	private:
+	};
+}
 
 #endif

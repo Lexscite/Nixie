@@ -3,30 +3,33 @@
 
 #pragma once
 
-template<typename T> void safe_release(T p)
+namespace Nixie
 {
-	if (p)
+	template<typename T> void safe_release(T p)
 	{
-		p->Release();
-		p = 0;
+		if (p)
+		{
+			p->Release();
+			p = 0;
+		}
 	}
-}
 
-template<typename T> void safe_delete(T p)
-{
-	if (p)
+	template<typename T> void safe_delete(T p)
 	{
-		delete p;
-		p = 0;
+		if (p)
+		{
+			delete p;
+			p = 0;
+		}
 	}
-}
 
-template<typename T> void safe_delete_arr(T p)
-{
-	if (p)
+	template<typename T> void safe_delete_arr(T p)
 	{
-		delete[] p;
-		p = 0;
+		if (p)
+		{
+			delete[] p;
+			p = 0;
+		}
 	}
 }
 

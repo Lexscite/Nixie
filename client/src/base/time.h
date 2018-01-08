@@ -5,35 +5,38 @@
 
 #include <windows.h>
 
-class Time
+namespace Nixie
 {
-public:
-	static Time* GetSingleton();
+	class Time
+	{
+	public:
+		static Time* GetSingleton();
 
-	void Start();
-	void Stop();
-	void Reset();
-	void Tick();
+		void Start();
+		void Stop();
+		void Reset();
+		void Tick();
 
-	float GetTime() const;
-	static float GetDeltaTime();
+		float GetTime() const;
+		static float GetDeltaTime();
 
-private:
-	Time();
+	private:
+		Time();
 
-private:
-	static Time* singleton_;
+	private:
+		static Time* singleton_;
 
-	double seconds_per_count_;
-	double delta_time_;
+		double seconds_per_count_;
+		double delta_time_;
 
-	__int64 base_time_;
-	__int64 paused_time_;
-	__int64 stop_time_;
-	__int64 previous_time_;
-	__int64 current_time_;
+		__int64 base_time_;
+		__int64 paused_time_;
+		__int64 stop_time_;
+		__int64 previous_time_;
+		__int64 current_time_;
 
-	bool is_stopped_;
-};
+		bool is_stopped_;
+	};
+}
 
 #endif

@@ -9,16 +9,19 @@
 
 using namespace DirectX;
 
-class Camera : public Component
+namespace Nixie
 {
-public:
-	void Render();
-	XMMATRIX GetViewMatrix();
+	class Camera : public Component
+	{
+	public:
+		void Render();
+		XMMATRIX GetViewMatrix();
 
-	virtual void OnUpdate() override;
+		virtual void OnUpdate() override;
 
-private:
-	XMMATRIX view_matrix_;
-};
+	private:
+		XMMATRIX view_matrix_;
+	};
+}
 
 #endif

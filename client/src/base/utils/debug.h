@@ -8,28 +8,31 @@
 #include <stdio.h>
 #include <iostream>
 
-class Exception : public std::exception
+namespace Nixie
 {
-public:
-	Exception(HRESULT hr) : result(hr) {}
-
-	virtual const char* what() const override
+	class Exception : public std::exception
 	{
-		static char s_str[64] = { 0 };
-		sprintf_s(s_str, "Failure with HRESULT of %08X",
-			static_cast<unsigned int>(result));
-		return s_str;
-	}
+	public:
+		Exception(HRESULT hr) : result(hr) {}
 
-private:
-	HRESULT result;
-};
+		virtual const char* what() const override
+		{
+			static char s_str[64] = { 0 };
+			sprintf_s(s_str, "Failure with HRESULT of %08X",
+				static_cast<unsigned int>(result));
+			return s_str;
+		}
 
-inline void ThrowIfFailed(HRESULT hr)
-{
-	if (FAILED(hr))
+	private:
+		HRESULT result;
+	};
+
+	inline void ThrowIfFailed(HRESULT hr)
 	{
-		throw Exception(hr);
+		if (FAILED(hr))
+		{
+			throw Exception(hr);
+		}
 	}
 }
 

@@ -8,16 +8,19 @@
 
 #pragma comment(lib,"ws2_32.lib")
 
-enum class PacketType
+namespace Nixie
 {
-	HelloMessage,
-};
+	enum class PacketType
+	{
+		HelloMessage,
+	};
 
-class Packet
-{
-public:
-	Packet();
-	~Packet();
-};
+	class Packet
+	{
+	public:
+		Packet();
+		~Packet();
+	};
+}
 
 #endif

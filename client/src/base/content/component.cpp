@@ -1,70 +1,71 @@
 #include "component.h"
 
-void Component::Init(GameObject* game_object)
+namespace Nixie
 {
-	game_object_ = game_object;
-	OnInit();
-}
+	void Component::Init(GameObject* game_object)
+	{
+		game_object_ = game_object;
+		OnInit();
+	}
 
-void Component::AfterInit() {}
+	void Component::OnInit() {}
 
-void Component::OnInit() {}
+	void Component::Update()
+	{
+		OnUpdate();
+	}
 
-void Component::Update()
-{
-	OnUpdate();
-}
+	void Component::OnUpdate() {}
 
-void Component::OnUpdate() {}
+	std::string Component::GetName()
+	{
+		std::string name = std::string(typeid(*this).name());
 
-std::string Component::GetName()
-{
-	std::string name = std::string(typeid(*this).name());
+		return name.erase(0, 6 + 7);
+	}
 
-	return name.erase(0, 6);
-}
+	GameObject* Component::GetGameObject()
+	{
+		return game_object_;
+	}
 
-GameObject* Component::GetGameObject()
-{
-	return game_object_;
-}
+	DirectX::SimpleMath::Vector3 Component::GetPosition()
+	{
+		return game_object_->GetPosition();
+	}
 
-Vector3 Component::GetPosition()
-{
-	return game_object_->GetPosition();
-}
+	void Component::SetPosition(DirectX::SimpleMath::Vector3 value)
+	{
+		game_object_->SetPosition(value);
+	}
 
-void Component::SetPosition(Vector3 value)
-{
-	game_object_->SetPosition(value);
-}
+	DirectX::SimpleMath::Vector3 Component::GetRotation()
+	{
+		return game_object_->GetRotation();
+	}
 
-Vector3 Component::GetRotation()
-{
-	return game_object_->GetRotation();
-}
+	void Component::SetRotation(DirectX::SimpleMath::Vector3 value)
+	{
+		game_object_->SetRotation(value);
+	}
 
-void Component::SetRotation(Vector3 value)
-{
-	game_object_->SetRotation(value);
-}
+	DirectX::SimpleMath::Vector3 Component::GetScale()
+	{
+		return game_object_->GetScale();
+	}
 
-Vector3 Component::GetScale()
-{
-	return game_object_->GetScale();
-}
+	void Component::SetScale(DirectX::SimpleMath::Vector3 value)
+	{
+		game_object_->SetScale(value);
+	}
 
-void Component::SetScale(Vector3 value)
-{
-	game_object_->SetScale(value);
-}
+	void Component::Translate(DirectX::SimpleMath::Vector3 value)
+	{
+		game_object_->Translate(value);
+	}
 
-void Component::Translate(Vector3 value)
-{
-	game_object_->Translate(value);
-}
-
-void Component::Rotate(Vector3 value)
-{
-	game_object_->Rotate(value);
+	void Component::Rotate(DirectX::SimpleMath::Vector3 value)
+	{
+		game_object_->Rotate(value);
+	}
 }

@@ -44,7 +44,7 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 
 	int exit_code = 0;
 
-	App* app = App::GetSingleton();
+	Nixie::App* app = Nixie::App::GetSingleton();
 	if (app->Init(hInstance))
 		exit_code = app->Run();
 
