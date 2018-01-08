@@ -1,5 +1,5 @@
 #ifndef GAMEOBJECT_H
-#define GAMEOBJECT_H_
+#define GAMEOBJECT_H
 
 #pragma once
 
