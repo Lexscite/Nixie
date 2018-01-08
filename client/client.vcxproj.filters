@@ -37,6 +37,9 @@
     <Filter Include="src\base\input">
       <UniqueIdentifier>{6b07f1dc-e3ea-4689-84bc-5117e9518491}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\base\math">
+      <UniqueIdentifier>{6bbdc746-4baf-4301-acd1-4f676f957eda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\base\graphics\shader.cpp">
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="src\base\graphics\d3d.cpp">
       <Filter>src\base\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\math\vector3.cpp">
+      <Filter>src\base\math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="src\base\graphics\d3d.h">
       <Filter>src\base\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\math\vector3.h">
+      <Filter>src\base\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

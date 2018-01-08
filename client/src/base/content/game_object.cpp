@@ -8,9 +8,9 @@ namespace Nixie
 
 		parent_ = nullptr;
 
-		position_ = DirectX::SimpleMath::Vector3();
-		rotation_ = DirectX::SimpleMath::Vector3();
-		scale_ = DirectX::SimpleMath::Vector3(1);
+		position_ = Vector3();
+		rotation_ = Vector3();
+		scale_ = Vector3(1);
 	}
 
 	bool GameObject::Init(Scene* scene)
@@ -69,7 +69,7 @@ namespace Nixie
 		return name_;
 	}
 
-	DirectX::SimpleMath::Vector3 GameObject::GetPosition()
+	Vector3 GameObject::GetPosition()
 	{
 		if (parent_ == nullptr)
 			return position_;
@@ -77,12 +77,12 @@ namespace Nixie
 			return parent_->GetPosition() + position_;
 	}
 
-	void GameObject::SetPosition(DirectX::SimpleMath::Vector3 value)
+	void GameObject::SetPosition(Vector3 value)
 	{
 		position_ = value;
 	}
 
-	DirectX::SimpleMath::Vector3 GameObject::GetRotation()
+	Vector3 GameObject::GetRotation()
 	{
 		if (parent_ == nullptr)
 			return rotation_;
@@ -90,12 +90,12 @@ namespace Nixie
 			return parent_->GetRotation() + rotation_;
 	}
 
-	void GameObject::SetRotation(DirectX::SimpleMath::Vector3 value)
+	void GameObject::SetRotation(Vector3 value)
 	{
 		rotation_ = value;
 	}
 
-	DirectX::SimpleMath::Vector3 GameObject::GetScale()
+	Vector3 GameObject::GetScale()
 	{
 		if (parent_ == nullptr)
 			return scale_;
@@ -103,17 +103,17 @@ namespace Nixie
 			return parent_->GetScale() + scale_;
 	}
 
-	void GameObject::SetScale(DirectX::SimpleMath::Vector3 value)
+	void GameObject::SetScale(Vector3 value)
 	{
 		scale_ = value;
 	}
 
-	void GameObject::Translate(DirectX::SimpleMath::Vector3 value)
+	void GameObject::Translate(Vector3 value)
 	{
 		position_ += value;
 	}
 
-	void GameObject::Rotate(DirectX::SimpleMath::Vector3 value)
+	void GameObject::Rotate(Vector3 value)
 	{
 		rotation_ += value;
 	}

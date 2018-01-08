@@ -15,7 +15,7 @@ namespace Nixie
 
 	void Mesh::OnUpdate()
 	{
-		Rotate(DirectX::SimpleMath::Vector3(0, 1 * Time::GetDeltaTime(), 0));
+		Rotate(Vector3(0, 1 * Time::GetDeltaTime(), 0));
 		mesh_data_->Render();
 	}
 }

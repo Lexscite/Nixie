@@ -5,16 +5,16 @@ namespace Nixie
 	void Camera::OnUpdate()
 	{
 		if (Input::IsKeyDown(DirectX::Keyboard::Keys::W) && !Input::IsKeyDown(DirectX::Keyboard::Keys::S))
-			Translate(DirectX::SimpleMath::Vector3(0, 0, 2 * Time::GetDeltaTime()));
+			Translate(Vector3(0, 0, 2 * Time::GetDeltaTime()));
 
 		if (Input::IsKeyDown(DirectX::Keyboard::Keys::S) && !Input::IsKeyDown(DirectX::Keyboard::Keys::W))
-			Translate(DirectX::SimpleMath::Vector3(0, 0, -2 * Time::GetDeltaTime()));
+			Translate(Vector3(0, 0, -2 * Time::GetDeltaTime()));
 
 		if (Input::IsKeyDown(DirectX::Keyboard::Keys::D) && !Input::IsKeyDown(DirectX::Keyboard::Keys::A))
-			Translate(DirectX::SimpleMath::Vector3(2 * Time::GetDeltaTime(), 0, 0));
+			Translate(Vector3(2 * Time::GetDeltaTime(), 0, 0));
 
 		if (Input::IsKeyDown(DirectX::Keyboard::Keys::A) && !Input::IsKeyDown(DirectX::Keyboard::Keys::D))
-			Translate(DirectX::SimpleMath::Vector3(-2 * Time::GetDeltaTime(), 0, 0));
+			Translate(Vector3(-2 * Time::GetDeltaTime(), 0, 0));
 	}
 
 	void Camera::Render()

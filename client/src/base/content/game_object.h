@@ -27,15 +27,15 @@ namespace Nixie
 
 		std::string GetName();
 
-		DirectX::SimpleMath::Vector3 GetPosition();
-		void SetPosition(DirectX::SimpleMath::Vector3 value);
-		DirectX::SimpleMath::Vector3 GetRotation();
-		void SetRotation(DirectX::SimpleMath::Vector3 value);
-		DirectX::SimpleMath::Vector3 GetScale();
-		void SetScale(DirectX::SimpleMath::Vector3 value);
+		Vector3 GetPosition();
+		void SetPosition(Vector3 value);
+		Vector3 GetRotation();
+		void SetRotation(Vector3 value);
+		Vector3 GetScale();
+		void SetScale(Vector3 value);
 
-		void Translate(DirectX::SimpleMath::Vector3 value);
-		void Rotate(DirectX::SimpleMath::Vector3 value);
+		void Translate(Vector3 value);
+		void Rotate(Vector3 value);
 
 	private:
 		std::string name_;
@@ -43,9 +43,9 @@ namespace Nixie
 		Scene* scene;
 		GameObject* parent_;
 
-		DirectX::SimpleMath::Vector3 position_;
-		DirectX::SimpleMath::Vector3 rotation_;
-		DirectX::SimpleMath::Vector3 scale_;
+		Vector3 position_;
+		Vector3 rotation_;
+		Vector3 scale_;
 
 		std::map<std::string, Component*> components_;
 	};

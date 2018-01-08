@@ -6,13 +6,14 @@
 #include <vector>
 #include <iostream>
 
-#include "game_object.h"
 #include "components/camera.h"
 #include "components/mesh.h"
 #include "components/material.h"
 
 namespace Nixie
 {
+	class Component;
+
 	class Scene final
 	{
 	public:

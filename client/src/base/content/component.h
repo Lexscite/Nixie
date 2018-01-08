@@ -9,9 +9,11 @@
 #include <utility>
 #include <typeinfo>
 
+#include "../time.h"
 #include "../graphics/d3d.h"
 #include "../input/input.h"
-#include "../time.h"
+#include "../math/vector3.h"
+
 #include "game_object.h"
 
 namespace Nixie
@@ -27,15 +29,15 @@ namespace Nixie
 		virtual std::string GetName() final;
 		virtual GameObject* GetGameObject() final;
 
-		DirectX::SimpleMath::Vector3 GetPosition();
-		void SetPosition(DirectX::SimpleMath::Vector3 value);
-		DirectX::SimpleMath::Vector3 GetRotation();
-		void SetRotation(DirectX::SimpleMath::Vector3 value);
-		DirectX::SimpleMath::Vector3 GetScale();
-		void SetScale(DirectX::SimpleMath::Vector3 value);
+		Vector3 GetPosition();
+		void SetPosition(Vector3 value);
+		Vector3 GetRotation();
+		void SetRotation(Vector3 value);
+		Vector3 GetScale();
+		void SetScale(Vector3 value);
 
-		void Translate(DirectX::SimpleMath::Vector3 value);
-		void Rotate(DirectX::SimpleMath::Vector3 value);
+		void Translate(Vector3 value);
+		void Rotate(Vector3 value);
 
 	private:
 		virtual void OnInit();
