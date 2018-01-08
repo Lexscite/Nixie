@@ -3,11 +3,9 @@
 
 namespace Nixie
 {
-	Material::Material()
-	{
-		shader_ = nullptr;
-		texture_ = nullptr;
-	}
+	Material::Material() :
+		shader_(nullptr),
+		texture_(nullptr) {}
 
 	void Material::OnInit()
 	{
