@@ -6,8 +6,6 @@
 #include "../component.h"
 #include "../../graphics/texture.h"
 #include "../../graphics/shader.h"
-#include "mesh.h"
-#include "camera.h"
 
 namespace Nixie
 {

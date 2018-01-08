@@ -8,6 +8,8 @@
 
 namespace Nixie
 {
+	class Scene;
+
 	class Component;
 
 	class GameObject final
@@ -15,7 +17,7 @@ namespace Nixie
 	public:
 		GameObject(std::string name);
 
-		bool Init();
+		bool Init(Scene* scene);
 		void Update();
 		void Release();
 
@@ -38,6 +40,7 @@ namespace Nixie
 	private:
 		std::string name_;
 
+		Scene* scene;
 		GameObject* parent_;
 
 		DirectX::SimpleMath::Vector3 position_;

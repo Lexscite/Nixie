@@ -3,8 +3,6 @@
 
 #pragma once
 
-#include <directxmath.h>
-
 #include "../component.h"
 
 namespace Nixie

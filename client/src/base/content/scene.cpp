@@ -21,7 +21,7 @@ namespace Nixie
 		AddGameObject(cube);
 
 		for each (GameObject* game_object in GetGameObjects())
-			if (!game_object->Init())
+			if (!game_object->Init(this))
 				return false;
 
 #ifdef _DEBUG

@@ -20,7 +20,7 @@ namespace Nixie
 	void Camera::Render()
 	{
 		DirectX::SimpleMath::Vector3 up = DirectX::SimpleMath::Vector3::Up;
-		DirectX::SimpleMath::Vector3 look_at = DirectX::SimpleMath::Vector3(0, 0, 1);
+		DirectX::SimpleMath::Vector3 look_at = DirectX::SimpleMath::Vector3::Backward;
 		DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3(
 			position.x = GetPosition().x,
 			position.y = GetPosition().y,

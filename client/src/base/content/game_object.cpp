@@ -13,8 +13,9 @@ namespace Nixie
 		scale_ = DirectX::SimpleMath::Vector3(1);
 	}
 
-	bool GameObject::Init()
+	bool GameObject::Init(Scene* scene)
 	{
+		this->scene = scene;
 		for each (Component* component in GetComponents())
 			component->Init(this);
 
