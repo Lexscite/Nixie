@@ -31,10 +31,10 @@ namespace Nixie
 
 	inline Quaternion Quaternion::operator*(const Quaternion& quaternion)
 	{
-		float x = this->w * quaternion.x + this->x * quaternion.w + this->y * quaternion.z - this->z * quaternion.y;
-		float y = this->w * quaternion.y - this->x * quaternion.z + this->y * quaternion.w + this->z * quaternion.x;
-		float z = this->w * quaternion.z + this->x * quaternion.y - this->y * quaternion.x + this->z * quaternion.w;
-		float w = this->w * quaternion.w - this->x * quaternion.x - this->y * quaternion.y - this->z * quaternion.z;
+		float x =  this->x * quaternion.w + this->y * quaternion.z - this->z * quaternion.y + this->w * quaternion.x;
+		float y = -this->x * quaternion.z + this->y * quaternion.w + this->z * quaternion.x + this->w * quaternion.y;
+		float z =  this->x * quaternion.y - this->y * quaternion.x + this->z * quaternion.w + this->w * quaternion.z;
+		float w = -this->x * quaternion.x - this->y * quaternion.y - this->z * quaternion.z + this->w * quaternion.w;
 
 		return Quaternion(x, y, z, w);
 	}
@@ -44,12 +44,12 @@ namespace Nixie
 		return Quaternion(x * scalar, y * scalar, z * scalar, w * scalar);
 	}
 
-	inline Quaternion& Quaternion::operator*=(const Quaternion& right)
+	inline Quaternion& Quaternion::operator*=(const Quaternion& quaternion)
 	{
-		float x = this->w * right.x + this->x * right.w + this->y * right.z - this->z * right.y;
-		float y = this->w * right.y - this->x * right.z + this->y * right.w + this->z * right.x;
-		float z = this->w * right.z + this->x * right.y - this->y * right.x + this->z * right.w;
-		float w = this->w * right.w - this->x * right.x - this->y * right.y - this->z * right.z;
+		float x =  this->x * quaternion.w + this->y * quaternion.z - this->z * quaternion.y + this->w * quaternion.x;
+		float y = -this->x * quaternion.z + this->y * quaternion.w + this->z * quaternion.x + this->w * quaternion.y;
+		float z =  this->x * quaternion.y - this->y * quaternion.x + this->z * quaternion.w + this->w * quaternion.z;
+		float w = -this->x * quaternion.x - this->y * quaternion.y - this->z * quaternion.z + this->w * quaternion.w;
 
 		this->x = x;
 		this->y = y;

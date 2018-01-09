@@ -22,18 +22,18 @@ namespace Nixie
 		Quaternion rotation = GetRotation();
 		Vector3 scale = GetScale();
 
-		DirectX::SimpleMath::Matrix translation_matrix = DirectX::XMMatrixTranslation(
+		DirectX::SimpleMath::Matrix translation_matrix = DirectX::SimpleMath::Matrix::CreateTranslation(
 			position.x,
 			position.y,
 			position.z);
-		DirectX::SimpleMath::Matrix rotation_matrix = DirectX::XMMatrixRotationQuaternion(DirectX::SimpleMath::Quaternion(rotation.x, rotation.y, rotation.z, rotation.w));
-		DirectX::SimpleMath::Matrix scaling_matrix = DirectX::XMMatrixScaling(
+		DirectX::SimpleMath::Matrix rotation_matrix = DirectX::SimpleMath::Matrix::CreateFromQuaternion(DirectX::SimpleMath::Quaternion(rotation.x, rotation.y, rotation.z, rotation.w));
+		DirectX::SimpleMath::Matrix scaling_matrix = DirectX::SimpleMath::Matrix::CreateScale(
 			scale.x,
 			scale.y,
 			scale.z);
 
 		shader_->Update(
-			translation_matrix * rotation_matrix * scaling_matrix,
+			scaling_matrix * rotation_matrix * translation_matrix,
 			App::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix(),
 			D3D::GetSingleton()->GetProjectionMatrix());
 	}

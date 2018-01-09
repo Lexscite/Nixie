@@ -15,7 +15,17 @@ namespace Nixie
 
 	void Mesh::OnUpdate()
 	{
-		Rotate(Quaternion(0.0f, 1.0f * Time::GetDeltaTime(), 0.0f, 0.5f * Time::GetDeltaTime()));
+		if (Input::IsKeyDown(DirectX::Keyboard::Keys::W) && !Input::IsKeyDown(DirectX::Keyboard::Keys::S))
+			Translate(Vector3(0, 0, 2 * Time::GetDeltaTime()));
+
+		if (Input::IsKeyDown(DirectX::Keyboard::Keys::S) && !Input::IsKeyDown(DirectX::Keyboard::Keys::W))
+			Translate(Vector3(0, 0, -2 * Time::GetDeltaTime()));
+
+		if (Input::IsKeyDown(DirectX::Keyboard::Keys::D) && !Input::IsKeyDown(DirectX::Keyboard::Keys::A))
+			Rotate(Quaternion(0, 1 * Time::GetDeltaTime(), 0, 1));
+
+		if (Input::IsKeyDown(DirectX::Keyboard::Keys::A) && !Input::IsKeyDown(DirectX::Keyboard::Keys::D))
+			Rotate(Quaternion(0, -1 * Time::GetDeltaTime(), 0, 1));
 		mesh_data_->Render();
 	}
 }

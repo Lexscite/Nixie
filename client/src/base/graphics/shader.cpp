@@ -195,26 +195,19 @@ namespace Nixie
 	{
 		ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();
 
-		world_matrix = XMMatrixTranspose(world_matrix);
-		view_matrix = XMMatrixTranspose(view_matrix);
-		projection_matrix = XMMatrixTranspose(projection_matrix);
-
 		D3D11_MAPPED_SUBRESOURCE mapped_resource;
 		HRESULT result = device_context->Map(matrix_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
 		if (FAILED(result))
 			return false;
 
-		UINT buffer_num;
-
 		MatrixBuffer* matrix_buffer;
 		matrix_buffer = (MatrixBuffer*)mapped_resource.pData;
-		matrix_buffer->world_matrix = world_matrix;
-		matrix_buffer->view_matrix = view_matrix;
-		matrix_buffer->projection_matrix = projection_matrix;
+		matrix_buffer->world_matrix = XMMatrixTranspose(world_matrix);
+		matrix_buffer->view_matrix = XMMatrixTranspose(view_matrix);
+		matrix_buffer->projection_matrix = XMMatrixTranspose(projection_matrix);
 		device_context->Unmap(matrix_buffer_, 0);
 
-		buffer_num = 0;
-		device_context->VSSetConstantBuffers(buffer_num, 1, &matrix_buffer_);
+		device_context->VSSetConstantBuffers(0, 1, &matrix_buffer_);
 		device_context->VSSetShader(vertex_shader_, 0, 0);
 
 		result = device_context->Map(light_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
@@ -228,8 +221,7 @@ namespace Nixie
 		light_buffer->padding = 0.0f;
 		device_context->Unmap(light_buffer_, 0);
 
-		buffer_num = 0;
-		device_context->PSSetConstantBuffers(buffer_num, 1, &light_buffer_);
+		device_context->PSSetConstantBuffers(0, 1, &light_buffer_);
 		device_context->PSSetSamplers(0, 1, &sampler_state_);
 		device_context->PSSetShader(pixel_shader_, 0, 0);
 

@@ -9,8 +9,8 @@ namespace Nixie
 		clear_color_ = DirectX::SimpleMath::Color(0.5, 0.5, 0.5);
 
 		GameObject* camera = new GameObject("Camera");
-		camera->SetPosition(Vector3(0, 5, -5));
-		camera->SetRotation(Vector3(45, 0, 0));
+		camera->SetPosition(Vector3(0, 10, -5));
+		camera->SetRotation(Quaternion(0.5f, 0, 0, 1));
 		camera->AddComponent(new Camera);
 		current_camera_ = static_cast<Camera*>(camera->GetComponent("Camera"));
 		AddGameObject(camera);

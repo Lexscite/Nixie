@@ -24,7 +24,9 @@ namespace Nixie
 		Quaternion quaternion;
 		float magnitude = GetMagnitude();
 
-		if (magnitude != 0)
+		if (magnitude == 1)
+			return *this;
+		else if (magnitude != 0)
 			quaternion = Quaternion(
 				this->x / magnitude,
 				this->y / magnitude,

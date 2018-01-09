@@ -4,17 +4,6 @@ namespace Nixie
 {
 	void Camera::OnUpdate()
 	{
-		if (Input::IsKeyDown(DirectX::Keyboard::Keys::W) && !Input::IsKeyDown(DirectX::Keyboard::Keys::S))
-			Translate(Vector3(0, 0, 2 * Time::GetDeltaTime()));
-
-		if (Input::IsKeyDown(DirectX::Keyboard::Keys::S) && !Input::IsKeyDown(DirectX::Keyboard::Keys::W))
-			Translate(Vector3(0, 0, -2 * Time::GetDeltaTime()));
-
-		if (Input::IsKeyDown(DirectX::Keyboard::Keys::D) && !Input::IsKeyDown(DirectX::Keyboard::Keys::A))
-			Translate(Vector3(2 * Time::GetDeltaTime(), 0, 0));
-
-		if (Input::IsKeyDown(DirectX::Keyboard::Keys::A) && !Input::IsKeyDown(DirectX::Keyboard::Keys::D))
-			Translate(Vector3(-2 * Time::GetDeltaTime(), 0, 0));
 	}
 
 	void Camera::Render()
@@ -26,10 +15,12 @@ namespace Nixie
 			position.y = GetPosition().y,
 			position.z = GetPosition().z);
 
-		DirectX::SimpleMath::Matrix rotation_matrix = DirectX::XMMatrixRotationRollPitchYaw(
-			GetRotation().x * 0.0174532925f,
-			GetRotation().y * 0.0174532925f,
-			GetRotation().z * 0.0174532925f);
+		DirectX::SimpleMath::Matrix rotation_matrix = DirectX::XMMatrixRotationQuaternion(
+			DirectX::SimpleMath::Quaternion(
+				GetRotation().x,
+				GetRotation().y,
+				GetRotation().z,
+				GetRotation().w));
 
 		up = DirectX::XMVector3TransformCoord(up, rotation_matrix);
 		look_at = DirectX::XMVector3TransformCoord(look_at, rotation_matrix);

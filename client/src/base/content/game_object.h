@@ -74,7 +74,7 @@ namespace Nixie
 
 	inline void GameObject::Rotate(Quaternion value)
 	{
-		rotation *= value;
+		rotation *= value.Normalize();
 	}
 
 	inline void GameObject::Scale(Vector3 value)

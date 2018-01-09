@@ -18,7 +18,9 @@ namespace Nixie
 		Vector3 vector;
 		float magnitude = GetMagnitude();
 
-		if (magnitude != 0)
+		if (magnitude == 1)
+			return *this;
+		else if (magnitude != 0)
 			vector = Vector3(
 				x / magnitude,
 				y / magnitude,
