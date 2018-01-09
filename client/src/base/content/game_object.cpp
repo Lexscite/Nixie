@@ -2,16 +2,13 @@
 
 namespace Nixie
 {
-	GameObject::GameObject(std::string name)
-	{
-		name_ = name;
-
-		parent_ = nullptr;
-
-		position_ = Vector3();
-		rotation_ = Vector3();
-		scale_ = Vector3(1);
-	}
+	GameObject::GameObject(std::string name) : 
+		name(name),
+		scene(nullptr),
+		parent(nullptr),
+		position(Vector3()),
+		rotation(Quaternion()),
+		scale(Vector3(1)) {}
 
 	bool GameObject::Init(Scene* scene)
 	{
@@ -41,14 +38,14 @@ namespace Nixie
 		if (GetComponent(name) != nullptr)
 			return false;
 
-		components_.insert(std::pair<std::string, Component*>(name, new_component));
+		components.insert(std::pair<std::string, Component*>(name, new_component));
 		return true;
 	}
 
 	Component* GameObject::GetComponent(std::string name)
 	{
-		std::map<std::string, Component*>::iterator result = components_.find(name);
-		if (result == components_.end())
+		std::map<std::string, Component*>::iterator result = components.find(name);
+		if (result == components.end())
 			return nullptr;
 		else
 			return result->second;
@@ -57,8 +54,7 @@ namespace Nixie
 	std::vector<Component*> GameObject::GetComponents()
 	{
 		std::vector<Component*> result;
-
-		for (std::map<std::string, Component*>::iterator it = components_.begin(); it != components_.end(); ++it)
+		for (std::map<std::string, Component*>::iterator it = components.begin(); it != components.end(); ++it)
 			result.push_back(it->second);
 
 		return result;
@@ -66,55 +62,30 @@ namespace Nixie
 
 	std::string GameObject::GetName()
 	{
-		return name_;
+		return name;
 	}
 
 	Vector3 GameObject::GetPosition()
 	{
-		if (parent_ == nullptr)
-			return position_;
+		if (parent == nullptr)
+			return position;
 		else
-			return parent_->GetPosition() + position_;
+			return parent->GetPosition() + position;
 	}
 
-	void GameObject::SetPosition(Vector3 value)
+	Quaternion GameObject::GetRotation()
 	{
-		position_ = value;
-	}
-
-	Vector3 GameObject::GetRotation()
-	{
-		if (parent_ == nullptr)
-			return rotation_;
+		if (parent == nullptr)
+			return rotation;
 		else
-			return parent_->GetRotation() + rotation_;
-	}
-
-	void GameObject::SetRotation(Vector3 value)
-	{
-		rotation_ = value;
+			return rotation * parent->GetRotation();
 	}
 
 	Vector3 GameObject::GetScale()
 	{
-		if (parent_ == nullptr)
-			return scale_;
+		if (parent == nullptr)
+			return scale;
 		else
-			return parent_->GetScale() + scale_;
-	}
-
-	void GameObject::SetScale(Vector3 value)
-	{
-		scale_ = value;
-	}
-
-	void GameObject::Translate(Vector3 value)
-	{
-		position_ += value;
-	}
-
-	void GameObject::Rotate(Vector3 value)
-	{
-		rotation_ += value;
+			return parent->GetScale() + scale;
 	}
 }

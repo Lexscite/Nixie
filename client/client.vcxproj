@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\base\math\quaternion.cpp" />
     <ClCompile Include="src\base\input\input.cpp" />
     <ClCompile Include="src\base\graphics\mesh_data.cpp" />
     <ClCompile Include="src\base\content\component.cpp" />
@@ -38,6 +39,7 @@
     <ClCompile Include="src\base\time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\base\math\quaternion.h" />
     <ClInclude Include="src\base\input\input.h" />
     <ClInclude Include="src\base\graphics\mesh_data.h" />
     <ClInclude Include="src\base\content\component.h" />

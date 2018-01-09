@@ -12,7 +12,7 @@
 #include "../time.h"
 #include "../graphics/d3d.h"
 #include "../input/input.h"
-#include "../math/vector3.h"
+#include "../math/quaternion.h"
 
 #include "game_object.h"
 
@@ -30,21 +30,23 @@ namespace Nixie
 		virtual GameObject* GetGameObject() final;
 
 		Vector3 GetPosition();
-		void SetPosition(Vector3 value);
-		Vector3 GetRotation();
-		void SetRotation(Vector3 value);
+		Quaternion GetRotation();
 		Vector3 GetScale();
+
+		void SetPosition(Vector3 value);
+		void SetRotation(Quaternion value);
 		void SetScale(Vector3 value);
 
 		void Translate(Vector3 value);
-		void Rotate(Vector3 value);
+		void Rotate(Quaternion value);
+		void Scale(Vector3 value);
 
 	private:
 		virtual void OnInit();
 		virtual void OnUpdate();
 
 	private:
-		GameObject* game_object_;
+		GameObject* game_object;
 	};
 }
 

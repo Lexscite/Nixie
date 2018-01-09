@@ -240,20 +240,10 @@ namespace Nixie
 
 	void Shader::OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path)
 	{
-		char* compile_errors;
-		unsigned long long bufferSize, i;
 		std::ofstream fout;
-
-
-		compile_errors = static_cast<char*>(error_message->GetBufferPointer());
-
-		bufferSize = error_message->GetBufferSize();
-
 		fout.open("shader-error.txt");
-
-		for (i = 0; i < bufferSize; i++)
-			fout << compile_errors[i];
-
+		for (size_t i = 0; i < error_message->GetBufferSize(); i++)
+			fout << static_cast<char*>(error_message->GetBufferPointer())[i];
 		fout.close();
 
 		safe_release(error_message);

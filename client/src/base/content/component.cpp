@@ -4,7 +4,8 @@ namespace Nixie
 {
 	void Component::Init(GameObject* game_object)
 	{
-		game_object_ = game_object;
+		this->game_object = game_object;
+
 		OnInit();
 	}
 
@@ -19,53 +20,56 @@ namespace Nixie
 
 	std::string Component::GetName()
 	{
-		std::string name = std::string(typeid(*this).name());
-
-		return name.erase(0, 6 + 7);
+		return std::string(typeid(*this).name()).erase(0, 6 + 7);
 	}
 
 	GameObject* Component::GetGameObject()
 	{
-		return game_object_;
+		return game_object;
 	}
 
 	Vector3 Component::GetPosition()
 	{
-		return game_object_->GetPosition();
+		return game_object->GetPosition();
 	}
 
-	void Component::SetPosition(Vector3 value)
+	Quaternion Component::GetRotation()
 	{
-		game_object_->SetPosition(value);
-	}
-
-	Vector3 Component::GetRotation()
-	{
-		return game_object_->GetRotation();
-	}
-
-	void Component::SetRotation(Vector3 value)
-	{
-		game_object_->SetRotation(value);
+		return game_object->GetRotation();
 	}
 
 	Vector3 Component::GetScale()
 	{
-		return game_object_->GetScale();
+		return game_object->GetScale();
+	}
+
+	void Component::SetPosition(Vector3 value)
+	{
+		game_object->SetPosition(value);
+	}
+
+	void Component::SetRotation(Quaternion value)
+	{
+		game_object->SetRotation(value);
 	}
 
 	void Component::SetScale(Vector3 value)
 	{
-		game_object_->SetScale(value);
+		game_object->SetScale(value);
 	}
 
 	void Component::Translate(Vector3 value)
 	{
-		game_object_->Translate(value);
+		game_object->Translate(value);
 	}
 
-	void Component::Rotate(Vector3 value)
+	void Component::Rotate(Quaternion value)
 	{
-		game_object_->Rotate(value);
+		game_object->Rotate(value);
+	}
+
+	void Component::Scale(Vector3 value)
+	{
+		game_object->Scale(value);
 	}
 }

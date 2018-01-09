@@ -15,7 +15,7 @@ namespace Nixie
 
 	void Mesh::OnUpdate()
 	{
-		Rotate(Vector3(0, 1 * Time::GetDeltaTime(), 0));
+		Rotate(Quaternion(0.0f, 1.0f * Time::GetDeltaTime(), 0.0f, 0.5f * Time::GetDeltaTime()));
 		mesh_data_->Render();
 	}
 }

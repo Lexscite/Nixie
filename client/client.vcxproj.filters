@@ -93,6 +93,9 @@
     <ClCompile Include="src\base\math\vector3.cpp">
       <Filter>src\base\math</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\math\quaternion.cpp">
+      <Filter>src\base\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\base\graphics\shader.h">
@@ -147,6 +150,9 @@
       <Filter>src\base\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\base\math\vector3.h">
+      <Filter>src\base\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\math\quaternion.h">
       <Filter>src\base\math</Filter>
     </ClInclude>
   </ItemGroup>
