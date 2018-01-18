@@ -3,16 +3,11 @@
 namespace Nixie
 {
 	Quaternion::Quaternion() : x(0), y(0), z(0), w(1) {}
-
 	Quaternion::Quaternion(float value) : x(value), y(value), z(value), w(value) {}
-
 	Quaternion::Quaternion(float x, float y, float z) : x(x), y(y), z(z), w(1) {}
-
 	Quaternion::Quaternion(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
-
-	Quaternion::Quaternion(Vector3 vector) : x(vector.x), y(vector.y), z(vector.z), w(1) {}
-
-	Quaternion::Quaternion(Vector3 vector, float w) : x(vector.x), y(vector.y), z(vector.z), w(w) {}
+	Quaternion::Quaternion(Vector3 v) : x(v.x), y(v.y), z(v.z), w(1) {}
+	Quaternion::Quaternion(Vector3 v, float w) : x(v.x), y(v.y), z(v.z), w(w) {}
 
 	inline float Quaternion::GetMagnitude()
 	{
@@ -21,18 +16,7 @@ namespace Nixie
 
 	Quaternion Quaternion::Normalize()
 	{
-		Quaternion quaternion;
-		float magnitude = GetMagnitude();
-
-		if (magnitude == 1)
-			return *this;
-		else if (magnitude != 0)
-			quaternion = Quaternion(
-				this->x / magnitude,
-				this->y / magnitude,
-				this->z / magnitude,
-				this->w / magnitude);
-
-		return quaternion;
+		float m = GetMagnitude();
+		return m == 1 || m == 0 ? *this : Quaternion(x / m, y / m, z / m, w / m);
 	}
 }

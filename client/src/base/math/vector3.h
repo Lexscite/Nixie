@@ -17,27 +17,27 @@ namespace Nixie
 		float GetMagnitude();
 		Vector3 Normalize();
 
-		Vector3 operator+(const Vector3& vector) const;
-		Vector3 operator-(const Vector3& vector) const;
+		Vector3 operator+(const Vector3& v) const;
+		Vector3 operator-(const Vector3& v) const;
 		Vector3 operator-() const;
-		Vector3 operator*(float scalar) const;
-		Vector3 operator/(float scalar) const;
+		Vector3 operator*(float s) const;
+		Vector3 operator/(float s) const;
 
-		Vector3& operator+=(const Vector3& vector);
-		Vector3& operator-=(const Vector3& vector);
+		Vector3& operator+=(const Vector3& v);
+		Vector3& operator-=(const Vector3& v);
 
 	public:
 		float x, y, z;
 	};
 
-	inline Vector3 Vector3::operator+(const Vector3& vector) const
+	inline Vector3 Vector3::operator+(const Vector3& v) const
 	{
-		return Vector3(x + vector.x, y + vector.y, z + vector.z);
+		return Vector3(x + v.x, y + v.y, z + v.z);
 	}
 
-	inline Vector3 Vector3::operator-(const Vector3& vector) const
+	inline Vector3 Vector3::operator-(const Vector3& v) const
 	{
-		return Vector3(x - vector.x, y - vector.y, z - vector.z);
+		return Vector3(x - v.x, y - v.y, z - v.z);
 	}
 
 	inline Vector3 Vector3::operator-() const
@@ -45,30 +45,30 @@ namespace Nixie
 		return Vector3(-x, -y, -z);
 	}
 
-	inline Vector3 Vector3::operator*(float scalar) const
+	inline Vector3 Vector3::operator*(float s) const
 	{
-		return Vector3(x * scalar, y * scalar, z * scalar);
+		return Vector3(x * s, y * s, z * s);
 	}
 
-	inline Vector3 Vector3::operator/(float scalar) const
+	inline Vector3 Vector3::operator/(float s) const
 	{
-		return Vector3(x / scalar, y / scalar, z / scalar);
+		return Vector3(x / s, y / s, z / s);
 	}
 
-	inline Vector3& Vector3::operator+=(const Vector3& vector)
+	inline Vector3& Vector3::operator+=(const Vector3& v)
 	{
-		x += vector.x;
-		y += vector.y;
-		z += vector.z;
+		x += v.x;
+		y += v.y;
+		z += v.z;
 
 		return *this;
 	}
 
-	inline Vector3& Vector3::operator-=(const Vector3& vector)
+	inline Vector3& Vector3::operator-=(const Vector3& v)
 	{
-		x -= vector.x;
-		y -= vector.y;
-		z -= vector.z;
+		x -= v.x;
+		y -= v.y;
+		z -= v.z;
 
 		return *this;
 	}
