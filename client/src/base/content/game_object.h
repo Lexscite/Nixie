@@ -12,6 +12,20 @@ namespace Nixie
 
 	class Component;
 
+	class Transform
+	{
+	public:
+		Transform() :
+			position(Vector3()),
+			rotation(Quaternion()),
+			scale(Vector3(1)) {}
+
+	public:
+		Vector3 position;
+		Quaternion rotation;
+		Vector3 scale;
+	};
+
 	class GameObject final
 	{
 	public:
@@ -27,17 +41,7 @@ namespace Nixie
 
 		std::string GetName();
 
-		Vector3 GetPosition();
-		Quaternion GetRotation();
-		Vector3 GetScale();
-
-		void SetPosition(Vector3 value);
-		void SetRotation(Quaternion value);
-		void SetScale(Vector3 value);
-
-		void Translate(Vector3 value);
-		void Rotate(Quaternion value);
-		void Scale(Vector3 value);
+		Transform* GetTransform();
 
 	private:
 		std::string name;
@@ -45,42 +49,12 @@ namespace Nixie
 		Scene* scene;
 		GameObject* parent;
 
-		Vector3 position;
-		Quaternion rotation;
+		Transform* transform;
+
 		Vector3 scale;
 
 		std::map<std::string, Component*> components;
 	};
-
-	inline void GameObject::SetPosition(Vector3 value)
-	{
-		position = value;
-	}
-
-	inline void GameObject::SetRotation(Quaternion value)
-	{
-		rotation = value;
-	}
-
-	inline void GameObject::SetScale(Vector3 value)
-	{
-		scale = value;
-	}
-
-	inline void GameObject::Translate(Vector3 value)
-	{
-		position += value;
-	}
-
-	inline void GameObject::Rotate(Quaternion value)
-	{
-		rotation *= value.Normalize();
-	}
-
-	inline void GameObject::Scale(Vector3 value)
-	{
-		scale += value;
-	}
 }
 
 #endif

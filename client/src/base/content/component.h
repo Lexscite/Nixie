@@ -18,6 +18,8 @@
 
 namespace Nixie
 {
+	class Transform;
+
 	class GameObject;
 
 	class Component
@@ -29,17 +31,7 @@ namespace Nixie
 		virtual std::string GetName() final;
 		virtual GameObject* GetGameObject() final;
 
-		Vector3 GetPosition();
-		Quaternion GetRotation();
-		Vector3 GetScale();
-
-		void SetPosition(Vector3 value);
-		void SetRotation(Quaternion value);
-		void SetScale(Vector3 value);
-
-		void Translate(Vector3 value);
-		void Rotate(Quaternion value);
-		void Scale(Vector3 value);
+		Transform* GetTransform();
 
 	private:
 		virtual void OnInit();

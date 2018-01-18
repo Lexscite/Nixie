@@ -4,18 +4,27 @@
 #pragma once
 
 #include <math.h>
+#include "quaternion.h"
 
 namespace Nixie
 {
+	class Quaternion;
+
 	class Vector3
 	{
 	public:
 		Vector3();
 		Vector3(float value);
 		Vector3(float x, float y, float z);
+		
+		static Vector3 Up() { return Vector3(0, 1, 0); }
 
 		float GetMagnitude();
 		Vector3 Normalize();
+		Vector3 Rotate(Quaternion q);
+
+		static float Dot(Vector3 v1, Vector3 v2);
+		static Vector3 Cross(Vector3 v1, Vector3 v2);
 
 		Vector3 operator+(const Vector3& v) const;
 		Vector3 operator-(const Vector3& v) const;
@@ -48,6 +57,11 @@ namespace Nixie
 	inline Vector3 Vector3::operator*(float s) const
 	{
 		return Vector3(x * s, y * s, z * s);
+	}
+
+	inline Vector3 operator*(float s, const Vector3& v)
+	{
+		return Vector3(v.x * s, v.y * s, v.z * s);
 	}
 
 	inline Vector3 Vector3::operator/(float s) const

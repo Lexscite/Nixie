@@ -6,9 +6,7 @@ namespace Nixie
 		name(name),
 		scene(nullptr),
 		parent(nullptr),
-		position(Vector3()),
-		rotation(Quaternion()),
-		scale(Vector3(1)) {}
+		transform(new Transform) {}
 
 	bool GameObject::Init(Scene* scene)
 	{
@@ -65,27 +63,8 @@ namespace Nixie
 		return name;
 	}
 
-	Vector3 GameObject::GetPosition()
+	Transform* GameObject::GetTransform()
 	{
-		if (parent == nullptr)
-			return position;
-		else
-			return parent->GetPosition() + position;
-	}
-
-	Quaternion GameObject::GetRotation()
-	{
-		if (parent == nullptr)
-			return rotation;
-		else
-			return rotation * parent->GetRotation();
-	}
-
-	Vector3 GameObject::GetScale()
-	{
-		if (parent == nullptr)
-			return scale;
-		else
-			return parent->GetScale() + scale;
+		return transform;
 	}
 }

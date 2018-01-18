@@ -28,48 +28,8 @@ namespace Nixie
 		return game_object;
 	}
 
-	Vector3 Component::GetPosition()
+	Transform* Component::GetTransform()
 	{
-		return game_object->GetPosition();
-	}
-
-	Quaternion Component::GetRotation()
-	{
-		return game_object->GetRotation();
-	}
-
-	Vector3 Component::GetScale()
-	{
-		return game_object->GetScale();
-	}
-
-	void Component::SetPosition(Vector3 value)
-	{
-		game_object->SetPosition(value);
-	}
-
-	void Component::SetRotation(Quaternion value)
-	{
-		game_object->SetRotation(value);
-	}
-
-	void Component::SetScale(Vector3 value)
-	{
-		game_object->SetScale(value);
-	}
-
-	void Component::Translate(Vector3 value)
-	{
-		game_object->Translate(value);
-	}
-
-	void Component::Rotate(Quaternion value)
-	{
-		game_object->Rotate(value);
-	}
-
-	void Component::Scale(Vector3 value)
-	{
-		game_object->Scale(value);
+		return game_object->GetTransform();
 	}
 }

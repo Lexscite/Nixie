@@ -18,9 +18,9 @@ namespace Nixie
 
 	void Material::OnUpdate()
 	{
-		Vector3 position = GetPosition();
-		Quaternion rotation = GetRotation();
-		Vector3 scale = GetScale();
+		Vector3 position = GetTransform()->position;
+		Quaternion rotation = GetTransform()->rotation;
+		Vector3 scale = GetTransform()->scale;
 
 		DirectX::SimpleMath::Matrix translation_matrix = DirectX::SimpleMath::Matrix::CreateTranslation(
 			position.x,
