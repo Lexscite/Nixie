@@ -111,12 +111,13 @@ namespace Nixie
 
 		adapter_memory_ = (UINT)(adapter_desc.DedicatedVideoMemory / 1024 / 1024);
 
-		size_t stringLength;
-		int error = wcstombs_s(&stringLength, adapter_desc_, 128, adapter_desc.Description, 128);
-		if (error != 0)
-		{
-			return false;
-		}
+		//size_t stringLength;
+		//int error = wcstombs_s(&stringLength, adapter_desc_, 128, adapter_desc.Description, 128);
+		//if (error != 0)
+		//{
+		//	std::cerr << "Failed to convert the name of the video card. Error:" << error << std::endl;
+		//	return false;
+		//}
 
 		UINT device_creation_flags = 0;
 #if defined(_DEBUG)
@@ -175,7 +176,6 @@ namespace Nixie
 			std::cerr << "Failed to check multisample quality levels" << std::endl;
 			return false;
 		}
-		assert(msaa_quality > 0);
 
 		DXGI_SWAP_CHAIN_DESC swap_chain_desc;
 		ZeroMemory(&swap_chain_desc, sizeof(swap_chain_desc));
