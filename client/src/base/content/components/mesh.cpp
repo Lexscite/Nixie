@@ -13,11 +13,13 @@ namespace Nixie
 
 	void Mesh::OnUpdate()
 	{
+		std::cout << GetTransform()->rotation.GetMagnitude() << std::endl;
+
 		if (Input::IsKeyDown(DirectX::Keyboard::Keys::W) && !Input::IsKeyDown(DirectX::Keyboard::Keys::S))
-			GetTransform()->position += Vector3(0, 0, 2 * Time::GetDeltaTime());
+			GetTransform()->position += GetTransform()->GetForward() * Time::GetDeltaTime();
 
 		if (Input::IsKeyDown(DirectX::Keyboard::Keys::S) && !Input::IsKeyDown(DirectX::Keyboard::Keys::W))
-			GetTransform()->position += Vector3(0, 0, -2 * Time::GetDeltaTime());
+			GetTransform()->position += -GetTransform()->GetForward() * Time::GetDeltaTime();
 
 		if (Input::IsKeyDown(DirectX::Keyboard::Keys::D) && !Input::IsKeyDown(DirectX::Keyboard::Keys::A))
 			GetTransform()->rotation *= Quaternion(0, 1 * Time::GetDeltaTime(), 0, 1);

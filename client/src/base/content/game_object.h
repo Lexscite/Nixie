@@ -20,6 +20,8 @@ namespace Nixie
 			rotation(Quaternion()),
 			scale(Vector3(1)) {}
 
+		Vector3 GetForward() { return Vector3::Forward().Rotate(rotation).Normalize(); }
+
 	public:
 		Vector3 position;
 		Quaternion rotation;
