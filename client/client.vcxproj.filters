@@ -96,6 +96,12 @@
     <ClCompile Include="src\base\graphics\mesh_buffer.cpp">
       <Filter>src\base\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\content\components\movement.cpp">
+      <Filter>src\base\content\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\math\color.cpp">
+      <Filter>src\base\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\base\graphics\shader.h">
@@ -155,6 +161,13 @@
     <ClInclude Include="src\base\graphics\mesh_buffer.h">
       <Filter>src\base\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\content\components\movement.h">
+      <Filter>src\base\content\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\math\color.h">
+      <Filter>src\base\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\math\math.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
