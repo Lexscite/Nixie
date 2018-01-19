@@ -13,10 +13,8 @@ namespace Nixie
 		void Render();
 		DirectX::SimpleMath::Matrix GetViewMatrix();
 
-		virtual void OnUpdate() override;
-
 	private:
-		DirectX::SimpleMath::Matrix view_matrix_;
+		DirectX::SimpleMath::Matrix view_matrix;
 	};
 }
 

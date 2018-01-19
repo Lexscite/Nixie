@@ -13,6 +13,7 @@ namespace Nixie
 	{
 	public:
 		Material();
+
 		Shader* GetShader();
 
 	private:
@@ -22,8 +23,8 @@ namespace Nixie
 		bool LoadTexture(const wchar_t* file_path);
 
 	private:
-		Shader * shader_;
-		Texture* texture_;
+		Shader* shader;
+		Texture* texture;
 	};
 }
 

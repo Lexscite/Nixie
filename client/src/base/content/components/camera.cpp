@@ -2,38 +2,26 @@
 
 namespace Nixie
 {
-	void Camera::OnUpdate()
-	{
-	}
-
 	void Camera::Render()
 	{
 		Vector3 position = GetTransform()->GetPosition();
 		Quaternion rotation = GetTransform()->GetRotation();
 
-		DirectX::SimpleMath::Vector3 dx_up = DirectX::SimpleMath::Vector3::Up;
-		DirectX::SimpleMath::Vector3 dx_look_at = DirectX::SimpleMath::Vector3::Backward;
-		DirectX::SimpleMath::Vector3 dx_position = DirectX::SimpleMath::Vector3(
-			position.x,
-			position.y,
-			position.z);
-
-		DirectX::SimpleMath::Matrix rotation_matrix = DirectX::XMMatrixRotationQuaternion(
-			DirectX::SimpleMath::Quaternion(
-				rotation.x,
-				rotation.y,
-				rotation.z,
-				rotation.w));
+		auto dx_up = DirectX::SimpleMath::Vector3::Up;
+		auto dx_look_at = DirectX::SimpleMath::Vector3::Backward;
+		auto dx_position = DirectX::SimpleMath::Vector3(position.x, position.y, position.z);
+		auto dx_rotation = DirectX::SimpleMath::Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
+		auto rotation_matrix = DirectX::XMMatrixRotationQuaternion(dx_rotation);
 
 		dx_up = DirectX::XMVector3TransformCoord(dx_up, rotation_matrix);
 		dx_look_at = DirectX::XMVector3TransformCoord(dx_look_at, rotation_matrix);
 		dx_look_at = DirectX::XMVectorAdd(dx_position, dx_look_at);
 
-		view_matrix_ = DirectX::XMMatrixLookAtLH(dx_position, dx_look_at, dx_up);
+		view_matrix = DirectX::XMMatrixLookAtLH(dx_position, dx_look_at, dx_up);
 	}
 
 	DirectX::SimpleMath::Matrix Camera::GetViewMatrix()
 	{
-		return view_matrix_;
+		return view_matrix;
 	}
 }

@@ -4,16 +4,16 @@
 namespace Nixie
 {
 	Material::Material() :
-		shader_(nullptr),
-		texture_(nullptr) {}
+		shader(nullptr),
+		texture(nullptr) {}
 
 	void Material::OnInit()
 	{
 		LoadTexture(L"../data/textures/placeholder.jpg");
 
-		shader_ = new Shader;
-		shader_->Init(L"../data/shaders/default_vs.hlsl.", L"../data/shaders/default_ps.hlsl.");
-		shader_->SetTexture(texture_->GetTextureView());
+		shader = new Shader;
+		shader->Init(L"../data/shaders/default_vs.hlsl.", L"../data/shaders/default_ps.hlsl.");
+		shader->SetTexture(texture->GetTextureView());
 	}
 
 	void Material::OnUpdate()
@@ -22,26 +22,25 @@ namespace Nixie
 		Quaternion rotation = GetTransform()->GetRotation();
 		Vector3 scale = GetTransform()->GetScale();
 
-		DirectX::SimpleMath::Matrix translation_matrix = DirectX::SimpleMath::Matrix::CreateTranslation(
-			position.x,
-			position.y,
-			position.z);
-		DirectX::SimpleMath::Matrix rotation_matrix = DirectX::SimpleMath::Matrix::CreateFromQuaternion(DirectX::SimpleMath::Quaternion(rotation.x, rotation.y, rotation.z, rotation.w));
-		DirectX::SimpleMath::Matrix scaling_matrix = DirectX::SimpleMath::Matrix::CreateScale(
-			scale.x,
-			scale.y,
-			scale.z);
+		auto dx_position = DirectX::SimpleMath::Vector3(position.x, position.y, position.z);
+		auto dx_rotation = DirectX::SimpleMath::Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
+		auto dx_scale = DirectX::SimpleMath::Vector3(scale.x, scale.y, scale.z);
 
-		shader_->Update(
-			scaling_matrix * rotation_matrix * translation_matrix,
-			App::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix(),
-			D3D::GetSingleton()->GetProjectionMatrix());
+		auto translation_matrix = DirectX::SimpleMath::Matrix::CreateTranslation(dx_position);
+		auto rotation_matrix = DirectX::SimpleMath::Matrix::CreateFromQuaternion(dx_rotation);
+		auto scaling_matrix = DirectX::SimpleMath::Matrix::CreateScale(dx_scale);
+
+		auto world_matrix = scaling_matrix * rotation_matrix * translation_matrix;
+		auto view_matrix = App::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix();
+		auto projection_matrix = D3D::GetSingleton()->GetProjectionMatrix();
+
+		shader->Update(world_matrix, view_matrix, projection_matrix);
 	}
 
 	bool Material::LoadTexture(const wchar_t* file_path)
 	{
-		texture_ = new Texture;
-		if (!texture_->Init(file_path))
+		texture = new Texture;
+		if (!texture->Init(file_path))
 			return false;
 
 		return true;
@@ -49,6 +48,6 @@ namespace Nixie
 
 	Shader* Material::GetShader()
 	{
-		return shader_;
+		return shader;
 	}
 }
