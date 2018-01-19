@@ -18,6 +18,7 @@ namespace Nixie
 		GameObject* cube = new GameObject("Cube");
 		cube->AddComponent(new Mesh("../data/meshes/cube.txt"));
 		cube->AddComponent(new Material);
+		cube->AddComponent(new Movement);
 		AddGameObject(cube);
 
 		for each (GameObject* game_object in GetGameObjects())
@@ -87,9 +88,7 @@ namespace Nixie
 
 	void Scene::OutputDebugMessage()
 	{
-		std::cout << "GameObjects count: " << game_objects_.size() << std::endl;
-		if (game_objects_.size() == 0)
-			return;
+		std::cout << "Scene info:" << std::endl << std::endl << "GameObjects count: " << game_objects_.size() << std::endl;
 
 		for each (GameObject* game_object in GetGameObjects())
 		{

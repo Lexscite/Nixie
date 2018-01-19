@@ -3,9 +3,10 @@
 
 #pragma once
 
+#include <fstream>
+
 #include "../component.h"
 #include "../../graphics/mesh_buffer.h"
-#include <fstream>
 
 namespace Nixie
 {

@@ -9,6 +9,7 @@
 #include "components/camera.h"
 #include "components/mesh.h"
 #include "components/material.h"
+#include "components/movement.h"
 
 namespace Nixie
 {

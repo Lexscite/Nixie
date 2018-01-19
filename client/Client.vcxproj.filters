@@ -96,6 +96,9 @@
     <ClCompile Include="src\base\graphics\mesh_buffer.cpp">
       <Filter>src\base\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\content\components\movement.cpp">
+      <Filter>src\base\content\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\base\graphics\shader.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="src\base\graphics\mesh_buffer.h">
       <Filter>src\base\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\content\components\movement.h">
+      <Filter>src\base\content\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
