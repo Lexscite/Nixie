@@ -9,8 +9,8 @@ namespace Nixie
 		clear_color_ = DirectX::SimpleMath::Color(0.5, 0.5, 0.5);
 
 		GameObject* camera = new GameObject("Camera");
-		camera->GetTransform()->position = Vector3(0, 10, -5);
-		camera->GetTransform()->rotation = Quaternion(0.5f, 0, 0, 1);
+		camera->GetTransform()->SetPosition(Vector3(0, 10, -5));
+		camera->GetTransform()->SetRotation(Quaternion(0.5f, 0, 0, 1));
 		camera->AddComponent(new Camera);
 		current_camera_ = static_cast<Camera*>(camera->GetComponent("Camera"));
 		AddGameObject(camera);
@@ -95,11 +95,11 @@ namespace Nixie
 		{
 			std::cout << std::endl << "GameObject: " << game_object->GetName() << std::endl;
 
-			Vector3 position = game_object->GetTransform()->position;
+			Vector3 position = game_object->GetTransform()->GetPosition();
 			std::cout << "\tPosition: " << position.x << ", " << position.y << ", " << position.z << std::endl;
-			Quaternion rotation = game_object->GetTransform()->rotation;
+			Quaternion rotation = game_object->GetTransform()->GetRotation();
 			std::cout << "\tRotation: " << rotation.x << ", " << rotation.y << ", " << rotation.z << std::endl;
-			Vector3 scale = game_object->GetTransform()->scale;
+			Vector3 scale = game_object->GetTransform()->GetScale();
 			std::cout << "\tScale: " << scale.x << ", " << scale.y << ", " << scale.z << std::endl;
 
 			std::cout << "\tComponents:" << std::endl;

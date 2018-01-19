@@ -19,7 +19,6 @@
 namespace Nixie
 {
 	class Transform;
-
 	class GameObject;
 
 	class Component

@@ -8,8 +8,8 @@ namespace Nixie
 
 	void Camera::Render()
 	{
-		Vector3 position = GetTransform()->position;
-		Quaternion rotation = GetTransform()->rotation;
+		Vector3 position = GetTransform()->GetPosition();
+		Quaternion rotation = GetTransform()->GetRotation();
 
 		DirectX::SimpleMath::Vector3 dx_up = DirectX::SimpleMath::Vector3::Up;
 		DirectX::SimpleMath::Vector3 dx_look_at = DirectX::SimpleMath::Vector3::Backward;
