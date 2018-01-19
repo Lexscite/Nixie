@@ -72,9 +72,6 @@
     <ClCompile Include="src\base\content\components\camera.cpp">
       <Filter>src\base\content\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\graphics\mesh_data.cpp">
-      <Filter>src\base\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\base\app.cpp">
       <Filter>src\base</Filter>
     </ClCompile>
@@ -90,11 +87,14 @@
     <ClCompile Include="src\base\graphics\d3d.cpp">
       <Filter>src\base\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\math\vector3.cpp">
-      <Filter>src\base\math</Filter>
-    </ClCompile>
     <ClCompile Include="src\base\math\quaternion.cpp">
       <Filter>src\base\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\math\vector.cpp">
+      <Filter>src\base\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base\graphics\mesh_buffer.cpp">
+      <Filter>src\base\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,9 +131,6 @@
     <ClInclude Include="src\base\content\components\camera.h">
       <Filter>src\base\content\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\graphics\mesh_data.h">
-      <Filter>src\base\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="src\base\app.h">
       <Filter>src\base</Filter>
     </ClInclude>
@@ -149,11 +146,14 @@
     <ClInclude Include="src\base\graphics\d3d.h">
       <Filter>src\base\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\math\vector3.h">
-      <Filter>src\base\math</Filter>
-    </ClInclude>
     <ClInclude Include="src\base\math\quaternion.h">
       <Filter>src\base\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\math\vector.h">
+      <Filter>src\base\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\graphics\mesh_buffer.h">
+      <Filter>src\base\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

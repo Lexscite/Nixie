@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\base\math\quaternion.cpp" />
     <ClCompile Include="src\base\input\input.cpp" />
-    <ClCompile Include="src\base\graphics\mesh_data.cpp" />
+    <ClCompile Include="src\base\graphics\mesh_buffer.cpp" />
     <ClCompile Include="src\base\content\component.cpp" />
     <ClCompile Include="src\base\content\game_object.cpp" />
     <ClCompile Include="src\base\content\components\camera.cpp" />
@@ -31,7 +31,7 @@
     <ClCompile Include="src\base\content\scene.cpp" />
     <ClCompile Include="src\base\graphics\d3d.cpp" />
     <ClCompile Include="src\base\graphics\texture.cpp" />
-    <ClCompile Include="src\base\math\vector3.cpp" />
+    <ClCompile Include="src\base\math\vector.cpp" />
     <ClCompile Include="src\base\network\connection.cpp" />
     <ClCompile Include="src\base\network\packet.cpp" />
     <ClCompile Include="src\base\app.cpp" />
@@ -41,7 +41,7 @@
   <ItemGroup>
     <ClInclude Include="src\base\math\quaternion.h" />
     <ClInclude Include="src\base\input\input.h" />
-    <ClInclude Include="src\base\graphics\mesh_data.h" />
+    <ClInclude Include="src\base\graphics\mesh_buffer.h" />
     <ClInclude Include="src\base\content\component.h" />
     <ClInclude Include="src\base\content\game_object.h" />
     <ClInclude Include="src\base\content\components\camera.h" />
@@ -51,7 +51,7 @@
     <ClInclude Include="src\base\content\scene.h" />
     <ClInclude Include="src\base\graphics\d3d.h" />
     <ClInclude Include="src\base\graphics\texture.h" />
-    <ClInclude Include="src\base\math\vector3.h" />
+    <ClInclude Include="src\base\math\vector.h" />
     <ClInclude Include="src\base\network\connection.h" />
     <ClInclude Include="src\base\network\packet.h" />
     <ClInclude Include="src\base\app.h" />

@@ -1,5 +1,5 @@
-#ifndef VECTOR3_H
-#define VECTOR3_H
+#ifndef VECTOR_H
+#define VECTOR_H
 
 #pragma once
 
@@ -9,6 +9,20 @@
 namespace Nixie
 {
 	class Quaternion;
+
+	class Vector2
+	{
+	public:
+		Vector2();
+		Vector2(float value);
+		Vector2(float x, float y);
+
+		float GetMagnitude();
+		Vector2 Normalize();
+
+	public:
+		float x, y;
+	};
 
 	class Vector3
 	{

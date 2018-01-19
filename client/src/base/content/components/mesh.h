@@ -4,14 +4,13 @@
 #pragma once
 
 #include "../component.h"
-#include "../../graphics/mesh_data.h"
+#include "../../graphics/mesh_buffer.h"
+#include <fstream>
 
 namespace Nixie
 {
 	class Mesh : public Component
 	{
-	private:
-
 	public:
 		Mesh(char* file_path);
 
@@ -19,11 +18,16 @@ namespace Nixie
 		virtual void OnInit() override;
 		virtual void OnUpdate() override;
 
-	private:
-		char* file_path_;
-		MeshData* mesh_data_;
+		bool LoadFile(char* file_path);
 
 	private:
+		char* file_path;
+
+		unsigned long vertex_count;
+		unsigned long index_count;
+
+		Vertex* vertices;
+		MeshBuffer* buffer;
 	};
 }
 
