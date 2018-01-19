@@ -3,8 +3,7 @@
 
 #pragma once
 
-#include <math.h>
-#include "quaternion.h"
+#include "math.h"
 
 namespace Nixie
 {

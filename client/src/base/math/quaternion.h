@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "vector.h"
+#include "math.h"
 
 namespace Nixie
 {

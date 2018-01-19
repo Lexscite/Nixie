@@ -6,7 +6,7 @@ namespace Nixie
 
 	bool Scene::Init()
 	{
-		clear_color_ = DirectX::SimpleMath::Color(0.5, 0.5, 0.5);
+		clear_color_ = Color(100.0f, 100.0f, 100.0f);
 
 		GameObject* camera = new GameObject("Camera");
 		camera->GetTransform()->SetPosition(Vector3(0, 10, -5));
@@ -46,7 +46,7 @@ namespace Nixie
 			game_object->Update();
 	}
 
-	DirectX::SimpleMath::Color Scene::GetClearColor()
+	Color Scene::GetClearColor()
 	{
 		return clear_color_;
 	}

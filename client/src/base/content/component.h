@@ -12,7 +12,7 @@
 #include "../time.h"
 #include "../graphics/d3d.h"
 #include "../input/input.h"
-#include "../math/quaternion.h"
+#include "../math/math.h"
 
 #include "game_object.h"
 

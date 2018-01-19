@@ -429,14 +429,14 @@ namespace Nixie
 			safe_release(swap_chain_);
 	}
 
-	void D3D::BeginScene(DirectX::SimpleMath::Color color)
+	void D3D::BeginScene(Color clear_color)
 	{
 #ifdef _DEBUG
 		if (Input::IsKeyPressed(DirectX::Keyboard::Keys::F1))
 			ToggleWireframeMode();
 #endif
-
-		device_context_->ClearRenderTargetView(render_target_view_, color);
+		device_context_->ClearRenderTargetView(render_target_view_,
+			DirectX::SimpleMath::Color(clear_color.r, clear_color.g, clear_color.b));
 		device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH, 1.0f, 0);
 	}
 

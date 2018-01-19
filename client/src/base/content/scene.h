@@ -24,7 +24,7 @@ namespace Nixie
 		void Release();
 		void Update();
 
-		DirectX::SimpleMath::Color GetClearColor();
+		Color GetClearColor();
 		Camera* GetCamera();
 
 		bool AddGameObject(GameObject* new_game_object);
@@ -35,7 +35,7 @@ namespace Nixie
 		void OutputDebugMessage();
 
 	private:
-		DirectX::SimpleMath::Color clear_color_;
+		Color clear_color_;
 		Camera* current_camera_;
 		std::map<std::string, GameObject*> game_objects_;
 	};

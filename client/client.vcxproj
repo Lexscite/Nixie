@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\base\math\color.cpp" />
     <ClCompile Include="src\base\content\components\movement.cpp" />
     <ClCompile Include="src\base\math\quaternion.cpp" />
     <ClCompile Include="src\base\input\input.cpp" />
@@ -40,7 +41,9 @@
     <ClCompile Include="src\base\time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\base\math\color.h" />
     <ClInclude Include="src\base\content\components\movement.h" />
+    <ClInclude Include="src\base\math\math.h" />
     <ClInclude Include="src\base\math\quaternion.h" />
     <ClInclude Include="src\base\input\input.h" />
     <ClInclude Include="src\base\graphics\mesh_buffer.h" />

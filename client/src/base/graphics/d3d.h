@@ -13,8 +13,9 @@
 #include "SimpleMath.h"
 #include "WICTextureLoader.h"
 
-#include "..\utils\memory.h"
-#include "..\utils\debug.h"
+#include "../utils/memory.h"
+#include "../utils/debug.h"
+#include "../math/math.h"
 
 namespace Nixie
 {
@@ -32,7 +33,7 @@ namespace Nixie
 			float screen_near);
 		void Release();
 
-		void BeginScene(DirectX::SimpleMath::Color clear_color);
+		void BeginScene(Color clear_color);
 		void EndScene();
 
 		bool SetRasterizer();
