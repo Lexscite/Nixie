@@ -191,8 +191,6 @@ namespace Nixie
 			((MINMAXINFO*)l_param)->ptMinTrackSize.y = 200;
 			return 0;
 		case WM_ACTIVATEAPP:
-			DirectX::Keyboard::ProcessMessage(message, w_param, l_param);
-			return 0;
 		case WM_KEYDOWN:
 		case WM_SYSKEYDOWN:
 		case WM_KEYUP:
