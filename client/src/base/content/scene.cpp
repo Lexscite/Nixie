@@ -105,5 +105,7 @@ namespace Nixie
 			for each (Component* component in game_object->GetComponents())
 				std::cout << "\t\t" << component->GetName() << std::endl;
 		}
+
+		std::cout << std::endl;
 	}
 }

@@ -2,12 +2,18 @@
 
 namespace Nixie
 {
-	Quaternion::Quaternion() : x(0), y(0), z(0), w(1) {}
-	Quaternion::Quaternion(float value) : x(value), y(value), z(value), w(value) {}
-	Quaternion::Quaternion(float x, float y, float z) : x(x), y(y), z(z), w(1) {}
+	Quaternion::Quaternion() : x(0), y(0), z(0), w(1.0f) {}
 	Quaternion::Quaternion(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
-	Quaternion::Quaternion(Vector3 v) : x(v.x), y(v.y), z(v.z), w(1) {}
-	Quaternion::Quaternion(Vector3 v, float w) : x(v.x), y(v.y), z(v.z), w(w) {}
+
+	Quaternion::Quaternion(float roll, float pitch, float yaw)
+	{
+		Set(roll, pitch, yaw);
+	}
+
+	Quaternion::Quaternion(Vector3 v)
+	{
+		Set(v.x, v.y, v.z);
+	}
 
 	inline float Quaternion::GetMagnitude()
 	{
