@@ -16,12 +16,22 @@ namespace Nixie
 		Vector2(float value);
 		Vector2(float x, float y);
 
-		float GetMagnitude();
-		Vector2 Normalize();
+		inline float GetMagnitude();
+		inline Vector2& Normalize();
+
+		inline Vector2& operator*=(float s);
 
 	public:
 		float x, y;
 	};
+
+	inline Vector2& Vector2::operator*=(float s)
+	{
+		x *= s;
+		y *= s;
+
+		return *this;
+	}
 
 	class Vector3
 	{
@@ -37,21 +47,22 @@ namespace Nixie
 		static Vector3 Forward() { return Vector3(0, 0, -1); }
 		static Vector3 Backward() { return Vector3(0, 0, 1); }
 
-		float GetMagnitude();
-		Vector3 Normalize();
+		inline float GetMagnitude();
+		inline Vector3& Normalize();
 		Vector3 Rotate(Quaternion q);
 
 		static float Dot(Vector3 v1, Vector3 v2);
 		static Vector3 Cross(Vector3 v1, Vector3 v2);
 
-		Vector3 operator+(const Vector3& v) const;
-		Vector3 operator-(const Vector3& v) const;
-		Vector3 operator-() const;
-		Vector3 operator*(float s) const;
-		Vector3 operator/(float s) const;
+		inline Vector3 operator+(const Vector3& v) const;
+		inline Vector3 operator-(const Vector3& v) const;
+		inline Vector3 operator-() const;
+		inline Vector3 operator*(float s) const;
+		inline Vector3 operator/(float s) const;
 
-		Vector3& operator+=(const Vector3& v);
-		Vector3& operator-=(const Vector3& v);
+		inline Vector3& operator+=(const Vector3& v);
+		inline Vector3& operator-=(const Vector3& v);
+		inline Vector3& operator*=(float s);
 
 	public:
 		float x, y, z;
@@ -101,6 +112,15 @@ namespace Nixie
 		x -= v.x;
 		y -= v.y;
 		z -= v.z;
+
+		return *this;
+	}
+
+	inline Vector3& Vector3::operator*=(float s)
+	{
+		x *= s;
+		y *= s;
+		z *= s;
 
 		return *this;
 	}

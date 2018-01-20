@@ -24,7 +24,7 @@ namespace Nixie
 		Vector3 GetBackward() { return Vector3::Backward().Rotate(rotation); }
 
 		Vector3 GetPosition() { return position; }
-		Quaternion GetRotation() { return rotation.Normalize(); }
+		Quaternion GetRotation() { return rotation; }
 		Vector3 GetScale() { return scale; }
 
 		inline void SetPosition(float x, float y, float z) { position = Vector3(x, y, z); }

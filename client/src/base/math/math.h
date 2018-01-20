@@ -18,7 +18,9 @@ namespace Nixie
 
 	namespace Math
 	{
-		inline float ClampFloat(float value, float min, float max)
+		inline float InvSqrtf(float value) { return 1 / sqrtf(value); }
+
+		inline float Clampf(float value, float min, float max)
 		{
 			float result = value;
 
@@ -30,7 +32,7 @@ namespace Nixie
 			return result;
 		}
 
-		inline int ClampInt(int value, int min, int max)
+		inline int Clamp(int value, int min, int max)
 		{
 			int result = value;
 

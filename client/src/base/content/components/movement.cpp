@@ -13,7 +13,7 @@ namespace Nixie
 		{
 			if (movement_speed != 10.0f)
 			{
-				movement_speed = Math::ClampFloat(movement_speed + 1.0f, 1.0f, 10.0f);
+				movement_speed = Math::Clampf(movement_speed + 1.0f, 1.0f, 10.0f);
 				std::cout << "Movement speed: " << movement_speed << std::endl;
 			}
 			else
@@ -26,7 +26,7 @@ namespace Nixie
 		{
 			if (movement_speed != 1.0f)
 			{
-				movement_speed = Math::ClampFloat(movement_speed - 1.0f, 1.0f, 10.0f);
+				movement_speed = Math::Clampf(movement_speed - 1.0f, 1.0f, 10.0f);
 				std::cout << "Movement speed: " << movement_speed << std::endl;
 			}
 			else

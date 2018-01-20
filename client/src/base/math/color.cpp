@@ -47,6 +47,6 @@ namespace Nixie
 
 	inline float Color::ClampValue(float value)
 	{
-		return Math::ClampFloat(value, 0.0f, 255.0f) / 255.0f;
+		return Math::Clampf(value, 0.0f, 255.0f) / 255.0f;
 	}
 }
