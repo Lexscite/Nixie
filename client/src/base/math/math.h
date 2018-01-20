@@ -11,11 +11,6 @@
 
 namespace Nixie
 {
-	class Vector2;
-	class Vector3;
-	class Quaternion;
-	class Color;
-
 	namespace Math
 	{
 		inline float InvSqrtf(float value) { return 1 / sqrtf(value); }
