@@ -10,6 +10,7 @@
 #include "components/mesh.h"
 #include "components/material.h"
 #include "components/movement.h"
+#include "components/terrain.h"
 
 namespace Nixie
 {

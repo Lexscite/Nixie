@@ -9,17 +9,29 @@ namespace Nixie
 		clear_color_ = Color(100.0f, 100.0f, 100.0f);
 
 		GameObject* camera = new GameObject("Camera");
+		camera->AddComponent(new Camera);
 		camera->GetTransform()->SetPosition(0, 10.0f, -6.0f);
 		camera->GetTransform()->SetRotation(1.0f, 0, 0);
-		camera->AddComponent(new Camera);
 		current_camera_ = static_cast<Camera*>(camera->GetComponent("Camera"));
 		AddGameObject(camera);
+
+		GameObject* terrain = new GameObject("Terrain");
+		terrain->AddComponent(new Terrain);
+		terrain->AddComponent(new Material);
+		AddGameObject(terrain);
 
 		GameObject* cube = new GameObject("Cube");
 		cube->AddComponent(new Mesh("../data/meshes/cube.txt"));
 		cube->AddComponent(new Material);
-		cube->AddComponent(new Movement);
+		cube->GetTransform()->SetPosition(0, 0.5f, 5.0f);
 		AddGameObject(cube);
+
+		GameObject* player = new GameObject("Player");
+		player->AddComponent(new Mesh("../data/meshes/cube.txt"));
+		player->AddComponent(new Material);
+		player->AddComponent(new Movement);
+		player->GetTransform()->SetPosition(0, 0.5f, 0);
+		AddGameObject(player);
 
 		for each (GameObject* game_object in GetGameObjects())
 			if (!game_object->Init(this))

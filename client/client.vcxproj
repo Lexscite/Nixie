@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\base\content\components\terrain.cpp" />
     <ClCompile Include="src\base\math\color.cpp" />
     <ClCompile Include="src\base\content\components\movement.cpp" />
     <ClCompile Include="src\base\math\quaternion.cpp" />
@@ -41,6 +42,7 @@
     <ClCompile Include="src\base\time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\base\content\components\terrain.h" />
     <ClInclude Include="src\base\math\color.h" />
     <ClInclude Include="src\base\content\components\movement.h" />
     <ClInclude Include="src\base\math\math.h" />

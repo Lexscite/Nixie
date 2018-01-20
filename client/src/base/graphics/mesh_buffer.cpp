@@ -2,16 +2,11 @@
 
 namespace Nixie
 {
-	bool MeshBuffer::Init(unsigned long index_count, unsigned long vertex_count, Vertex* vertices)
+	bool MeshBuffer::Init(unsigned long vertex_count, unsigned long index_count, Vertex* vertices, unsigned long* indices)
 	{
 		HRESULT hr;
 
 		ID3D11Device* device = D3D::GetSingleton()->GetDevice();
-
-		unsigned long* indices = new unsigned long[index_count];
-
-		for (unsigned int i = 0; i < vertex_count; i++)
-			indices[i] = i;
 
 		D3D11_BUFFER_DESC vertex_buffer_desc;
 		vertex_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
@@ -23,6 +18,8 @@ namespace Nixie
 
 		D3D11_SUBRESOURCE_DATA vertex_buffer_data;
 		vertex_buffer_data.pSysMem = vertices;
+		vertex_buffer_data.SysMemPitch = 0;
+		vertex_buffer_data.SysMemSlicePitch = 0;
 
 		hr = device->CreateBuffer(&vertex_buffer_desc, &vertex_buffer_data, &vertex_buffer);
 		if (FAILED(hr))
@@ -38,6 +35,8 @@ namespace Nixie
 
 		D3D11_SUBRESOURCE_DATA index_data;
 		index_data.pSysMem = indices;
+		index_data.SysMemPitch = 0;
+		index_data.SysMemSlicePitch = 0;
 
 		hr = device->CreateBuffer(&index_buffer_desc, &index_data, &index_buffer);
 		if (FAILED(hr))
@@ -54,7 +53,7 @@ namespace Nixie
 		safe_release(vertex_buffer);
 	}
 
-	void MeshBuffer::Render(unsigned long index_count)
+	void MeshBuffer::Render(unsigned long index_count, D3D11_PRIMITIVE_TOPOLOGY format)
 	{
 		ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();
 		unsigned int stride = sizeof(Vertex);
@@ -62,6 +61,9 @@ namespace Nixie
 
 		device_context->IASetVertexBuffers(0, 1, &vertex_buffer, &stride, &offset);
 		device_context->IASetIndexBuffer(index_buffer, DXGI_FORMAT_R32_UINT, 0);
+		device_context->IASetPrimitiveTopology(format);
+
 		device_context->DrawIndexed(index_count, 0, 0);
+
 	}
 }

@@ -102,6 +102,9 @@
     <ClCompile Include="src\base\math\color.cpp">
       <Filter>src\base\math</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\content\components\terrain.cpp">
+      <Filter>src\base\content\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\base\graphics\shader.h">
@@ -167,7 +170,12 @@
     <ClInclude Include="src\base\math\color.h">
       <Filter>src\base\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\math\math.h" />
+    <ClInclude Include="src\base\content\components\terrain.h">
+      <Filter>src\base\content\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base\math\math.h">
+      <Filter>src\base\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

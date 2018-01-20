@@ -10,13 +10,13 @@ namespace Nixie
 	{
 		if (LoadFile(file_path))
 		{
-			buffer->Init(index_count, vertex_count, vertices);
+			buffer->Init(vertex_count, index_count, vertices, indices);
 		}
 	}
 
 	void Mesh::OnUpdate()
 	{
-		buffer->Render(index_count);
+		buffer->Render(index_count, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
 
 	bool Mesh::LoadFile(char* file_path)
@@ -59,6 +59,10 @@ namespace Nixie
 		}
 
 		fin.close();
+
+		indices = new unsigned long[index_count];
+		for (unsigned int i = 0; i < vertex_count; i++)
+			indices[i] = i;
 
 		return true;
 	}
