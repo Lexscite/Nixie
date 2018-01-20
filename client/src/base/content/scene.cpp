@@ -9,8 +9,8 @@ namespace Nixie
 		clear_color_ = Color(100.0f, 100.0f, 100.0f);
 
 		GameObject* camera = new GameObject("Camera");
-		camera->GetTransform()->SetPosition(Vector3(0, 10, -5));
-		camera->GetTransform()->SetRotation(Quaternion(0.5f, 0, 0, 1));
+		camera->GetTransform()->SetPosition(0, 10.0f, -6.0f);
+		camera->GetTransform()->SetRotation(1.0f, 0, 0);
 		camera->AddComponent(new Camera);
 		current_camera_ = static_cast<Camera*>(camera->GetComponent("Camera"));
 		AddGameObject(camera);

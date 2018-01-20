@@ -42,9 +42,9 @@ namespace Nixie
 			GetTransform()->Translate(GetTransform()->GetBackward() * movement_speed * Time::GetDeltaTime());
 
 		if (Input::IsKeyDown(DirectX::Keyboard::Keys::D) && !Input::IsKeyDown(DirectX::Keyboard::Keys::A))
-			GetTransform()->Rotate(Quaternion(0, 3 * Time::GetDeltaTime(), 0));
+			GetTransform()->Rotate(0, 3 * Time::GetDeltaTime(), 0);
 
 		if (Input::IsKeyDown(DirectX::Keyboard::Keys::A) && !Input::IsKeyDown(DirectX::Keyboard::Keys::D))
-			GetTransform()->Rotate(Quaternion(0, -3 * Time::GetDeltaTime(), 0));
+			GetTransform()->Rotate(0, -3 * Time::GetDeltaTime(), 0);
 	}
 }

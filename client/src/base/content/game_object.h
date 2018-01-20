@@ -14,10 +14,7 @@ namespace Nixie
 	class Transform
 	{
 	public:
-		Transform() :
-			position(Vector3()),
-			rotation(Quaternion()),
-			scale(Vector3(1)) {}
+		Transform() : position(Vector3()), rotation(Quaternion()), scale(Vector3(1)) {}
 
 		Vector3 GetUp() { return Vector3::Up().Rotate(rotation); }
 		Vector3 GetDown() { return Vector3::Down().Rotate(rotation); }
@@ -30,13 +27,25 @@ namespace Nixie
 		Quaternion GetRotation() { return rotation.Normalize(); }
 		Vector3 GetScale() { return scale; }
 
+		inline void SetPosition(float x, float y, float z) { position = Vector3(x, y, z); }
 		inline void SetPosition(Vector3 v) { position = v; }
-		inline void SetRotation(Quaternion q) { rotation = q; }
+
+		inline void SetRotation(float r, float p, float y) { rotation = Quaternion(r, p, y); }
+		inline void SetRotation(Vector3 v) { rotation = Quaternion(v); }
+
+		inline void SetScale(float value) { scale = Vector3(value); }
+		inline void SetScale(float x, float y, float z) { scale = Vector3(x, y, z); }
 		inline void SetScale(Vector3 v) { scale = v; }
 
-		inline void Translate(Vector3 v) { this->position += v; }
-		inline void Rotate(Quaternion q) { this->rotation *= q; }
-		inline void Scale(Vector3 v) { this->scale += v; }
+		inline void Translate(float x, float y, float z) { position += Vector3(x, y, z); }
+		inline void Translate(Vector3 v) { position += v; }
+
+		inline void Rotate(float r, float p, float y) { rotation *= Quaternion(r, p, y); }
+		inline void Rotate(Vector3 v) { rotation *= Quaternion(v); }
+
+		inline void Scale(float value) { scale += Vector3(value); }
+		inline void Scale(float x, float y, float z) { scale += Vector3(x, y, z); }
+		inline void Scale(Vector3 v) { scale += v; }
 
 	private:
 		Vector3 position;
