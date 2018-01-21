@@ -10,7 +10,7 @@ namespace Nixie
 
 		GameObject* camera = new GameObject("Camera");
 		camera->AddComponent(new Camera);
-		camera->GetTransform()->SetPosition(0, 10.0f, -6.0f);
+		camera->GetTransform()->SetPosition(0, 12.0f, -8.0f);
 		camera->GetTransform()->SetRotation(1.0f, 0, 0);
 		current_camera_ = static_cast<Camera*>(camera->GetComponent("Camera"));
 		AddGameObject(camera);
@@ -18,13 +18,8 @@ namespace Nixie
 		GameObject* terrain = new GameObject("Terrain");
 		terrain->AddComponent(new Terrain);
 		terrain->AddComponent(new Material);
+		terrain->GetTransform()->SetPosition(-50.0f, 0, -50.0f);
 		AddGameObject(terrain);
-
-		GameObject* cube = new GameObject("Cube");
-		cube->AddComponent(new Mesh("../data/meshes/cube.txt"));
-		cube->AddComponent(new Material);
-		cube->GetTransform()->SetPosition(0, 0.5f, 5.0f);
-		AddGameObject(cube);
 
 		GameObject* player = new GameObject("Player");
 		player->AddComponent(new Mesh("../data/meshes/cube.txt"));
