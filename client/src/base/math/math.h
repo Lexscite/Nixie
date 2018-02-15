@@ -13,7 +13,7 @@ namespace Nixie
 {
 	namespace Math
 	{
-		inline float InvSqrtf(float value) { return 1 / sqrtf(value); }
+		inline float InvSqrtf(float value) { return value != 0.0f ? 1.0f / sqrtf(value) : 0.0f; }
 
 		inline float Clampf(float value, float min, float max)
 		{

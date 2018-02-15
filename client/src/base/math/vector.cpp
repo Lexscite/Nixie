@@ -6,17 +6,9 @@ namespace Nixie
 	Vector2::Vector2(float value) : x(value), y(value) {}
 	Vector2::Vector2(float x, float y) : x(x), y(y) {}
 
-	inline float Vector2::GetMagnitude() { return sqrtf(x * x + y * y); }
-
-	inline Vector2& Vector2::Normalize() { return (*this *= Math::InvSqrtf(x * x + y * y)); }
-
 	Vector3::Vector3() : x(0), y(0), z(0) {}
 	Vector3::Vector3(float value) : x(value), y(value), z(value) {}
 	Vector3::Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
-
-	inline float Vector3::GetMagnitude() { return sqrtf(x * x + y * y + z * z); }
-
-	inline Vector3& Vector3::Normalize() { return (*this *= Math::InvSqrtf(x * x + y * y + z * z)); }
 
 	Vector3 Vector3::Rotate(Quaternion q)
 	{

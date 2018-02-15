@@ -7,6 +7,11 @@
 
 namespace Nixie
 {
+	namespace Math
+	{
+		inline float InvSqrtf(float value);
+	}
+
 	class Quaternion;
 
 	class Vector2
@@ -16,14 +21,18 @@ namespace Nixie
 		Vector2(float value);
 		Vector2(float x, float y);
 
-		inline float GetMagnitude();
-		inline Vector2& Normalize();
+		//inline float GetMagnitude();
+		//inline Vector2& Normalize();
 
 		inline Vector2& operator*=(float s);
 
 	public:
 		float x, y;
 	};
+
+	//inline float Vector2::GetMagnitude() { return sqrtf(x * x + y * y); }
+
+	//inline Vector2& Vector2::Normalize() { return (*this *= Math::InvSqrtf(x * x + y * y)); }
 
 	inline Vector2& Vector2::operator*=(float s)
 	{
@@ -68,35 +77,17 @@ namespace Nixie
 		float x, y, z;
 	};
 
-	inline Vector3 Vector3::operator+(const Vector3& v) const
-	{
-		return Vector3(x + v.x, y + v.y, z + v.z);
-	}
+	inline float Vector3::GetMagnitude() { return sqrtf(x * x + y * y + z * z); }
 
-	inline Vector3 Vector3::operator-(const Vector3& v) const
-	{
-		return Vector3(x - v.x, y - v.y, z - v.z);
-	}
+	inline Vector3& Vector3::Normalize() { return (*this *= Math::InvSqrtf(x * x + y * y + z * z)); }
 
-	inline Vector3 Vector3::operator-() const
-	{
-		return Vector3(-x, -y, -z);
-	}
+	inline Vector3 Vector3::operator+(const Vector3& v) const { return Vector3(x + v.x, y + v.y, z + v.z); }
+	inline Vector3 Vector3::operator-(const Vector3& v) const { return Vector3(x - v.x, y - v.y, z - v.z); }
+	inline Vector3 Vector3::operator-() const { return Vector3(-x, -y, -z); }
+	inline Vector3 Vector3::operator*(float s) const { return Vector3(x * s, y * s, z * s); }
+	inline Vector3 Vector3::operator/(float s) const { return Vector3(x / s, y / s, z / s); }
 
-	inline Vector3 Vector3::operator*(float s) const
-	{
-		return Vector3(x * s, y * s, z * s);
-	}
-
-	inline Vector3 operator*(float s, const Vector3& v)
-	{
-		return Vector3(v.x * s, v.y * s, v.z * s);
-	}
-
-	inline Vector3 Vector3::operator/(float s) const
-	{
-		return Vector3(x / s, y / s, z / s);
-	}
+	inline Vector3 operator*(float s, const Vector3& v) { return Vector3(v.x * s, v.y * s, v.z * s); }
 
 	inline Vector3& Vector3::operator+=(const Vector3& v)
 	{
