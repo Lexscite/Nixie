@@ -185,9 +185,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="data\meshes\.gitignore">
-      <Filter>data\meshes</Filter>
-    </None>
     <None Include="data\meshes\test_level_00.blend">
       <Filter>data\meshes</Filter>
     </None>
