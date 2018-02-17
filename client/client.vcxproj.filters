@@ -105,6 +105,9 @@
     <ClCompile Include="src\base\content\components\terrain.cpp">
       <Filter>src\base\content\components</Filter>
     </ClCompile>
+    <ClCompile Include="src\base\content\transform.cpp">
+      <Filter>src\base\content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\base\graphics\shader.h">
@@ -176,9 +179,13 @@
     <ClInclude Include="src\base\math\math.h">
       <Filter>src\base\math</Filter>
     </ClInclude>
+    <ClInclude Include="src\base\content\transform.h">
+      <Filter>src\base\content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="data\meshes\test_level_00.blend" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\textures\placeholder.jpg">

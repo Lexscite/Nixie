@@ -191,7 +191,7 @@ namespace Nixie
 		D3D::GetSingleton()->GetDeviceContext()->PSSetShaderResources(0, 1, &texture);
 	}
 
-	bool Shader::Update(DirectX::SimpleMath::Matrix world_matrix, DirectX::SimpleMath::Matrix view_matrix, DirectX::SimpleMath::Matrix projection_matrix)
+	bool Shader::Update(DirectX::SimpleMath::Matrix world_matrix)
 	{
 		ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();
 
@@ -203,8 +203,8 @@ namespace Nixie
 		MatrixBuffer* matrix_buffer;
 		matrix_buffer = (MatrixBuffer*)mapped_resource.pData;
 		matrix_buffer->world_matrix = XMMatrixTranspose(world_matrix);
-		matrix_buffer->view_matrix = XMMatrixTranspose(view_matrix);
-		matrix_buffer->projection_matrix = XMMatrixTranspose(projection_matrix);
+		matrix_buffer->view_matrix = XMMatrixTranspose(App::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix());
+		matrix_buffer->projection_matrix = XMMatrixTranspose(D3D::GetSingleton()->GetProjectionMatrix());
 		device_context->Unmap(matrix_buffer_, 0);
 
 		device_context->VSSetConstantBuffers(0, 1, &matrix_buffer_);

@@ -28,6 +28,13 @@ namespace Nixie
 		player->GetTransform()->SetPosition(0, 0.5f, 0);
 		AddGameObject(player);
 
+		GameObject* test_child = new GameObject("Test Child");
+		test_child->AddComponent(new Mesh("../data/meshes/cube.txt"));
+		test_child->AddComponent(new Material);
+		test_child->GetTransform()->SetPosition(-2.0f, 0, 0);
+		test_child->GetTransform()->SetParent(player->GetTransform());
+		AddGameObject(test_child);
+
 		for each (GameObject* game_object in GetGameObjects())
 			if (!game_object->Init(this))
 				return false;

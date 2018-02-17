@@ -66,6 +66,7 @@ namespace Nixie
 		inline Vector3 operator+(const Vector3& v) const;
 		inline Vector3 operator-(const Vector3& v) const;
 		inline Vector3 operator-() const;
+		inline Vector3 operator*(const Vector3& v) const;
 		inline Vector3 operator*(float s) const;
 		inline Vector3 operator/(float s) const;
 
@@ -84,6 +85,7 @@ namespace Nixie
 	inline Vector3 Vector3::operator+(const Vector3& v) const { return Vector3(x + v.x, y + v.y, z + v.z); }
 	inline Vector3 Vector3::operator-(const Vector3& v) const { return Vector3(x - v.x, y - v.y, z - v.z); }
 	inline Vector3 Vector3::operator-() const { return Vector3(-x, -y, -z); }
+	inline Vector3 Vector3::operator*(const Vector3& v) const { return Vector3(x * v.x, y * v.y, z * v.z); }
 	inline Vector3 Vector3::operator*(float s) const { return Vector3(x * s, y * s, z * s); }
 	inline Vector3 Vector3::operator/(float s) const { return Vector3(x / s, y / s, z / s); }
 

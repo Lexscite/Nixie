@@ -40,6 +40,7 @@
     <ClCompile Include="src\base\app.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\base\time.cpp" />
+    <ClCompile Include="src\base\content\transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\base\content\components\terrain.h" />
@@ -65,6 +66,7 @@
     <ClInclude Include="src\base\utils\debug.h" />
     <ClInclude Include="src\base\utils\memory.h" />
     <ClInclude Include="src\base\time.h" />
+    <ClInclude Include="src\base\content\transform.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\shaders\default_ps.hlsl">
@@ -81,6 +83,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\meshes\test_level_00.blend" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

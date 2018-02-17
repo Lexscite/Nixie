@@ -35,7 +35,7 @@ namespace Nixie
 		void SetTexture(ID3D11ShaderResourceView* texture);
 		void Release();
 
-		bool Update(DirectX::SimpleMath::Matrix world_matrix, DirectX::SimpleMath::Matrix view_matrix, DirectX::SimpleMath::Matrix projection_matrix);
+		bool Update(DirectX::SimpleMath::Matrix world_matrix);
 
 	private:
 		bool InitVS(WCHAR* file_path);
