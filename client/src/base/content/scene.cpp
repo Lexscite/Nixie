@@ -2,24 +2,17 @@
 
 namespace Nixie
 {
-	Scene::Scene() = default;
+	Scene::Scene() :
+		clear_color(Color())
+	{}
 
 	bool Scene::Init()
 	{
-		clear_color_ = Color(100.0f, 100.0f, 100.0f);
-
-		GameObject* camera = new GameObject("Camera");
-		camera->AddComponent(new Camera);
-		camera->GetTransform()->SetPosition(0, 12.0f, -8.0f);
-		camera->GetTransform()->SetRotation(1.0f, 0, 0);
-		current_camera_ = static_cast<Camera*>(camera->GetComponent("Camera"));
-		AddGameObject(camera);
-
-		//GameObject* terrain = new GameObject("Terrain");
-		//terrain->AddComponent(new Terrain);
-		//terrain->AddComponent(new Material);
-		//terrain->GetTransform()->SetPosition(-50.0f, 0, -50.0f);
-		//AddGameObject(terrain);
+		GameObject* terrain = new GameObject("Terrain");
+		terrain->AddComponent(new Terrain);
+		terrain->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
+		terrain->GetTransform()->SetPosition(-50.0f, 0, -50.0f);
+		AddGameObject(terrain);
 
 		GameObject* ground = new GameObject("Ground");
 		ground->AddComponent(new Mesh("../data/meshes/test_level_00_ground.txt"));
@@ -45,13 +38,20 @@ namespace Nixie
 		test_child->GetTransform()->SetParent(player->GetTransform());
 		AddGameObject(test_child);
 
+		GameObject* camera_handle = new GameObject("Camer Handle");
+		camera_handle->GetTransform()->SetParent(player->GetTransform());
+
+		GameObject* camera = new GameObject("Camera");
+		camera->AddComponent(new Camera);
+		camera->GetTransform()->SetPosition(0, 12.0f, -8.0f);
+		camera->GetTransform()->SetRotation(1.0f, 0, 0);
+		camera->GetTransform()->SetParent(player->GetTransform());
+		current_camera = static_cast<Camera*>(camera->GetComponent("Camera"));
+		AddGameObject(camera);
+
 		for each (GameObject* game_object in GetGameObjects())
 			if (!game_object->Init(this))
 				return false;
-
-#ifdef _DEBUG
-		//OutputDebugMessage();
-#endif
 
 		return true;
 	}
@@ -64,7 +64,7 @@ namespace Nixie
 
 	void Scene::Update()
 	{
-		current_camera_->Render();
+		current_camera->Render();
 
 		for each (GameObject* game_object in GetGameObjects())
 			game_object->Update();
@@ -72,12 +72,12 @@ namespace Nixie
 
 	Color Scene::GetClearColor()
 	{
-		return clear_color_;
+		return clear_color;
 	}
 
 	Camera* Scene::GetCamera()
 	{
-		return current_camera_;
+		return current_camera;
 	}
 
 	bool Scene::AddGameObject(GameObject* new_game_object)
@@ -87,14 +87,14 @@ namespace Nixie
 		if (GetGameObject(name) != nullptr)
 			return false;
 
-		game_objects_.insert(std::pair<std::string, GameObject*>(name, new_game_object));
+		game_objects.insert(std::pair<std::string, GameObject*>(name, new_game_object));
 		return true;
 	}
 
 	GameObject* Scene::GetGameObject(std::string name)
 	{
-		std::map<std::string, GameObject*>::iterator result = game_objects_.find(name);
-		if (result == game_objects_.end())
+		std::map<std::string, GameObject*>::iterator result = game_objects.find(name);
+		if (result == game_objects.end())
 			return nullptr;
 		else
 			return result->second;
@@ -104,32 +104,9 @@ namespace Nixie
 	{
 		std::vector<GameObject*> result;
 
-		for (std::map<std::string, GameObject*>::iterator it = game_objects_.begin(); it != game_objects_.end(); ++it)
+		for (std::map<std::string, GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
 			result.push_back(it->second);
 
 		return result;
-	}
-
-	void Scene::OutputDebugMessage()
-	{
-		std::cout << "Scene info:" << std::endl << std::endl << "GameObjects count: " << game_objects_.size() << std::endl;
-
-		for each (GameObject* game_object in GetGameObjects())
-		{
-			std::cout << std::endl << "GameObject: " << game_object->GetName() << std::endl;
-
-			Vector3 position = game_object->GetTransform()->GetPosition();
-			std::cout << "\tPosition: " << position.x << ", " << position.y << ", " << position.z << std::endl;
-			Quaternion rotation = game_object->GetTransform()->GetRotation();
-			std::cout << "\tRotation: " << rotation.x << ", " << rotation.y << ", " << rotation.z << std::endl;
-			Vector3 scale = game_object->GetTransform()->GetScale();
-			std::cout << "\tScale: " << scale.x << ", " << scale.y << ", " << scale.z << std::endl;
-
-			std::cout << "\tComponents:" << std::endl;
-			for each (Component* component in game_object->GetComponents())
-				std::cout << "\t\t" << component->GetName() << std::endl;
-		}
-
-		std::cout << std::endl;
 	}
 }
