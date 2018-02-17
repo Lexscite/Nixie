@@ -44,13 +44,13 @@ namespace Nixie
 		void OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path);
 
 	private:
-		ID3D11VertexShader * vertex_shader_;
-		ID3D11PixelShader* pixel_shader_;
-		ID3D11InputLayout* layout_;
-		ID3D11SamplerState* sampler_state_;
+		ID3D11VertexShader * vertex_shader;
+		ID3D11PixelShader* pixel_shader;
+		ID3D11InputLayout* layout;
+		ID3D11SamplerState* sampler_state;
 
-		ID3D11Buffer* matrix_buffer_;
-		ID3D11Buffer* light_buffer_;
+		ID3D11Buffer* matrix_buffer;
+		ID3D11Buffer* light_buffer;
 	};
 }
 

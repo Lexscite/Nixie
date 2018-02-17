@@ -5,20 +5,20 @@ namespace Nixie
 {
 	Shader::Shader()
 	{
-		vertex_shader_ = nullptr;
-		pixel_shader_ = nullptr;
-		layout_ = nullptr;
-		matrix_buffer_ = nullptr;
-		sampler_state_ = nullptr;
+		vertex_shader = nullptr;
+		pixel_shader = nullptr;
+		layout = nullptr;
+		matrix_buffer = nullptr;
+		sampler_state = nullptr;
 	}
 
 	void Shader::Release()
 	{
-		safe_release(matrix_buffer_);
-		safe_release(layout_);
-		safe_release(pixel_shader_);
-		safe_release(vertex_shader_);
-		safe_release(sampler_state_);
+		safe_release(matrix_buffer);
+		safe_release(layout);
+		safe_release(pixel_shader);
+		safe_release(vertex_shader);
+		safe_release(sampler_state);
 	}
 
 	bool Shader::Init(WCHAR* vs_path, WCHAR* ps_path)
@@ -63,7 +63,7 @@ namespace Nixie
 			vertex_shader_buffer->GetBufferPointer(),
 			vertex_shader_buffer->GetBufferSize(),
 			0,
-			&vertex_shader_);
+			&vertex_shader);
 		if (FAILED(hr))
 			return false;
 
@@ -94,7 +94,7 @@ namespace Nixie
 
 		UINT num_elements = sizeof(polygon_layout) / sizeof(polygon_layout[0]);
 		hr = device->CreateInputLayout(polygon_layout, num_elements, vertex_shader_buffer->GetBufferPointer(),
-			vertex_shader_buffer->GetBufferSize(), &layout_);
+			vertex_shader_buffer->GetBufferSize(), &layout);
 		if (FAILED(hr))
 			return false;
 
@@ -108,7 +108,7 @@ namespace Nixie
 		matrix_buffer_desc.MiscFlags = 0;
 		matrix_buffer_desc.StructureByteStride = 0;
 
-		hr = device->CreateBuffer(&matrix_buffer_desc, NULL, &matrix_buffer_);
+		hr = device->CreateBuffer(&matrix_buffer_desc, NULL, &matrix_buffer);
 		if (FAILED(hr))
 			return false;
 
@@ -146,7 +146,7 @@ namespace Nixie
 			pixel_shader_buffer->GetBufferPointer(),
 			pixel_shader_buffer->GetBufferSize(),
 			NULL,
-			&pixel_shader_);
+			&pixel_shader);
 		if (FAILED(hr))
 			return false;
 
@@ -167,7 +167,7 @@ namespace Nixie
 		sampler_desc.MinLOD = 0;
 		sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
 
-		hr = device->CreateSamplerState(&sampler_desc, &sampler_state_);
+		hr = device->CreateSamplerState(&sampler_desc, &sampler_state);
 		if (FAILED(hr))
 			return false;
 
@@ -179,7 +179,7 @@ namespace Nixie
 		light_buffer_desc.MiscFlags = 0;
 		light_buffer_desc.StructureByteStride = 0;
 
-		hr = device->CreateBuffer(&light_buffer_desc, NULL, &light_buffer_);
+		hr = device->CreateBuffer(&light_buffer_desc, NULL, &light_buffer);
 		if (FAILED(hr))
 			return false;
 
@@ -196,7 +196,7 @@ namespace Nixie
 		ID3D11DeviceContext* device_context = D3D::GetSingleton()->GetDeviceContext();
 
 		D3D11_MAPPED_SUBRESOURCE mapped_resource;
-		HRESULT result = device_context->Map(matrix_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
+		HRESULT result = device_context->Map(this->matrix_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
 		if (FAILED(result))
 			return false;
 
@@ -205,12 +205,12 @@ namespace Nixie
 		matrix_buffer->world_matrix = XMMatrixTranspose(world_matrix);
 		matrix_buffer->view_matrix = XMMatrixTranspose(App::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix());
 		matrix_buffer->projection_matrix = XMMatrixTranspose(D3D::GetSingleton()->GetProjectionMatrix());
-		device_context->Unmap(matrix_buffer_, 0);
+		device_context->Unmap(this->matrix_buffer, 0);
 
-		device_context->VSSetConstantBuffers(0, 1, &matrix_buffer_);
-		device_context->VSSetShader(vertex_shader_, 0, 0);
+		device_context->VSSetConstantBuffers(0, 1, &this->matrix_buffer);
+		device_context->VSSetShader(this->vertex_shader, 0, 0);
 
-		result = device_context->Map(light_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
+		result = device_context->Map(this->light_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
 		if (FAILED(result))
 			return false;
 
@@ -219,13 +219,13 @@ namespace Nixie
 		light_buffer->ambient_color = DirectX::SimpleMath::Color(0.2f, 0.2f, 0.2f);
 		light_buffer->direction = DirectX::SimpleMath::Vector3(0, -1, 1);
 		light_buffer->padding = 0.0f;
-		device_context->Unmap(light_buffer_, 0);
+		device_context->Unmap(this->light_buffer, 0);
 
-		device_context->PSSetConstantBuffers(0, 1, &light_buffer_);
-		device_context->PSSetSamplers(0, 1, &sampler_state_);
-		device_context->PSSetShader(pixel_shader_, 0, 0);
+		device_context->PSSetConstantBuffers(0, 1, &this->light_buffer);
+		device_context->PSSetSamplers(0, 1, &sampler_state);
+		device_context->PSSetShader(pixel_shader, 0, 0);
 
-		device_context->IASetInputLayout(layout_);
+		device_context->IASetInputLayout(layout);
 
 		return true;
 	}
