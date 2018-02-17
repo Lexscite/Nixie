@@ -12,7 +12,7 @@ namespace Nixie
 	class Material : public Component
 	{
 	public:
-		Material();
+		Material(const wchar_t* texture_path);
 
 		Shader* GetShader();
 
@@ -20,9 +20,11 @@ namespace Nixie
 		virtual void OnInit() override;
 		virtual void OnUpdate() override;
 
-		bool LoadTexture(const wchar_t* file_path);
+		bool LoadTexture();
 
 	private:
+		const wchar_t* texture_path;
+
 		Shader* shader;
 		Texture* texture;
 	};

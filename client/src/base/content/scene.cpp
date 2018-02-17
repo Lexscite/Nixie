@@ -15,22 +15,32 @@ namespace Nixie
 		current_camera_ = static_cast<Camera*>(camera->GetComponent("Camera"));
 		AddGameObject(camera);
 
-		GameObject* terrain = new GameObject("Terrain");
-		terrain->AddComponent(new Terrain);
-		terrain->AddComponent(new Material);
-		terrain->GetTransform()->SetPosition(-50.0f, 0, -50.0f);
-		AddGameObject(terrain);
+		//GameObject* terrain = new GameObject("Terrain");
+		//terrain->AddComponent(new Terrain);
+		//terrain->AddComponent(new Material);
+		//terrain->GetTransform()->SetPosition(-50.0f, 0, -50.0f);
+		//AddGameObject(terrain);
+
+		GameObject* ground = new GameObject("Ground");
+		ground->AddComponent(new Mesh("../data/meshes/test_level_00_ground.txt"));
+		ground->AddComponent(new Material(L"../data/textures/grass.jpg"));
+		AddGameObject(ground);
+
+		GameObject* crates = new GameObject("Crates");
+		crates->AddComponent(new Mesh("../data/meshes/test_level_00_crates.txt"));
+		crates->AddComponent(new Material(L"../data/textures/crate.jpg"));
+		AddGameObject(crates);
 
 		GameObject* player = new GameObject("Player");
 		player->AddComponent(new Mesh("../data/meshes/cube.txt"));
-		player->AddComponent(new Material);
+		player->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
 		player->AddComponent(new Movement);
 		player->GetTransform()->SetPosition(0, 0.5f, 0);
 		AddGameObject(player);
 
 		GameObject* test_child = new GameObject("Test Child");
 		test_child->AddComponent(new Mesh("../data/meshes/cube.txt"));
-		test_child->AddComponent(new Material);
+		test_child->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
 		test_child->GetTransform()->SetPosition(-2.0f, 0, 0);
 		test_child->GetTransform()->SetParent(player->GetTransform());
 		AddGameObject(test_child);
@@ -40,7 +50,7 @@ namespace Nixie
 				return false;
 
 #ifdef _DEBUG
-		OutputDebugMessage();
+		//OutputDebugMessage();
 #endif
 
 		return true;
