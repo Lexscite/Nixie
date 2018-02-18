@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 typedef struct
 {
@@ -13,23 +14,29 @@ typedef struct
 	int nIndex1, nIndex2, nIndex3;
 } FaceType;
 
+bool Start();
 void GetModelFilename(char*);
 bool ReadFileCounts(char*, int&, int&, int&, int&);
 bool LoadDataStructures(char*, int, int, int, int);
 
 int main()
 {
+	if (Start())
+		return -1;
+}
+
+bool Start()
+{
 	bool result;
 	char filename[256];
 	int vertexCount, textureCount, normalCount, faceCount;
-	char garbage;
 
 	GetModelFilename(filename);
 
 	result = ReadFileCounts(filename, vertexCount, textureCount, normalCount, faceCount);
 	if (!result)
 	{
-		return -1;
+		return false;
 	}
 
 	std::cout << std::endl;
@@ -41,14 +48,14 @@ int main()
 	result = LoadDataStructures(filename, vertexCount, textureCount, normalCount, faceCount);
 	if (!result)
 	{
-		return -1;
+		return false;
 	}
 
-	std::cout << "\nFile has been converted." << std::endl;
-	std::cout << "\nDo you wish to exit (y/n)? ";
-	std::cin >> garbage;
+	std::cout << "\nFile has been converted.\n" << std::endl;
 
-	return 0;
+	Start();
+
+	return true;
 }
 
 void GetModelFilename(char* filename)
@@ -126,7 +133,6 @@ bool ReadFileCounts(char* filename, int& vertexCount, int& textureCount, int& no
 
 	return true;
 }
-
 
 bool LoadDataStructures(char* filename, int vertexCount, int textureCount, int normalCount, int faceCount)
 {
@@ -211,9 +217,54 @@ bool LoadDataStructures(char* filename, int vertexCount, int textureCount, int n
 			fin.get(input);
 			if (input == ' ')
 			{
-				fin >> faces[faceIndex].vIndex3 >> input2 >> faces[faceIndex].tIndex3 >> input2 >> faces[faceIndex].nIndex3
-					>> faces[faceIndex].vIndex2 >> input2 >> faces[faceIndex].tIndex2 >> input2 >> faces[faceIndex].nIndex2
-					>> faces[faceIndex].vIndex1 >> input2 >> faces[faceIndex].tIndex1 >> input2 >> faces[faceIndex].nIndex1;
+				fin >> faces[faceIndex].vIndex3
+					>> input2;
+
+				if ((char)fin.peek() == '/')
+				{
+					faces[faceIndex].tIndex3 = 0;
+					fin >> input2;
+				}
+				else
+				{
+					fin >> faces[faceIndex].tIndex3;
+					fin >> input2;
+				}
+
+				fin >> faces[faceIndex].nIndex3;
+					
+				fin >> faces[faceIndex].vIndex2
+					>> input2;
+
+				if ((char)fin.peek() == '/')
+				{
+					faces[faceIndex].tIndex2 = 0;
+					fin >> input2;
+				}
+				else
+				{
+					fin >> faces[faceIndex].tIndex2;
+					fin >> input2;
+				}
+
+				fin >> faces[faceIndex].nIndex2;
+
+				fin >> faces[faceIndex].vIndex1
+					>> input2;
+
+				if ((char)fin.peek() == '/')
+				{
+					faces[faceIndex].tIndex1 = 0;
+					fin >> input2;
+				}
+				else
+				{
+					fin >> faces[faceIndex].tIndex1;
+					fin >> input2;
+				}
+
+				fin >> faces[faceIndex].nIndex1;
+
 				faceIndex++;
 			}
 		}
@@ -228,14 +279,14 @@ bool LoadDataStructures(char* filename, int vertexCount, int textureCount, int n
 
 	fin.close();
 
-	fout.open("model.txt");
+	fout.open(std::string(filename).substr(0, std::string(filename).find_last_of('.')) + ".txt");
 
 	fout << "Vertex Count: " << (faceCount * 3) << std::endl;
 	fout << std::endl;
 	fout << "Data:" << std::endl;
 	fout << std::endl;
 
-	for (int i = 0; i<faceIndex; i++)
+	for (int i = 0; i < faceIndex; i++)
 	{
 		vIndex = faces[i].vIndex1 - 1;
 		tIndex = faces[i].tIndex1 - 1;
