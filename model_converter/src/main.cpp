@@ -53,7 +53,8 @@ bool Start()
 
 	std::cout << "\nFile has been converted.\n" << std::endl;
 
-	Start();
+	if (Start())
+		return false;
 
 	return true;
 }
