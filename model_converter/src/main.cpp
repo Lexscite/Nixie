@@ -23,6 +23,8 @@ int main()
 {
 	if (Start())
 		return -1;
+
+	return 0;
 }
 
 bool Start()
