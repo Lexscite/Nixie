@@ -8,11 +8,11 @@ namespace Nixie
 
 	bool Scene::Init()
 	{
-		//GameObject* terrain = new GameObject("Terrain");
-		//terrain->AddComponent(new Terrain);
-		//terrain->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
-		//terrain->GetTransform()->SetPosition(-50.0f, 0, -50.0f);
-		//AddGameObject(terrain);
+		GameObject* terrain = new GameObject("Terrain");
+		terrain->AddComponent(new Terrain);
+		terrain->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
+		terrain->GetTransform()->SetPosition(-50.0f, 0, -50.0f);
+		AddGameObject(terrain);
 
 		GameObject* ground = new GameObject("Ground");
 		ground->AddComponent(new Mesh("../data/meshes/test_level_00_ground.txt"));
@@ -23,6 +23,12 @@ namespace Nixie
 		crates->AddComponent(new Mesh("../data/meshes/test_level_00_crates.txt"));
 		crates->AddComponent(new Material(L"../data/textures/crate.jpg"));
 		AddGameObject(crates);
+
+		GameObject* sphere = new GameObject("Sphere");
+		sphere->AddComponent(new Mesh("../data/meshes/sphere.txt"));
+		sphere->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
+		sphere->GetTransform()->SetPosition(0, 8.0f, 0);
+		AddGameObject(sphere);
 
 		GameObject* player = new GameObject("Player");
 		player->AddComponent(new Mesh("../data/meshes/cube.txt"));
