@@ -30,6 +30,18 @@ namespace Nixie
 		sphere->GetTransform()->SetPosition(0, 8.0f, 0);
 		AddGameObject(sphere);
 
+		GameObject* sphere_smoothed = new GameObject("Sphere Smoothed");
+		sphere_smoothed->AddComponent(new Mesh("../data/meshes/sphere_smoothed.txt"));
+		sphere_smoothed->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
+		sphere_smoothed->GetTransform()->SetPosition(-2.0f, 8.0f, 0);
+		AddGameObject(sphere_smoothed);
+
+		GameObject* cylinder = new GameObject("Cylinder");
+		cylinder->AddComponent(new Mesh("../data/meshes/cylinder.txt"));
+		cylinder->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
+		cylinder->GetTransform()->SetPosition(2.0f, 8.0f, 0);
+		AddGameObject(cylinder);
+
 		GameObject* player = new GameObject("Player");
 		player->AddComponent(new Mesh("../data/meshes/cube.txt"));
 		player->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
