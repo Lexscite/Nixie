@@ -45,9 +45,6 @@
     <ClCompile Include="src\engine\content\components\camera.cpp">
       <Filter>src\engine\content\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\content\components\material.cpp">
-      <Filter>src\engine\content\components</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\content\component.cpp">
       <Filter>src\engine\content</Filter>
     </ClCompile>
@@ -102,12 +99,12 @@
     <ClCompile Include="src\engine\content\components\model.cpp">
       <Filter>src\engine\content\components</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\content\components\material.cpp">
+      <Filter>src\engine\content\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\content\components\camera.h">
-      <Filter>src\engine\content\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\content\components\material.h">
       <Filter>src\engine\content\components</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\content\component.h">
@@ -165,6 +162,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\content\components\model.h">
+      <Filter>src\engine\content\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\content\components\material.h">
       <Filter>src\engine\content\components</Filter>
     </ClInclude>
   </ItemGroup>

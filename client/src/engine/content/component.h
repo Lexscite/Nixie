@@ -1,5 +1,5 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef NIXIE_COMPONENT_H_
+#define NIXIE_COMPONENT_H_
 
 #pragma once
 
@@ -10,28 +10,29 @@
 
 #include "game_object.h"
 
+
 namespace Nixie
 {
 	class Transform;
 	class GameObject;
 
-	class Component
+	class Component : public std::enable_shared_from_this<Component>
 	{
 	public:
-		virtual void Init(GameObject* game_object) final;
+		virtual void Init(std::shared_ptr<GameObject> game_object) final;
 		virtual void Update();
 
 		virtual std::string GetName() final;
-		virtual GameObject* GetGameObject() final;
+		virtual std::shared_ptr<GameObject> GetGameObject() final;
 
-		Transform* GetTransform();
+		std::shared_ptr<Transform> GetTransform();
 
 	private:
 		virtual void OnInit();
 		virtual void OnUpdate();
 
 	private:
-		GameObject* game_object;
+		std::shared_ptr<GameObject> game_object_;
 	};
 }
 

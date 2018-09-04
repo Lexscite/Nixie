@@ -21,7 +21,7 @@ namespace Nixie
 
 		HWND GetHwnd();
 		D3D* GetDirectX();
-		Scene* GetScene();
+		std::shared_ptr<Scene> GetScene();
 
 	private:
 		App();
@@ -32,7 +32,7 @@ namespace Nixie
 
 		void CalculateFrameStats();
 
-		bool LoadScene(Scene* scene);
+		bool LoadScene(std::shared_ptr<Scene> scene);
 
 	private:
 		static App* singleton_;
@@ -52,7 +52,7 @@ namespace Nixie
 		D3D* directx_;
 		Input* input_;
 
-		Scene* scene_;
+		std::shared_ptr<Scene> scene_;
 	};
 }
 

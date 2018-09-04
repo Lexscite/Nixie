@@ -5,7 +5,7 @@
 
 namespace Nixie
 {
-	Mesh::Mesh(char* file_path) :
+	Mesh::Mesh(std::string file_path) :
 		file_path(file_path),
 		buffer(new MeshBuffer) {}
 
@@ -25,7 +25,7 @@ namespace Nixie
 	}
 
 
-	bool Mesh::LoadFile(char* file_path)
+	bool Mesh::LoadFile(std::string file_path)
 	{
 		std::ifstream fin;
 		fin.open(file_path);

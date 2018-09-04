@@ -2,6 +2,7 @@
 
 #include "game_object.h"
 
+
 namespace Nixie
 {
 	GameObject::GameObject(std::string name) : 
@@ -10,56 +11,78 @@ namespace Nixie
 		parent(nullptr),
 		transform(new Transform) {}
 
-	bool GameObject::Init(Scene* scene)
+
+	bool GameObject::Init(std::shared_ptr<Scene> scene)
 	{
 		this->scene = scene;
-		for each (Component* component in GetComponents())
-			component->Init(this);
+		for (auto component : GetComponents())
+		{
+			component->Init(shared_from_this());
+		}
 
 		return true;
 	}
 
+
 	void GameObject::Update()
 	{
-		for each (Component* component in GetComponents())
+		for (auto& component : GetComponents())
+		{
 			component->Update();
+		}
 	}
 
-	bool GameObject::AddComponent(Component* new_component)
+
+	bool GameObject::AddComponent(std::shared_ptr<Component> new_component)
 	{
 		std::string name = new_component->GetName();
 
 		if (GetComponent(name) != nullptr)
+		{
 			return false;
+		}
 
-		components.insert(std::pair<std::string, Component*>(name, new_component));
+		components.insert(std::pair<std::string, std::shared_ptr<Component>>(name, new_component));
+
 		return true;
 	}
 
-	Component* GameObject::GetComponent(std::string name)
+
+	std::shared_ptr<Component> GameObject::GetComponent(std::string name)
 	{
-		std::map<std::string, Component*>::iterator result = components.find(name);
+		auto result = components.find(name);
+		
 		if (result == components.end())
+		{
 			return nullptr;
+		}
 		else
+		{
 			return result->second;
+		}
 	}
 
-	std::vector<Component*> GameObject::GetComponents()
+
+	std::vector<std::shared_ptr<Component>> GameObject::GetComponents()
 	{
-		std::vector<Component*> result;
-		for (std::map<std::string, Component*>::iterator it = components.begin(); it != components.end(); ++it)
-			result.push_back(it->second);
+		std::vector<std::shared_ptr<Component>> result;
+
+		for (auto& it : components)
+		{
+			result.push_back(it.second);
+		}
 
 		return result;
 	}
+
 
 	std::string GameObject::GetName()
 	{
 		return name;
 	}
 
-	Transform* GameObject::GetTransform()
+
+	std::shared_ptr<Transform> GameObject::GetTransform()
 	{
 		return transform;
 	}

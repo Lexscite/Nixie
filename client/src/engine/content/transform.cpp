@@ -24,50 +24,50 @@ namespace Nixie
 	}
 
 
-	Transform* Transform::GetParent()
+	std::shared_ptr<Transform> Transform::GetParent()
 	{
-		return this->parent;
+		return this->parent_;
 	}
 
 
-	void Transform::SetParent(Transform* parent)
+	void Transform::SetParent(std::shared_ptr<Transform> parent)
 	{
-		this->parent = parent;
+		this->parent_ = parent;
 	}
 
 
 	Vector3 Transform::GetPosition()
 	{
-		return parent ? parent->GetPosition() + position : position;
+		return parent_ ? parent_->GetPosition() + position_ : position_;
 	}
 
 
 	Vector3 Transform::GetLocalPosition()
 	{
-		return position;
+		return position_;
 	}
 
 
 	Quaternion Transform::GetRotation()
 	{
-		return parent ? parent->GetRotation() * rotation : rotation;
+		return parent_ ? parent_->GetRotation() * rotation_ : rotation_;
 	}
 
 
 	Quaternion Transform::GetLocalRotation()
 	{
-		return rotation;
+		return rotation_;
 	}
 
 
 	Vector3 Transform::GetScale()
 	{
-		return parent ? parent->GetScale() * scale : scale;
+		return parent_ ? parent_->GetScale() * scale_ : scale_;
 	}
 
 
 	Vector3 Transform::GetLocalScale()
 	{
-		return scale;
+		return scale_;
 	}
 }

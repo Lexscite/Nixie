@@ -1,37 +1,38 @@
-#ifndef GAMEOBJECT_H
-#define GAMEOBJECT_H
+#ifndef NIXIE_GAME_OBJECT_H_
+#define NIXIE_GAME_OBJECT_H_
 
 #pragma once
 
 #include "transform.h"
 #include "component.h"
 
+
 namespace Nixie
 {
 	class Scene;
 	class Component;
 
-	class GameObject final
+	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
 		GameObject(std::string name);
 
-		bool Init(Scene* scene);
+		bool Init(std::shared_ptr<Scene> scene);
 		void Update();
 
-		bool AddComponent(Component* new_component);
-		Component* GetComponent(std::string name);
-		std::vector<Component*> GetComponents();
+		bool AddComponent(std::shared_ptr<Component> new_component);
+		std::shared_ptr<Component> GetComponent(std::string name);
+		std::vector<std::shared_ptr<Component>> GetComponents();
 
 		std::string GetName();
-		Transform* GetTransform();
+		std::shared_ptr<Transform> GetTransform();
 
 	private:
 		std::string name;
-		Scene* scene;
-		GameObject* parent;
-		Transform* transform;
-		std::map<std::string, Component*> components;
+		std::shared_ptr<Scene> scene;
+		std::shared_ptr<GameObject> parent;
+		std::shared_ptr<Transform> transform;
+		std::map<std::string, std::shared_ptr<Component>> components;
 	};
 }
 

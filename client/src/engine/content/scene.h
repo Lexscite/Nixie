@@ -8,7 +8,7 @@
 
 namespace Nixie
 {
-	class Scene final
+	class Scene final : public std::enable_shared_from_this<Scene>
 	{
 	public:
 		Scene();
@@ -17,16 +17,16 @@ namespace Nixie
 		void Update();
 
 		Color GetClearColor();
-		Camera* GetCamera();
+		std::shared_ptr<Camera> GetCamera();
 
-		bool AddGameObject(GameObject* new_game_object);
-		GameObject* GetGameObject(std::string name);
-		std::vector<GameObject*> GetGameObjects();
+		bool AddGameObject(std::shared_ptr<GameObject> new_game_object);
+		std::shared_ptr<GameObject> GetGameObject(std::string name);
+		std::vector<std::shared_ptr<GameObject>> GetGameObjects();
 
 	private:
 		Color clear_color;
-		Camera* current_camera;
-		std::map<std::string, GameObject*> game_objects;
+		std::shared_ptr<Camera> current_camera;
+		std::map<std::string, std::shared_ptr<GameObject>> game_objects;
 	};
 }
 

@@ -14,32 +14,36 @@ namespace Nixie
 
 	bool Scene::Init()
 	{
-		GameObject* ground = new GameObject("Ground");
-		ground->AddComponent(new Mesh("../data/meshes/test_level_00_ground.txt"));
-		ground->AddComponent(new Material(L"../data/textures/grass.jpg"));
+		std::shared_ptr<GameObject> ground = std::make_shared<GameObject>("Ground");
+		ground->AddComponent(std::make_shared<Mesh>("../data/meshes/test_level_00_ground.txt"));
+		ground->AddComponent(std::make_shared<Material>(L"../data/textures/grass.jpg"));
 		AddGameObject(ground);
 
-		GameObject* crates = new GameObject("Crates");
-		crates->AddComponent(new Mesh("../data/meshes/test_level_00_crates.txt"));
-		crates->AddComponent(new Material(L"../data/textures/crate.jpg"));
+		std::shared_ptr<GameObject> crates = std::make_shared<GameObject>("Crates");
+		crates->AddComponent(std::make_shared<Mesh>("../data/meshes/test_level_00_crates.txt"));
+		crates->AddComponent(std::make_shared<Material>(L"../data/textures/crate.jpg"));
 		AddGameObject(crates);
 
-		GameObject* box = new GameObject("Box");
-		box->AddComponent(new Mesh("../data/meshes/cube.txt"));
-		box->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
+		std::shared_ptr<GameObject> box = std::make_shared<GameObject>("Box");
+		box->AddComponent(std::make_shared<Mesh>("../data/meshes/cube.txt"));
+		box->AddComponent(std::make_shared<Material>(L"../data/textures/placeholder.jpg"));
 		box->GetTransform()->SetPosition(0, 0.5f, 0);
 		AddGameObject(box);
 
-		GameObject* camera = new GameObject("Camera");
-		camera->AddComponent(new Camera);
+		std::shared_ptr<GameObject> camera = std::make_shared<GameObject>("Camera");
+		camera->AddComponent(std::make_shared<Camera>());
 		camera->GetTransform()->SetPosition(0, 12.0f, -8.0f);
 		camera->GetTransform()->SetRotation(1.0f, 0, 0);
-		current_camera = static_cast<Camera*>(camera->GetComponent("Camera"));
+		current_camera = std::static_pointer_cast<Camera>(camera->GetComponent("Camera"));
 		AddGameObject(camera);
 
-		for each (GameObject* game_object in GetGameObjects())
-			if (!game_object->Init(this))
+		for (auto& game_object : GetGameObjects())
+		{
+			if (!game_object->Init(shared_from_this()))
+			{
 				return false;
+			}
+		}
 
 		return true;
 	}
@@ -49,8 +53,10 @@ namespace Nixie
 	{
 		current_camera->Render();
 
-		for each (GameObject* game_object in GetGameObjects())
+		for (auto& game_object : GetGameObjects())
+		{
 			game_object->Update();
+		}
 	}
 
 
@@ -60,40 +66,50 @@ namespace Nixie
 	}
 
 
-	Camera* Scene::GetCamera()
+	std::shared_ptr<Camera> Scene::GetCamera()
 	{
 		return current_camera;
 	}
 
 
-	bool Scene::AddGameObject(GameObject* new_game_object)
+	bool Scene::AddGameObject(std::shared_ptr<GameObject> new_game_object)
 	{
 		std::string name = new_game_object->GetName();
 
 		if (GetGameObject(name) != nullptr)
+		{
 			return false;
+		}
 
-		game_objects.insert(std::pair<std::string, GameObject*>(name, new_game_object));
+		game_objects.insert(std::pair<std::string, std::shared_ptr<GameObject>>(name, new_game_object));
+
 		return true;
 	}
 
 
-	GameObject* Scene::GetGameObject(std::string name)
+	std::shared_ptr<GameObject> Scene::GetGameObject(std::string name)
 	{
-		std::map<std::string, GameObject*>::iterator result = game_objects.find(name);
+		auto result = game_objects.find(name);
+
 		if (result == game_objects.end())
+		{
 			return nullptr;
+		}
 		else
+		{
 			return result->second;
+		}
 	}
 
 
-	std::vector<GameObject*> Scene::GetGameObjects()
+	std::vector<std::shared_ptr<GameObject>> Scene::GetGameObjects()
 	{
-		std::vector<GameObject*> result;
+		std::vector<std::shared_ptr<GameObject>> result;
 
-		for (std::map<std::string, GameObject*>::iterator it = game_objects.begin(); it != game_objects.end(); ++it)
-			result.push_back(it->second);
+		for (auto& it : game_objects)
+		{
+			result.push_back(it.second);
+		}
 
 		return result;
 	}

@@ -70,7 +70,7 @@ namespace Nixie
 		//	if (CConnection::GetSingleton()->SendPacketType(PacketType::HelloMessage))
 		//		CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
 
-		if (!LoadScene(new Scene))
+		if (!LoadScene(std::make_shared<Scene>()))
 			return false;
 
 		return true;
@@ -239,7 +239,7 @@ namespace Nixie
 		return directx_;
 	}
 
-	Scene* App::GetScene()
+	std::shared_ptr<Scene> App::GetScene()
 	{
 		return scene_;
 	}
@@ -265,7 +265,7 @@ namespace Nixie
 		}
 	}
 
-	bool App::LoadScene(Scene* scene)
+	bool App::LoadScene(std::shared_ptr<Scene> scene)
 	{
 		if (!scene->Init())
 			return false;
