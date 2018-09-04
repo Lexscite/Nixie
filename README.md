@@ -1,4 +1,7 @@
 # Nixie
 Simple DirectX11 client-server game engine
 
-Readme will be provided here soon...
+## Instalation
+```
+git clone --recursive https://github.com/lexscite/nixie
+```
