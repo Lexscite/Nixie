@@ -23,6 +23,7 @@
     <ProjectGuid>{8E428987-DAA4-4F72-B541-69025A5E6EB9}</ProjectGuid>
     <RootNamespace>modelconverter</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectName>editor</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

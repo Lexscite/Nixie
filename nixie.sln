@@ -7,7 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "client", "client\Client.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "server", "server\Server.vcxproj", "{14EBA9EB-996A-40EC-AEC3-C4217EC03975}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "model_converter", "model_converter\model_converter.vcxproj", "{8E428987-DAA4-4F72-B541-69025A5E6EB9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "editor", "editor\editor.vcxproj", "{8E428987-DAA4-4F72-B541-69025A5E6EB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
