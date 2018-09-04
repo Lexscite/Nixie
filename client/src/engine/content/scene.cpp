@@ -76,12 +76,6 @@ namespace Nixie
 		return true;
 	}
 
-	void Scene::Release()
-	{
-		for each (GameObject* game_object in GetGameObjects())
-			safe_release(game_object);
-	}
-
 	void Scene::Update()
 	{
 		current_camera->Render();

@@ -27,7 +27,10 @@ namespace Nixie
 	void Texture::Release()
 	{
 		if (texture_view_)
-			safe_release(texture_view_);
+		{
+			texture_view_->Release();
+			texture_view_ = nullptr;
+		}
 	}
 
 	ID3D11ShaderResourceView* Texture::GetTextureView()

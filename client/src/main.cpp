@@ -50,7 +50,11 @@ int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, _
 	if (app->Init(hInstance))
 		exit_code = app->Run();
 
-	safe_release(app);
+	if (app)
+	{
+		delete app;
+		app = nullptr;
+	}
 
 #ifdef _DEBUG
 	std::cout.rdbuf(cout_buffer);

@@ -201,10 +201,29 @@ namespace Nixie
 			return false;
 		}
 
-		safe_delete_arr(display_mode_list);
-		safe_release(adapter_output);
-		safe_release(adapter);
-		safe_release(factory);
+		if (display_mode_list)
+		{
+			delete[] display_mode_list;
+			display_mode_list = nullptr;
+		}
+
+		if (adapter_output)
+		{
+			adapter_output->Release();
+			adapter_output = nullptr;
+		}
+
+		if (adapter)
+		{
+			adapter->Release();
+			adapter = nullptr;
+		}
+
+		if (factory)
+		{
+			factory->Release();
+			factory = nullptr;
+		}
 
 		ID3D11Texture2D* back_buffer;
 		hr = swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&back_buffer);
@@ -248,7 +267,11 @@ namespace Nixie
 			return false;
 		}
 
-		safe_release(back_buffer);
+		if (back_buffer)
+		{
+			back_buffer->Release();
+			back_buffer = nullptr;
+		}
 
 		D3D11_TEXTURE2D_DESC depth_buffer_desc;
 		ZeroMemory(&depth_buffer_desc, sizeof(depth_buffer_desc));
@@ -372,31 +395,57 @@ namespace Nixie
 	void D3D::Release()
 	{
 		if (swap_chain)
+		{
 			swap_chain->SetFullscreenState(false, NULL);
+		}
 
 		if (rasterizer_state)
-			safe_release(rasterizer_state);
+		{
+			rasterizer_state->Release();
+			rasterizer_state = nullptr;
+		}
 
 		if (depth_stencil_view)
-			safe_release(depth_stencil_view);
+		{
+			depth_stencil_view->Release();
+			depth_stencil_view = nullptr;
+		}
 
 		if (depth_stencil_state)
-			safe_release(depth_stencil_state);
+		{
+			depth_stencil_state->Release();
+			depth_stencil_state = nullptr;
+		}
 
 		if (depth_stencil_buffer)
-			safe_release(depth_stencil_buffer);
+		{
+			depth_stencil_buffer->Release();
+			depth_stencil_buffer = nullptr;
+		}
 
 		if (render_target_view)
-			safe_release(render_target_view);
+		{
+			render_target_view->Release();
+			render_target_view = nullptr;
+		}
 
 		if (device_context)
-			safe_release(device_context);
+		{
+			device_context->Release();
+			device_context = nullptr;
+		}
 
 		if (device)
-			safe_release(device);
+		{
+			device->Release();
+			device = nullptr;
+		}
 
 		if (swap_chain)
-			safe_release(swap_chain);
+		{
+			swap_chain->Release();
+			swap_chain = nullptr;
+		}
 	}
 
 	void D3D::BeginScene(Color clear_color)

@@ -16,11 +16,35 @@ namespace Nixie
 
 	void Shader::Release()
 	{
-		safe_release(matrix_buffer);
-		safe_release(layout);
-		safe_release(pixel_shader);
-		safe_release(vertex_shader);
-		safe_release(sampler_state);
+		if (matrix_buffer)
+		{
+			matrix_buffer->Release();
+			matrix_buffer = nullptr;
+		}
+
+		if (layout)
+		{
+			layout->Release();
+			layout = nullptr;
+		}
+		
+		if (pixel_shader)
+		{
+			pixel_shader->Release();
+			pixel_shader = nullptr;
+		}
+
+		if (vertex_shader)
+		{
+			vertex_shader->Release();
+			vertex_shader = nullptr;
+		}
+
+		if (sampler_state)
+		{
+			sampler_state->Release();
+			sampler_state = nullptr;
+		}
 	}
 
 	bool Shader::Init(WCHAR* vs_path, WCHAR* ps_path)
@@ -100,7 +124,11 @@ namespace Nixie
 		if (FAILED(hr))
 			return false;
 
-		safe_release(vertex_shader_buffer);
+		if (vertex_shader_buffer)
+		{
+			vertex_shader_buffer->Release();
+			vertex_shader_buffer = nullptr;
+		}
 
 		D3D11_BUFFER_DESC matrix_buffer_desc;
 		matrix_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
@@ -152,7 +180,11 @@ namespace Nixie
 		if (FAILED(hr))
 			return false;
 
-		safe_release(pixel_shader_buffer);
+		if (pixel_shader_buffer)
+		{
+			pixel_shader_buffer->Release();
+			pixel_shader_buffer = nullptr;
+		}
 
 		D3D11_SAMPLER_DESC sampler_desc;
 		sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -240,7 +272,11 @@ namespace Nixie
 			fout << static_cast<char*>(error_message->GetBufferPointer())[i];
 		fout.close();
 
-		safe_release(error_message);
+		if (error_message)
+		{
+			error_message->Release();
+			error_message = nullptr;
+		}
 
 		MessageBox(App::GetSingleton()->GetHwnd(), "Error compiling shader.  Check shader-error.txt for message.", (LPCSTR)shader_path, MB_OK);
 	}

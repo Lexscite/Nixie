@@ -19,7 +19,6 @@ namespace Nixie
 		Scene();
 
 		bool Init();
-		void Release();
 		void Update();
 
 		Color GetClearColor();

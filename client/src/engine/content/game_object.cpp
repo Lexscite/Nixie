@@ -25,12 +25,6 @@ namespace Nixie
 			component->Update();
 	}
 
-	void GameObject::Release()
-	{
-		for each (Component* component in GetComponents())
-			safe_delete(component);
-	}
-
 	bool GameObject::AddComponent(Component* new_component)
 	{
 		std::string name = new_component->GetName();

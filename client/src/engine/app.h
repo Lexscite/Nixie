@@ -15,7 +15,6 @@ namespace Nixie
 		static App* GetSingleton();
 
 		bool Init(HINSTANCE instance);
-		void Release();
 		int Run();
 
 		LRESULT MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param);

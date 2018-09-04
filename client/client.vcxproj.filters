@@ -25,9 +25,6 @@
     <Filter Include="src\engine\network">
       <UniqueIdentifier>{814b1610-46d2-4acc-bdce-8d99f876b613}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\engine\utils">
-      <UniqueIdentifier>{41122b05-520d-4e05-b6db-b68e504debc9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\engine\content">
       <UniqueIdentifier>{2c7da10d-620c-4007-af17-37c1818aead8}</UniqueIdentifier>
     </Filter>
@@ -108,7 +105,7 @@
     <ClCompile Include="src\engine\math\vector.cpp">
       <Filter>src\engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -161,9 +158,6 @@
     <ClInclude Include="src\engine\network\packet.h">
       <Filter>src\engine\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\utils\memory.h">
-      <Filter>src\engine\utils</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\app.h">
       <Filter>src\engine</Filter>
     </ClInclude>
@@ -182,7 +176,7 @@
     <ClInclude Include="src\engine\math\vector.h">
       <Filter>src\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="src\stdafx.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

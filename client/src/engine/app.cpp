@@ -34,20 +34,6 @@ namespace Nixie
 		return singleton_;
 	}
 
-	void App::Release()
-	{
-		if (window_ != nullptr)
-			DestroyWindow(window_);
-
-		safe_release(input_);
-		safe_release(directx_);
-		//safe_release(CConnection::GetSingleton());
-
-		safe_delete(time_);
-
-		safe_release(scene_);
-	}
-
 	bool App::Init(HINSTANCE instance)
 	{
 		input_ = Input::GetSingleton();

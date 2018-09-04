@@ -44,15 +44,28 @@ namespace Nixie
 		if (FAILED(hr))
 			return false;
 
-		safe_delete_arr(indices);
+		if (indices)
+		{
+			delete[] indices;
+			indices = nullptr;
+		}
 
 		return true;
 	}
 
 	void MeshBuffer::Release()
 	{
-		safe_release(index_buffer);
-		safe_release(vertex_buffer);
+		if (index_buffer)
+		{
+			index_buffer->Release();
+			index_buffer = nullptr;
+		}
+
+		if (vertex_buffer)
+		{
+			vertex_buffer->Release();
+			vertex_buffer = nullptr;
+		}
 	}
 
 	void MeshBuffer::Render(unsigned long index_count, D3D11_PRIMITIVE_TOPOLOGY format)

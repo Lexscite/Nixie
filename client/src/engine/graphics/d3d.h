@@ -13,8 +13,6 @@
 #include "SimpleMath.h"
 #include "WICTextureLoader.h"
 
-#include "../utils/memory.h"
-#include "../utils/debug.h"
 #include "../math/math.h"
 
 namespace Nixie

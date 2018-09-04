@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include "../utils/memory.h"
 #include "transform.h"
 #include "component.h"
 
@@ -19,7 +18,6 @@ namespace Nixie
 
 		bool Init(Scene* scene);
 		void Update();
-		void Release();
 
 		bool AddComponent(Component* new_component);
 		Component* GetComponent(std::string name);
