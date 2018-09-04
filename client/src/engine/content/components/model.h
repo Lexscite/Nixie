@@ -1,10 +1,11 @@
-#ifndef MESH_H
-#define MESH_H
+#ifndef NIXIE_MODEL_H_
+#define NIXIE_MODEL_H_
 
 #pragma once
 
 #include "../component.h"
 #include "../../graphics/mesh_buffer.h"
+
 
 namespace Nixie
 {

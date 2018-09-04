@@ -19,18 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\content\components\terrain.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\engine\content\components\movement.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\engine\input\input.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
@@ -73,7 +61,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../../stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\engine\content\components\mesh.cpp">
+    <ClCompile Include="src\engine\content\components\model.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../../stdafx.h</PrecompiledHeaderFile>
@@ -163,8 +151,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\content\components\terrain.h" />
-    <ClInclude Include="src\engine\content\components\movement.h" />
     <ClInclude Include="src\engine\input\input.h" />
     <ClInclude Include="src\engine\graphics\mesh_buffer.h" />
     <ClInclude Include="src\engine\content\component.h" />
@@ -172,7 +158,7 @@
     <ClInclude Include="src\engine\content\components\camera.h" />
     <ClInclude Include="src\engine\graphics\shader.h" />
     <ClInclude Include="src\engine\content\components\material.h" />
-    <ClInclude Include="src\engine\content\components\mesh.h" />
+    <ClInclude Include="src\engine\content\components\model.h" />
     <ClInclude Include="src\engine\content\scene.h" />
     <ClInclude Include="src\engine\graphics\d3d.h" />
     <ClInclude Include="src\engine\graphics\texture.h" />

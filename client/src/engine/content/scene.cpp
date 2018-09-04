@@ -1,6 +1,9 @@
 #include "../../stdafx.h"
 
 #include "scene.h"
+#include "components/model.h"
+#include "components/material.h"
+
 
 namespace Nixie
 {
@@ -8,14 +11,9 @@ namespace Nixie
 		clear_color(Color())
 	{}
 
+
 	bool Scene::Init()
 	{
-		GameObject* terrain = new GameObject("Terrain");
-		terrain->AddComponent(new Terrain);
-		terrain->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
-		terrain->GetTransform()->SetPosition(-50.0f, 0, -50.0f);
-		AddGameObject(terrain);
-
 		GameObject* ground = new GameObject("Ground");
 		ground->AddComponent(new Mesh("../data/meshes/test_level_00_ground.txt"));
 		ground->AddComponent(new Material(L"../data/textures/grass.jpg"));
@@ -26,46 +24,16 @@ namespace Nixie
 		crates->AddComponent(new Material(L"../data/textures/crate.jpg"));
 		AddGameObject(crates);
 
-		GameObject* sphere = new GameObject("Sphere");
-		sphere->AddComponent(new Mesh("../data/meshes/sphere.txt"));
-		sphere->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
-		sphere->GetTransform()->SetPosition(0, 8.0f, 0);
-		AddGameObject(sphere);
-
-		GameObject* sphere_smoothed = new GameObject("Sphere Smoothed");
-		sphere_smoothed->AddComponent(new Mesh("../data/meshes/sphere_smoothed.txt"));
-		sphere_smoothed->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
-		sphere_smoothed->GetTransform()->SetPosition(-2.0f, 8.0f, 0);
-		AddGameObject(sphere_smoothed);
-
-		GameObject* cylinder = new GameObject("Cylinder");
-		cylinder->AddComponent(new Mesh("../data/meshes/cylinder.txt"));
-		cylinder->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
-		cylinder->GetTransform()->SetPosition(2.0f, 8.0f, 0);
-		AddGameObject(cylinder);
-
-		GameObject* player = new GameObject("Player");
-		player->AddComponent(new Mesh("../data/meshes/cube.txt"));
-		player->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
-		player->AddComponent(new Movement);
-		player->GetTransform()->SetPosition(0, 0.5f, 0);
-		AddGameObject(player);
-
-		GameObject* test_child = new GameObject("Test Child");
-		test_child->AddComponent(new Mesh("../data/meshes/cube.txt"));
-		test_child->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
-		test_child->GetTransform()->SetPosition(-2.0f, 0, 0);
-		test_child->GetTransform()->SetParent(player->GetTransform());
-		AddGameObject(test_child);
-
-		GameObject* camera_handle = new GameObject("Camer Handle");
-		camera_handle->GetTransform()->SetParent(player->GetTransform());
+		GameObject* box = new GameObject("Box");
+		box->AddComponent(new Mesh("../data/meshes/cube.txt"));
+		box->AddComponent(new Material(L"../data/textures/placeholder.jpg"));
+		box->GetTransform()->SetPosition(0, 0.5f, 0);
+		AddGameObject(box);
 
 		GameObject* camera = new GameObject("Camera");
 		camera->AddComponent(new Camera);
 		camera->GetTransform()->SetPosition(0, 12.0f, -8.0f);
 		camera->GetTransform()->SetRotation(1.0f, 0, 0);
-		camera->GetTransform()->SetParent(player->GetTransform());
 		current_camera = static_cast<Camera*>(camera->GetComponent("Camera"));
 		AddGameObject(camera);
 
@@ -76,6 +44,7 @@ namespace Nixie
 		return true;
 	}
 
+
 	void Scene::Update()
 	{
 		current_camera->Render();
@@ -84,15 +53,18 @@ namespace Nixie
 			game_object->Update();
 	}
 
+
 	Color Scene::GetClearColor()
 	{
 		return clear_color;
 	}
 
+
 	Camera* Scene::GetCamera()
 	{
 		return current_camera;
 	}
+
 
 	bool Scene::AddGameObject(GameObject* new_game_object)
 	{
@@ -105,6 +77,7 @@ namespace Nixie
 		return true;
 	}
 
+
 	GameObject* Scene::GetGameObject(std::string name)
 	{
 		std::map<std::string, GameObject*>::iterator result = game_objects.find(name);
@@ -113,6 +86,7 @@ namespace Nixie
 		else
 			return result->second;
 	}
+
 
 	std::vector<GameObject*> Scene::GetGameObjects()
 	{

@@ -1,12 +1,14 @@
 #include "../../../stdafx.h"
 
-#include "mesh.h"
+#include "model.h"
+
 
 namespace Nixie
 {
 	Mesh::Mesh(char* file_path) :
 		file_path(file_path),
 		buffer(new MeshBuffer) {}
+
 
 	void Mesh::OnInit()
 	{
@@ -16,10 +18,12 @@ namespace Nixie
 		}
 	}
 
+
 	void Mesh::OnUpdate()
 	{
 		buffer->Render(index_count, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
+
 
 	bool Mesh::LoadFile(char* file_path)
 	{

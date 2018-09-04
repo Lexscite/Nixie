@@ -48,15 +48,6 @@
     <ClCompile Include="src\engine\content\components\material.cpp">
       <Filter>src\engine\content\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\content\components\mesh.cpp">
-      <Filter>src\engine\content\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\content\components\movement.cpp">
-      <Filter>src\engine\content\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\content\components\terrain.cpp">
-      <Filter>src\engine\content\components</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\content\component.cpp">
       <Filter>src\engine\content</Filter>
     </ClCompile>
@@ -108,21 +99,15 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\content\components\model.cpp">
+      <Filter>src\engine\content\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\content\components\camera.h">
       <Filter>src\engine\content\components</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\content\components\material.h">
-      <Filter>src\engine\content\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\content\components\mesh.h">
-      <Filter>src\engine\content\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\content\components\movement.h">
-      <Filter>src\engine\content\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\content\components\terrain.h">
       <Filter>src\engine\content\components</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\content\component.h">
@@ -178,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="src\stdafx.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\content\components\model.h">
+      <Filter>src\engine\content\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

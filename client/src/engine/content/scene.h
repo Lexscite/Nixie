@@ -1,18 +1,13 @@
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef NIXIE_SCENE_H_
+#define NIXIE_SCENE_H_
 
 #pragma once
 
 #include "components/camera.h"
-#include "components/mesh.h"
-#include "components/material.h"
-#include "components/movement.h"
-#include "components/terrain.h"
+
 
 namespace Nixie
 {
-	class Component;
-
 	class Scene final
 	{
 	public:

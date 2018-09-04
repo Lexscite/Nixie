@@ -1,11 +1,19 @@
-#ifndef TRANSFORM_H
-#define TRANSFORM_H
+#ifndef NIXIE_TRANSFORM_H_
+#define NIXIE_TRANSFORM_H_
 
 #pragma once
 
 #include "../math/vector.h"
 #include "../math/quaternion.h"
-#include "../graphics/d3d.h"
+
+
+namespace DirectX
+{
+	namespace SimpleMath
+	{
+		struct Matrix;
+	}
+}
 
 namespace Nixie
 {
@@ -26,37 +34,25 @@ namespace Nixie
 
 		DirectX::SimpleMath::Matrix CalculateWorldMatrix();
 
-		// Position
-
 		Vector3 GetPosition();
 		Vector3 GetLocalPosition();
-
 		inline void SetPosition(float x, float y, float z) { position = Vector3(x, y, z); }
 		inline void SetPosition(Vector3 v) { position = v; }
-
 		inline void Translate(float x, float y, float z) { position += Vector3(x, y, z); }
 		inline void Translate(Vector3 v) { position += v; }
 
-		// Rotation
-
 		Quaternion GetRotation();
 		Quaternion GetLocalRotation();
-
 		inline void SetRotation(float r, float p, float y) { rotation = Quaternion(r, p, y); }
 		inline void SetRotation(Vector3 v) { rotation = Quaternion(v); }
-
 		inline void Rotate(float r, float p, float y) { rotation *= Quaternion(r, p, y); }
 		inline void Rotate(Vector3 v) { rotation *= Quaternion(v); }
 
-		// Scale
-
 		Vector3 GetScale();
 		Vector3 GetLocalScale();
-
 		inline void SetScale(float value) { scale = Vector3(value); }
 		inline void SetScale(float x, float y, float z) { scale = Vector3(x, y, z); }
 		inline void SetScale(Vector3 v) { scale = v; }
-
 		inline void Scale(float value) { scale += Vector3(value); }
 		inline void Scale(float x, float y, float z) { scale += Vector3(x, y, z); }
 		inline void Scale(Vector3 v) { scale += v; }

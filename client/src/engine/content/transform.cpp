@@ -1,6 +1,8 @@
 #include "../../stdafx.h"
 
 #include "transform.h"
+#include "../graphics/d3d.h"
+
 
 namespace Nixie
 {
@@ -21,40 +23,48 @@ namespace Nixie
 		return scaling_matrix * rotation_matrix * translation_matrix;
 	}
 
+
 	Transform* Transform::GetParent()
 	{
 		return this->parent;
 	}
+
 
 	void Transform::SetParent(Transform* parent)
 	{
 		this->parent = parent;
 	}
 
+
 	Vector3 Transform::GetPosition()
 	{
 		return parent ? parent->GetPosition() + position : position;
 	}
+
 
 	Vector3 Transform::GetLocalPosition()
 	{
 		return position;
 	}
 
+
 	Quaternion Transform::GetRotation()
 	{
 		return parent ? parent->GetRotation() * rotation : rotation;
 	}
+
 
 	Quaternion Transform::GetLocalRotation()
 	{
 		return rotation;
 	}
 
+
 	Vector3 Transform::GetScale()
 	{
 		return parent ? parent->GetScale() * scale : scale;
 	}
+
 
 	Vector3 Transform::GetLocalScale()
 	{
