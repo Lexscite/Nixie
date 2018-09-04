@@ -4,18 +4,6 @@
     <Filter Include="src">
       <UniqueIdentifier>{27cf1d40-f08e-474e-82c5-40591f50f2de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\base">
-      <UniqueIdentifier>{e91cac3a-6a01-4570-8e65-3e641b7c373d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\base\graphics">
-      <UniqueIdentifier>{d4ae0545-efb1-4a7e-93a8-8edf434d7326}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\base\network">
-      <UniqueIdentifier>{814b1610-46d2-4acc-bdce-8d99f876b613}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\base\utils">
-      <UniqueIdentifier>{41122b05-520d-4e05-b6db-b68e504debc9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="data">
       <UniqueIdentifier>{c3d50d9b-54f4-4a2f-8fe3-6edb3ba7339d}</UniqueIdentifier>
     </Filter>
@@ -25,162 +13,177 @@
     <Filter Include="data\shaders">
       <UniqueIdentifier>{6c84471a-da65-48fa-8d4c-fd38b77d953c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\base\content">
-      <UniqueIdentifier>{2c7da10d-620c-4007-af17-37c1818aead8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\base\content\components">
-      <UniqueIdentifier>{a40a03f6-0afa-45b9-b304-4c7ab8620bf6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="data\textures">
       <UniqueIdentifier>{e406450e-0643-4a3a-9519-542f07350ae5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\base\input">
+    <Filter Include="src\engine">
+      <UniqueIdentifier>{e91cac3a-6a01-4570-8e65-3e641b7c373d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine\graphics">
+      <UniqueIdentifier>{d4ae0545-efb1-4a7e-93a8-8edf434d7326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine\network">
+      <UniqueIdentifier>{814b1610-46d2-4acc-bdce-8d99f876b613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine\utils">
+      <UniqueIdentifier>{41122b05-520d-4e05-b6db-b68e504debc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine\content">
+      <UniqueIdentifier>{2c7da10d-620c-4007-af17-37c1818aead8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine\content\components">
+      <UniqueIdentifier>{a40a03f6-0afa-45b9-b304-4c7ab8620bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine\input">
       <UniqueIdentifier>{6b07f1dc-e3ea-4689-84bc-5117e9518491}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\base\math">
+    <Filter Include="src\engine\math">
       <UniqueIdentifier>{6bbdc746-4baf-4301-acd1-4f676f957eda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\base\graphics\shader.cpp">
-      <Filter>src\base\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\base\network\connection.cpp">
-      <Filter>src\base\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\base\network\packet.cpp">
-      <Filter>src\base\network</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\content\components\material.cpp">
-      <Filter>src\base\content\components</Filter>
+    <ClCompile Include="src\engine\content\components\camera.cpp">
+      <Filter>src\engine\content\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\content\component.cpp">
-      <Filter>src\base\content</Filter>
+    <ClCompile Include="src\engine\content\components\material.cpp">
+      <Filter>src\engine\content\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\content\game_object.cpp">
-      <Filter>src\base\content</Filter>
+    <ClCompile Include="src\engine\content\components\mesh.cpp">
+      <Filter>src\engine\content\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\content\scene.cpp">
-      <Filter>src\base\content</Filter>
+    <ClCompile Include="src\engine\content\components\movement.cpp">
+      <Filter>src\engine\content\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\content\components\mesh.cpp">
-      <Filter>src\base\content\components</Filter>
+    <ClCompile Include="src\engine\content\components\terrain.cpp">
+      <Filter>src\engine\content\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\content\components\camera.cpp">
-      <Filter>src\base\content\components</Filter>
+    <ClCompile Include="src\engine\content\component.cpp">
+      <Filter>src\engine\content</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\app.cpp">
-      <Filter>src\base</Filter>
+    <ClCompile Include="src\engine\content\game_object.cpp">
+      <Filter>src\engine\content</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\time.cpp">
-      <Filter>src\base</Filter>
+    <ClCompile Include="src\engine\content\scene.cpp">
+      <Filter>src\engine\content</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\graphics\texture.cpp">
-      <Filter>src\base\graphics</Filter>
+    <ClCompile Include="src\engine\content\transform.cpp">
+      <Filter>src\engine\content</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\input\input.cpp">
-      <Filter>src\base\input</Filter>
+    <ClCompile Include="src\engine\graphics\d3d.cpp">
+      <Filter>src\engine\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\graphics\d3d.cpp">
-      <Filter>src\base\graphics</Filter>
+    <ClCompile Include="src\engine\graphics\mesh_buffer.cpp">
+      <Filter>src\engine\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\math\quaternion.cpp">
-      <Filter>src\base\math</Filter>
+    <ClCompile Include="src\engine\graphics\shader.cpp">
+      <Filter>src\engine\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\math\vector.cpp">
-      <Filter>src\base\math</Filter>
+    <ClCompile Include="src\engine\graphics\texture.cpp">
+      <Filter>src\engine\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\graphics\mesh_buffer.cpp">
-      <Filter>src\base\graphics</Filter>
+    <ClCompile Include="src\engine\input\input.cpp">
+      <Filter>src\engine\input</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\content\components\movement.cpp">
-      <Filter>src\base\content\components</Filter>
+    <ClCompile Include="src\engine\network\connection.cpp">
+      <Filter>src\engine\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\math\color.cpp">
-      <Filter>src\base\math</Filter>
+    <ClCompile Include="src\engine\network\packet.cpp">
+      <Filter>src\engine\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\content\components\terrain.cpp">
-      <Filter>src\base\content\components</Filter>
+    <ClCompile Include="src\engine\app.cpp">
+      <Filter>src\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\base\content\transform.cpp">
-      <Filter>src\base\content</Filter>
+    <ClCompile Include="src\engine\time.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\math\color.cpp">
+      <Filter>src\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\math\quaternion.cpp">
+      <Filter>src\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\math\vector.cpp">
+      <Filter>src\engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\base\graphics\shader.h">
-      <Filter>src\base\graphics</Filter>
+    <ClInclude Include="src\engine\content\components\camera.h">
+      <Filter>src\engine\content\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\network\connection.h">
-      <Filter>src\base\network</Filter>
+    <ClInclude Include="src\engine\content\components\material.h">
+      <Filter>src\engine\content\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\network\packet.h">
-      <Filter>src\base\network</Filter>
+    <ClInclude Include="src\engine\content\components\mesh.h">
+      <Filter>src\engine\content\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\utils\debug.h">
-      <Filter>src\base\utils</Filter>
+    <ClInclude Include="src\engine\content\components\movement.h">
+      <Filter>src\engine\content\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\utils\memory.h">
-      <Filter>src\base\utils</Filter>
+    <ClInclude Include="src\engine\content\components\terrain.h">
+      <Filter>src\engine\content\components</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\content\components\material.h">
-      <Filter>src\base\content\components</Filter>
+    <ClInclude Include="src\engine\content\component.h">
+      <Filter>src\engine\content</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\content\component.h">
-      <Filter>src\base\content</Filter>
+    <ClInclude Include="src\engine\content\game_object.h">
+      <Filter>src\engine\content</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\content\game_object.h">
-      <Filter>src\base\content</Filter>
+    <ClInclude Include="src\engine\content\scene.h">
+      <Filter>src\engine\content</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\content\scene.h">
-      <Filter>src\base\content</Filter>
+    <ClInclude Include="src\engine\content\transform.h">
+      <Filter>src\engine\content</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\content\components\mesh.h">
-      <Filter>src\base\content\components</Filter>
+    <ClInclude Include="src\engine\graphics\d3d.h">
+      <Filter>src\engine\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\content\components\camera.h">
-      <Filter>src\base\content\components</Filter>
+    <ClInclude Include="src\engine\graphics\mesh_buffer.h">
+      <Filter>src\engine\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\app.h">
-      <Filter>src\base</Filter>
+    <ClInclude Include="src\engine\graphics\shader.h">
+      <Filter>src\engine\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\time.h">
-      <Filter>src\base</Filter>
+    <ClInclude Include="src\engine\graphics\texture.h">
+      <Filter>src\engine\graphics</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\graphics\texture.h">
-      <Filter>src\base\graphics</Filter>
+    <ClInclude Include="src\engine\input\input.h">
+      <Filter>src\engine\input</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\input\input.h">
-      <Filter>src\base\input</Filter>
+    <ClInclude Include="src\engine\network\connection.h">
+      <Filter>src\engine\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\graphics\d3d.h">
-      <Filter>src\base\graphics</Filter>
+    <ClInclude Include="src\engine\network\packet.h">
+      <Filter>src\engine\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\math\quaternion.h">
-      <Filter>src\base\math</Filter>
+    <ClInclude Include="src\engine\utils\memory.h">
+      <Filter>src\engine\utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\math\vector.h">
-      <Filter>src\base\math</Filter>
+    <ClInclude Include="src\engine\app.h">
+      <Filter>src\engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\graphics\mesh_buffer.h">
-      <Filter>src\base\graphics</Filter>
+    <ClInclude Include="src\engine\time.h">
+      <Filter>src\engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\content\components\movement.h">
-      <Filter>src\base\content\components</Filter>
+    <ClInclude Include="src\engine\math\color.h">
+      <Filter>src\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\math\color.h">
-      <Filter>src\base\math</Filter>
+    <ClInclude Include="src\engine\math\math.h">
+      <Filter>src\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\content\components\terrain.h">
-      <Filter>src\base\content\components</Filter>
+    <ClInclude Include="src\engine\math\quaternion.h">
+      <Filter>src\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\math\math.h">
-      <Filter>src\base\math</Filter>
+    <ClInclude Include="src\engine\math\vector.h">
+      <Filter>src\engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\base\content\transform.h">
-      <Filter>src\base\content</Filter>
+    <ClInclude Include="stdafx.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

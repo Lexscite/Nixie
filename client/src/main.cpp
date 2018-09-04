@@ -1,8 +1,10 @@
+#include "stdafx.h"
+
 #include <Windows.Foundation.h>
 #include <wrl/wrappers/corewrappers.h>
 #include <wrl/client.h>
 
-#include "base/app.h"
+#include "engine/app.h"
 
 #ifdef _DEBUG
 class ConsoleBuffer : public std::streambuf {
