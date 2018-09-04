@@ -14,28 +14,17 @@ namespace Nixie
 
 	bool Scene::Init()
 	{
-		std::shared_ptr<GameObject> ground = std::make_shared<GameObject>("Ground");
-		ground->AddComponent(std::make_shared<Mesh>("../data/meshes/test_level_00_ground.txt"));
-		ground->AddComponent(std::make_shared<Material>(L"../data/textures/grass.jpg"));
-		AddGameObject(ground);
-
-		std::shared_ptr<GameObject> crates = std::make_shared<GameObject>("Crates");
-		crates->AddComponent(std::make_shared<Mesh>("../data/meshes/test_level_00_crates.txt"));
-		crates->AddComponent(std::make_shared<Material>(L"../data/textures/crate.jpg"));
-		AddGameObject(crates);
-
-		std::shared_ptr<GameObject> box = std::make_shared<GameObject>("Box");
-		box->AddComponent(std::make_shared<Mesh>("../data/meshes/cube.txt"));
-		box->AddComponent(std::make_shared<Material>(L"../data/textures/placeholder.jpg"));
-		box->GetTransform()->SetPosition(0, 0.5f, 0);
-		AddGameObject(box);
-
 		std::shared_ptr<GameObject> camera = std::make_shared<GameObject>("Camera");
 		camera->AddComponent(std::make_shared<Camera>());
-		camera->GetTransform()->SetPosition(0, 12.0f, -8.0f);
-		camera->GetTransform()->SetRotation(1.0f, 0, 0);
+		camera->GetTransform()->SetPosition(-2, 1.3f, -1.5f);
+		camera->GetTransform()->SetRotation(0.3f, 1, 0);
 		current_camera = std::static_pointer_cast<Camera>(camera->GetComponent("Camera"));
 		AddGameObject(camera);
+
+		std::shared_ptr<GameObject> mailbox = std::make_shared<GameObject>("Mailbox");
+		mailbox->AddComponent(std::make_shared<Mesh>("../data/meshes/mailbox.txt"));
+		mailbox->AddComponent(std::make_shared<Material>(L"../data/textures/mailbox.jpg"));
+		AddGameObject(mailbox);
 
 		for (auto& game_object : GetGameObjects())
 		{
