@@ -8,6 +8,7 @@
 #include <memory>
 #include <utility>
 #include <typeinfo>
+#include <iterator>
 
 #include <sstream>
 #include <windows.h>

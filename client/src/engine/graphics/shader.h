@@ -1,15 +1,17 @@
-#ifndef COLORSHADER_H
-#define COLORSHADER_H
+#ifndef NIXIE_SHADER_H_
+#define NIXIE_SHADER_H_
 
 #pragma once
 
 #include "d3d.h"
+
 
 namespace Nixie
 {
 	class Shader
 	{
 	private:
+
 		struct MatrixBuffer
 		{
 			DirectX::SimpleMath::Matrix world_matrix;
@@ -28,20 +30,20 @@ namespace Nixie
 	public:
 		Shader();
 
-		bool Init(WCHAR* vs_path, WCHAR* ps_path);
+		bool Init(std::string vs_path, std::string ps_path);
 		void SetTexture(ID3D11ShaderResourceView* texture);
 		void Release();
 
 		bool Update(DirectX::SimpleMath::Matrix world_matrix);
 
 	private:
-		bool InitVS(WCHAR* file_path);
-		bool InitPS(WCHAR* file_path);
+		bool InitVS(std::vector<unsigned char*> shader_data);
+		bool InitPS(std::vector<unsigned char*> shader_data);
 
-		void OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path);
+		std::vector<unsigned char*> ReadCSO(std::string file_path);
 
 	private:
-		ID3D11VertexShader * vertex_shader;
+		ID3D11VertexShader* vertex_shader;
 		ID3D11PixelShader* pixel_shader;
 		ID3D11InputLayout* layout;
 		ID3D11SamplerState* sampler_state;

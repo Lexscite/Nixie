@@ -14,7 +14,7 @@ namespace Nixie
 		LoadTexture();
 
 		shader = new Shader;
-		shader->Init(L"../data/shaders/default_vs.hlsl.", L"../data/shaders/default_ps.hlsl.");
+		shader->Init("../data/shaders/default_vs.cso", "../data/shaders/default_ps.cso");
 	}
 
 	void Material::OnUpdate()

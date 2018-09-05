@@ -1,18 +1,18 @@
 #include "../../stdafx.h"
 
 #include "shader.h"
-#include "..\app.h"
+#include "../app.h"
+
 
 namespace Nixie
 {
-	Shader::Shader()
-	{
-		vertex_shader = nullptr;
-		pixel_shader = nullptr;
-		layout = nullptr;
-		matrix_buffer = nullptr;
-		sampler_state = nullptr;
-	}
+	Shader::Shader() :
+		vertex_shader(nullptr),
+		pixel_shader(nullptr),
+		layout(nullptr),
+		matrix_buffer(nullptr),
+		sampler_state(nullptr) {}
+
 
 	void Shader::Release()
 	{
@@ -27,7 +27,7 @@ namespace Nixie
 			layout->Release();
 			layout = nullptr;
 		}
-		
+
 		if (pixel_shader)
 		{
 			pixel_shader->Release();
@@ -47,48 +47,49 @@ namespace Nixie
 		}
 	}
 
-	bool Shader::Init(WCHAR* vs_path, WCHAR* ps_path)
+
+	bool Shader::Init(std::string vs_path, std::string ps_path)
 	{
-		if (!InitVS(vs_path))
+		if (!InitVS(ReadCSO(vs_path)))
 			return false;
 
-		if (!InitPS(ps_path))
+		if (!InitPS(ReadCSO(ps_path)))
 			return false;
 
 		return true;
 	}
 
-	bool Shader::InitVS(WCHAR* file_path)
+
+	std::vector<unsigned char*> Shader::ReadCSO(std::string file_path)
+	{
+		std::ifstream fs;
+		fs.open(file_path, std::ios::in | std::ios::binary);
+		fs.unsetf(std::ios::skipws);
+
+		fs.seekg(0, std::ios::end);
+		std::streampos size = fs.tellg();
+		fs.seekg(0, std::ios::beg);
+
+		std::vector<unsigned char*> data(size, 0);
+		data.reserve(size);
+
+		fs.read(reinterpret_cast<char*>(&data[0]), size);
+
+		fs.close();
+
+		return data;
+	}
+
+
+	bool Shader::InitVS(std::vector<unsigned char*> shader_data)
 	{
 		HRESULT hr;
 
-		ID3D10Blob* error_message = nullptr;
-		ID3D10Blob* vertex_shader_buffer = nullptr;
-
-		hr = D3DCompileFromFile(
-			file_path,
-			0, 0,
-			"DefaultVertexShader",
-			"vs_4_0",
-			D3D10_SHADER_ENABLE_STRICTNESS,
-			0,
-			&vertex_shader_buffer,
-			&error_message);
-		if (FAILED(hr))
-		{
-			if (error_message)
-				OutputShaderErrorMessage(error_message, file_path);
-			else
-				MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)(file_path), "Missing Shader File", MB_OK);
-
-			return false;
-		}
-
 		ID3D11Device* device = D3D::GetSingleton()->GetDevice();
 		hr = device->CreateVertexShader(
-			vertex_shader_buffer->GetBufferPointer(),
-			vertex_shader_buffer->GetBufferSize(),
-			0,
+			shader_data.data(),
+			shader_data.size(),
+			nullptr,
 			&vertex_shader);
 		if (FAILED(hr))
 			return false;
@@ -103,7 +104,7 @@ namespace Nixie
 		polygon_layout[0].InstanceDataStepRate = 0;
 
 		polygon_layout[1].SemanticName = "TEXCOORD";
-		polygon_layout[1].SemanticIndex = 0;	
+		polygon_layout[1].SemanticIndex = 0;
 		polygon_layout[1].Format = DXGI_FORMAT_R32G32_FLOAT;
 		polygon_layout[1].InputSlot = 0;
 		polygon_layout[1].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
@@ -119,16 +120,14 @@ namespace Nixie
 		polygon_layout[2].InstanceDataStepRate = 0;
 
 		UINT num_elements = sizeof(polygon_layout) / sizeof(polygon_layout[0]);
-		hr = device->CreateInputLayout(polygon_layout, num_elements, vertex_shader_buffer->GetBufferPointer(),
-			vertex_shader_buffer->GetBufferSize(), &layout);
+		hr = device->CreateInputLayout(
+			polygon_layout,
+			num_elements,
+			shader_data.data(),
+			shader_data.size(),
+			&layout);
 		if (FAILED(hr))
 			return false;
-
-		if (vertex_shader_buffer)
-		{
-			vertex_shader_buffer->Release();
-			vertex_shader_buffer = nullptr;
-		}
 
 		D3D11_BUFFER_DESC matrix_buffer_desc;
 		matrix_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
@@ -145,46 +144,19 @@ namespace Nixie
 		return true;
 	}
 
-	bool Shader::InitPS(WCHAR* file_path)
+
+	bool Shader::InitPS(std::vector<unsigned char*> shader_data)
 	{
 		HRESULT hr;
 
-		ID3D10Blob* error_message = nullptr;
-		ID3D10Blob* pixel_shader_buffer = nullptr;
-
-		hr = D3DCompileFromFile(
-			file_path,
-			0, 0,
-			"DefaultPixelShader",
-			"ps_4_0",
-			D3D10_SHADER_ENABLE_STRICTNESS,
-			0,
-			&pixel_shader_buffer,
-			&error_message);
-		if (FAILED(hr))
-		{
-			if (error_message)
-				OutputShaderErrorMessage(error_message, file_path);
-			else
-				MessageBox(App::GetSingleton()->GetHwnd(), (LPCSTR)file_path, "Missing Shader File", MB_OK);
-
-			return false;
-		}
-
 		ID3D11Device* device = D3D::GetSingleton()->GetDevice();
 		hr = device->CreatePixelShader(
-			pixel_shader_buffer->GetBufferPointer(),
-			pixel_shader_buffer->GetBufferSize(),
+			shader_data.data(),
+			shader_data.size(),
 			NULL,
 			&pixel_shader);
 		if (FAILED(hr))
 			return false;
-
-		if (pixel_shader_buffer)
-		{
-			pixel_shader_buffer->Release();
-			pixel_shader_buffer = nullptr;
-		}
 
 		D3D11_SAMPLER_DESC sampler_desc;
 		sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -220,10 +192,12 @@ namespace Nixie
 		return true;
 	}
 
+
 	void Shader::SetTexture(ID3D11ShaderResourceView* texture)
 	{
 		D3D::GetSingleton()->GetDeviceContext()->PSSetShaderResources(0, 1, &texture);
 	}
+
 
 	bool Shader::Update(DirectX::SimpleMath::Matrix world_matrix)
 	{
@@ -262,22 +236,5 @@ namespace Nixie
 		device_context->IASetInputLayout(layout);
 
 		return true;
-	}
-
-	void Shader::OutputShaderErrorMessage(ID3D10Blob* error_message, WCHAR* shader_path)
-	{
-		std::ofstream fout;
-		fout.open("shader-error.txt");
-		for (size_t i = 0; i < error_message->GetBufferSize(); i++)
-			fout << static_cast<char*>(error_message->GetBufferPointer())[i];
-		fout.close();
-
-		if (error_message)
-		{
-			error_message->Release();
-			error_message = nullptr;
-		}
-
-		MessageBox(App::GetSingleton()->GetHwnd(), "Error compiling shader.  Check shader-error.txt for message.", (LPCSTR)shader_path, MB_OK);
 	}
 }
