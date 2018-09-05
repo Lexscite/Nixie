@@ -29,27 +29,35 @@ namespace Nixie
 
 	public:
 		Shader();
+		~Shader();
 
 		bool Init(std::string vs_path, std::string ps_path);
-		void SetTexture(ID3D11ShaderResourceView* texture);
-		void Release();
-
 		bool Update(DirectX::SimpleMath::Matrix world_matrix);
 
-	private:
-		bool InitVS(std::vector<unsigned char*> shader_data);
-		bool InitPS(std::vector<unsigned char*> shader_data);
-
-		std::vector<unsigned char*> ReadCSO(std::string file_path);
+		void SetTexture(ID3D11ShaderResourceView* texture);
 
 	private:
-		ID3D11VertexShader* vertex_shader;
-		ID3D11PixelShader* pixel_shader;
-		ID3D11InputLayout* layout;
-		ID3D11SamplerState* sampler_state;
+		bool CreateVertexShader(std::vector<unsigned char*> buffer);
+		bool CreateInputLayout(std::vector<unsigned char*> buffer);
+		bool CreateMatrixBuffer();
 
-		ID3D11Buffer* matrix_buffer;
-		ID3D11Buffer* light_buffer;
+		bool CreatePixelShader(std::vector<unsigned char*> buffer);
+		bool CreateSamplerState();
+		bool CreateLightBuffer();
+
+		bool Load(std::string file_path, std::vector<unsigned char*>& buffer);
+
+	private:
+		std::shared_ptr<ID3D11Device> device_;
+		std::shared_ptr<ID3D11DeviceContext> device_context_;
+
+		ID3D11VertexShader* vertex_shader_;
+		ID3D11PixelShader* pixel_shader_;
+		ID3D11InputLayout* input_layout_;
+		ID3D11SamplerState* sampler_state_;
+
+		ID3D11Buffer* matrix_buffer_;
+		ID3D11Buffer* light_buffer_;
 	};
 }
 
