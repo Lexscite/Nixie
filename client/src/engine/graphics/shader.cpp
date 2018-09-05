@@ -60,17 +60,8 @@ namespace Nixie
 		device_ = std::unique_ptr<ID3D11Device>(D3D::GetSingleton()->GetDevice());
 		device_context_ = std::unique_ptr<ID3D11DeviceContext>(D3D::GetSingleton()->GetDeviceContext());
 
-		std::vector<unsigned char*> vs_buffer;
-		if (!Load(vs_path, vs_buffer))
-		{
-			return false;
-		}
-
-		std::vector<unsigned char*> ps_buffer;
-		if (!Load(ps_path, ps_buffer))
-		{
-			return false;
-		}
+		auto vs_buffer = LoadFromFile(vs_path);
+		auto ps_buffer = LoadFromFile(ps_path);
 
 		if (!CreateVertexShader(vs_buffer))
 		{
@@ -156,30 +147,27 @@ namespace Nixie
 	}
 
 
-	bool Shader::Load(std::string file_path, std::vector<unsigned char*>& buffer)
+	std::vector<unsigned char*> Shader::LoadFromFile(std::string file_path)
 	{
 		std::ifstream fs;
-		try
+
+		fs.open(file_path, std::ios::in | std::ios::binary);
+		if (fs.fail())
 		{
-			fs.open(file_path, std::ios::in | std::ios::binary);
-		}
-		catch (std::ios_base::failure& e)
-		{
-			std::cerr << "Failed to open shader file: " << e.what() << std::endl;
-			return false;
+			std::cerr << "Error: Failed to open shader file " << file_path << std::endl;
 		}
 
 		fs.seekg(0, std::ios::end);
 		std::streampos size = fs.tellg();
 		fs.seekg(0, std::ios::beg);
 
-		buffer = std::vector<unsigned char*>(size, 0);
+		auto buffer = std::vector<unsigned char*>(size, 0);
 		buffer.reserve(size);
 
 		fs.read(reinterpret_cast<char*>(&buffer[0]), size);
 		fs.close();
 
-		return true;
+		return buffer;
 	}
 
 	bool Shader::CreateVertexShader(std::vector<unsigned char*> buffer)

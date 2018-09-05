@@ -45,7 +45,7 @@ namespace Nixie
 		bool CreateSamplerState();
 		bool CreateLightBuffer();
 
-		bool Load(std::string file_path, std::vector<unsigned char*>& buffer);
+		std::vector<unsigned char*> LoadFromFile(std::string file_path);
 
 	private:
 		std::shared_ptr<ID3D11Device> device_;
