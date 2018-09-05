@@ -4,18 +4,6 @@
     <Filter Include="src">
       <UniqueIdentifier>{27cf1d40-f08e-474e-82c5-40591f50f2de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="data">
-      <UniqueIdentifier>{c3d50d9b-54f4-4a2f-8fe3-6edb3ba7339d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="data\meshes">
-      <UniqueIdentifier>{e1429088-e6f2-4ca7-a57a-5c61a68e2da6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="data\shaders">
-      <UniqueIdentifier>{6c84471a-da65-48fa-8d4c-fd38b77d953c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="data\textures">
-      <UniqueIdentifier>{e406450e-0643-4a3a-9519-542f07350ae5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\engine">
       <UniqueIdentifier>{e91cac3a-6a01-4570-8e65-3e641b7c373d}</UniqueIdentifier>
     </Filter>
@@ -36,6 +24,9 @@
     </Filter>
     <Filter Include="src\engine\math">
       <UniqueIdentifier>{6bbdc746-4baf-4301-acd1-4f676f957eda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\shaders">
+      <UniqueIdentifier>{105da953-ac5f-40ab-bb72-5565dd929577}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -170,38 +161,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="data\meshes\test_level_00.blend">
-      <Filter>data\meshes</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="data\textures\placeholder.jpg">
-      <Filter>data\textures</Filter>
-    </Image>
-    <Image Include="data\textures\crate.jpg">
-      <Filter>data\textures</Filter>
-    </Image>
-    <Image Include="data\textures\grass.jpg">
-      <Filter>data\textures</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="data\meshes\cube.txt">
-      <Filter>data\meshes</Filter>
-    </Text>
-    <Text Include="data\meshes\test_level_00_crates.txt">
-      <Filter>data\meshes</Filter>
-    </Text>
-    <Text Include="data\meshes\test_level_00_ground.txt">
-      <Filter>data\meshes</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="data\shaders\default_vs.hlsl">
-      <Filter>data\shaders</Filter>
+    <FxCompile Include="src\shaders\default_ps.hlsl">
+      <Filter>src\shaders</Filter>
     </FxCompile>
-    <FxCompile Include="data\shaders\default_ps.hlsl">
-      <Filter>data\shaders</Filter>
+    <FxCompile Include="src\shaders\default_vs.hlsl">
+      <Filter>src\shaders</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
