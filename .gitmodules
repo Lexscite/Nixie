@@ -1,3 +1,0 @@
-[submodule "dependencies/mathfu"]
-	path = dependencies/mathfu
-	url = https://github.com/google/mathfu.git
