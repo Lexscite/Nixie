@@ -1,5 +1,5 @@
-#ifndef CLIENT_H
-#define CLIENT_H
+#ifndef NIXIE_CONNECTION_H_
+#define NIXIE_CONNECTION_H_
 
 #pragma once
 

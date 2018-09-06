@@ -1,5 +1,5 @@
-#ifndef TIME_H
-#define TIME_H
+#ifndef NIXIE_TIME_H_
+#define NIXIE_TIME_H_
 
 #pragma once
 

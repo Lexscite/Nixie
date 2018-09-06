@@ -1,5 +1,5 @@
-#ifndef MATH_H
-#define MATH_H
+#ifndef NIXIE_MATH_H_
+#define NIXIE_MATH_H_
 
 #pragma once
 

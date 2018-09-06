@@ -1,5 +1,5 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef NIXIE_VECTOR_H_
+#define NIXIE_VECTOR_H_
 
 #pragma once
 

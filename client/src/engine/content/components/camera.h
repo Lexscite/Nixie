@@ -1,5 +1,5 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef NIXIE_CAMERA_H_
+#define NIXIE_CAMERA_H_
 
 #pragma once
 

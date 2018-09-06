@@ -1,5 +1,5 @@
-#ifndef QUATERNION_H
-#define QUATERNION_H
+#ifndef NIXIE_QUATERNION_H_
+#define NIXIE_QUATERNION_H_
 
 #pragma once
 

@@ -2,6 +2,7 @@
 #define NIXIE_MATERIAL_H_
 
 #pragma once
+
 #include "texture.h"
 #include "shader.h"
 

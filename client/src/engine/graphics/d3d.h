@@ -1,5 +1,5 @@
-#ifndef DIRECTX_H
-#define DIRECTX_H
+#ifndef NIXIE_DIRECTX_H_
+#define NIXIE_DIRECTX_H_
 
 #pragma once
 

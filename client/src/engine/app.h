@@ -1,5 +1,5 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#ifndef NIXIE_APP_H_
+#define NIXIE_APP_H_
 
 #pragma once
 
