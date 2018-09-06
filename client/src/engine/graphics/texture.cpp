@@ -2,6 +2,7 @@
 
 #include "texture.h"
 
+
 namespace Nixie
 {
 	Texture::Texture()
@@ -9,22 +10,8 @@ namespace Nixie
 		texture_view_ = nullptr;
 	}
 
-	bool Texture::Init(const wchar_t* file_path)
-	{
-		HRESULT hr;
 
-		hr = DirectX::CreateWICTextureFromFile(
-			D3D::GetSingleton()->GetDevice(),
-			file_path,
-			&texture_,
-			&texture_view_);
-		if (FAILED(hr))
-			return false;
-
-		return true;
-	}
-
-	void Texture::Release()
+	Texture::~Texture()
 	{
 		if (texture_view_)
 		{
@@ -32,6 +19,26 @@ namespace Nixie
 			texture_view_ = nullptr;
 		}
 	}
+
+
+	bool Texture::Init(std::string file_path)
+	{
+		// Temporary file_path convertion into wide character string
+		int file_path_wchar_num = MultiByteToWideChar(CP_UTF8, 0, file_path.c_str(), -1, nullptr, 0);
+		wchar_t* file_path_w = new wchar_t[file_path_wchar_num];
+		MultiByteToWideChar(CP_UTF8, 0, file_path.c_str(), -1, file_path_w, file_path_wchar_num);
+
+		HRESULT hr = DirectX::CreateWICTextureFromFile(D3D::GetSingleton()->GetDevice(), file_path_w, &texture_, &texture_view_);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
+		delete[] file_path_w;
+
+		return true;
+	}
+
 
 	ID3D11ShaderResourceView* Texture::GetTextureView()
 	{

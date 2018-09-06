@@ -1,75 +1,38 @@
 #include "../../../stdafx.h"
 
 #include "model.h"
+#include "../../graphics/mesh.h"
+#include "../../graphics/material.h"
 
 
 namespace Nixie
 {
-	Model::Model(std::string file_path) :
-		file_path(file_path),
-		buffer(new Mesh) {}
+	Model::Model(std::string mesh_path, std::string vs_path, std::string ps_path, std::string texture_path) :
+		mesh_path_(mesh_path),
+		vs_path_(vs_path),
+		ps_path_(ps_path),
+		texture_path_(texture_path) {}
 
 
 	void Model::OnInit()
 	{
-		if (LoadFile(file_path))
+		mesh_ = std::make_shared<Mesh>();
+		if (!mesh_->Init(mesh_path_))
 		{
-			buffer->Init(vertex_count, index_count, vertices, indices);
+			std::cerr << "Error: Failed to initialize mesh" << std::endl;
+		}
+
+		material_ = std::make_shared<Material>();
+		if (!material_->Init(vs_path_, ps_path_, texture_path_))
+		{
+			std::cerr << "Error: Failed to initialize material" << std::endl;
 		}
 	}
 
 
 	void Model::OnUpdate()
 	{
-		buffer->Render(index_count, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	}
-
-
-	bool Model::LoadFile(std::string file_path)
-	{
-		std::ifstream fin;
-		fin.open(file_path);
-
-		if (fin.fail())
-			return false;
-
-		char input;
-		fin.get(input);
-		while (input != ':')
-			fin.get(input);
-
-		fin >> vertex_count;
-
-		index_count = vertex_count;
-		vertices = new Vertex[vertex_count];
-
-		fin.get(input);
-		while (input != ':')
-			fin.get(input);
-		fin.get(input);
-		fin.get(input);
-
-		for (unsigned int i = 0; i < vertex_count; i++)
-		{
-			fin >>
-				vertices[i].position.x >>
-				vertices[i].position.y >>
-				vertices[i].position.z;
-			fin >>
-				vertices[i].texture.x >>
-				vertices[i].texture.y;
-			fin >>
-				vertices[i].normal.x >>
-				vertices[i].normal.y >>
-				vertices[i].normal.z;
-		}
-
-		fin.close();
-
-		indices = new unsigned long[index_count];
-		for (unsigned int i = 0; i < vertex_count; i++)
-			indices[i] = i;
-
-		return true;
+		material_->Update(GetTransform()->CalculateWorldMatrix());
+		mesh_->Render();
 	}
 }

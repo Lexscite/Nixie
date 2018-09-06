@@ -32,9 +32,7 @@ namespace Nixie
 		~Shader();
 
 		bool Init(std::string vs_path, std::string ps_path);
-		bool Update(DirectX::SimpleMath::Matrix world_matrix);
-
-		void SetTexture(ID3D11ShaderResourceView* texture);
+		bool Update(DirectX::SimpleMath::Matrix world_matrix, ID3D11ShaderResourceView* texture);
 
 	private:
 		bool CreateVertexShader(std::vector<unsigned char*> buffer);

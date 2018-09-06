@@ -97,7 +97,7 @@ namespace Nixie
 	}
 
 
-	bool Shader::Update(DirectX::SimpleMath::Matrix world_matrix)
+	bool Shader::Update(DirectX::SimpleMath::Matrix world_matrix, ID3D11ShaderResourceView* texture)
 	{
 		HRESULT hr;
 
@@ -133,17 +133,12 @@ namespace Nixie
 
 		device_context_->PSSetConstantBuffers(0, 1, &light_buffer_);
 		device_context_->PSSetSamplers(0, 1, &sampler_state_);
+		device_context_->PSSetShaderResources(0, 1, &texture);
 		device_context_->PSSetShader(pixel_shader_, 0, 0);
 
 		device_context_->IASetInputLayout(input_layout_);
 
 		return true;
-	}
-
-
-	void Shader::SetTexture(ID3D11ShaderResourceView* texture)
-	{
-		device_context_->PSSetShaderResources(0, 1, &texture);
 	}
 
 

@@ -4,32 +4,30 @@
 #pragma once
 
 #include "../component.h"
-#include "../../graphics/mesh.h"
 
 
 namespace Nixie
 {
+	class Mesh;
+	class Material;
+
 	class Model : public Component
 	{
 	public:
-		Model(std::string file_path);
+		Model(std::string mesh_file_path, std::string vs_shader_path, std::string ps_shader_path, std::string texture_path);
 
 	private:
 		virtual void OnInit() override;
 		virtual void OnUpdate() override;
 
-		bool LoadFile(std::string file_path);
-
 	private:
-		std::string file_path;
+		std::string mesh_path_;
+		std::string vs_path_;
+		std::string ps_path_;
+		std::string texture_path_;
 
-		unsigned long vertex_count;
-		unsigned long index_count;
-
-		Vertex* vertices;
-		unsigned long* indices;
-
-		Mesh* buffer;
+		std::shared_ptr<Mesh> mesh_;
+		std::shared_ptr<Material> material_;
 	};
 }
 

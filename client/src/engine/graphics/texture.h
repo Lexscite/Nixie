@@ -1,9 +1,10 @@
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#ifndef NIXIE_TEXTURE_H_
+#define NIXIE_TEXTURE_H_
 
 #pragma once
 
 #include "d3d.h"
+
 
 namespace Nixie
 {
@@ -11,14 +12,14 @@ namespace Nixie
 	{
 	public:
 		Texture();
+		~Texture();
 
-		bool Init(const wchar_t* file_path);
-		void Release();
+		bool Init(std::string file_path);
 
 		ID3D11ShaderResourceView* GetTextureView();
 
 	private:
-		ID3D11Resource * texture_;
+		ID3D11Resource* texture_;
 		ID3D11ShaderResourceView* texture_view_;
 	};
 }
