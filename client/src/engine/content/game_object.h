@@ -18,7 +18,7 @@ namespace Nixie
 		GameObject(std::string name);
 
 		bool Init(std::shared_ptr<Scene> scene);
-		void Update();
+		bool Update();
 
 		bool AddComponent(std::shared_ptr<Component> new_component);
 		std::shared_ptr<Component> GetComponent(std::string name);

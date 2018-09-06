@@ -15,14 +15,17 @@ namespace Nixie
 	{
 		std::shared_ptr<GameObject> camera = std::make_shared<GameObject>("Camera");
 		camera->AddComponent(std::make_shared<Camera>());
-		camera->GetTransform()->SetPosition(-2, 1.3f, -1.5f);
-		camera->GetTransform()->SetRotation(0.3f, 1, 0);
+		camera->GetTransform()->SetPosition(0, 3, -10);
 		current_camera = std::static_pointer_cast<Camera>(camera->GetComponent("Camera"));
 		AddGameObject(camera);
 
-		std::shared_ptr<GameObject> mailbox = std::make_shared<GameObject>("Mailbox");
-		mailbox->AddComponent(std::make_shared<Model>("../data/meshes/mailbox.txt", "../data/shaders/default_vs.cso", "../data/shaders/default_ps.cso", "../data/textures/mailbox.jpg"));
-		AddGameObject(mailbox);
+		std::shared_ptr<GameObject> deer = std::make_shared<GameObject>("Deer");
+		deer->AddComponent(std::make_shared<Model>("../data/meshes/deer.txt", "../data/shaders/default_vs.cso", "../data/shaders/default_ps.cso", "../data/textures/mailbox.jpg"));
+		AddGameObject(deer);
+
+		//std::shared_ptr<GameObject> mailbox = std::make_shared<GameObject>("Mailbox");
+		//mailbox->AddComponent(std::make_shared<Model>("../data/meshes/mailbox.txt", "../data/shaders/default_vs.cso", "../data/shaders/default_ps.cso", "../data/textures/mailbox.jpg"));
+		//AddGameObject(mailbox);
 
 		for (auto& game_object : GetGameObjects())
 		{
@@ -36,14 +39,19 @@ namespace Nixie
 	}
 
 
-	void Scene::Update()
+	bool Scene::Update()
 	{
-		current_camera->Render();
+		current_camera->CalculateWorldMatrix();
 
 		for (auto& game_object : GetGameObjects())
 		{
-			game_object->Update();
+			if (!game_object->Update())
+			{
+				return false;
+			}
 		}
+
+		return true;
 	}
 
 

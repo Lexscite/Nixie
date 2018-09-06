@@ -28,7 +28,7 @@ namespace Nixie
 
 		bool InitWindow(HINSTANCE instance);
 		void InitSettings();
-		void Update(float delta_time);
+		bool Update(float delta_time);
 
 		void CalculateFrameStats();
 

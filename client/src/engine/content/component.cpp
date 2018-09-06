@@ -4,31 +4,53 @@
 
 namespace Nixie
 {
-	void Component::Init(std::shared_ptr<GameObject> game_object)
+	bool Component::Init(std::shared_ptr<GameObject> game_object)
 	{
 		game_object_ = game_object;
 
-		OnInit();
+		if (!OnInit())
+		{
+			return false;
+		}
+
+		return true;
 	}
 
-	void Component::OnInit() {}
 
-	void Component::Update()
+	bool Component::OnInit()
 	{
-		OnUpdate();
+		return true;
 	}
 
-	void Component::OnUpdate() {}
+
+	bool Component::Update()
+	{
+		if (!OnUpdate())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+
+	bool Component::OnUpdate()
+	{
+		return true;
+	}
+
 
 	std::string Component::GetName()
 	{
 		return std::string(typeid(*shared_from_this()).name()).erase(0, 6 + 7);
 	}
 
+
 	std::shared_ptr<GameObject> Component::GetGameObject()
 	{
 		return game_object_;
 	}
+
 
 	std::shared_ptr<Transform> Component::GetTransform()
 	{

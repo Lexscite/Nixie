@@ -24,12 +24,17 @@ namespace Nixie
 	}
 
 
-	void GameObject::Update()
+	bool GameObject::Update()
 	{
 		for (auto& component : GetComponents())
 		{
-			component->Update();
+			if (!component->Update())
+			{
+				return false;
+			}
 		}
+
+		return true;
 	}
 
 

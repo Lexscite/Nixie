@@ -6,6 +6,7 @@
 #include "../graphics/d3d.h"
 #include "keyboard.h"
 
+
 namespace Nixie
 {
 	class Input

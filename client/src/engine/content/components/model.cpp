@@ -14,25 +14,38 @@ namespace Nixie
 		texture_path_(texture_path) {}
 
 
-	void Model::OnInit()
+	bool Model::OnInit()
 	{
 		mesh_ = std::make_shared<Mesh>();
 		if (!mesh_->Init(mesh_path_))
 		{
 			std::cerr << "Error: Failed to initialize mesh" << std::endl;
+			return false;
 		}
 
 		material_ = std::make_shared<Material>();
 		if (!material_->Init(vs_path_, ps_path_, texture_path_))
 		{
 			std::cerr << "Error: Failed to initialize material" << std::endl;
+			return false;
 		}
+
+		return true;
 	}
 
 
-	void Model::OnUpdate()
+	bool Model::OnUpdate()
 	{
-		material_->Update(GetTransform()->CalculateWorldMatrix());
+		// Temporary per-frame rotation
+		GetTransform()->Rotate(0, .01f, 0);
+
+		if (!material_->Update(GetTransform()->CalculateWorldMatrix()))
+		{
+			return false;
+		}
+
 		mesh_->Render();
+
+		return true;
 	}
 }

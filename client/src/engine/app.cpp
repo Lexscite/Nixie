@@ -2,6 +2,7 @@
 
 #include "app.h"
 
+
 namespace Nixie
 {
 	LRESULT CALLBACK WindowProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
@@ -11,6 +12,7 @@ namespace Nixie
 		else
 			return DefWindowProc(window, message, w_param, l_param);
 	}
+
 
 	App::App()
 	{
@@ -24,7 +26,9 @@ namespace Nixie
 		is_paused_ = false;
 	}
 
+	
 	App* App::singleton_;
+
 
 	App* App::GetSingleton()
 	{
@@ -33,6 +37,7 @@ namespace Nixie
 
 		return singleton_;
 	}
+
 
 	bool App::Init(HINSTANCE instance)
 	{
@@ -75,6 +80,7 @@ namespace Nixie
 
 		return true;
 	}
+	
 
 	void App::InitSettings()
 	{
@@ -92,6 +98,7 @@ namespace Nixie
 			screen_height_ = 600;
 		}
 	}
+
 
 	bool App::InitWindow(HINSTANCE instance)
 	{
@@ -153,6 +160,7 @@ namespace Nixie
 		return true;
 	}
 
+
 	LRESULT App::MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
 	{
 		switch (message)
@@ -190,6 +198,7 @@ namespace Nixie
 		}
 	}
 
+
 	int App::Run()
 	{
 		time_->Reset();
@@ -211,7 +220,11 @@ namespace Nixie
 #ifdef _DEBUG
 					CalculateFrameStats();
 #endif
-					Update(0.0f);
+					if (!Update(0.0f))
+					{
+						// Temporary exit code
+						return 404;
+					}
 				}
 				else
 					Sleep(100);
@@ -221,13 +234,26 @@ namespace Nixie
 		return static_cast<int>(msg.wParam);
 	}
 
-	void App::Update(float delta_time)
+
+	bool App::Update(float delta_time)
 	{
-		input_->Update();
+		if (!input_->Update())
+		{
+			return false;
+		}
+
 		directx_->BeginScene(scene_->GetClearColor());
-		scene_->Update();
+
+		if (!scene_->Update())
+		{
+			return false;
+		}
+
 		directx_->EndScene();
+
+		return true;
 	}
+
 
 	HWND App::GetHwnd()
 	{

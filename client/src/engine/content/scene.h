@@ -14,7 +14,7 @@ namespace Nixie
 		Scene();
 
 		bool Init();
-		void Update();
+		bool Update();
 
 		Color GetClearColor();
 		std::shared_ptr<Camera> GetCamera();

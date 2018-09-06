@@ -19,8 +19,8 @@ namespace Nixie
 	class Component : public std::enable_shared_from_this<Component>
 	{
 	public:
-		virtual void Init(std::shared_ptr<GameObject> game_object) final;
-		virtual void Update();
+		virtual bool Init(std::shared_ptr<GameObject> game_object) final;
+		virtual bool Update();
 
 		virtual std::string GetName() final;
 		virtual std::shared_ptr<GameObject> GetGameObject() final;
@@ -28,8 +28,8 @@ namespace Nixie
 		std::shared_ptr<Transform> GetTransform();
 
 	private:
-		virtual void OnInit();
-		virtual void OnUpdate();
+		virtual bool OnInit();
+		virtual bool OnUpdate();
 
 	private:
 		std::shared_ptr<GameObject> game_object_;

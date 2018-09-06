@@ -46,29 +46,29 @@ namespace Nixie
 		D3D();
 
 	private:
-		static D3D* singleton;
+		static D3D* singleton_;
 
-		bool vsync_enabled;
-		bool fullscreen_enabled;
-		bool msaa_enabled;
-		bool wireframe_mode_enabled;
+		bool vsync_enabled_;
+		bool fullscreen_enabled_;
+		bool msaa_enabled_;
+		bool wireframe_mode_enabled_;
 
-		ID3D11Device* device;
-		ID3D11DeviceContext* device_context;
-		IDXGISwapChain* swap_chain;
-		D3D_FEATURE_LEVEL feature_level;
+		ID3D11Device* device_;
+		ID3D11DeviceContext* device_context_;
+		IDXGISwapChain* swap_chain_;
+		D3D_FEATURE_LEVEL feature_level_;
 
-		UINT adapter_memory;
-		char adapter_desc[128];
+		UINT adapter_memory_;
+		char adapter_desc_[128];
 
-		ID3D11RenderTargetView* render_target_view;
-		ID3D11Texture2D* depth_stencil_buffer;
-		ID3D11DepthStencilState* depth_stencil_state;
-		ID3D11DepthStencilView* depth_stencil_view;
-		ID3D11RasterizerState* rasterizer_state;
+		ID3D11RenderTargetView* render_target_view_;
+		ID3D11Texture2D* depth_stencil_buffer_;
+		ID3D11DepthStencilState* depth_stencil_state_;
+		ID3D11DepthStencilView* depth_stencil_view_;
+		ID3D11RasterizerState* rasterizer_state_;
 
-		DirectX::SimpleMath::Matrix projection_matrix;
-		DirectX::SimpleMath::Matrix ortho_matrix;
+		DirectX::SimpleMath::Matrix projection_matrix_;
+		DirectX::SimpleMath::Matrix ortho_matrix_;
 	};
 }
 

@@ -2,9 +2,10 @@
 
 #include "camera.h"
 
+
 namespace Nixie
 {
-	void Camera::Render()
+	void Camera::CalculateWorldMatrix()
 	{
 		Vector3 position = GetTransform()->GetPosition();
 		Quaternion rotation = GetTransform()->GetRotation();
@@ -19,11 +20,12 @@ namespace Nixie
 		dx_look_at = DirectX::XMVector3TransformCoord(dx_look_at, rotation_matrix);
 		dx_look_at = DirectX::XMVectorAdd(dx_position, dx_look_at);
 
-		view_matrix = DirectX::XMMatrixLookAtLH(dx_position, dx_look_at, dx_up);
+		view_matrix_ = DirectX::XMMatrixLookAtLH(dx_position, dx_look_at, dx_up);
 	}
+
 
 	DirectX::SimpleMath::Matrix Camera::GetViewMatrix()
 	{
-		return view_matrix;
+		return view_matrix_;
 	}
 }

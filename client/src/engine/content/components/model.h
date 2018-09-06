@@ -17,8 +17,8 @@ namespace Nixie
 		Model(std::string mesh_file_path, std::string vs_shader_path, std::string ps_shader_path, std::string texture_path);
 
 	private:
-		virtual void OnInit() override;
-		virtual void OnUpdate() override;
+		virtual bool OnInit() override;
+		virtual bool OnUpdate() override;
 
 	private:
 		std::string mesh_path_;

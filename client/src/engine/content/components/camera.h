@@ -10,11 +10,11 @@ namespace Nixie
 	class Camera : public Component
 	{
 	public:
-		void Render();
+		void CalculateWorldMatrix();
 		DirectX::SimpleMath::Matrix GetViewMatrix();
 
 	private:
-		DirectX::SimpleMath::Matrix view_matrix;
+		DirectX::SimpleMath::Matrix view_matrix_;
 	};
 }
 

@@ -2,6 +2,7 @@
 
 #include "input.h"
 
+
 namespace Nixie
 {
 	Input::Input()
@@ -9,7 +10,9 @@ namespace Nixie
 		keyboard_ = std::make_unique<DirectX::Keyboard>();
 	}
 
+
 	Input* Input::singleton_;
+
 
 	Input* Input::GetSingleton()
 	{
@@ -19,6 +22,7 @@ namespace Nixie
 		return singleton_;
 	}
 
+
 	bool Input::Init()
 	{
 		keyboard_state_ = keyboard_->GetState();
@@ -26,10 +30,12 @@ namespace Nixie
 		return true;
 	}
 
+
 	void Input::Release()
 	{
 
 	}
+	
 
 	bool Input::Update()
 	{
@@ -39,15 +45,18 @@ namespace Nixie
 		return true;
 	}
 
+
 	DirectX::Keyboard::State Input::GetState()
 	{
 		return keyboard_state_;
 	}
 
+
 	bool Input::IsKeyDown(DirectX::Keyboard::Keys key)
 	{
 		return Input::GetSingleton()->keyboard_state_.IsKeyDown(key);
 	}
+
 
 	bool Input::IsKeyPressed(DirectX::Keyboard::Keys key)
 	{
