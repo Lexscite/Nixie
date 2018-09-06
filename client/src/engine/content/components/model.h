@@ -4,15 +4,15 @@
 #pragma once
 
 #include "../component.h"
-#include "../../graphics/mesh_buffer.h"
+#include "../../graphics/mesh.h"
 
 
 namespace Nixie
 {
-	class Mesh : public Component
+	class Model : public Component
 	{
 	public:
-		Mesh(std::string file_path);
+		Model(std::string file_path);
 
 	private:
 		virtual void OnInit() override;
@@ -29,7 +29,7 @@ namespace Nixie
 		Vertex* vertices;
 		unsigned long* indices;
 
-		MeshBuffer* buffer;
+		Mesh* buffer;
 	};
 }
 

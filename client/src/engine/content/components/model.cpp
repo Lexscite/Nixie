@@ -5,12 +5,12 @@
 
 namespace Nixie
 {
-	Mesh::Mesh(std::string file_path) :
+	Model::Model(std::string file_path) :
 		file_path(file_path),
-		buffer(new MeshBuffer) {}
+		buffer(new Mesh) {}
 
 
-	void Mesh::OnInit()
+	void Model::OnInit()
 	{
 		if (LoadFile(file_path))
 		{
@@ -19,13 +19,13 @@ namespace Nixie
 	}
 
 
-	void Mesh::OnUpdate()
+	void Model::OnUpdate()
 	{
 		buffer->Render(index_count, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	}
 
 
-	bool Mesh::LoadFile(std::string file_path)
+	bool Model::LoadFile(std::string file_path)
 	{
 		std::ifstream fin;
 		fin.open(file_path);

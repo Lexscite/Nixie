@@ -25,7 +25,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\mesh_buffer.cpp">
+    <ClCompile Include="src\engine\graphics\mesh.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
@@ -152,7 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\input\input.h" />
-    <ClInclude Include="src\engine\graphics\mesh_buffer.h" />
+    <ClInclude Include="src\engine\graphics\mesh.h" />
     <ClInclude Include="src\engine\content\component.h" />
     <ClInclude Include="src\engine\content\game_object.h" />
     <ClInclude Include="src\engine\content\components\camera.h" />

@@ -51,9 +51,6 @@
     <ClCompile Include="src\engine\graphics\d3d.cpp">
       <Filter>src\engine\graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\mesh_buffer.cpp">
-      <Filter>src\engine\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\graphics\shader.cpp">
       <Filter>src\engine\graphics</Filter>
     </ClCompile>
@@ -93,6 +90,9 @@
     <ClCompile Include="src\engine\content\components\material.cpp">
       <Filter>src\engine\content\components</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\graphics\mesh.cpp">
+      <Filter>src\engine\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\content\components\camera.h">
@@ -111,9 +111,6 @@
       <Filter>src\engine\content</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\graphics\d3d.h">
-      <Filter>src\engine\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphics\mesh_buffer.h">
       <Filter>src\engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\graphics\shader.h">
@@ -157,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="src\engine\content\components\material.h">
       <Filter>src\engine\content\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\graphics\mesh.h">
+      <Filter>src\engine\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

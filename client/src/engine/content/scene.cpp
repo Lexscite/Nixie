@@ -22,7 +22,7 @@ namespace Nixie
 		AddGameObject(camera);
 
 		std::shared_ptr<GameObject> mailbox = std::make_shared<GameObject>("Mailbox");
-		mailbox->AddComponent(std::make_shared<Mesh>("../data/meshes/mailbox.txt"));
+		mailbox->AddComponent(std::make_shared<Model>("../data/meshes/mailbox.txt"));
 		mailbox->AddComponent(std::make_shared<Material>(L"../data/textures/mailbox.jpg"));
 		AddGameObject(mailbox);
 
