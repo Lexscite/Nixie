@@ -3,11 +3,11 @@
 
 #pragma once
 
+#include "math.h"
+
 
 namespace Nixie
 {
-	class Vector3;
-
 	class Color
 	{
 	public:

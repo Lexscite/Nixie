@@ -5,10 +5,9 @@
 
 #include "math.h"
 
+
 namespace Nixie
 {
-	class Vector3;
-
 	class Quaternion
 	{
 	public:

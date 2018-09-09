@@ -3,11 +3,11 @@
 
 #pragma once
 
+#include "math.h"
+
 
 namespace Nixie
 {
-	class Quaternion;
-
 	class Vector2
 	{
 	public:
