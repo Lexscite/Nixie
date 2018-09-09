@@ -28,7 +28,7 @@ namespace Nixie
 		wchar_t* file_path_w = new wchar_t[file_path_wchar_num];
 		MultiByteToWideChar(CP_UTF8, 0, file_path.c_str(), -1, file_path_w, file_path_wchar_num);
 
-		HRESULT hr = DirectX::CreateWICTextureFromFile(D3D::GetSingleton()->GetDevice(), file_path_w, &texture_, &texture_view_);
+		HRESULT hr = DirectX::CreateWICTextureFromFile(D3D::Get()->GetDevice(), file_path_w, &texture_, &texture_view_);
 		if (FAILED(hr))
 		{
 			return false;

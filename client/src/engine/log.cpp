@@ -34,7 +34,7 @@ namespace Nixie
 	}
 
 
-	Log& Log::GetInstance()
+	Log& Log::Get()
 	{
 		static Log instance;
 		return instance;
@@ -43,7 +43,7 @@ namespace Nixie
 
 	void Log::Write(std::string s)
 	{
-		fs_ << s << std::endl;
+		Get().fs_ << s << std::endl;
 
 #ifdef NIXIE_LOG_CONSOLE_ENABLED
 		WriteToConsole(s);

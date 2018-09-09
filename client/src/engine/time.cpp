@@ -6,7 +6,7 @@ namespace Nixie
 {
 	Time* Time::singleton_;
 
-	Time* Time::GetSingleton()
+	Time* Time::Get()
 	{
 		if (singleton_ == nullptr)
 			singleton_ = new Time;
@@ -87,7 +87,7 @@ namespace Nixie
 
 	float Time::GetDeltaTime()
 	{
-		return static_cast<float>(Time::GetSingleton()->delta_time_);
+		return static_cast<float>(Time::Get()->delta_time_);
 	}
 
 	float Time::GetTime() const

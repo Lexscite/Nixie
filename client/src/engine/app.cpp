@@ -6,15 +6,6 @@
 
 namespace Nixie
 {
-	LRESULT CALLBACK WindowProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param)
-	{
-		if (App::GetSingleton())
-			return App::GetSingleton()->MessageProcessor(window, message, w_param, l_param);
-		else
-			return DefWindowProc(window, message, w_param, l_param);
-	}
-
-
 	App::App()
 	{
 		input_ = nullptr;
@@ -28,7 +19,7 @@ namespace Nixie
 	App* App::singleton_;
 
 
-	App* App::GetSingleton()
+	App* App::Get()
 	{
 		if (singleton_ == 0)
 			singleton_ = new App;
@@ -39,43 +30,43 @@ namespace Nixie
 
 	bool App::Init(HINSTANCE instance)
 	{
-		input_ = Input::GetSingleton();
-		directx_ = D3D::GetSingleton();
-		time_ = Time::GetSingleton();
+		input_ = Input::Get();
+		directx_ = D3D::Get();
+		time_ = Time::Get();
 
 		InitSettings();
 
 		if (!InitWindow(instance))
 		{
 			MessageBox(window_, "Failed to create window", "Error", MB_OK | MB_ICONERROR);
-			Log::GetInstance().Write("Failed to initialize window");
+			Log::Write("Failed to initialize window");
 			return false;
 		}
 		else
 		{
-			Log::GetInstance().Write("Window initialized");
+			Log::Write("Window initialized");
 		}
 
 		if (!input_->Init())
 		{
 			MessageBox(window_, "Failed to initialize input system", "Error", MB_OK | MB_ICONERROR);
-			Log::GetInstance().Write("Failed to initialize input");
+			Log::Write("Failed to initialize input");
 			return false;
 		}
 		else
 		{
-			Log::GetInstance().Write("Input initialized");
+			Log::Write("Input initialized");
 		}
 
 		if (!directx_->Init(screen_width_, screen_height_, vsync_enabled_, fullscreen_enabled_, 1000.0f, 0.1f))
 		{
 			MessageBox(window_, "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
-			Log::GetInstance().Write("Failed to initialize DirectX");
+			Log::Write("Failed to initialize DirectX");
 			return false;
 		}
 		else
 		{
-			Log::GetInstance().Write("DirectX initialized");
+			Log::Write("DirectX initialized");
 		}
 
 		//if (!CConnection::GetSingleton()->Establish("127.0.0.1", 1111))
@@ -89,12 +80,12 @@ namespace Nixie
 
 		if (!LoadScene(std::make_shared<Scene>()))
 		{
-			Log::GetInstance().Write("Failed to load scene");
+			Log::Write("Failed to load scene");
 			return false;
 		}
 		else
 		{
-			Log::GetInstance().Write("Scene loaded");
+			Log::Write("Scene loaded");
 		}
 
 		return true;
@@ -132,7 +123,7 @@ namespace Nixie
 		wc.cbSize = sizeof(WNDCLASSEX);
 		wc.style = CS_HREDRAW | CS_VREDRAW;
 		wc.hInstance = instance;
-		wc.lpfnWndProc = WindowProcessor;
+		wc.lpfnWndProc = MessageProcessor;
 		wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 		wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 		wc.hCursor = LoadCursor(NULL, IDC_ARROW);
@@ -170,7 +161,7 @@ namespace Nixie
 			window_pos_x, window_pos_y, screen_width_, screen_height_, NULL, NULL, instance, NULL);
 		if (!window_)
 		{
-			Log::GetInstance().Write("WINAPI CreateWindowEx failed");
+			Log::Write("WINAPI CreateWindowEx failed");
 			return false;
 		}
 
@@ -190,13 +181,13 @@ namespace Nixie
 		case WM_MOVE:
 			if (LOWORD(w_param) == WM_MOVING)
 			{
-				is_paused_ = true;
-				time_->Stop();
+				App::Get()->is_paused_ = true;
+				App::Get()->time_->Stop();
 			}
 			else
 			{
-				is_paused_ = false;
-				time_->Start();
+				App::Get()->is_paused_ = false;
+				App::Get()->time_->Start();
 			}
 			return 0;
 		case WM_MENUCHAR:
@@ -260,6 +251,17 @@ namespace Nixie
 		{
 			return false;
 		}
+
+		// Temporary function
+#ifdef _DEBUG
+		if (Input::IsKeyPressed(DirectX::Keyboard::Keys::F1))
+		{
+			if (!directx_->ToggleWireframeMode())
+			{
+				return false;
+			}
+		}
+#endif
 
 		directx_->BeginScene(scene_->GetClearColor());
 

@@ -8,7 +8,7 @@ namespace Nixie
 	class Time
 	{
 	public:
-		static Time* GetSingleton();
+		static Time* Get();
 
 		void Start();
 		void Stop();

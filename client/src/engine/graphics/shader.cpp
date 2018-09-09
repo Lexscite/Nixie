@@ -57,8 +57,8 @@ namespace Nixie
 
 	bool Shader::Init(std::string vs_path, std::string ps_path)
 	{
-		device_ = std::unique_ptr<ID3D11Device>(D3D::GetSingleton()->GetDevice());
-		device_context_ = std::unique_ptr<ID3D11DeviceContext>(D3D::GetSingleton()->GetDeviceContext());
+		device_ = std::unique_ptr<ID3D11Device>(D3D::Get()->GetDevice());
+		device_context_ = std::unique_ptr<ID3D11DeviceContext>(D3D::Get()->GetDeviceContext());
 
 		auto vs_buffer = LoadFromFile(vs_path);
 		auto ps_buffer = LoadFromFile(ps_path);
@@ -111,8 +111,8 @@ namespace Nixie
 
 		MatrixBuffer* matrix_buffer = static_cast<MatrixBuffer*>(mapped_resource.pData);
 		matrix_buffer->world_matrix = XMMatrixTranspose(world_matrix);
-		matrix_buffer->view_matrix = XMMatrixTranspose(App::GetSingleton()->GetScene()->GetCamera()->GetViewMatrix());
-		matrix_buffer->projection_matrix = XMMatrixTranspose(D3D::GetSingleton()->GetProjectionMatrix());
+		matrix_buffer->view_matrix = XMMatrixTranspose(App::Get()->GetScene()->GetCamera()->GetViewMatrix());
+		matrix_buffer->projection_matrix = XMMatrixTranspose(D3D::Get()->GetProjectionMatrix());
 		device_context_->Unmap(matrix_buffer_, 0);
 
 		hr = device_context_->Map(light_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);

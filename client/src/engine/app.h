@@ -13,12 +13,10 @@ namespace Nixie
 	class App final
 	{
 	public:
-		static App* GetSingleton();
+		static App* Get();
 
 		bool Init(HINSTANCE instance);
 		int Run();
-
-		LRESULT MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param);
 
 		HWND GetHwnd();
 		D3D* GetDirectX();
@@ -34,6 +32,9 @@ namespace Nixie
 		void CalculateFrameStats();
 
 		bool LoadScene(std::shared_ptr<Scene> scene);
+
+	protected:
+		static LRESULT CALLBACK MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param);
 
 	private:
 		static App* singleton_;

@@ -2,7 +2,7 @@
 
 int main()
 {
-	CServer* pServer = CServer::GetSingleton();
+	CServer* pServer = CServer::Get();
 
 	if (pServer->Start(1111))
 		pServer->Run();

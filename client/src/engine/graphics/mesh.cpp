@@ -28,8 +28,8 @@ namespace Nixie
 
 	bool Mesh::Init(std::string file_path)
 	{
-		device_ = std::shared_ptr<ID3D11Device>(D3D::GetSingleton()->GetDevice());
-		device_context_ = std::shared_ptr<ID3D11DeviceContext>(D3D::GetSingleton()->GetDeviceContext());
+		device_ = std::shared_ptr<ID3D11Device>(D3D::Get()->GetDevice());
+		device_context_ = std::shared_ptr<ID3D11DeviceContext>(D3D::Get()->GetDeviceContext());
 
 		if (!LoadFromFile(file_path))
 		{

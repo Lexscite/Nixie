@@ -12,7 +12,7 @@ namespace Nixie
 	class Input
 	{
 	public:
-		static Input* GetSingleton();
+		static Input* Get();
 
 		bool Init();
 		void Release();

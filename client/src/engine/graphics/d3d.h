@@ -18,7 +18,7 @@ namespace Nixie
 	class D3D final
 	{
 	public:
-		static D3D* GetSingleton();
+		static D3D* Get();
 
 		bool Init(
 			unsigned int screen_width,
@@ -32,18 +32,18 @@ namespace Nixie
 		void BeginScene(Color clear_color);
 		void EndScene();
 
-		bool SetRasterizer();
-
 		ID3D11Device* GetDevice();
 		ID3D11DeviceContext* GetDeviceContext();
 
 		DirectX::SimpleMath::Matrix GetProjectionMatrix();
 		DirectX::SimpleMath::Matrix GetOrthoMatrix();
 
-		void ToggleWireframeMode();
+		bool ToggleWireframeMode();
 
 	private:
 		D3D();
+
+		bool SetRasterizer();
 
 	private:
 		static D3D* singleton_;

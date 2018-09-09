@@ -14,7 +14,7 @@ namespace Nixie
 	Input* Input::singleton_;
 
 
-	Input* Input::GetSingleton()
+	Input* Input::Get()
 	{
 		if (singleton_ == nullptr)
 			singleton_ = new Input;
@@ -54,14 +54,14 @@ namespace Nixie
 
 	bool Input::IsKeyDown(DirectX::Keyboard::Keys key)
 	{
-		return Input::GetSingleton()->keyboard_state_.IsKeyDown(key);
+		return Input::Get()->keyboard_state_.IsKeyDown(key);
 	}
 
 
 	bool Input::IsKeyPressed(DirectX::Keyboard::Keys key)
 	{
-		if (!Input::GetSingleton()->keyboard_state_prev_.IsKeyDown(key))
-			return Input::GetSingleton()->keyboard_state_.IsKeyDown(key);
+		if (!Input::Get()->keyboard_state_prev_.IsKeyDown(key))
+			return Input::Get()->keyboard_state_.IsKeyDown(key);
 		else
 			return false;
 	}

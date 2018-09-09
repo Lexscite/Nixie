@@ -27,7 +27,7 @@ namespace Nixie
 	class ModelConverter final
 	{
 	public:
-		static ModelConverter* GetSingleton();
+		static ModelConverter* Get();
 
 		bool Init();
 		bool Run();

@@ -29,12 +29,12 @@ namespace Nixie
 	public:
 		~Log();
 
-		static Log& GetInstance();
-
-		void Write(std::string s);
+		static void Write(std::string s);
 
 	private:
 		Log();
+
+		static Log& Get();
 
 #ifdef NIXIE_LOG_CONSOLE_ENABLED
 		static void WriteToConsole(std::string s);

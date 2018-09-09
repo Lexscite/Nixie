@@ -3,11 +3,11 @@
 #include "engine/app.h"
 
 
-int WINAPI WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, __in LPSTR lpCmdLine, __in int nShowCmd)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	int exit_code = 0;
 
-	auto app = Nixie::App::GetSingleton();
+	auto app = Nixie::App::Get();
 	if (app->Init(hInstance))
 		exit_code = app->Run();
 

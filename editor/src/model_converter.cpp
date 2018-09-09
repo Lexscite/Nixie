@@ -9,7 +9,7 @@ namespace Nixie
 
 	ModelConverter* ModelConverter::singleton_;
 
-	ModelConverter* ModelConverter::GetSingleton()
+	ModelConverter* ModelConverter::Get()
 	{
 		if (singleton_ == 0)
 			singleton_ = new ModelConverter;

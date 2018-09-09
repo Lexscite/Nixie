@@ -13,7 +13,7 @@
 class CServer
 {
 public:
-	static CServer* GetSingleton();
+	static CServer* Get();
 	
 	bool Start(int port, bool isPublic = false);
 	void Stop();

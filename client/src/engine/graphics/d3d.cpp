@@ -4,6 +4,7 @@
 #include "../app.h"
 #include "../log.h"
 
+
 namespace Nixie
 {
 	D3D::D3D() :
@@ -14,17 +15,23 @@ namespace Nixie
 		depth_stencil_buffer_(nullptr),
 		depth_stencil_state_(nullptr),
 		depth_stencil_view_(nullptr),
-		rasterizer_state_(nullptr) {}
+		rasterizer_state_(nullptr)
+	{
+
+	}
+
 
 	D3D* D3D::singleton_;
 
-	D3D* D3D::GetSingleton()
+
+	D3D* D3D::Get()
 	{
 		if (singleton_ == 0)
 			singleton_ = new D3D;
 
 		return singleton_;
 	}
+
 
 	bool D3D::Init(
 		unsigned int screen_width,
@@ -45,7 +52,7 @@ namespace Nixie
 		hr = CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&factory));
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to create DXGIFactory");
+			Log::Write("Failed to create DXGIFactory");
 			return false;
 		}
 
@@ -53,7 +60,7 @@ namespace Nixie
 		hr = factory->EnumAdapters(0, &adapter);
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to enum adapters");
+			Log::Write("Failed to enum adapters");
 			return false;
 		}
 
@@ -61,7 +68,7 @@ namespace Nixie
 		hr = adapter->EnumOutputs(0, &adapter_output);
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to enum adapters outputs");
+			Log::Write("Failed to enum adapters outputs");
 			return false;
 		}
 
@@ -69,7 +76,7 @@ namespace Nixie
 		hr = adapter_output->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &num_modes, NULL);
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to get display modes list");
+			Log::Write("Failed to get display modes list");
 			return false;
 		}
 
@@ -77,14 +84,14 @@ namespace Nixie
 		display_mode_list = new DXGI_MODE_DESC[num_modes];
 		if (!display_mode_list)
 		{
-			Log::GetInstance().Write("Failed to create display mode list");
+			Log::Write("Failed to create display mode list");
 			return false;
 		}
 
 		hr = adapter_output->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &num_modes, display_mode_list);
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to fill display mode list struct");
+			Log::Write("Failed to fill display mode list struct");
 			return false;
 		}
 
@@ -105,7 +112,7 @@ namespace Nixie
 		hr = adapter->GetDesc(&adapter_desc);
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to get adapter description");
+			Log::Write("Failed to get adapter description");
 			return false;
 		}
 
@@ -164,7 +171,7 @@ namespace Nixie
 		}
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to create DirectX device");
+			Log::Write("Failed to create DirectX device");
 			return false;
 		}
 
@@ -172,13 +179,13 @@ namespace Nixie
 		hr = device_->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &msaa_quality);
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to check multisample quality levels");
+			Log::Write("Failed to check multisample quality levels");
 			return false;
 		}
 
 		DXGI_SWAP_CHAIN_DESC swap_chain_desc;
 		ZeroMemory(&swap_chain_desc, sizeof(swap_chain_desc));
-		swap_chain_desc.OutputWindow = App::GetSingleton()->GetHwnd();
+		swap_chain_desc.OutputWindow = App::Get()->GetHwnd();
 		swap_chain_desc.Windowed = !fullscreen_enabled_;
 		swap_chain_desc.BufferDesc.Width = screen_width;
 		swap_chain_desc.BufferDesc.Height = screen_height;
@@ -197,7 +204,7 @@ namespace Nixie
 		hr = factory->CreateSwapChain(device_, &swap_chain_desc, &swap_chain_);
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to create swap chain");
+			Log::Write("Failed to create swap chain");
 			return false;
 		}
 
@@ -229,7 +236,7 @@ namespace Nixie
 		hr = swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<LPVOID*>(&back_buffer));
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to get the back buffer");
+			Log::Write("Failed to get the back buffer");
 			return false;
 		}
 
@@ -263,7 +270,7 @@ namespace Nixie
 		hr = device_->CreateRenderTargetView(back_buffer, nullptr, &render_target_view_);
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to create render target view");
+			Log::Write("Failed to create render target view");
 			return false;
 		}
 
@@ -290,7 +297,7 @@ namespace Nixie
 		hr = device_->CreateTexture2D(&depth_buffer_desc, nullptr, &depth_stencil_buffer_);
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to create back buffer texture");
+			Log::Write("Failed to create back buffer texture");
 			return false;
 		}
 
@@ -314,7 +321,7 @@ namespace Nixie
 		hr = device_->CreateDepthStencilState(&depth_stencil_desc, &depth_stencil_state_);
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to create depth stencil state");
+			Log::Write("Failed to create depth stencil state");
 			return false;
 		}
 
@@ -329,7 +336,7 @@ namespace Nixie
 		hr = device_->CreateDepthStencilView(depth_stencil_buffer_, &depth_stencil_view_desc, &depth_stencil_view_);
 		if (FAILED(hr))
 		{
-			Log::GetInstance().Write("Failed to create depth stencil view");
+			Log::Write("Failed to create depth stencil view");
 			return false;
 		}
 
@@ -337,7 +344,6 @@ namespace Nixie
 
 		if (!SetRasterizer())
 		{
-			Log::GetInstance().Write("Failed to create rasterizer state");
 			return false;
 		}
 
@@ -361,6 +367,7 @@ namespace Nixie
 		return true;
 	}
 
+
 	bool D3D::SetRasterizer()
 	{
 		HRESULT hr;
@@ -379,18 +386,28 @@ namespace Nixie
 
 		hr = device_->CreateRasterizerState(&rasterizer_desc, &rasterizer_state_);
 		if (FAILED(hr))
+		{
+			Log::Write("Failed to create rasterizer state");
 			return false;
+		}
 
 		device_context_->RSSetState(rasterizer_state_);
 
 		return true;
 	}
 
-	void D3D::ToggleWireframeMode()
+
+	bool D3D::ToggleWireframeMode()
 	{
 		wireframe_mode_enabled_ = !wireframe_mode_enabled_;
-		SetRasterizer();
+		if (!SetRasterizer())
+		{
+			return false;
+		}
+
+		return true;
 	}
+
 
 	void D3D::Release()
 	{
@@ -450,10 +467,6 @@ namespace Nixie
 
 	void D3D::BeginScene(Color clear_color)
 	{
-#ifdef _DEBUG
-		if (Input::IsKeyPressed(DirectX::Keyboard::Keys::F1))
-			ToggleWireframeMode();
-#endif
 		auto dx_clear_color = DirectX::SimpleMath::Color(clear_color.r, clear_color.g, clear_color.b);
 
 		device_context_->ClearRenderTargetView(render_target_view_, dx_clear_color);

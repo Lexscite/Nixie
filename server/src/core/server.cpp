@@ -9,7 +9,7 @@ CServer::CServer()
 
 CServer* CServer::s_singleton;
 
-CServer* CServer::GetSingleton()
+CServer* CServer::Get()
 {
 	if (s_singleton == nullptr)
 		s_singleton = new CServer;
@@ -302,14 +302,14 @@ void CServer::ClientHandlerThread(int id)
 	PacketType packetType;
 	while (true)
 	{
-		if (!CServer::GetSingleton()->GetPacketType(id, packetType))
+		if (!CServer::Get()->GetPacketType(id, packetType))
 			break;
 
-		if (!CServer::GetSingleton()->ProcessPacket(id, packetType))
+		if (!CServer::Get()->ProcessPacket(id, packetType))
 			break;
 	}
 
-	CServer::GetSingleton()->KillConnection(id);
+	CServer::Get()->KillConnection(id);
 	std::cout << "Lost connection to the client (ID: " << id << ")." << std::endl;
 }
 
@@ -317,12 +317,12 @@ void CServer::PacketSenderThread()
 {
 	while (true)
 	{
-		for (int i = 0; i < (int)CServer::GetSingleton()->m_pConnections.size() - 1; i++)
+		for (int i = 0; i < (int)CServer::Get()->m_pConnections.size() - 1; i++)
 		{
-			if (CServer::GetSingleton()->m_pConnections[i]->m_packetManager.HasPendingPackets())
+			if (CServer::Get()->m_pConnections[i]->m_packetManager.HasPendingPackets())
 			{
-				CPacket pendingPacket = CServer::GetSingleton()->m_pConnections[i]->m_packetManager.Retrieve();
-				if (!CServer::GetSingleton()->Send(i, pendingPacket.m_buffer, pendingPacket.m_size))
+				CPacket pendingPacket = CServer::Get()->m_pConnections[i]->m_packetManager.Retrieve();
+				if (!CServer::Get()->Send(i, pendingPacket.m_buffer, pendingPacket.m_size))
 					std::cout << "Failed to send packet to client (ID: " << i << ")" << std::endl;
 
 				delete pendingPacket.m_buffer;
