@@ -7,6 +7,7 @@
 #include "content/scene.h"
 #include "time.h"
 
+
 namespace Nixie
 {
 	class App final

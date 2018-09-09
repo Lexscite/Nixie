@@ -1,6 +1,7 @@
 #include "../stdafx.h"
 
 #include "app.h"
+#include "log.h"
 
 
 namespace Nixie
@@ -18,11 +19,8 @@ namespace Nixie
 	{
 		input_ = nullptr;
 		directx_ = nullptr;
-
 		time_ = nullptr;
-
 		scene_ = nullptr;
-
 		is_paused_ = false;
 	}
 
@@ -43,7 +41,6 @@ namespace Nixie
 	{
 		input_ = Input::GetSingleton();
 		directx_ = D3D::GetSingleton();
-
 		time_ = Time::GetSingleton();
 
 		InitSettings();
@@ -51,19 +48,34 @@ namespace Nixie
 		if (!InitWindow(instance))
 		{
 			MessageBox(window_, "Failed to create window", "Error", MB_OK | MB_ICONERROR);
+			Log::GetInstance().Write("Failed to initialize window");
 			return false;
+		}
+		else
+		{
+			Log::GetInstance().Write("Window initialized");
 		}
 
 		if (!input_->Init())
 		{
 			MessageBox(window_, "Failed to initialize input system", "Error", MB_OK | MB_ICONERROR);
+			Log::GetInstance().Write("Failed to initialize input");
 			return false;
+		}
+		else
+		{
+			Log::GetInstance().Write("Input initialized");
 		}
 
 		if (!directx_->Init(screen_width_, screen_height_, vsync_enabled_, fullscreen_enabled_, 1000.0f, 0.1f))
 		{
 			MessageBox(window_, "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
+			Log::GetInstance().Write("Failed to initialize DirectX");
 			return false;
+		}
+		else
+		{
+			Log::GetInstance().Write("DirectX initialized");
 		}
 
 		//if (!CConnection::GetSingleton()->Establish("127.0.0.1", 1111))
@@ -76,7 +88,14 @@ namespace Nixie
 		//		CConnection::GetSingleton()->SendString(std::string("Hi Server!"));
 
 		if (!LoadScene(std::make_shared<Scene>()))
+		{
+			Log::GetInstance().Write("Failed to load scene");
 			return false;
+		}
+		else
+		{
+			Log::GetInstance().Write("Scene loaded");
+		}
 
 		return true;
 	}
@@ -151,7 +170,7 @@ namespace Nixie
 			window_pos_x, window_pos_y, screen_width_, screen_height_, NULL, NULL, instance, NULL);
 		if (!window_)
 		{
-			std::cerr << "Failed to create main window" << std::endl;
+			Log::GetInstance().Write("WINAPI CreateWindowEx failed");
 			return false;
 		}
 

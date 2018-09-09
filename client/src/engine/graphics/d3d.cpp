@@ -2,6 +2,7 @@
 
 #include "d3d.h"
 #include "../app.h"
+#include "../log.h"
 
 namespace Nixie
 {
@@ -44,7 +45,7 @@ namespace Nixie
 		hr = CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&factory));
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to create DXGIFactory" << std::endl;
+			Log::GetInstance().Write("Failed to create DXGIFactory");
 			return false;
 		}
 
@@ -52,7 +53,7 @@ namespace Nixie
 		hr = factory->EnumAdapters(0, &adapter);
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to enum adapters" << std::endl;
+			Log::GetInstance().Write("Failed to enum adapters");
 			return false;
 		}
 
@@ -60,7 +61,7 @@ namespace Nixie
 		hr = adapter->EnumOutputs(0, &adapter_output);
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to enum adapter outputs" << std::endl;
+			Log::GetInstance().Write("Failed to enum adapters outputs");
 			return false;
 		}
 
@@ -68,7 +69,7 @@ namespace Nixie
 		hr = adapter_output->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &num_modes, NULL);
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to get the number of modes" << std::endl;
+			Log::GetInstance().Write("Failed to get display modes list");
 			return false;
 		}
 
@@ -76,14 +77,14 @@ namespace Nixie
 		display_mode_list = new DXGI_MODE_DESC[num_modes];
 		if (!display_mode_list)
 		{
-			std::cerr << "Failed to create mode list" << std::endl;
+			Log::GetInstance().Write("Failed to create display mode list");
 			return false;
 		}
 
 		hr = adapter_output->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &num_modes, display_mode_list);
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to fill display mode list struct" << std::endl;
+			Log::GetInstance().Write("Failed to fill display mode list struct");
 			return false;
 		}
 
@@ -104,7 +105,7 @@ namespace Nixie
 		hr = adapter->GetDesc(&adapter_desc);
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to get adapter description" << std::endl;
+			Log::GetInstance().Write("Failed to get adapter description");
 			return false;
 		}
 
@@ -163,7 +164,7 @@ namespace Nixie
 		}
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to create DirectX device" << std::endl;
+			Log::GetInstance().Write("Failed to create DirectX device");
 			return false;
 		}
 
@@ -171,7 +172,7 @@ namespace Nixie
 		hr = device_->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &msaa_quality);
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to check multisample quality levels" << std::endl;
+			Log::GetInstance().Write("Failed to check multisample quality levels");
 			return false;
 		}
 
@@ -196,7 +197,7 @@ namespace Nixie
 		hr = factory->CreateSwapChain(device_, &swap_chain_desc, &swap_chain_);
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to create swap chain" << std::endl;
+			Log::GetInstance().Write("Failed to create swap chain");
 			return false;
 		}
 
@@ -228,7 +229,7 @@ namespace Nixie
 		hr = swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<LPVOID*>(&back_buffer));
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to get the back buffer" << std::endl;
+			Log::GetInstance().Write("Failed to get the back buffer");
 			return false;
 		}
 
@@ -262,7 +263,7 @@ namespace Nixie
 		hr = device_->CreateRenderTargetView(back_buffer, nullptr, &render_target_view_);
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to create render target view" << std::endl;
+			Log::GetInstance().Write("Failed to create render target view");
 			return false;
 		}
 
@@ -289,7 +290,7 @@ namespace Nixie
 		hr = device_->CreateTexture2D(&depth_buffer_desc, nullptr, &depth_stencil_buffer_);
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to create back buffer texture" << std::endl;
+			Log::GetInstance().Write("Failed to create back buffer texture");
 			return false;
 		}
 
@@ -313,7 +314,7 @@ namespace Nixie
 		hr = device_->CreateDepthStencilState(&depth_stencil_desc, &depth_stencil_state_);
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to create depth stencil state" << std::endl;
+			Log::GetInstance().Write("Failed to create depth stencil state");
 			return false;
 		}
 
@@ -328,7 +329,7 @@ namespace Nixie
 		hr = device_->CreateDepthStencilView(depth_stencil_buffer_, &depth_stencil_view_desc, &depth_stencil_view_);
 		if (FAILED(hr))
 		{
-			std::cerr << "Failed to create depth stencil view" << hr << std::endl;
+			Log::GetInstance().Write("Failed to create depth stencil view");
 			return false;
 		}
 
@@ -336,7 +337,7 @@ namespace Nixie
 
 		if (!SetRasterizer())
 		{
-			std::cerr << "Failed to create rasterizer state" << std::endl;
+			Log::GetInstance().Write("Failed to create rasterizer state");
 			return false;
 		}
 
