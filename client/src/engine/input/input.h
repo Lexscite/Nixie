@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include "../graphics/d3d.h"
 #include "keyboard.h"
 
 

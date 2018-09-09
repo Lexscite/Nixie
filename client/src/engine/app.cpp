@@ -6,26 +6,17 @@
 
 namespace Nixie
 {
-	App::App()
-	{
-		input_ = nullptr;
-		directx_ = nullptr;
-		time_ = nullptr;
-		scene_ = nullptr;
-		is_paused_ = false;
-	}
-
-	
-	App* App::singleton_;
-
-
-	App* App::Get()
-	{
-		if (singleton_ == 0)
-			singleton_ = new App;
-
-		return singleton_;
-	}
+	HWND App::window_ = nullptr;
+	LPCSTR App::window_caption_ = nullptr;
+	Time* App::time_ = nullptr;
+	D3D* App::directx_ = nullptr;
+	Input* App::input_ = nullptr;
+	std::shared_ptr<Scene> App::scene_ = nullptr;
+	unsigned int App::screen_width_ = 0;
+	unsigned int App::screen_height_ = 0;
+	bool App::vsync_enabled_ = 0;
+	bool App::fullscreen_enabled_ = 0;
+	bool App::is_paused_ = 0;
 
 
 	bool App::Init(HINSTANCE instance)
@@ -181,13 +172,13 @@ namespace Nixie
 		case WM_MOVE:
 			if (LOWORD(w_param) == WM_MOVING)
 			{
-				App::Get()->is_paused_ = true;
-				App::Get()->time_->Stop();
+				is_paused_ = true;
+				time_->Stop();
 			}
 			else
 			{
-				App::Get()->is_paused_ = false;
-				App::Get()->time_->Start();
+				is_paused_ = false;
+				time_->Start();
 			}
 			return 0;
 		case WM_MENUCHAR:
@@ -273,22 +264,6 @@ namespace Nixie
 		directx_->EndScene();
 
 		return true;
-	}
-
-
-	HWND App::GetHwnd()
-	{
-		return window_;
-	}
-
-	D3D* App::GetDirectX()
-	{
-		return directx_;
-	}
-
-	std::shared_ptr<Scene> App::GetScene()
-	{
-		return scene_;
 	}
 
 	void App::CalculateFrameStats()

@@ -7,9 +7,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	int exit_code = 0;
 
-	auto app = Nixie::App::Get();
-	if (app->Init(hInstance))
-		exit_code = app->Run();
+	if (Nixie::App::Init(hInstance))
+	{
+		exit_code = Nixie::App::Run();
+	}
 
 	return exit_code;
 }

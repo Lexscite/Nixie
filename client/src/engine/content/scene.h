@@ -4,6 +4,7 @@
 #pragma once
 
 #include "components/camera.h"
+#include "../math/color.h"
 
 
 namespace Nixie

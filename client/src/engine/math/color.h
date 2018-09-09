@@ -3,10 +3,11 @@
 
 #pragma once
 
-#include "math.h"
 
 namespace Nixie
 {
+	class Vector3;
+
 	class Color
 	{
 	public:
@@ -14,8 +15,10 @@ namespace Nixie
 		Color(float value);
 		Color(float r, float g, float b);
 		Color(float r, float g, float b, float a);
-		Color(Vector3 v);
-		Color(Vector3 v, float a);
+		Color(const Vector3& v);
+		Color(const Vector3& v, float a);
+
+		inline operator float*() const { return new float[4]{ r, g, b, a }; };
 
 	private:
 		float ClampValue(float value);

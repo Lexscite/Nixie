@@ -133,9 +133,6 @@
     <ClInclude Include="src\engine\math\color.h">
       <Filter>engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\math\math.h">
-      <Filter>engine\math</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\math\quaternion.h">
       <Filter>engine\math</Filter>
     </ClInclude>
@@ -154,6 +151,9 @@
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\engine\log.h">
       <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\math.h">
+      <Filter>engine\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

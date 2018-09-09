@@ -111,7 +111,7 @@ namespace Nixie
 
 		MatrixBuffer* matrix_buffer = static_cast<MatrixBuffer*>(mapped_resource.pData);
 		matrix_buffer->world_matrix = XMMatrixTranspose(world_matrix);
-		matrix_buffer->view_matrix = XMMatrixTranspose(App::Get()->GetScene()->GetCamera()->GetViewMatrix());
+		matrix_buffer->view_matrix = XMMatrixTranspose(App::GetScene()->GetCamera()->GetViewMatrix());
 		matrix_buffer->projection_matrix = XMMatrixTranspose(D3D::Get()->GetProjectionMatrix());
 		device_context_->Unmap(matrix_buffer_, 0);
 

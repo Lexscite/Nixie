@@ -3,15 +3,9 @@
 
 #pragma once
 
-#include "math.h"
 
 namespace Nixie
 {
-	namespace Math
-	{
-		inline float InvSqrtf(float value);
-	}
-
 	class Quaternion;
 
 	class Vector2
@@ -80,7 +74,7 @@ namespace Nixie
 
 	inline float Vector3::GetMagnitude() { return sqrtf(x * x + y * y + z * z); }
 
-	inline Vector3& Vector3::Normalize() { return (*this *= Math::InvSqrtf(x * x + y * y + z * z)); }
+	inline Vector3& Vector3::Normalize() { return (*this *= 1.0f / std::sqrtf(x * x + y * y + z * z)); }
 
 	inline Vector3 Vector3::operator+(const Vector3& v) const { return Vector3(x + v.x, y + v.y, z + v.z); }
 	inline Vector3 Vector3::operator-(const Vector3& v) const { return Vector3(x - v.x, y - v.y, z - v.z); }

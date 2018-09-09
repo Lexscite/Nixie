@@ -13,48 +13,41 @@ namespace Nixie
 	class App final
 	{
 	public:
-		static App* Get();
+		static bool Init(HINSTANCE instance);
+		static int Run();
 
-		bool Init(HINSTANCE instance);
-		int Run();
-
-		HWND GetHwnd();
-		D3D* GetDirectX();
-		std::shared_ptr<Scene> GetScene();
+		static HWND GetWindow() { return window_; }
+		static D3D* GetDirectX() { return directx_; }
+		static std::shared_ptr<Scene> GetScene() { return scene_; }
 
 	private:
-		App();
+		static bool InitWindow(HINSTANCE instance);
+		static void InitSettings();
+		static bool Update(float delta_time);
 
-		bool InitWindow(HINSTANCE instance);
-		void InitSettings();
-		bool Update(float delta_time);
+		static void CalculateFrameStats();
 
-		void CalculateFrameStats();
-
-		bool LoadScene(std::shared_ptr<Scene> scene);
+		static bool LoadScene(std::shared_ptr<Scene> scene);
 
 	protected:
 		static LRESULT CALLBACK MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param);
 
 	private:
-		static App* singleton_;
+		static HWND window_;
+		static LPCSTR window_caption_;
 
-		HWND window_;
-		LPCSTR window_caption_;
+		static Time* time_;
+		static D3D* directx_;
+		static Input* input_;
+		static std::shared_ptr<Scene> scene_;
 
-		unsigned int screen_width_;
-		unsigned int screen_height_;
+		static unsigned int screen_width_;
+		static unsigned int screen_height_;
 
-		bool vsync_enabled_;
-		bool fullscreen_enabled_;
+		static bool vsync_enabled_;
+		static bool fullscreen_enabled_;
 
-		Time* time_;
-		bool is_paused_;
-
-		D3D* directx_;
-		Input* input_;
-
-		std::shared_ptr<Scene> scene_;
+		static bool is_paused_;
 	};
 }
 

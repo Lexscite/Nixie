@@ -3,40 +3,15 @@
 
 #pragma once
 
+#include <algorithm>
 
-#include "vector.h"
-#include "quaternion.h"
-#include "color.h"
 
 namespace Nixie
 {
-	namespace Math
+	template<class T>
+	T Clamp(T v, T l, T h)
 	{
-		inline float InvSqrtf(float value) { return value != 0.0f ? 1.0f / sqrtf(value) : 0.0f; }
-
-		inline float Clampf(float value, float min, float max)
-		{
-			float result = value;
-
-			if (result < min)
-				result = min;
-			else if (result > max)
-				result = max;
-
-			return result;
-		}
-
-		inline int Clamp(int value, int min, int max)
-		{
-			int result = value;
-
-			if (result < min)
-				result = min;
-			else if (result > max)
-				result = max;
-
-			return result;
-		}
+		return std::max(l, std::min(v, h));
 	}
 }
 

@@ -11,10 +11,11 @@
 #include "SimpleMath.h"
 #include "WICTextureLoader.h"
 
-#include "../math/math.h"
 
 namespace Nixie
 {
+	class Color;
+
 	class D3D final
 	{
 	public:
@@ -29,7 +30,7 @@ namespace Nixie
 			float screen_near);
 		void Release();
 
-		void BeginScene(Color clear_color);
+		void BeginScene(const Color& c);
 		void EndScene();
 
 		ID3D11Device* GetDevice();

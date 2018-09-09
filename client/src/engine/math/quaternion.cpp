@@ -1,6 +1,8 @@
 #include "../../stdafx.h"
 
 #include "quaternion.h"
+#include "vector.h"
+
 
 namespace Nixie
 {
@@ -11,7 +13,7 @@ namespace Nixie
 
 	inline float Quaternion::GetMagnitude() { return sqrtf(x * x + y * y + z * z + w * w); }
 
-	inline Quaternion& Quaternion::Normalize() { return (*this *= Math::InvSqrtf(x * x + y * y + z * z + w * w)); }
+	inline Quaternion& Quaternion::Normalize() { return (*this *= 1.0f / std::sqrtf(x * x + y * y + z * z + w * w)); }
 
 	inline Quaternion& Quaternion::Set(float r, float p, float y)
 	{

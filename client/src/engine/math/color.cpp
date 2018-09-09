@@ -1,10 +1,14 @@
 #include "../../stdafx.h"
 
 #include "color.h"
+#include "vector.h"
+#include "math.h"
+
 
 namespace Nixie
 {
 	Color::Color() : r(0), g(0), b(0), a(1) {}
+
 
 	Color::Color(float value)
 	{
@@ -15,6 +19,7 @@ namespace Nixie
 		a = 1.0f;
 	}
 
+
 	Color::Color(float r, float g, float b)
 	{
 		this->r = ClampValue(r);
@@ -22,6 +27,7 @@ namespace Nixie
 		this->b = ClampValue(b);
 		this->a = 1.0f;
 	}
+
 
 	Color::Color(float r, float g, float b, float a)
 	{
@@ -31,7 +37,8 @@ namespace Nixie
 		this->a = ClampValue(a);
 	}
 
-	Color::Color(Vector3 v)
+
+	Color::Color(const Vector3& v)
 	{
 		r = ClampValue(v.x);
 		g = ClampValue(v.y);
@@ -39,7 +46,8 @@ namespace Nixie
 		a = 1.0f;
 	}
 
-	Color::Color(Vector3 v, float a)
+
+	Color::Color(const Vector3& v, float a)
 	{
 		this->r = ClampValue(v.x);
 		this->g = ClampValue(v.y);
@@ -47,8 +55,9 @@ namespace Nixie
 		this->a = ClampValue(a);
 	}
 
+
 	inline float Color::ClampValue(float value)
 	{
-		return Math::Clampf(value, 0.0f, 255.0f) / 255.0f;
+		return Clamp<float>(value, 0.0f, 255.0f) / 255.0f;
 	}
 }

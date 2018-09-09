@@ -3,6 +3,7 @@
 #include "d3d.h"
 #include "../app.h"
 #include "../log.h"
+#include "../math/math.h"
 
 
 namespace Nixie
@@ -185,7 +186,7 @@ namespace Nixie
 
 		DXGI_SWAP_CHAIN_DESC swap_chain_desc;
 		ZeroMemory(&swap_chain_desc, sizeof(swap_chain_desc));
-		swap_chain_desc.OutputWindow = App::Get()->GetHwnd();
+		swap_chain_desc.OutputWindow = App::GetWindow();
 		swap_chain_desc.Windowed = !fullscreen_enabled_;
 		swap_chain_desc.BufferDesc.Width = screen_width;
 		swap_chain_desc.BufferDesc.Height = screen_height;
@@ -465,11 +466,9 @@ namespace Nixie
 		}
 	}
 
-	void D3D::BeginScene(Color clear_color)
+	void D3D::BeginScene(const Color& c)
 	{
-		auto dx_clear_color = DirectX::SimpleMath::Color(clear_color.r, clear_color.g, clear_color.b);
-
-		device_context_->ClearRenderTargetView(render_target_view_, dx_clear_color);
+		device_context_->ClearRenderTargetView(render_target_view_, c);
 		device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH, 1.0f, 0);
 	}
 
