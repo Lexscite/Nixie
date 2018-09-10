@@ -4,16 +4,17 @@
 #pragma once
 
 #include "d3d.h"
-#include "../math/vector.h"
+#include "../math/vector2.h"
+#include "../math/vector3.h"
 
 
 namespace Nixie
 {
 	struct Vertex
 	{
-		Vector3 position;
-		Vector2 texture;
-		Vector3 normal;
+		Vector3<float> position;
+		Vector2<float> texture;
+		Vector3<float> normal;
 	};
 
 	class Mesh

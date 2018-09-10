@@ -8,9 +8,19 @@
 
 namespace Nixie
 {
+	template<class T>
 	class Vector2;
+
+	template<class T>
 	class Vector3;
+
+	template<class T>
+	class Vector4;
+
 	class Quaternion;
+
+	class Matrix;
+
 	class Color;
 
 	template<class T>

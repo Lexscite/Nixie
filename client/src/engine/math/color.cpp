@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 
 #include "color.h"
-#include "vector.h"
+#include "vector3.h"
 
 
 namespace Nixie
@@ -37,7 +37,7 @@ namespace Nixie
 	}
 
 
-	Color::Color(const Vector3& v)
+	Color::Color(const Vector3<float>& v)
 	{
 		r = ClampValue(v.x);
 		g = ClampValue(v.y);
@@ -46,7 +46,7 @@ namespace Nixie
 	}
 
 
-	Color::Color(const Vector3& v, float a)
+	Color::Color(const Vector3<float>& v, float a)
 	{
 		this->r = ClampValue(v.x);
 		this->g = ClampValue(v.y);

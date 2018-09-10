@@ -72,9 +72,6 @@
     <ClCompile Include="src\engine\math\quaternion.cpp">
       <Filter>engine\math</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\math\vector.cpp">
-      <Filter>engine\math</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\content\components\model.cpp">
       <Filter>engine\content\components</Filter>
     </ClCompile>
@@ -88,6 +85,18 @@
     <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\engine\log.cpp">
       <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\math\matrix.cpp">
+      <Filter>engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\math\vector2.cpp">
+      <Filter>engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\math\vector3.cpp">
+      <Filter>engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\math\vector4.cpp">
+      <Filter>engine\math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,9 +145,6 @@
     <ClInclude Include="src\engine\math\quaternion.h">
       <Filter>engine\math</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\math\vector.h">
-      <Filter>engine\math</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\content\components\model.h">
       <Filter>engine\content\components</Filter>
     </ClInclude>
@@ -153,6 +159,18 @@
       <Filter>engine</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\math\math.h">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\matrix.h">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\vector2.h">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\vector3.h">
+      <Filter>engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\math\vector4.h">
       <Filter>engine\math</Filter>
     </ClInclude>
   </ItemGroup>

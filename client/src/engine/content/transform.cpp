@@ -8,12 +8,12 @@ namespace Nixie
 {
 	DirectX::SimpleMath::Matrix Transform::CalculateWorldMatrix()
 	{
-		Vector3 position = GetPosition();
+		Vector3<float> position = GetPosition();
 		Quaternion rotation = GetRotation();
-		Vector3 scale = GetScale();
+		Vector3<float> scale = GetScale();
 
 		auto dx_position = DirectX::SimpleMath::Vector3(position.x, position.y, position.z);
-		auto dx_rotation = DirectX::SimpleMath::Quaternion(rotation.x, rotation.y, rotation.z, rotation.w);
+		auto dx_rotation = DirectX::SimpleMath::Quaternion(rotation.v.x, rotation.v.y, rotation.v.z, rotation.w);
 		auto dx_scale = DirectX::SimpleMath::Vector3(scale.x, scale.y, scale.z);
 
 		auto translation_matrix = DirectX::SimpleMath::Matrix::CreateTranslation(dx_position);
@@ -36,13 +36,13 @@ namespace Nixie
 	}
 
 
-	Vector3 Transform::GetPosition()
+	Vector3<float> Transform::GetPosition()
 	{
 		return parent_ ? parent_->GetPosition() + position_ : position_;
 	}
 
 
-	Vector3 Transform::GetLocalPosition()
+	Vector3<float> Transform::GetLocalPosition()
 	{
 		return position_;
 	}
@@ -60,13 +60,13 @@ namespace Nixie
 	}
 
 
-	Vector3 Transform::GetScale()
+	Vector3<float> Transform::GetScale()
 	{
-		return parent_ ? parent_->GetScale() * scale_ : scale_;
+		return parent_ ? parent_->GetScale() + scale_ : scale_;
 	}
 
 
-	Vector3 Transform::GetLocalScale()
+	Vector3<float> Transform::GetLocalScale()
 	{
 		return scale_;
 	}

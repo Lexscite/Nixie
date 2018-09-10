@@ -1,7 +1,6 @@
 #include "../../stdafx.h"
 
-#include "quaternion.h"
-#include "vector3.h"
+#include "vector2.h"
 
 
 namespace Nixie

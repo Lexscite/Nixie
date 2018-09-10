@@ -4,6 +4,7 @@
 #pragma once
 
 #include "math.h"
+#include "vector3.h"
 
 
 namespace Nixie
@@ -11,38 +12,36 @@ namespace Nixie
 	class Quaternion
 	{
 	public:
-		Quaternion();
-		Quaternion(float x, float y, float z, float w);
-		Quaternion(float x, float y, float z);
-		Quaternion(Vector3 v);
+		Quaternion() : v(), w(0) {}
+		Quaternion(float x, float y, float z, float w) : v(Vector3<float>(x, y, z)), w(w) {}
+		Quaternion(const Vector3<float>& v, float w) : v(v), w(w) {}
+		Quaternion(const Quaternion& q) : v(q.v), w(q.w) {}
 
-		inline float GetMagnitude();
-		inline Quaternion& Normalize();
+		inline float GetMagnitude() { return sqrtf(v.x * v.x + v.y * v.y + v.z * v.z + w * w); }
+		inline Quaternion& Normalize() { return (*this *= 1.0f / GetMagnitude()); }
 
 		inline Quaternion operator*(const Quaternion& q) const;
 		inline Quaternion operator*(float s) const;
 		inline Quaternion& operator*=(const Quaternion& q);
 		inline Quaternion& operator*=(float s);
 
-	private:
-		inline Quaternion& Set(float r, float p, float y);
-
 	public:
-		float x, y, z, w;
+		Vector3<float> v;
+		float w;
 	};
 
 	inline Quaternion Quaternion::operator*(const Quaternion& q) const
 	{
 		return Quaternion(
-			(q.w * x) + (q.x * w) + (q.y * z) - (q.z * y),
-			(q.w * y) + (q.y * w) + (q.z * x) - (q.x * z),
-			(q.w * z) + (q.z * w) + (q.x * y) - (q.y * x),
-			(q.w * w) - (q.x * x) - (q.y * y) - (q.z * z));
+			(q.w * v.x) + (q.v.x * w) + (q.v.y * v.z) - (q.v.z * v.y),
+			(q.w * v.y) + (q.v.y * w) + (q.v.z * v.x) - (q.v.x * v.z),
+			(q.w * v.z) + (q.v.z * w) + (q.v.x * v.y) - (q.v.y * v.x),
+			(q.w * w) - (q.v.x * v.x) - (q.v.y * v.y) - (q.v.z * v.z));
 	}
 
 	inline Quaternion Quaternion::operator*(float s) const
 	{
-		return Quaternion(x * s, y * s, z * s, w * s);
+		return Quaternion(v.x * s, v.y * s, v.z * s, w * s);
 	}
 
 	inline Quaternion& Quaternion::operator*=(const Quaternion& q)
@@ -52,9 +51,9 @@ namespace Nixie
 
 	inline Quaternion & Quaternion::operator*=(float s)
 	{
-		x *= s;
-		y *= s;
-		z *= s;
+		v.x *= s;
+		v.y *= s;
+		v.z *= s;
 		w *= s;
 
 		return *this;
