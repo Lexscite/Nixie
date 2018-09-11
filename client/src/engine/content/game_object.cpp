@@ -9,7 +9,7 @@ namespace Nixie
 		name(name),
 		scene(nullptr),
 		parent(nullptr),
-		transform(new Transform) {}
+		transform(new Transform(std::shared_ptr<GameObject>(this))) {}
 
 
 	bool GameObject::Init(std::shared_ptr<Scene> scene)

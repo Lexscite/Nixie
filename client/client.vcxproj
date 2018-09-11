@@ -91,42 +91,6 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\engine\math\color.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\engine\math\quaternion.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\engine\math\matrix.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\engine\math\vector2.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\engine\math\vector3.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\engine\math\vector4.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\engine\network\connection.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
@@ -189,11 +153,9 @@
     <ClInclude Include="src\engine\log.h" />
     <ClInclude Include="src\engine\math\color.h" />
     <ClInclude Include="src\engine\math\math.h" />
-    <ClInclude Include="src\engine\math\quaternion.h" />
     <ClInclude Include="src\engine\math\matrix.h" />
-    <ClInclude Include="src\engine\math\vector2.h" />
-    <ClInclude Include="src\engine\math\vector3.h" />
-    <ClInclude Include="src\engine\math\vector4.h" />
+    <ClInclude Include="src\engine\math\quaternion.h" />
+    <ClInclude Include="src\engine\math\vector.h" />
     <ClInclude Include="src\engine\network\connection.h" />
     <ClInclude Include="src\engine\network\packet.h" />
     <ClInclude Include="src\engine\app.h" />

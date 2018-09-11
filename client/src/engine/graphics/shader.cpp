@@ -97,7 +97,7 @@ namespace Nixie
 	}
 
 
-	bool Shader::Update(DirectX::SimpleMath::Matrix world_matrix, ID3D11ShaderResourceView* texture)
+	bool Shader::Update(const Matrix4x4<float>& world_matrix, ID3D11ShaderResourceView* texture)
 	{
 		HRESULT hr;
 
@@ -110,9 +110,9 @@ namespace Nixie
 		}
 
 		MatrixBuffer* matrix_buffer = static_cast<MatrixBuffer*>(mapped_resource.pData);
-		matrix_buffer->world_matrix = XMMatrixTranspose(world_matrix);
-		matrix_buffer->view_matrix = XMMatrixTranspose(App::GetScene()->GetCamera()->GetViewMatrix());
-		matrix_buffer->projection_matrix = XMMatrixTranspose(D3D::Get()->GetProjectionMatrix());
+		matrix_buffer->world_matrix = world_matrix.Transpose();
+		matrix_buffer->view_matrix = App::GetScene()->GetCamera()->GetViewMatrix().Transpose();
+		matrix_buffer->projection_matrix = App::GetScene()->GetCamera()->GetProjectionMatrix().Transpose();
 		device_context_->Unmap(matrix_buffer_, 0);
 
 		hr = device_context_->Map(light_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
@@ -122,9 +122,9 @@ namespace Nixie
 		}
 
 		LightBuffer* light_buffer = static_cast<LightBuffer*>(mapped_resource.pData);
-		light_buffer->diffuse_color = DirectX::SimpleMath::Color(1, 1, 1);
-		light_buffer->ambient_color = DirectX::SimpleMath::Color(0.2f, 0.2f, 0.2f);
-		light_buffer->direction = DirectX::SimpleMath::Vector3(0, -1, 1);
+		light_buffer->diffuse_color = Color(255, 255, 255);
+		light_buffer->ambient_color = Color(55, 55, 55);
+		light_buffer->direction = Vector3<float>(0, -1, 1);
 		light_buffer->padding = 0.0f;
 		device_context_->Unmap(light_buffer_, 0);
 

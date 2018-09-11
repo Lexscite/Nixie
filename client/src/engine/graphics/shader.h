@@ -4,6 +4,9 @@
 #pragma once
 
 #include "d3d.h"
+#include "../math/color.h"
+#include "../math/vector.h"
+#include "../math/matrix.h"
 
 
 namespace Nixie
@@ -11,19 +14,18 @@ namespace Nixie
 	class Shader
 	{
 	private:
-
 		struct MatrixBuffer
 		{
-			DirectX::SimpleMath::Matrix world_matrix;
-			DirectX::SimpleMath::Matrix view_matrix;
-			DirectX::SimpleMath::Matrix projection_matrix;
+			Matrix4x4<float> world_matrix;
+			Matrix4x4<float> view_matrix;
+			Matrix4x4<float> projection_matrix;
 		};
 
 		struct LightBuffer
 		{
-			DirectX::SimpleMath::Color diffuse_color;
-			DirectX::SimpleMath::Color ambient_color;
-			DirectX::SimpleMath::Vector3 direction;
+			Color diffuse_color;
+			Color ambient_color;
+			Vector3<float> direction;
 			float padding;
 		};
 
@@ -32,7 +34,7 @@ namespace Nixie
 		~Shader();
 
 		bool Init(std::string vs_path, std::string ps_path);
-		bool Update(DirectX::SimpleMath::Matrix world_matrix, ID3D11ShaderResourceView* texture);
+		bool Update(const Matrix4x4<float>& world_matrix, ID3D11ShaderResourceView* texture);
 
 	private:
 		bool CreateVertexShader(std::vector<unsigned char*> buffer);

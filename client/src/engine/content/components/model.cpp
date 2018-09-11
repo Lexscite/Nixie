@@ -37,7 +37,7 @@ namespace Nixie
 	bool Model::OnUpdate()
 	{
 		// Temporary per-frame rotation
-		GetTransform()->Rotate(0, .01f, 0);
+		//GetTransform()->Rotate(0, .01f, 0);
 
 		if (!material_->Update(GetTransform()->CalculateWorldMatrix()))
 		{

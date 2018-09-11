@@ -4,8 +4,7 @@
 #pragma once
 
 #include "d3d.h"
-#include "../math/vector2.h"
-#include "../math/vector3.h"
+#include "../math/vector.h"
 
 
 namespace Nixie

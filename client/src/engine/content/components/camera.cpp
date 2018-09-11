@@ -1,31 +1,50 @@
 #include "../../../stdafx.h"
 
 #include "camera.h"
+#include "../../math/quaternion.h"
 
 
 namespace Nixie
 {
-	void Camera::CalculateWorldMatrix()
+	bool Camera::OnUpdate()
 	{
-		Vector3<float> position = GetTransform()->GetPosition();
-		Quaternion rotation = GetTransform()->GetRotation();
-
-		auto dx_up = DirectX::SimpleMath::Vector3::Up;
-		auto dx_look_at = DirectX::SimpleMath::Vector3::Backward;
-		auto dx_position = DirectX::SimpleMath::Vector3(position.x, position.y, position.z);
-		auto dx_rotation = DirectX::SimpleMath::Quaternion(rotation.v.x, rotation.v.y, rotation.v.z, rotation.w);
-		auto rotation_matrix = DirectX::XMMatrixRotationQuaternion(dx_rotation);
-
-		dx_up = DirectX::XMVector3TransformCoord(dx_up, rotation_matrix);
-		dx_look_at = DirectX::XMVector3TransformCoord(dx_look_at, rotation_matrix);
-		dx_look_at = DirectX::XMVectorAdd(dx_position, dx_look_at);
-
-		view_matrix_ = DirectX::XMMatrixLookAtLH(dx_position, dx_look_at, dx_up);
+		return true;
 	}
 
 
-	DirectX::SimpleMath::Matrix Camera::GetViewMatrix()
+	bool Camera::OnInit()
+	{
+		float screen_w = 800.0f;
+		float screen_h = 600.0f;
+		float aspect_ratio = screen_w / screen_h;
+		float znear = 0.1f, zfar = 1000.0f;
+
+		projection_matrix_ = Matrix4x4<float>::Perspective(fov_, aspect_ratio, znear, zfar, -1.0f);
+
+		CalculateViewMatrix();
+
+		return true;
+	}
+
+
+	void Camera::CalculateViewMatrix()
+	{
+		auto eye = GetTransform()->GetPosition();
+		auto at = eye + GetTransform()->GetForward();
+		auto up = GetTransform()->GetUp();
+
+		view_matrix_ = Matrix4x4<float>::LookAt(at, eye, up, -1.0f);
+	}
+
+
+	Matrix4x4<float> Camera::GetViewMatrix()
 	{
 		return view_matrix_;
+	}
+
+
+	Matrix4x4<float> Camera::GetProjectionMatrix()
+	{
+		return projection_matrix_;
 	}
 }

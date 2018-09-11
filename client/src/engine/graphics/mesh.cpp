@@ -33,16 +33,19 @@ namespace Nixie
 
 		if (!LoadFromFile(file_path))
 		{
+			std::cerr << "Cant load file" << std::endl;
 			return false;
 		}
 
 		if (!CreateVertexBuffer())
 		{
+			std::cerr << "Cant create vertex buffer" << std::endl;
 			return false;
 		}
 
 		if (!CreateIndexBuffer())
 		{
+			std::cerr << "Cant create index buffer" << std::endl;
 			return false;
 		}
 

@@ -49,7 +49,7 @@ namespace Nixie
 			Log::Write("Input initialized");
 		}
 
-		if (!directx_->Init(screen_width_, screen_height_, vsync_enabled_, fullscreen_enabled_, 1000.0f, 0.1f))
+		if (!directx_->Init(screen_width_, screen_height_, vsync_enabled_, fullscreen_enabled_))
 		{
 			MessageBox(window_, "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
 			Log::Write("Failed to initialize DirectX");

@@ -8,8 +8,8 @@
 
 #include <d3d11.h>
 
-#include "SimpleMath.h"
 #include "WICTextureLoader.h"
+#include "../math/matrix.h"
 
 
 namespace Nixie
@@ -25,9 +25,7 @@ namespace Nixie
 			unsigned int screen_width,
 			unsigned int screen_height,
 			bool vsync_enabled,
-			bool fullscreen_enabled,
-			float screen_depth,
-			float screen_near);
+			bool fullscreen_enabled);
 		void Release();
 
 		void BeginScene(const Color& c);
@@ -35,9 +33,6 @@ namespace Nixie
 
 		ID3D11Device* GetDevice();
 		ID3D11DeviceContext* GetDeviceContext();
-
-		DirectX::SimpleMath::Matrix GetProjectionMatrix();
-		DirectX::SimpleMath::Matrix GetOrthoMatrix();
 
 		bool ToggleWireframeMode();
 
@@ -67,9 +62,6 @@ namespace Nixie
 		ID3D11DepthStencilState* depth_stencil_state_;
 		ID3D11DepthStencilView* depth_stencil_view_;
 		ID3D11RasterizerState* rasterizer_state_;
-
-		DirectX::SimpleMath::Matrix projection_matrix_;
-		DirectX::SimpleMath::Matrix ortho_matrix_;
 	};
 }
 

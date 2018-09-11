@@ -3,7 +3,6 @@
 #include "d3d.h"
 #include "../app.h"
 #include "../log.h"
-#include "../math/math.h"
 
 
 namespace Nixie
@@ -17,9 +16,7 @@ namespace Nixie
 		depth_stencil_state_(nullptr),
 		depth_stencil_view_(nullptr),
 		rasterizer_state_(nullptr)
-	{
-
-	}
+	{}
 
 
 	D3D* D3D::singleton_;
@@ -38,9 +35,7 @@ namespace Nixie
 		unsigned int screen_width,
 		unsigned int screen_height,
 		bool vsync_enabled,
-		bool fullscreen_enabled,
-		float screen_depth,
-		float screen_near)
+		bool fullscreen_enabled)
 	{
 		HRESULT hr;
 
@@ -359,12 +354,6 @@ namespace Nixie
 
 		device_context_->RSSetViewports(1, &viewport);
 
-		float fov = DirectX::XM_PIDIV4;
-		float aspect_ratio = static_cast<float>(screen_width) / static_cast<float>(screen_height);
-
-		projection_matrix_ = DirectX::XMMatrixPerspectiveFovLH(fov, aspect_ratio, screen_near, screen_depth);
-		ortho_matrix_ = DirectX::XMMatrixOrthographicLH(static_cast<float>(screen_width), static_cast<float>(screen_height), screen_near, screen_depth);
-
 		return true;
 	}
 
@@ -492,15 +481,5 @@ namespace Nixie
 	ID3D11DeviceContext* D3D::GetDeviceContext()
 	{
 		return device_context_;
-	}
-
-	DirectX::SimpleMath::Matrix D3D::GetProjectionMatrix()
-	{
-		return projection_matrix_;
-	}
-
-	DirectX::SimpleMath::Matrix D3D::GetOrthoMatrix()
-	{
-		return ortho_matrix_;
 	}
 }

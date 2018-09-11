@@ -10,11 +10,21 @@ namespace Nixie
 	class Camera : public Component
 	{
 	public:
-		void CalculateWorldMatrix();
-		DirectX::SimpleMath::Matrix GetViewMatrix();
+		Camera() : fov_(mathfu::kPi / 4) {}
+
+		void CalculateViewMatrix();
+		Matrix4x4<float> GetViewMatrix();
+		Matrix4x4<float> GetProjectionMatrix();
 
 	private:
-		DirectX::SimpleMath::Matrix view_matrix_;
+		virtual bool OnInit() override;
+		virtual bool OnUpdate() override;
+
+	private:
+		Matrix4x4<float> view_matrix_;
+		Matrix4x4<float> projection_matrix_;
+
+		float fov_;
 	};
 }
 

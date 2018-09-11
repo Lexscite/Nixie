@@ -3,31 +3,14 @@
 
 #pragma once
 
-#include <algorithm>
+#include "mathfu/utilities.h"
+#include "mathfu/constants.h"
 
 
 namespace Nixie
 {
 	template<class T>
-	class Vector2;
-
-	template<class T>
-	class Vector3;
-
-	template<class T>
-	class Vector4;
-
-	class Quaternion;
-
-	class Matrix;
-
-	class Color;
-
-	template<class T>
-	T Clamp(T v, T l, T h)
-	{
-		return std::max(l, std::min(v, h));
-	}
+	const auto Clamp = mathfu::Clamp<T>;
 }
 
 #endif

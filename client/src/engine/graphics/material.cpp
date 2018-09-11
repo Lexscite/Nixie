@@ -23,7 +23,7 @@ namespace Nixie
 	}
 
 
-	bool Material::Update(DirectX::SimpleMath::Matrix world_matrix)
+	bool Material::Update(const Matrix4x4<float>& world_matrix)
 	{
 		if (!shader_->Update(world_matrix, texture_->GetTextureView()))
 		{

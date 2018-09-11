@@ -15,12 +15,15 @@ namespace Nixie
 	{
 		std::shared_ptr<GameObject> camera = std::make_shared<GameObject>("Camera");
 		camera->AddComponent(std::make_shared<Camera>());
-		camera->GetTransform()->SetPosition(0, 3, -10);
+		camera->GetTransform()->SetRotation(0, 0, 0);
+		camera->GetTransform()->SetPosition(0, 3, 10);
 		current_camera = std::static_pointer_cast<Camera>(camera->GetComponent("Camera"));
 		AddGameObject(camera);
 
 		std::shared_ptr<GameObject> deer = std::make_shared<GameObject>("Deer");
 		deer->AddComponent(std::make_shared<Model>("../data/meshes/deer.txt", "../data/shaders/default_vs.cso", "../data/shaders/default_ps.cso", "../data/textures/mailbox.jpg"));
+		deer->GetTransform()->SetPosition(0, 0, 0);
+		deer->GetTransform()->SetRotation(0, 0, 0);
 		AddGameObject(deer);
 
 		//std::shared_ptr<GameObject> mailbox = std::make_shared<GameObject>("Mailbox");
@@ -41,7 +44,7 @@ namespace Nixie
 
 	bool Scene::Update()
 	{
-		current_camera->CalculateWorldMatrix();
+		current_camera->CalculateViewMatrix();
 
 		for (auto& game_object : GetGameObjects())
 		{

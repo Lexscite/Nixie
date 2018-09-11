@@ -13,7 +13,7 @@ namespace Nixie
 	{
 	public:
 		bool Init(std::string vs_path, std::string ps_path, std::string texture_path);
-		bool Update(DirectX::SimpleMath::Matrix world_matrix);
+		bool Update(const Matrix4x4<float>& world_matrix);
 
 	private:
 		std::unique_ptr<Shader> shader_;

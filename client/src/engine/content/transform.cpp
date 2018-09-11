@@ -1,26 +1,26 @@
 #include "../../stdafx.h"
 
 #include "transform.h"
-#include "../graphics/d3d.h"
-
+#include "game_object.h"
+#include <d3d11.h>
+#include "SimpleMath.h"
 
 namespace Nixie
 {
-	DirectX::SimpleMath::Matrix Transform::CalculateWorldMatrix()
+	Matrix4x4<float> Transform::CalculateWorldMatrix()
 	{
-		Vector3<float> position = GetPosition();
-		Quaternion rotation = GetRotation();
-		Vector3<float> scale = GetScale();
+		auto name = game_object_->GetName();
+		auto position = GetPosition();
+		auto rotation = GetRotation();
+		auto scale = GetScale();
 
-		auto dx_position = DirectX::SimpleMath::Vector3(position.x, position.y, position.z);
-		auto dx_rotation = DirectX::SimpleMath::Quaternion(rotation.v.x, rotation.v.y, rotation.v.z, rotation.w);
-		auto dx_scale = DirectX::SimpleMath::Vector3(scale.x, scale.y, scale.z);
+		Matrix4x4<float> translation_matrix = Matrix4x4<float>::FromTranslationVector(position);
+		Matrix4x4<float> rotation_matrix = rotation.ToMatrix4();
+		Matrix4x4<float> scale_matrix = Matrix4x4<float>::FromScaleVector(scale);
 
-		auto translation_matrix = DirectX::SimpleMath::Matrix::CreateTranslation(dx_position);
-		auto rotation_matrix = DirectX::SimpleMath::Matrix::CreateFromQuaternion(dx_rotation);
-		auto scaling_matrix = DirectX::SimpleMath::Matrix::CreateScale(dx_scale);
+		Matrix4x4<float> world_matrix = translation_matrix * rotation_matrix * scale_matrix;
 
-		return scaling_matrix * rotation_matrix * translation_matrix;
+		return world_matrix;
 	}
 
 
@@ -48,13 +48,13 @@ namespace Nixie
 	}
 
 
-	Quaternion Transform::GetRotation()
+	Quaternion<float> Transform::GetRotation()
 	{
 		return parent_ ? parent_->GetRotation() * rotation_ : rotation_;
 	}
 
 
-	Quaternion Transform::GetLocalRotation()
+	Quaternion<float> Transform::GetLocalRotation()
 	{
 		return rotation_;
 	}
