@@ -55,13 +55,15 @@ namespace Nixie
 	}
 
 
-	bool Shader::Init(std::string vs_path, std::string ps_path)
+	bool Shader::Init(std::string vs_path, std::string ps_path, bool light)
 	{
 		device_ = std::unique_ptr<ID3D11Device>(D3D::Get()->GetDevice());
 		device_context_ = std::unique_ptr<ID3D11DeviceContext>(D3D::Get()->GetDeviceContext());
 
 		auto vs_buffer = LoadFromFile(vs_path);
 		auto ps_buffer = LoadFromFile(ps_path);
+
+		light_ = light;
 
 		if (!CreateVertexShader(vs_buffer))
 		{
@@ -88,9 +90,28 @@ namespace Nixie
 			return false;
 		}
 
-		if (!CreateLightBuffer())
+		if (light_)
 		{
-			return false;
+			if (!CreateLightBuffer())
+			{
+				return false;
+			}
+		}
+		else
+		{
+			D3D11_BUFFER_DESC pixelBufferDesc;
+			pixelBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+			pixelBufferDesc.ByteWidth = sizeof(PixelBuffer);
+			pixelBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+			pixelBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			pixelBufferDesc.MiscFlags = 0;
+			pixelBufferDesc.StructureByteStride = 0;
+
+			HRESULT result = device_->CreateBuffer(&pixelBufferDesc, NULL, &pixel_buffer_);
+			if (FAILED(result))
+			{
+				return false;
+			}
 		}
 
 		return true;
@@ -115,23 +136,47 @@ namespace Nixie
 		matrix_buffer->projection_matrix = App::GetScene()->GetCamera()->GetProjectionMatrix().Transpose();
 		device_context_->Unmap(matrix_buffer_, 0);
 
-		hr = device_context_->Map(light_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
-		if (FAILED(hr))
-		{
-			return false;
-		}
 
-		LightBuffer* light_buffer = static_cast<LightBuffer*>(mapped_resource.pData);
-		light_buffer->diffuse_color = Color(255, 255, 255);
-		light_buffer->ambient_color = Color(55, 55, 55);
-		light_buffer->direction = Vector3<float>(0, -1, 1);
-		light_buffer->padding = 0.0f;
-		device_context_->Unmap(light_buffer_, 0);
+		if (light_)
+		{
+			hr = device_context_->Map(light_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
+			if (FAILED(hr))
+			{
+				return false;
+			}
+
+			LightBuffer* light_buffer = static_cast<LightBuffer*>(mapped_resource.pData);
+			light_buffer->diffuse_color = Color(255, 255, 255);
+			light_buffer->ambient_color = Color(55, 55, 55);
+			light_buffer->direction = Vector3<float>(0, -1, 1);
+			light_buffer->padding = 0.0f;
+			device_context_->Unmap(light_buffer_, 0);
+		}
+		else
+		{
+			HRESULT result = device_context_->Map(pixel_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
+			if (FAILED(result))
+			{
+				return false;
+			}
+
+			PixelBuffer* dataPtr2 = (PixelBuffer*)mapped_resource.pData;
+			dataPtr2->color = Color(255, 255, 255);
+			device_context_->Unmap(pixel_buffer_, 0);
+		}
 
 		device_context_->VSSetConstantBuffers(0, 1, &matrix_buffer_);
 		device_context_->VSSetShader(vertex_shader_, 0, 0);
 
-		device_context_->PSSetConstantBuffers(0, 1, &light_buffer_);
+		if (light_)
+		{
+			device_context_->PSSetConstantBuffers(0, 1, &light_buffer_);
+		}
+		else
+		{
+			device_context_->PSSetConstantBuffers(0, 1, &pixel_buffer_);
+		}
+
 		device_context_->PSSetSamplers(0, 1, &sampler_state_);
 		device_context_->PSSetShaderResources(0, 1, &texture);
 		device_context_->PSSetShader(pixel_shader_, 0, 0);
@@ -179,39 +224,39 @@ namespace Nixie
 
 	bool Shader::CreateInputLayout(std::vector<unsigned char*> buffer)
 	{
-		D3D11_INPUT_ELEMENT_DESC polygon_layout[3];
-		polygon_layout[0].SemanticName = "POSITION";
-		polygon_layout[0].SemanticIndex = 0;
-		polygon_layout[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-		polygon_layout[0].InputSlot = 0;
-		polygon_layout[0].AlignedByteOffset = 0;
-		polygon_layout[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		polygon_layout[0].InstanceDataStepRate = 0;
+		std::vector<D3D11_INPUT_ELEMENT_DESC> polygon_layout;
 
-		polygon_layout[1].SemanticName = "TEXCOORD";
-		polygon_layout[1].SemanticIndex = 0;
-		polygon_layout[1].Format = DXGI_FORMAT_R32G32_FLOAT;
-		polygon_layout[1].InputSlot = 0;
-		polygon_layout[1].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-		polygon_layout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		polygon_layout[1].InstanceDataStepRate = 0;
+		auto position = CreateInputElement("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0);
+		polygon_layout.push_back(position);
 
-		polygon_layout[2].SemanticName = "NORMAL";
-		polygon_layout[2].SemanticIndex = 0;
-		polygon_layout[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-		polygon_layout[2].InputSlot = 0;
-		polygon_layout[2].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-		polygon_layout[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		polygon_layout[2].InstanceDataStepRate = 0;
+		auto texcoord = CreateInputElement("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0);
+		polygon_layout.push_back(texcoord);
 
-		unsigned int num_elements = sizeof(polygon_layout) / sizeof(polygon_layout[0]);
-		HRESULT hr = device_->CreateInputLayout(polygon_layout, num_elements, buffer.data(), buffer.size(), &input_layout_);
+		auto normal = CreateInputElement("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0);
+		polygon_layout.push_back(normal);
+
+		HRESULT hr = device_->CreateInputLayout(polygon_layout.data(), static_cast<unsigned int>(polygon_layout.size()), buffer.data(), buffer.size(), &input_layout_);
 		if (FAILED(hr))
 		{
 			return false;
 		}
 
 		return true;
+	}
+
+
+	D3D11_INPUT_ELEMENT_DESC Shader::CreateInputElement(LPCSTR name, unsigned int index, DXGI_FORMAT format, unsigned int slot, unsigned int offset, D3D11_INPUT_CLASSIFICATION slot_class, unsigned int step_rate)
+	{
+		D3D11_INPUT_ELEMENT_DESC el;
+		el.SemanticName = name;
+		el.SemanticIndex = index;
+		el.Format = format;
+		el.InputSlot = slot;
+		el.AlignedByteOffset = offset;
+		el.InputSlotClass = slot_class;
+		el.InstanceDataStepRate = step_rate;
+
+		return el;
 	}
 
 

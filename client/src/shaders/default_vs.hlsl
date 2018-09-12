@@ -19,7 +19,7 @@ struct VertexOutput
     float3 normal : NORMAL;
 };
 
-VertexOutput DefaultVertexShader(VertexInput input)
+VertexOutput main(VertexInput input)
 {
     VertexOutput output;
     

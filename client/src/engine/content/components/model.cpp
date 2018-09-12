@@ -24,7 +24,7 @@ namespace Nixie
 		}
 
 		material_ = std::make_shared<Material>();
-		if (!material_->Init(vs_path_, ps_path_, texture_path_))
+		if (!material_->Init(vs_path_, ps_path_, texture_path_, true))
 		{
 			std::cerr << "Error: Failed to initialize material" << std::endl;
 			return false;
@@ -36,9 +36,6 @@ namespace Nixie
 
 	bool Model::OnUpdate()
 	{
-		// Temporary per-frame rotation
-		//GetTransform()->Rotate(0, .01f, 0);
-
 		if (!material_->Update(GetTransform()->CalculateWorldMatrix()))
 		{
 			return false;

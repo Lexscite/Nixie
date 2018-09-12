@@ -8,6 +8,7 @@ namespace Nixie
 {
 	bool Camera::OnUpdate()
 	{
+		GetTransform()->Translate(0, 0, .1 * Time::GetDeltaTime());
 		return true;
 	}
 

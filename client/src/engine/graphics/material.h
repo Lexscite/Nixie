@@ -12,7 +12,7 @@ namespace Nixie
 	class Material
 	{
 	public:
-		bool Init(std::string vs_path, std::string ps_path, std::string texture_path);
+		bool Init(std::string vs_path, std::string ps_path, std::string texture_path, bool light);
 		bool Update(const Matrix4x4<float>& world_matrix);
 
 	private:

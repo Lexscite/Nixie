@@ -80,6 +80,12 @@
     <ClCompile Include="src\engine\log.cpp">
       <Filter>engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\graphics\font.cpp">
+      <Filter>engine\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\content\components\text.cpp">
+      <Filter>engine\content\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\content\components\camera.h">
@@ -149,6 +155,12 @@
     <ClInclude Include="src\engine\math\vector.h">
       <Filter>engine\math</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\graphics\font.h">
+      <Filter>engine\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\content\components\text.h">
+      <Filter>engine\content\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -158,6 +170,12 @@
       <Filter>shaders</Filter>
     </FxCompile>
     <FxCompile Include="src\shaders\default_vs.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\shaders\font_ps.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\shaders\font_vs.hlsl">
       <Filter>shaders</Filter>
     </FxCompile>
   </ItemGroup>

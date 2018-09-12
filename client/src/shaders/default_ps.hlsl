@@ -1,5 +1,5 @@
-Texture2D shaderTexture;
-SamplerState SampleType;
+Texture2D shader_texture;
+SamplerState sample_type;
 
 cbuffer LightBuffer
 {
@@ -16,25 +16,27 @@ struct PixelInput
     float3 normal : NORMAL;
 };
 
-float4 DefaultPixelShader(PixelInput input) : SV_TARGET
+float4 main(PixelInput input) : SV_TARGET
 {
-    float4 textureColor;
-    float3 lightDir;
-    float lightIntensity;
+    float4 texture_color;
+    float3 light_dir;
+    float light_intensity;
     float4 color;
 
-    textureColor = shaderTexture.Sample(SampleType, input.tex);
+    texture_color = shader_texture.Sample(sample_type, input.tex);
 
     color = ambient_color;
 
-    lightDir = -direction;
-    lightIntensity = saturate(dot(input.normal, lightDir));
+    light_dir = -direction;
+    light_intensity = saturate(dot(input.normal, light_dir));
 
-    if (lightIntensity > 0.0f)
-        color += (diffuse_color * lightIntensity);
+	if (light_intensity > 0.0f)
+	{
+        color += (diffuse_color * light_intensity);
+	}
 
     color = saturate(color);
-    color = color * textureColor;
+    color = color * texture_color;
 
     return color;
 }

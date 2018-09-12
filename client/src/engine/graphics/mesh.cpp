@@ -26,7 +26,7 @@ namespace Nixie
 	}
 
 
-	bool Mesh::Init(std::string file_path)
+	bool Mesh::Init(const std::string& file_path)
 	{
 		device_ = std::shared_ptr<ID3D11Device>(D3D::Get()->GetDevice());
 		device_context_ = std::shared_ptr<ID3D11DeviceContext>(D3D::Get()->GetDeviceContext());
@@ -36,6 +36,37 @@ namespace Nixie
 			std::cerr << "Cant load file" << std::endl;
 			return false;
 		}
+
+		if (!CreateVertexBuffer())
+		{
+			std::cerr << "Cant create vertex buffer" << std::endl;
+			return false;
+		}
+
+		if (!CreateIndexBuffer())
+		{
+			std::cerr << "Cant create index buffer" << std::endl;
+			return false;
+		}
+
+		return true;
+	}
+
+
+	bool Mesh::Init(const std::vector<Vertex>& vertices)
+	{
+		device_ = std::shared_ptr<ID3D11Device>(D3D::Get()->GetDevice());
+		device_context_ = std::shared_ptr<ID3D11DeviceContext>(D3D::Get()->GetDeviceContext());
+
+		vertex_count_ = static_cast<unsigned long>(vertices.size());
+		index_count_ = vertex_count_;
+
+		vertices_ = vertices;
+
+		indices_.resize(index_count_);
+
+		for (unsigned int i = 0; i < index_count_; i++)
+			indices_[i] = i;
 
 		if (!CreateVertexBuffer())
 		{
@@ -66,7 +97,7 @@ namespace Nixie
 	}
 
 
-	bool Mesh::LoadFromFile(std::string file_path)
+	bool Mesh::LoadFromFile(const std::string& file_path)
 	{
 		std::ifstream fin;
 		fin.open(file_path);
@@ -82,7 +113,9 @@ namespace Nixie
 		fin >> vertex_count_;
 
 		index_count_ = vertex_count_;
-		vertices_ = new Vertex[vertex_count_];
+
+		vertices_.resize(vertex_count_);
+		indices_.resize(index_count_);
 
 		fin.get(input);
 		while (input != ':')
@@ -107,7 +140,6 @@ namespace Nixie
 
 		fin.close();
 
-		indices_ = new unsigned long[index_count_];
 		for (unsigned int i = 0; i < vertex_count_; i++)
 			indices_[i] = i;
 
@@ -126,7 +158,7 @@ namespace Nixie
 		vertex_buffer_desc.StructureByteStride = 0;
 
 		D3D11_SUBRESOURCE_DATA vertex_buffer_data;
-		vertex_buffer_data.pSysMem = vertices_;
+		vertex_buffer_data.pSysMem = vertices_.data();
 		vertex_buffer_data.SysMemPitch = 0;
 		vertex_buffer_data.SysMemSlicePitch = 0;
 
@@ -151,7 +183,7 @@ namespace Nixie
 		index_buffer_desc.StructureByteStride = 0;
 
 		D3D11_SUBRESOURCE_DATA index_data;
-		index_data.pSysMem = indices_;
+		index_data.pSysMem = indices_.data();
 		index_data.SysMemPitch = 0;
 		index_data.SysMemSlicePitch = 0;
 

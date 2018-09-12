@@ -29,16 +29,22 @@ namespace Nixie
 			float padding;
 		};
 
+		struct PixelBuffer
+		{
+			Color color;
+		};
+
 	public:
 		Shader();
 		~Shader();
 
-		bool Init(std::string vs_path, std::string ps_path);
+		bool Init(std::string vs_path, std::string ps_path, bool light);
 		bool Update(const Matrix4x4<float>& world_matrix, ID3D11ShaderResourceView* texture);
 
 	private:
 		bool CreateVertexShader(std::vector<unsigned char*> buffer);
 		bool CreateInputLayout(std::vector<unsigned char*> buffer);
+		D3D11_INPUT_ELEMENT_DESC CreateInputElement(LPCSTR name, unsigned int index, DXGI_FORMAT format, unsigned int slot, unsigned int offset, D3D11_INPUT_CLASSIFICATION slot_class, unsigned int step_rate);
 		bool CreateMatrixBuffer();
 
 		bool CreatePixelShader(std::vector<unsigned char*> buffer);
@@ -58,6 +64,9 @@ namespace Nixie
 
 		ID3D11Buffer* matrix_buffer_;
 		ID3D11Buffer* light_buffer_;
+		ID3D11Buffer* pixel_buffer_;
+
+		bool light_;
 	};
 }
 

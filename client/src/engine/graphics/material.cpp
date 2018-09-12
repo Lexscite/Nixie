@@ -5,10 +5,10 @@
 
 namespace Nixie
 {
-	bool Material::Init(std::string vs_path, std::string ps_path, std::string texture_path)
+	bool Material::Init(std::string vs_path, std::string ps_path, std::string texture_path, bool light)
 	{
 		shader_ = std::make_unique<Shader>();
-		if (!shader_->Init(vs_path, ps_path))
+		if (!shader_->Init(vs_path, ps_path, light))
 		{
 			return false;
 		}

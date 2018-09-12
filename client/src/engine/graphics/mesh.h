@@ -22,12 +22,13 @@ namespace Nixie
 		Mesh();
 		~Mesh();
 
-		bool Init(std::string file_path);
+		bool Init(const std::string& file_path);
+		bool Init(const std::vector<Vertex>& vertices);
 
 		void Render();
 
 	private:
-		bool LoadFromFile(std::string file_path);
+		bool LoadFromFile(const std::string& file_path);
 
 		bool CreateVertexBuffer();
 		bool CreateIndexBuffer();
@@ -39,8 +40,8 @@ namespace Nixie
 		unsigned long vertex_count_;
 		unsigned long index_count_;
 
-		Vertex* vertices_;
-		unsigned long* indices_;
+		std::vector<Vertex> vertices_;
+		std::vector<unsigned long> indices_;
 
 		ID3D11Buffer* vertex_buffer_;
 		ID3D11Buffer* index_buffer_;

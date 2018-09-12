@@ -2,32 +2,42 @@
 
 #include "scene.h"
 #include "components/model.h"
+#include "components/text.h"
 
 
 namespace Nixie
 {
 	Scene::Scene() :
-		clear_color_(Color())
+		clear_color_(Color(100, 100, 100))
 	{}
 
 
 	bool Scene::Init()
 	{
-		std::shared_ptr<GameObject> camera = std::make_shared<GameObject>("Camera");
+		auto camera = std::make_shared<GameObject>("Camera");
 		camera->AddComponent(std::make_shared<Camera>());
-		camera->GetTransform()->SetPosition(0, 10, -10);
+		camera->GetTransform()->SetPosition(5, 5, 5);
 		AddGameObject(camera);
 
-		std::shared_ptr<GameObject> deer = std::make_shared<GameObject>("Deer");
-		deer->AddComponent(std::make_shared<Model>(
-			"../data/meshes/deer.txt",
-			"../data/shaders/default_vs.cso",
-			"../data/shaders/default_ps.cso",
-			"../data/textures/mailbox.jpg"));
-		AddGameObject(deer);
+		//auto deer = std::make_shared<GameObject>("Deer");
+		//deer->AddComponent(std::make_shared<Model>(
+		//	"../data/meshes/deer.txt",
+		//	"../data/shaders/default_vs.cso",
+		//	"../data/shaders/default_ps.cso",
+		//	"../data/textures/mailbox.jpg"));
+		//AddGameObject(deer);
+
+		auto text = std::make_shared<GameObject>("Text");
+		text->AddComponent(std::make_shared<Text>(
+			"Hello",
+			"../data/shaders/font_vs.cso",
+			"../data/shaders/font_ps.cso",
+			"../data/textures/fonts/segoe_ui.png"));
+		text->GetTransform()->SetScale(.1f);
+		AddGameObject(text);
 
 		SetCamera(std::static_pointer_cast<Camera>(camera->GetComponent("Camera")));
-		GetCamera()->LockOnGameObject(deer);
+		GetCamera()->LockOnGameObject(text);
 
 		for (auto& game_object : GetGameObjects())
 		{
