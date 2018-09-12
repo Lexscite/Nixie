@@ -10,7 +10,6 @@ namespace Nixie
 	LPCSTR App::window_caption_ = nullptr;
 	Time* App::time_ = nullptr;
 	D3D* App::directx_ = nullptr;
-	Input* App::input_ = nullptr;
 	std::shared_ptr<Scene> App::scene_ = nullptr;
 	unsigned int App::screen_width_ = 0;
 	unsigned int App::screen_height_ = 0;
@@ -21,7 +20,6 @@ namespace Nixie
 
 	bool App::Init(HINSTANCE instance)
 	{
-		input_ = Input::Get();
 		directx_ = D3D::Get();
 		time_ = Time::Get();
 
@@ -36,17 +34,6 @@ namespace Nixie
 		else
 		{
 			Log::Write("Window initialized");
-		}
-
-		if (!input_->Init())
-		{
-			MessageBox(window_, "Failed to initialize input system", "Error", MB_OK | MB_ICONERROR);
-			Log::Write("Failed to initialize input");
-			return false;
-		}
-		else
-		{
-			Log::Write("Input initialized");
 		}
 
 		if (!directx_->Init(screen_width_, screen_height_, vsync_enabled_, fullscreen_enabled_))
@@ -192,8 +179,6 @@ namespace Nixie
 		case WM_SYSKEYDOWN:
 		case WM_KEYUP:
 		case WM_SYSKEYUP:
-			DirectX::Keyboard::ProcessMessage(message, w_param, l_param);
-			return 0;
 		default:
 			return DefWindowProc(window, message, w_param, l_param);
 		}
@@ -238,22 +223,6 @@ namespace Nixie
 
 	bool App::Update(float delta_time)
 	{
-		if (!input_->Update())
-		{
-			return false;
-		}
-
-		// Temporary function
-#ifdef _DEBUG
-		if (Input::IsKeyPressed(DirectX::Keyboard::Keys::F1))
-		{
-			if (!directx_->ToggleWireframeMode())
-			{
-				return false;
-			}
-		}
-#endif
-
 		directx_->BeginScene(scene_->GetClearColor());
 
 		if (!scene_->Update())

@@ -38,7 +38,6 @@ namespace Nixie
 
 		static Time* time_;
 		static D3D* directx_;
-		static Input* input_;
 		static std::shared_ptr<Scene> scene_;
 
 		static unsigned int screen_width_;
