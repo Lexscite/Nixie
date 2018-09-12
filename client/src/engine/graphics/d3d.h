@@ -34,12 +34,14 @@ namespace Nixie
 		ID3D11Device* GetDevice();
 		ID3D11DeviceContext* GetDeviceContext();
 
-		bool ToggleWireframeMode();
+		void ToggleWireframeMode();
+		void ToggleBlendMode();
 
 	private:
 		D3D();
 
-		bool SetRasterizer();
+		bool CreateRasterizerStates();
+		bool CreateBlendStates();
 
 	private:
 		static D3D* singleton_;
@@ -48,6 +50,7 @@ namespace Nixie
 		bool fullscreen_enabled_;
 		bool msaa_enabled_;
 		bool wireframe_mode_enabled_;
+		bool alpha_blending_enabled_;
 
 		ID3D11Device* device_;
 		ID3D11DeviceContext* device_context_;
@@ -61,7 +64,10 @@ namespace Nixie
 		ID3D11Texture2D* depth_stencil_buffer_;
 		ID3D11DepthStencilState* depth_stencil_state_;
 		ID3D11DepthStencilView* depth_stencil_view_;
-		ID3D11RasterizerState* rasterizer_state_;
+		ID3D11RasterizerState* rasterizer_state_wireframe_mode_on_;
+		ID3D11RasterizerState* rasterizer_state_wireframe_mode_off_;
+		ID3D11BlendState* blend_state_on_;
+		ID3D11BlendState* blend_state_off_;
 	};
 }
 

@@ -15,7 +15,9 @@ namespace Nixie
 		depth_stencil_buffer_(nullptr),
 		depth_stencil_state_(nullptr),
 		depth_stencil_view_(nullptr),
-		rasterizer_state_(nullptr)
+		rasterizer_state_wireframe_mode_off_(nullptr),
+		blend_state_on_(nullptr),
+		blend_state_off_(nullptr)
 	{}
 
 
@@ -43,6 +45,7 @@ namespace Nixie
 		fullscreen_enabled_ = fullscreen_enabled;
 		msaa_enabled_ = false;
 		wireframe_mode_enabled_ = false;
+		alpha_blending_enabled_ = true;
 
 		IDXGIFactory* factory;
 		hr = CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&factory));
@@ -338,7 +341,7 @@ namespace Nixie
 
 		device_context_->OMSetRenderTargets(1, &render_target_view_, depth_stencil_view_);
 
-		if (!SetRasterizer())
+		if (!CreateRasterizerStates())
 		{
 			return false;
 		}
@@ -354,11 +357,16 @@ namespace Nixie
 
 		device_context_->RSSetViewports(1, &viewport);
 
+		if (!CreateBlendStates())
+		{
+			return false;
+		}
+
 		return true;
 	}
 
 
-	bool D3D::SetRasterizer()
+	bool D3D::CreateRasterizerStates()
 	{
 		HRESULT hr;
 
@@ -372,30 +380,76 @@ namespace Nixie
 		rasterizer_desc.MultisampleEnable = false;
 		rasterizer_desc.ScissorEnable = false;
 		rasterizer_desc.SlopeScaledDepthBias = 0.0f;
-		rasterizer_desc.FillMode = wireframe_mode_enabled_ ? D3D11_FILL_WIREFRAME : D3D11_FILL_SOLID;
+		rasterizer_desc.FillMode = D3D11_FILL_WIREFRAME;
 
-		hr = device_->CreateRasterizerState(&rasterizer_desc, &rasterizer_state_);
+		hr = device_->CreateRasterizerState(&rasterizer_desc, &rasterizer_state_wireframe_mode_on_);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to create rasterizer state");
 			return false;
 		}
 
-		device_context_->RSSetState(rasterizer_state_);
+		rasterizer_desc.FillMode = D3D11_FILL_SOLID;
+
+		hr = device_->CreateRasterizerState(&rasterizer_desc, &rasterizer_state_wireframe_mode_off_);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
+		device_context_->RSSetState(rasterizer_state_wireframe_mode_off_);
 
 		return true;
 	}
 
 
-	bool D3D::ToggleWireframeMode()
+	bool D3D::CreateBlendStates()
 	{
-		wireframe_mode_enabled_ = !wireframe_mode_enabled_;
-		if (!SetRasterizer())
+		HRESULT hr;
+
+		D3D11_BLEND_DESC blend_desc;
+		ZeroMemory(&blend_desc, sizeof(blend_desc));
+		blend_desc.RenderTarget[0].BlendEnable = true;
+		blend_desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+		blend_desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+		blend_desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		blend_desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		blend_desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+		blend_desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		blend_desc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
+
+		hr = device_->CreateBlendState(&blend_desc, &blend_state_on_);
+		if (FAILED(hr))
 		{
 			return false;
 		}
 
+		blend_desc.RenderTarget[0].BlendEnable = false;
+
+		hr = device_->CreateBlendState(&blend_desc, &blend_state_off_);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
+		float factor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+		device_context_->OMSetBlendState(alpha_blending_enabled_ ? blend_state_on_ : blend_state_off_, factor, 0xffffffff);
+
 		return true;
+	}
+
+
+	void D3D::ToggleWireframeMode()
+	{
+		wireframe_mode_enabled_ = !wireframe_mode_enabled_;
+		device_context_->RSSetState(wireframe_mode_enabled_ ? rasterizer_state_wireframe_mode_on_ : rasterizer_state_wireframe_mode_off_);
+	}
+
+
+	void D3D::ToggleBlendMode()
+	{
+		alpha_blending_enabled_ = !alpha_blending_enabled_;
+		float factor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+		device_context_->OMSetBlendState(alpha_blending_enabled_ ? blend_state_on_ : blend_state_off_, factor, 0xffffffff);
 	}
 
 
@@ -406,10 +460,22 @@ namespace Nixie
 			swap_chain_->SetFullscreenState(false, NULL);
 		}
 
-		if (rasterizer_state_)
+		if (blend_state_on_)
 		{
-			rasterizer_state_->Release();
-			rasterizer_state_ = nullptr;
+			blend_state_on_->Release();
+			blend_state_on_ = nullptr;
+		}
+
+		if (blend_state_off_)
+		{
+			blend_state_off_->Release();
+			blend_state_off_ = nullptr;
+		}
+
+		if (rasterizer_state_wireframe_mode_off_)
+		{
+			rasterizer_state_wireframe_mode_off_->Release();
+			rasterizer_state_wireframe_mode_off_ = nullptr;
 		}
 
 		if (depth_stencil_view_)
@@ -455,11 +521,13 @@ namespace Nixie
 		}
 	}
 
+
 	void D3D::BeginScene(const Color& c)
 	{
 		device_context_->ClearRenderTargetView(render_target_view_, c);
 		device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH, 1.0f, 0);
 	}
+
 
 	void D3D::EndScene()
 	{
@@ -473,10 +541,12 @@ namespace Nixie
 		}
 	}
 
+
 	ID3D11Device* D3D::GetDevice()
 	{
 		return device_;
 	}
+
 
 	ID3D11DeviceContext* D3D::GetDeviceContext()
 	{
