@@ -24,15 +24,17 @@ namespace Nixie
 		std::shared_ptr<Component> GetComponent(std::string name);
 		std::vector<std::shared_ptr<Component>> GetComponents();
 
-		std::string GetName();
-		std::shared_ptr<Transform> GetTransform();
+		std::string GetName() { return name_; }
+		std::shared_ptr<Scene> GetScene() { return scene_; }
+		std::shared_ptr<GameObject> GetParent() { return parent_; }
+		std::shared_ptr<Transform> GetTransform() { return transform_; }
 
 	private:
-		std::string name;
-		std::shared_ptr<Scene> scene;
-		std::shared_ptr<GameObject> parent;
-		std::shared_ptr<Transform> transform;
-		std::map<std::string, std::shared_ptr<Component>> components;
+		std::string name_;
+		std::shared_ptr<Scene> scene_;
+		std::shared_ptr<GameObject> parent_;
+		std::shared_ptr<Transform> transform_;
+		std::map<std::string, std::shared_ptr<Component>> components_;
 	};
 }
 

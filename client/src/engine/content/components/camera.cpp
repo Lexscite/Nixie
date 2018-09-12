@@ -29,11 +29,18 @@ namespace Nixie
 
 	void Camera::CalculateViewMatrix()
 	{
-		auto eye = GetTransform()->GetPosition();
-		auto at = eye + GetTransform()->GetForward();
-		auto up = GetTransform()->GetUp();
+		Vector3<float> eye_pos = GetTransform()->GetPosition();
+		Vector3<float> at;
+		if (locked_)
+		{
+			at = lock_point_;
+		}
+		else
+		{
+			at = eye_pos + GetTransform()->GetBackward();
+		}
 
-		view_matrix_ = Matrix4x4<float>::LookAt(at, eye, up, -1.0f);
+		view_matrix_ = Matrix4x4<float>::LookAt(at, eye_pos, GetTransform()->GetUp(), -1.0f);
 	}
 
 

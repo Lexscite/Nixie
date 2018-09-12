@@ -6,15 +6,15 @@
 namespace Nixie
 {
 	GameObject::GameObject(std::string name) : 
-		name(name),
-		scene(nullptr),
-		parent(nullptr),
-		transform(new Transform(std::shared_ptr<GameObject>(this))) {}
+		name_(name),
+		scene_(nullptr),
+		parent_(nullptr),
+		transform_(new Transform(std::shared_ptr<GameObject>(this))) {}
 
 
 	bool GameObject::Init(std::shared_ptr<Scene> scene)
 	{
-		this->scene = scene;
+		this->scene_ = scene;
 		for (auto component : GetComponents())
 		{
 			component->Init(shared_from_this());
@@ -47,7 +47,7 @@ namespace Nixie
 			return false;
 		}
 
-		components.insert(std::pair<std::string, std::shared_ptr<Component>>(name, new_component));
+		components_.insert(std::pair<std::string, std::shared_ptr<Component>>(name, new_component));
 
 		return true;
 	}
@@ -55,9 +55,9 @@ namespace Nixie
 
 	std::shared_ptr<Component> GameObject::GetComponent(std::string name)
 	{
-		auto result = components.find(name);
+		auto result = components_.find(name);
 		
-		if (result == components.end())
+		if (result == components_.end())
 		{
 			return nullptr;
 		}
@@ -72,23 +72,11 @@ namespace Nixie
 	{
 		std::vector<std::shared_ptr<Component>> result;
 
-		for (auto& it : components)
+		for (auto& it : components_)
 		{
 			result.push_back(it.second);
 		}
 
 		return result;
-	}
-
-
-	std::string GameObject::GetName()
-	{
-		return name;
-	}
-
-
-	std::shared_ptr<Transform> GameObject::GetTransform()
-	{
-		return transform;
 	}
 }

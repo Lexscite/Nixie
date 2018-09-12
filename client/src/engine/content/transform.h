@@ -15,7 +15,7 @@ namespace Nixie
 	class Transform final
 	{
 	public:
-		Transform(std::shared_ptr<GameObject> game_object) : game_object_(game_object), parent_(nullptr), position_(Vector3<float>()), rotation_(Quaternion<float>()), scale_(Vector3<float>(1)) {}
+		Transform(std::shared_ptr<GameObject> game_object) : game_object_(game_object), parent_(nullptr), position_(Vector3<float>(0.0f)), rotation_(Quaternion<float>(1, 0, 0, 0)), scale_(Vector3<float>(1.0f)) {}
 
 		Vector3<float> GetUp() { return rotation_.ToMatrix4() * Vector3<float>(0, 1, 0); }
 		Vector3<float> GetDown() { return rotation_.ToMatrix4() * Vector3<float>(0, -1, 0); }

@@ -7,7 +7,7 @@
 namespace Nixie
 {
 	Scene::Scene() :
-		clear_color(Color())
+		clear_color_(Color())
 	{}
 
 
@@ -15,20 +15,19 @@ namespace Nixie
 	{
 		std::shared_ptr<GameObject> camera = std::make_shared<GameObject>("Camera");
 		camera->AddComponent(std::make_shared<Camera>());
-		camera->GetTransform()->SetRotation(0, 0, 0);
-		camera->GetTransform()->SetPosition(0, 3, 10);
-		current_camera = std::static_pointer_cast<Camera>(camera->GetComponent("Camera"));
+		camera->GetTransform()->SetPosition(0, 10, -10);
 		AddGameObject(camera);
 
 		std::shared_ptr<GameObject> deer = std::make_shared<GameObject>("Deer");
-		deer->AddComponent(std::make_shared<Model>("../data/meshes/deer.txt", "../data/shaders/default_vs.cso", "../data/shaders/default_ps.cso", "../data/textures/mailbox.jpg"));
-		deer->GetTransform()->SetPosition(0, 0, 0);
-		deer->GetTransform()->SetRotation(0, 0, 0);
+		deer->AddComponent(std::make_shared<Model>(
+			"../data/meshes/deer.txt",
+			"../data/shaders/default_vs.cso",
+			"../data/shaders/default_ps.cso",
+			"../data/textures/mailbox.jpg"));
 		AddGameObject(deer);
 
-		//std::shared_ptr<GameObject> mailbox = std::make_shared<GameObject>("Mailbox");
-		//mailbox->AddComponent(std::make_shared<Model>("../data/meshes/mailbox.txt", "../data/shaders/default_vs.cso", "../data/shaders/default_ps.cso", "../data/textures/mailbox.jpg"));
-		//AddGameObject(mailbox);
+		SetCamera(std::static_pointer_cast<Camera>(camera->GetComponent("Camera")));
+		GetCamera()->LockOnGameObject(deer);
 
 		for (auto& game_object : GetGameObjects())
 		{
@@ -44,7 +43,7 @@ namespace Nixie
 
 	bool Scene::Update()
 	{
-		current_camera->CalculateViewMatrix();
+		camera_->CalculateViewMatrix();
 
 		for (auto& game_object : GetGameObjects())
 		{
@@ -58,18 +57,6 @@ namespace Nixie
 	}
 
 
-	Color Scene::GetClearColor()
-	{
-		return clear_color;
-	}
-
-
-	std::shared_ptr<Camera> Scene::GetCamera()
-	{
-		return current_camera;
-	}
-
-
 	bool Scene::AddGameObject(std::shared_ptr<GameObject> new_game_object)
 	{
 		std::string name = new_game_object->GetName();
@@ -79,7 +66,7 @@ namespace Nixie
 			return false;
 		}
 
-		game_objects.insert(std::pair<std::string, std::shared_ptr<GameObject>>(name, new_game_object));
+		game_objects_.insert(std::pair<std::string, std::shared_ptr<GameObject>>(name, new_game_object));
 
 		return true;
 	}
@@ -87,9 +74,9 @@ namespace Nixie
 
 	std::shared_ptr<GameObject> Scene::GetGameObject(std::string name)
 	{
-		auto result = game_objects.find(name);
+		auto result = game_objects_.find(name);
 
-		if (result == game_objects.end())
+		if (result == game_objects_.end())
 		{
 			return nullptr;
 		}
@@ -104,7 +91,7 @@ namespace Nixie
 	{
 		std::vector<std::shared_ptr<GameObject>> result;
 
-		for (auto& it : game_objects)
+		for (auto& it : game_objects_)
 		{
 			result.push_back(it.second);
 		}
