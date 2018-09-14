@@ -5,4 +5,5 @@
 *.userosscache
 *.sln.docstates
 *.cso
+log.txt
 packages
