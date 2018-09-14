@@ -1,0 +1,3 @@
+Window initialized
+DirectX initialized
+Scene loaded

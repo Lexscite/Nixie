@@ -15,14 +15,14 @@ namespace Nixie
 	class Transform final
 	{
 	public:
-		Transform(std::shared_ptr<GameObject> game_object) : game_object_(game_object), parent_(nullptr), position_(Vector3<float>(0.0f)), rotation_(Quaternion<float>(1, 0, 0, 0)), scale_(Vector3<float>(1.0f)) {}
+		Transform(std::shared_ptr<GameObject> game_object);
 
-		Vector3<float> GetUp() { return rotation_.ToMatrix4() * Vector3<float>(0, 1, 0); }
-		Vector3<float> GetDown() { return rotation_.ToMatrix4() * Vector3<float>(0, -1, 0); }
-		Vector3<float> GetForward() { return rotation_.ToMatrix4() * Vector3<float>(0, 0, -1); }
-		Vector3<float> GetBackward() { return rotation_.ToMatrix4() * Vector3<float>(0, 0, 1); }
-		Vector3<float> GetRight() { return rotation_.ToMatrix4() * Vector3<float>(1, 0, 0); }
-		Vector3<float> GetLeft() { return rotation_.ToMatrix4() * Vector3<float>(-1, 0, 0); }
+		Vector3<float> GetUp();
+		Vector3<float> GetDown();
+		Vector3<float> GetForward();
+		Vector3<float> GetBackward();
+		Vector3<float> GetRight();
+		Vector3<float> GetLeft();
 
 		std::shared_ptr<Transform> GetParent();
 		void SetParent(std::shared_ptr<Transform> parent);
@@ -31,29 +31,33 @@ namespace Nixie
 
 		Vector3<float> GetPosition();
 		Vector3<float> GetLocalPosition();
-		inline void SetPosition(const float& x, const float& y, const float& z) { position_ = Vector3<float>(x, y, z); }
-		inline void SetPosition(const Vector3<float>& v) { position_ = v; }
-		inline void Translate(const float& x, const float& y, const float& z) { position_ += Vector3<float>(x, y, z); }
-		inline void Translate(const Vector3<float>& v) { position_ += v; }
-
 		Quaternion<float> GetRotation();
 		Quaternion<float> GetLocalRotation();
-		inline void SetRotation(const float& x, const float& y, const float& z) { rotation_ = Quaternion<float>::FromEulerAngles(x, y, z); }
-		inline void SetRotation(const Vector3<float>& v) { rotation_ = Quaternion<float>::FromEulerAngles(v); }
-		inline void SetRotation(const Quaternion<float>& q) { rotation_ = q; }
-		inline void SetRotation(const Vector3<float>& v, const float& s) { rotation_ = Quaternion<float>(v.x, v.y, v.z, s); }
-		inline void Rotate(const float& x, const float& y, const float& z) { rotation_ = rotation_ * Quaternion<float>::FromEulerAngles(x, y, z); }
-		inline void Rotate(const Vector3<float>& v) { rotation_ = rotation_ * Quaternion<float>::FromEulerAngles(v); }
-		inline void Rotate(const Quaternion<float> q) { rotation_ = rotation_ * q; }
-
 		Vector3<float> GetScale();
 		Vector3<float> GetLocalScale();
-		inline void SetScale(const float& s) { scale_ = Vector3<float>(s); }
-		inline void SetScale(const float& x, const float& y, const float& z) { scale_ = Vector3<float>(x, y, z); }
-		inline void SetScale(const Vector3<float>& v) { scale_ = v; }
-		inline void Scale(const float& value) { scale_ += value; }
-		inline void Scale(const float& x, const float& y, const float& z) { scale_ += Vector3<float>(x, y, z); }
-		inline void Scale(const Vector3<float>& v) { scale_ += v; }
+
+		void SetPosition(const float& x, const float& y, const float& z);
+		void SetPosition(const Vector3<float>& v);
+		void SetRotation(const float& x, const float& y, const float& z);
+		void SetRotation(const Vector3<float>& v);
+		void SetRotation(const Quaternion<float>& q);
+		void SetRotation(const Vector3<float>& v, const float& s);
+		void SetRotationByDegrees(const float& x, const float& y, const float& z);
+		void SetRotationByDegrees(const Vector3<float> v);
+		void SetScale(const float& s);
+		void SetScale(const float& x, const float& y, const float& z);
+		void SetScale(const Vector3<float>& v);
+
+		void Translate(const float& x, const float& y, const float& z);
+		void Translate(const Vector3<float>& v);
+		void Rotate(const float& x, const float& y, const float& z);
+		void Rotate(const Vector3<float>& v);
+		void Rotate(const Quaternion<float> q);
+		void RotateByDegrees(const float& x, const float& y, const float& z);
+		void RotateByDegrees(const Vector3<float> v);
+		void Scale(const float& value);
+		void Scale(const float& x, const float& y, const float& z);
+		void Scale(const Vector3<float>& v);
 
 	private:
 		std::shared_ptr<GameObject> game_object_;

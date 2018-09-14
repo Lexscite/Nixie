@@ -6,9 +6,19 @@
 
 namespace Nixie
 {
+	Camera::Camera() :
+		view_matrix_(),
+		projection_matrix_(),
+		locked_(false),
+		lock_point_(),
+		fov_(mathfu::kPi / 4)
+	{}
+
+
 	bool Camera::OnUpdate()
 	{
-		GetTransform()->Translate(0, 0, .1 * Time::GetDeltaTime());
+		//GetTransform()->Rotate(0, 1 * Time::GetDeltaTime(), 0);
+
 		return true;
 	}
 
@@ -30,18 +40,19 @@ namespace Nixie
 
 	void Camera::CalculateViewMatrix()
 	{
-		Vector3<float> eye_pos = GetTransform()->GetPosition();
+		Vector3<float> pos = GetTransform()->GetPosition();
 		Vector3<float> at;
+
 		if (locked_)
 		{
 			at = lock_point_;
 		}
 		else
 		{
-			at = eye_pos + GetTransform()->GetBackward();
+			at = pos + GetTransform()->GetForward();
 		}
 
-		view_matrix_ = Matrix4x4<float>::LookAt(at, eye_pos, GetTransform()->GetUp(), -1.0f);
+		view_matrix_ = Matrix4x4<float>::LookAt(at, pos, GetTransform()->GetUp(), -1.0f);
 	}
 
 

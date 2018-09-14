@@ -16,28 +16,27 @@ namespace Nixie
 	{
 		auto camera = std::make_shared<GameObject>("Camera");
 		camera->AddComponent(std::make_shared<Camera>());
-		camera->GetTransform()->SetPosition(5, 5, 5);
+		camera->GetTransform()->SetPosition(0, 0, 10);
 		AddGameObject(camera);
 
-		//auto deer = std::make_shared<GameObject>("Deer");
-		//deer->AddComponent(std::make_shared<Model>(
-		//	"../data/meshes/deer.txt",
-		//	"../data/shaders/default_vs.cso",
-		//	"../data/shaders/default_ps.cso",
-		//	"../data/textures/mailbox.jpg"));
-		//AddGameObject(deer);
+		auto deer = std::make_shared<GameObject>("Deer");
+		deer->AddComponent(std::make_shared<Model>(
+			"../data/meshes/deer.txt",
+			"../data/shaders/default_vs.cso",
+			"../data/shaders/default_ps.cso",
+			"../data/textures/mailbox.jpg"));
+		AddGameObject(deer);
 
 		auto text = std::make_shared<GameObject>("Text");
 		text->AddComponent(std::make_shared<Text>(
 			"Hello",
 			"../data/shaders/font_vs.cso",
 			"../data/shaders/font_ps.cso",
-			"../data/textures/fonts/segoe_ui.png"));
+			"../data/textures/fonts/consolas.png"));
 		text->GetTransform()->SetScale(.1f);
 		AddGameObject(text);
 
 		SetCamera(std::static_pointer_cast<Camera>(camera->GetComponent("Camera")));
-		GetCamera()->LockOnGameObject(text);
 
 		for (auto& game_object : GetGameObjects())
 		{

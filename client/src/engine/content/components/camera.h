@@ -10,7 +10,7 @@ namespace Nixie
 	class Camera : public Component
 	{
 	public:
-		Camera() : fov_(mathfu::kPi / 4) {}
+		Camera();
 
 		void CalculateViewMatrix();
 		Matrix4x4<float> GetViewMatrix();
