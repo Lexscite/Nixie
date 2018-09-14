@@ -1,4 +1,4 @@
-# Nixie
+# Nixie - Simple DirectX11 client/server game engine
 Simple DirectX11 client-server game engine
 
 ## Instalation
