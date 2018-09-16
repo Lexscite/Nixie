@@ -1,8 +1,6 @@
 #include "../../../stdafx.h"
 
 #include "text.h"
-#include "../../graphics/font.h"
-#include "../../graphics/material.h"
 
 
 namespace Nixie
@@ -25,7 +23,7 @@ namespace Nixie
 
 		auto v = font_->BuildVertexArray(text_);
 
-		mesh_ = std::make_shared<Mesh>();
+		mesh_ = std::make_shared<Mesh<VertexPT>>();
 		if (!mesh_->Init(v))
 		{
 			return false;

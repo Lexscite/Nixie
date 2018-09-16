@@ -4,12 +4,14 @@
 #pragma once
 
 #include "../component.h"
+#include "../../graphics/font.h"
+#include "../../graphics/mesh.h"
+#include "../../graphics/material.h"
 
 
 namespace Nixie
 {
 	class Font;
-	class Mesh;
 	class Material;
 
 	class Text : public Component
@@ -31,7 +33,7 @@ namespace Nixie
 		std::string texture_path_;
 
 		std::shared_ptr<Font> font_;
-		std::shared_ptr<Mesh> mesh_;
+		std::shared_ptr<Mesh<VertexPT>> mesh_;
 		std::shared_ptr<Material> material_;
 	};
 }

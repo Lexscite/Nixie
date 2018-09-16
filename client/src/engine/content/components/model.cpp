@@ -1,8 +1,6 @@
 #include "../../../stdafx.h"
 
 #include "model.h"
-#include "../../graphics/mesh.h"
-#include "../../graphics/material.h"
 
 
 namespace Nixie
@@ -16,7 +14,7 @@ namespace Nixie
 
 	bool Model::OnInit()
 	{
-		mesh_ = std::make_shared<Mesh>();
+		mesh_ = std::make_shared<Mesh<VertexPTN>>();
 		if (!mesh_->Init(mesh_path_))
 		{
 			std::cerr << "Error: Failed to initialize mesh" << std::endl;

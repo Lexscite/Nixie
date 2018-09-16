@@ -4,13 +4,12 @@
 #pragma once
 
 #include "../component.h"
+#include "../../graphics/mesh.h"
+#include "../../graphics/material.h"
 
 
 namespace Nixie
 {
-	class Mesh;
-	class Material;
-
 	class Model : public Component
 	{
 	public:
@@ -26,7 +25,7 @@ namespace Nixie
 		std::string ps_path_;
 		std::string texture_path_;
 
-		std::shared_ptr<Mesh> mesh_;
+		std::shared_ptr<Mesh<VertexPTN>> mesh_;
 		std::shared_ptr<Material> material_;
 	};
 }

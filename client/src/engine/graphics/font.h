@@ -23,12 +23,12 @@ namespace Nixie
 
 		bool Init(std::string texture_path);
 
-		std::vector<Vertex> BuildVertexArray(std::string s);
+		std::vector<VertexPT> BuildVertexArray(std::string s);
 		
 	private:
 		bool LoadTexture(std::string texture_path);
 		
-		std::vector<Vertex> CreateCharPlane(const CharData& c, const Vector3<float>& pos);
+		std::vector<VertexPT> CreateCharPlane(const CharData& c, const Vector3<float>& pos);
 
 	private:
 		std::string name_;

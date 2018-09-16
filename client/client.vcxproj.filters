@@ -66,9 +66,6 @@
     <ClCompile Include="src\engine\content\components\model.cpp">
       <Filter>engine\content\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\mesh.cpp">
-      <Filter>engine\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\graphics\material.cpp">
       <Filter>engine\graphics</Filter>
     </ClCompile>
@@ -160,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="src\engine\app.h">
       <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\graphics\vertex.h">
+      <Filter>engine\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

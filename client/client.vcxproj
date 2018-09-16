@@ -37,12 +37,6 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\mesh.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\engine\content\component.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
@@ -153,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="src\engine\content\components\text.h" />
     <ClInclude Include="src\engine\graphics\font.h" />
+    <ClInclude Include="src\engine\graphics\vertex.h" />
     <ClInclude Include="src\engine\input\input.h" />
     <ClInclude Include="src\engine\graphics\mesh.h" />
     <ClInclude Include="src\engine\content\component.h" />
