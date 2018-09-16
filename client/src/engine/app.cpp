@@ -1,7 +1,7 @@
 #include "../stdafx.h"
 
 #include "app.h"
-#include "log.h"
+#include "logger.h"
 
 
 namespace Nixie

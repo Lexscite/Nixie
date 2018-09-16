@@ -60,9 +60,6 @@
     <ClCompile Include="src\engine\network\packet.cpp">
       <Filter>engine\network</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\app.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\time.cpp">
       <Filter>engine</Filter>
     </ClCompile>
@@ -77,14 +74,17 @@
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\engine\log.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\graphics\font.cpp">
       <Filter>engine\graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\content\components\text.cpp">
       <Filter>engine\content\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\logger.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\app.cpp">
+      <Filter>engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +121,6 @@
     <ClInclude Include="src\engine\network\packet.h">
       <Filter>engine\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\app.h">
-      <Filter>engine</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\time.h">
       <Filter>engine</Filter>
     </ClInclude>
@@ -137,9 +134,6 @@
       <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\engine\log.h">
-      <Filter>engine</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\math\math.h">
       <Filter>engine\math</Filter>
     </ClInclude>
@@ -160,6 +154,12 @@
     </ClInclude>
     <ClInclude Include="src\engine\content\components\text.h">
       <Filter>engine\content\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\logger.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\app.h">
+      <Filter>engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

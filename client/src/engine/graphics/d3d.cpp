@@ -2,7 +2,7 @@
 
 #include "d3d.h"
 #include "../app.h"
-#include "../log.h"
+#include "../logger.h"
 
 
 namespace Nixie

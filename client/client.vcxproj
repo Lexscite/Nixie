@@ -97,7 +97,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\engine\log.cpp">
+    <ClCompile Include="src\engine\logger.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../stdafx.h</PrecompiledHeaderFile>
@@ -164,7 +164,7 @@
     <ClInclude Include="src\engine\content\scene.h" />
     <ClInclude Include="src\engine\graphics\d3d.h" />
     <ClInclude Include="src\engine\graphics\texture.h" />
-    <ClInclude Include="src\engine\log.h" />
+    <ClInclude Include="src\engine\logger.h" />
     <ClInclude Include="src\engine\math\color.h" />
     <ClInclude Include="src\engine\math\math.h" />
     <ClInclude Include="src\engine\math\matrix.h" />
