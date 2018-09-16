@@ -79,7 +79,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\d3d.cpp">
+    <ClCompile Include="src\engine\graphics\directx_manager.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
@@ -157,7 +157,7 @@
     <ClInclude Include="src\engine\graphics\material.h" />
     <ClInclude Include="src\engine\content\components\model.h" />
     <ClInclude Include="src\engine\content\scene.h" />
-    <ClInclude Include="src\engine\graphics\d3d.h" />
+    <ClInclude Include="src\engine\graphics\directx_manager.h" />
     <ClInclude Include="src\engine\graphics\texture.h" />
     <ClInclude Include="src\engine\logger.h" />
     <ClInclude Include="src\engine\math\color.h" />

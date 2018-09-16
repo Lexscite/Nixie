@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "d3d.h"
+#include "directx_manager.h"
 
 
 namespace Nixie

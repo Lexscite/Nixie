@@ -4,7 +4,7 @@
 #pragma once
 
 #include "../time.h"
-#include "../graphics/d3d.h"
+#include "../graphics/directx_manager.h"
 #include "../input/input.h"
 #include "../math/math.h"
 

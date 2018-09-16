@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "d3d.h"
+#include "directx_manager.h"
 #include "vertex.h"
 #include "../logger.h"
 
@@ -35,8 +35,8 @@ namespace Nixie
 	{
 	public:
 		Mesh() :
-			device_(D3D::Get()->GetDevice()),
-			device_context_(D3D::Get()->GetDeviceContext()),
+			device_(DirectXManager::Get()->GetDevice()),
+			device_context_(DirectXManager::Get()->GetDeviceContext()),
 			data_(),
 			vertex_buffer_(nullptr),
 			index_buffer_(nullptr)

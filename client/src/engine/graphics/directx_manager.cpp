@@ -7,7 +7,7 @@
 
 namespace Nixie
 {
-	D3D::D3D() :
+	DirectXManager::DirectXManager() :
 		swap_chain_(nullptr),
 		device_(nullptr),
 		device_context_(nullptr),
@@ -21,19 +21,19 @@ namespace Nixie
 	{}
 
 
-	D3D* D3D::singleton_;
+	DirectXManager* DirectXManager::singleton_;
 
 
-	D3D* D3D::Get()
+	DirectXManager* DirectXManager::Get()
 	{
 		if (singleton_ == 0)
-			singleton_ = new D3D;
+			singleton_ = new DirectXManager;
 
 		return singleton_;
 	}
 
 
-	bool D3D::Init(
+	bool DirectXManager::Init(
 		unsigned int screen_width,
 		unsigned int screen_height,
 		bool vsync_enabled,
@@ -366,7 +366,7 @@ namespace Nixie
 	}
 
 
-	bool D3D::CreateRasterizerStates()
+	bool DirectXManager::CreateRasterizerStates()
 	{
 		HRESULT hr;
 
@@ -402,7 +402,7 @@ namespace Nixie
 	}
 
 
-	bool D3D::CreateBlendStates()
+	bool DirectXManager::CreateBlendStates()
 	{
 		HRESULT hr;
 
@@ -438,14 +438,14 @@ namespace Nixie
 	}
 
 
-	void D3D::ToggleWireframeMode()
+	void DirectXManager::ToggleWireframeMode()
 	{
 		wireframe_mode_enabled_ = !wireframe_mode_enabled_;
 		device_context_->RSSetState(wireframe_mode_enabled_ ? rasterizer_state_wireframe_mode_on_ : rasterizer_state_wireframe_mode_off_);
 	}
 
 
-	void D3D::ToggleBlendMode()
+	void DirectXManager::ToggleBlendMode()
 	{
 		alpha_blending_enabled_ = !alpha_blending_enabled_;
 		float factor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
@@ -453,7 +453,7 @@ namespace Nixie
 	}
 
 
-	void D3D::Release()
+	void DirectXManager::Release()
 	{
 		if (swap_chain_)
 		{
@@ -522,14 +522,14 @@ namespace Nixie
 	}
 
 
-	void D3D::BeginScene(const Color& c)
+	void DirectXManager::BeginScene(const Color& c)
 	{
 		device_context_->ClearRenderTargetView(render_target_view_, c);
 		device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH, 1.0f, 0);
 	}
 
 
-	void D3D::EndScene()
+	void DirectXManager::EndScene()
 	{
 		if (vsync_enabled_)
 		{
@@ -542,13 +542,13 @@ namespace Nixie
 	}
 
 
-	ID3D11Device* D3D::GetDevice()
+	ID3D11Device* DirectXManager::GetDevice()
 	{
 		return device_;
 	}
 
 
-	ID3D11DeviceContext* D3D::GetDeviceContext()
+	ID3D11DeviceContext* DirectXManager::GetDeviceContext()
 	{
 		return device_context_;
 	}

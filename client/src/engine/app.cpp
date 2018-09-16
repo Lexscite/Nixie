@@ -9,7 +9,7 @@ namespace Nixie
 	HWND App::window_ = nullptr;
 	LPCSTR App::window_caption_ = nullptr;
 	Time* App::time_ = nullptr;
-	D3D* App::directx_ = nullptr;
+	DirectXManager* App::directx_ = nullptr;
 	std::shared_ptr<Scene> App::scene_ = nullptr;
 	unsigned int App::screen_width_ = 0;
 	unsigned int App::screen_height_ = 0;
@@ -20,7 +20,7 @@ namespace Nixie
 
 	bool App::Init(HINSTANCE instance)
 	{
-		directx_ = D3D::Get();
+		directx_ = DirectXManager::Get();
 		time_ = Time::Get();
 
 		InitSettings();

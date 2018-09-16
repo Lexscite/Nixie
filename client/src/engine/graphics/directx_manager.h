@@ -1,5 +1,5 @@
-#ifndef NIXIE_DIRECTX_H_
-#define NIXIE_DIRECTX_H_
+#ifndef NIXIE_DIRECTX_MANAGER_H_
+#define NIXIE_DIRECTX_MANAGER_H_
 
 #pragma once
 
@@ -16,10 +16,10 @@ namespace Nixie
 {
 	class Color;
 
-	class D3D final
+	class DirectXManager final
 	{
 	public:
-		static D3D* Get();
+		static DirectXManager* Get();
 
 		bool Init(
 			unsigned int screen_width,
@@ -38,13 +38,13 @@ namespace Nixie
 		void ToggleBlendMode();
 
 	private:
-		D3D();
+		DirectXManager();
 
 		bool CreateRasterizerStates();
 		bool CreateBlendStates();
 
 	private:
-		static D3D* singleton_;
+		static DirectXManager* singleton_;
 
 		bool vsync_enabled_;
 		bool fullscreen_enabled_;

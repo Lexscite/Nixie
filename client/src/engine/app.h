@@ -17,7 +17,7 @@ namespace Nixie
 		static int Run();
 
 		static HWND GetWindow() { return window_; }
-		static D3D* GetDirectX() { return directx_; }
+		static DirectXManager* GetDirectX() { return directx_; }
 		static std::shared_ptr<Scene> GetScene() { return scene_; }
 
 	private:
@@ -37,7 +37,7 @@ namespace Nixie
 		static LPCSTR window_caption_;
 
 		static Time* time_;
-		static D3D* directx_;
+		static DirectXManager* directx_;
 		static std::shared_ptr<Scene> scene_;
 
 		static unsigned int screen_width_;

@@ -57,8 +57,8 @@ namespace Nixie
 
 	bool Shader::Init(std::string vs_path, std::string ps_path, bool light)
 	{
-		device_ = std::unique_ptr<ID3D11Device>(D3D::Get()->GetDevice());
-		device_context_ = std::unique_ptr<ID3D11DeviceContext>(D3D::Get()->GetDeviceContext());
+		device_ = std::unique_ptr<ID3D11Device>(DirectXManager::Get()->GetDevice());
+		device_context_ = std::unique_ptr<ID3D11DeviceContext>(DirectXManager::Get()->GetDeviceContext());
 
 		auto vs_buffer = LoadFromFile(vs_path);
 		auto ps_buffer = LoadFromFile(ps_path);

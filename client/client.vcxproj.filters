@@ -42,9 +42,6 @@
     <ClCompile Include="src\engine\content\transform.cpp">
       <Filter>engine\content</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\d3d.cpp">
-      <Filter>engine\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\graphics\shader.cpp">
       <Filter>engine\graphics</Filter>
     </ClCompile>
@@ -83,6 +80,9 @@
     <ClCompile Include="src\engine\app.cpp">
       <Filter>engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\graphics\directx_manager.cpp">
+      <Filter>engine\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\content\components\camera.h">
@@ -99,9 +99,6 @@
     </ClInclude>
     <ClInclude Include="src\engine\content\transform.h">
       <Filter>engine\content</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphics\d3d.h">
-      <Filter>engine\graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\graphics\shader.h">
       <Filter>engine\graphics</Filter>
@@ -159,6 +156,9 @@
       <Filter>engine</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\graphics\vertex.h">
+      <Filter>engine\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\graphics\directx_manager.h">
       <Filter>engine\graphics</Filter>
     </ClInclude>
   </ItemGroup>
