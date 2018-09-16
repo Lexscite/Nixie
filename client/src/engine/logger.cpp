@@ -5,7 +5,7 @@
 
 namespace Nixie
 {
-	Log::Log()
+	Logger::Logger()
 	{
 		fs_.open("log.txt");
 
@@ -23,7 +23,7 @@ namespace Nixie
 	}
 
 	
-	Log::~Log()
+	Logger::~Logger()
 	{
 		fs_.close();
 
@@ -34,14 +34,14 @@ namespace Nixie
 	}
 
 
-	Log& Log::Get()
+	Logger& Logger::Get()
 	{
-		static Log instance;
+		static Logger instance;
 		return instance;
 	}
 
 
-	void Log::Write(std::string s)
+	void Logger::Write(std::string s)
 	{
 		Get().fs_ << s << std::endl;
 
@@ -52,7 +52,7 @@ namespace Nixie
 
 
 #ifdef NIXIE_LOG_CONSOLE_ENABLED
-	void Log::WriteToConsole(std::string s)
+	void Logger::WriteToConsole(std::string s)
 	{
 		std::cout << s << std::endl;
 	}

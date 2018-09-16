@@ -28,23 +28,23 @@ namespace Nixie
 		if (!InitWindow(instance))
 		{
 			MessageBox(window_, "Failed to create window", "Error", MB_OK | MB_ICONERROR);
-			Log::Write("Failed to initialize window");
+			Logger::Write("Failed to initialize window");
 			return false;
 		}
 		else
 		{
-			Log::Write("Window initialized");
+			Logger::Write("Window initialized");
 		}
 
 		if (!directx_->Init(screen_width_, screen_height_, vsync_enabled_, fullscreen_enabled_))
 		{
 			MessageBox(window_, "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
-			Log::Write("Failed to initialize DirectX");
+			Logger::Write("Failed to initialize DirectX");
 			return false;
 		}
 		else
 		{
-			Log::Write("DirectX initialized");
+			Logger::Write("DirectX initialized");
 		}
 
 		//if (!CConnection::GetSingleton()->Establish("127.0.0.1", 1111))
@@ -58,12 +58,12 @@ namespace Nixie
 
 		if (!LoadScene(std::make_shared<Scene>()))
 		{
-			Log::Write("Failed to load scene");
+			Logger::Write("Failed to load scene");
 			return false;
 		}
 		else
 		{
-			Log::Write("Scene loaded");
+			Logger::Write("Scene loaded");
 		}
 
 		return true;
@@ -139,7 +139,7 @@ namespace Nixie
 			window_pos_x, window_pos_y, screen_width_, screen_height_, NULL, NULL, instance, NULL);
 		if (!window_)
 		{
-			Log::Write("WINAPI CreateWindowEx failed");
+			Logger::Write("WINAPI CreateWindowEx failed");
 			return false;
 		}
 

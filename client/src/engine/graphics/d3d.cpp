@@ -51,7 +51,7 @@ namespace Nixie
 		hr = CreateDXGIFactory(__uuidof(IDXGIFactory), reinterpret_cast<void**>(&factory));
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to create DXGIFactory");
+			Logger::Write("Failed to create DXGIFactory");
 			return false;
 		}
 
@@ -59,7 +59,7 @@ namespace Nixie
 		hr = factory->EnumAdapters(0, &adapter);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to enum adapters");
+			Logger::Write("Failed to enum adapters");
 			return false;
 		}
 
@@ -67,7 +67,7 @@ namespace Nixie
 		hr = adapter->EnumOutputs(0, &adapter_output);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to enum adapters outputs");
+			Logger::Write("Failed to enum adapters outputs");
 			return false;
 		}
 
@@ -75,7 +75,7 @@ namespace Nixie
 		hr = adapter_output->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &num_modes, NULL);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to get display modes list");
+			Logger::Write("Failed to get display modes list");
 			return false;
 		}
 
@@ -83,14 +83,14 @@ namespace Nixie
 		display_mode_list = new DXGI_MODE_DESC[num_modes];
 		if (!display_mode_list)
 		{
-			Log::Write("Failed to create display mode list");
+			Logger::Write("Failed to create display mode list");
 			return false;
 		}
 
 		hr = adapter_output->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &num_modes, display_mode_list);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to fill display mode list struct");
+			Logger::Write("Failed to fill display mode list struct");
 			return false;
 		}
 
@@ -111,7 +111,7 @@ namespace Nixie
 		hr = adapter->GetDesc(&adapter_desc);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to get adapter description");
+			Logger::Write("Failed to get adapter description");
 			return false;
 		}
 
@@ -170,7 +170,7 @@ namespace Nixie
 		}
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to create DirectX device");
+			Logger::Write("Failed to create DirectX device");
 			return false;
 		}
 
@@ -178,7 +178,7 @@ namespace Nixie
 		hr = device_->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &msaa_quality);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to check multisample quality levels");
+			Logger::Write("Failed to check multisample quality levels");
 			return false;
 		}
 
@@ -203,7 +203,7 @@ namespace Nixie
 		hr = factory->CreateSwapChain(device_, &swap_chain_desc, &swap_chain_);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to create swap chain");
+			Logger::Write("Failed to create swap chain");
 			return false;
 		}
 
@@ -235,7 +235,7 @@ namespace Nixie
 		hr = swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<LPVOID*>(&back_buffer));
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to get the back buffer");
+			Logger::Write("Failed to get the back buffer");
 			return false;
 		}
 
@@ -269,7 +269,7 @@ namespace Nixie
 		hr = device_->CreateRenderTargetView(back_buffer, nullptr, &render_target_view_);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to create render target view");
+			Logger::Write("Failed to create render target view");
 			return false;
 		}
 
@@ -296,7 +296,7 @@ namespace Nixie
 		hr = device_->CreateTexture2D(&depth_buffer_desc, nullptr, &depth_stencil_buffer_);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to create back buffer texture");
+			Logger::Write("Failed to create back buffer texture");
 			return false;
 		}
 
@@ -320,7 +320,7 @@ namespace Nixie
 		hr = device_->CreateDepthStencilState(&depth_stencil_desc, &depth_stencil_state_);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to create depth stencil state");
+			Logger::Write("Failed to create depth stencil state");
 			return false;
 		}
 
@@ -335,7 +335,7 @@ namespace Nixie
 		hr = device_->CreateDepthStencilView(depth_stencil_buffer_, &depth_stencil_view_desc, &depth_stencil_view_);
 		if (FAILED(hr))
 		{
-			Log::Write("Failed to create depth stencil view");
+			Logger::Write("Failed to create depth stencil view");
 			return false;
 		}
 

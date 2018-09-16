@@ -24,17 +24,17 @@ namespace Nixie
 	};
 #endif
 
-	class Log final
+	class Logger final
 	{
 	public:
-		~Log();
+		~Logger();
 
 		static void Write(std::string s);
 
 	private:
-		Log();
+		Logger();
 
-		static Log& Get();
+		static Logger& Get();
 
 #ifdef NIXIE_LOG_CONSOLE_ENABLED
 		static void WriteToConsole(std::string s);
