@@ -33,7 +33,7 @@ namespace nixie
 		std::string texture_path_;
 
 		std::shared_ptr<Font> font_;
-		std::shared_ptr<Mesh<VertexPT>> mesh_;
+		std::shared_ptr<Mesh> mesh_;
 		std::shared_ptr<Material> material_;
 	};
 }

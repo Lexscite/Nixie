@@ -21,10 +21,8 @@ namespace nixie
 			return false;
 		}
 
-		auto v = font_->BuildVertexArray(text_);
-
-		mesh_ = std::make_shared<Mesh<VertexPT>>();
-		if (!mesh_->Init(v))
+		mesh_ = std::make_shared<Mesh>(font_->BuildVertexArray(text_));
+		if (!mesh_->Init())
 		{
 			return false;
 		}

@@ -139,9 +139,9 @@ namespace nixie
 	}
 
 
-	std::vector<VertexPT> Font::BuildVertexArray(std::string s)
+	std::vector<VertexPTN> Font::BuildVertexArray(std::string s)
 	{
-		std::vector<VertexPT> vertices;
+		std::vector<VertexPTN> vertices;
 		Vector3<float> pos = Vector3<float>(0.0f);
 
 		for (auto& c : s)
@@ -156,9 +156,9 @@ namespace nixie
 	}
 
 
-	std::vector<VertexPT> Font::CreateCharPlane(const CharData& c, const Vector3<float>& pos)
+	std::vector<VertexPTN> Font::CreateCharPlane(const CharData& c, const Vector3<float>& pos)
 	{
-		auto v = std::vector<VertexPT>();
+		auto v = std::vector<VertexPTN>();
 		v.resize(6);
 
 		float t_left = static_cast<float>(c.x) / static_cast<float>(width_);
@@ -169,20 +169,23 @@ namespace nixie
 		v[0] = {
 			pos,
 			Vector2<float>(t_left, t_top),
+			Vector3<float>(0.0f, 0.0f, 0.0f)
 		};
 		v[1] = {
 			Vector3<float>(pos.x + static_cast<float>(c.width), pos.y + static_cast<float>(c.height), pos.z),
 			Vector2<float>(t_right, t_bottom),
+			Vector3<float>(0.0f, 0.0f, 0.0f)
 		};
 		v[2] = {
 			Vector3<float>(pos.x, pos.y + static_cast<float>(c.height), pos.z),
 			Vector2<float>(t_left, t_bottom),
+			Vector3<float>(0.0f, 0.0f, 0.0f)
 		};
-
 		v[3] = v[0];
 		v[4] = {
 			Vector3<float>(pos.x + static_cast<float>(c.width), pos.y, pos.z),
 			Vector2<float>(t_right, t_top),
+			Vector3<float>(0.0f, 0.0f, 0.0f)
 		};
 		v[5] = v[1];
 

@@ -14,8 +14,8 @@ namespace nixie
 
 	bool Model::OnInit()
 	{
-		mesh_ = std::make_shared<Mesh<VertexPTN>>();
-		if (!mesh_->Init(mesh_path_))
+		mesh_ = std::make_shared<Mesh>(mesh_path_);
+		if (!mesh_->Init())
 		{
 			std::cerr << "Error: Failed to initialize mesh" << std::endl;
 			return false;

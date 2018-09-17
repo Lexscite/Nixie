@@ -83,6 +83,9 @@
     <ClCompile Include="src\engine\graphics\directx_manager.cpp">
       <Filter>engine\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\graphics\mesh.cpp">
+      <Filter>engine\graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\content\components\camera.h">

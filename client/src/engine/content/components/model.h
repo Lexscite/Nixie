@@ -25,7 +25,7 @@ namespace nixie
 		std::string ps_path_;
 		std::string texture_path_;
 
-		std::shared_ptr<Mesh<VertexPTN>> mesh_;
+		std::shared_ptr<Mesh> mesh_;
 		std::shared_ptr<Material> material_;
 	};
 }

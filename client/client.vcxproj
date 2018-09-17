@@ -19,6 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\graphics\mesh.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|x64'">../../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|x64'">../../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="src\engine\content\components\text.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='release|Win32'">../../../stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">../../../stdafx.h</PrecompiledHeaderFile>
