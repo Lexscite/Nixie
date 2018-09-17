@@ -7,7 +7,7 @@
 #include "component.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	class Scene;
 	class Component;

@@ -3,7 +3,7 @@
 #include "logger.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	Logger::Logger()
 	{

@@ -4,7 +4,7 @@
 #include "../math/vector.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	struct VertexP
 	{

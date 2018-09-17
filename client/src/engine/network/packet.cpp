@@ -2,7 +2,7 @@
 
 #include "packet.h"
 
-namespace Nixie
+namespace nixie
 {
 	Packet::Packet()
 	{

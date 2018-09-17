@@ -2,7 +2,7 @@
 
 #include "component.h"
 
-namespace Nixie
+namespace nixie
 {
 	bool Component::Init(std::shared_ptr<GameObject> game_object)
 	{

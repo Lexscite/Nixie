@@ -2,7 +2,7 @@
 
 #include "time.h"
 
-namespace Nixie
+namespace nixie
 {
 	Time* Time::singleton_;
 

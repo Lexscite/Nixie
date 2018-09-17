@@ -9,7 +9,7 @@
 #endif
 
 
-namespace Nixie
+namespace nixie
 {
 #ifdef NIXIE_LOG_CONSOLE_ENABLED
 	class ConsoleBuffer : public std::streambuf {

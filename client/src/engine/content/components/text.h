@@ -9,7 +9,7 @@
 #include "../../graphics/material.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	class Font;
 	class Material;

@@ -5,7 +5,7 @@
 #include "../logger.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	DirectXManager::DirectXManager() :
 		swap_chain_(nullptr),

@@ -1,6 +1,6 @@
 #include "model_converter.h"
 
-namespace Nixie
+namespace nixie
 {
 	ModelConverter::ModelConverter()
 	{

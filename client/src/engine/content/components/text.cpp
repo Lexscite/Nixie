@@ -3,7 +3,7 @@
 #include "text.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	Text::Text(std::string text, std::string vs_path, std::string ps_path, std::string texture_path) :
 		text_(text),

@@ -4,7 +4,7 @@
 #include "../app.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	Shader::Shader() :
 		vertex_shader_(nullptr),

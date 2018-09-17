@@ -7,7 +7,7 @@
 #include "mathfu/constants.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	template<class T>
 	const auto Clamp = mathfu::Clamp<T>;

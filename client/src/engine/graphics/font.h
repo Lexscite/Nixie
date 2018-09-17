@@ -8,7 +8,7 @@
 #include "../math/vector.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	class Font
 	{

@@ -7,7 +7,7 @@
 #include "../math/color.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	class Scene final : public std::enable_shared_from_this<Scene>
 	{

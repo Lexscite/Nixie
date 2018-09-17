@@ -11,7 +11,7 @@
 #include "game_object.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	class Transform;
 	class GameObject;

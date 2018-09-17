@@ -5,7 +5,7 @@
 #include "components/text.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	Scene::Scene() :
 		clear_color_(Color(100, 100, 100))

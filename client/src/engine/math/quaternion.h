@@ -4,7 +4,7 @@
 #include "mathfu/quaternion.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	template<class T>
 	using Quaternion = mathfu::Quaternion<T>;

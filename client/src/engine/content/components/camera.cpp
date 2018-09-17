@@ -4,7 +4,7 @@
 #include "../../math/quaternion.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	Camera::Camera() :
 		view_matrix_(),

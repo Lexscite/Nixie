@@ -8,7 +8,7 @@
 #include "../math/matrix.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	class GameObject;
 

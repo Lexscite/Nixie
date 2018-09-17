@@ -7,7 +7,7 @@
 #include "shader.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	class Material
 	{

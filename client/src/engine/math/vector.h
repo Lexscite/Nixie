@@ -4,7 +4,7 @@
 #include "mathfu/vector.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	template<class T>
 	using Vector2 = mathfu::Vector<T, 2>;

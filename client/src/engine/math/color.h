@@ -7,7 +7,7 @@
 #include "vector.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	class Color
 	{

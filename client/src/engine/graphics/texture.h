@@ -6,7 +6,7 @@
 #include "directx_manager.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	class Texture
 	{

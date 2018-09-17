@@ -8,7 +8,7 @@
 #include <d3d11.h>
 
 
-namespace Nixie
+namespace nixie
 {
 	template<class T>
 	using Matrix3x3 = mathfu::Matrix<T, 3>;

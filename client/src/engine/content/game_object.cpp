@@ -3,7 +3,7 @@
 #include "game_object.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	GameObject::GameObject(std::string name) : 
 		name_(name),

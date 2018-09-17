@@ -5,7 +5,7 @@
 
 #include "../component.h"
 
-namespace Nixie
+namespace nixie
 {
 	class Camera : public Component
 	{

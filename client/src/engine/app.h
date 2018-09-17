@@ -8,7 +8,7 @@
 #include "time.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	class App final
 	{

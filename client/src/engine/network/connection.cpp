@@ -2,7 +2,7 @@
 
 #include "connection.h"
 
-namespace Nixie
+namespace nixie
 {
 	Connection::Connection() {}
 

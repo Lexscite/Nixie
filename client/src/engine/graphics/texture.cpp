@@ -3,7 +3,7 @@
 #include "texture.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	Texture::Texture()
 	{

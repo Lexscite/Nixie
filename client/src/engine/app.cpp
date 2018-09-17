@@ -4,7 +4,7 @@
 #include "logger.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	HWND App::window_ = nullptr;
 	LPCSTR App::window_caption_ = nullptr;

@@ -5,7 +5,7 @@
 
 
 
-namespace Nixie
+namespace nixie
 {
 
 }

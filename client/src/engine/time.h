@@ -3,7 +3,7 @@
 
 #pragma once
 
-namespace Nixie
+namespace nixie
 {
 	class Time
 	{

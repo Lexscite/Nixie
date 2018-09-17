@@ -8,7 +8,7 @@
 #include "../logger.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	template <class T>
 	struct MeshData

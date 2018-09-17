@@ -7,7 +7,7 @@
 #include <fstream>
 #include <string>
 
-namespace Nixie
+namespace nixie
 {
 	typedef struct {
 		float x, y, z;

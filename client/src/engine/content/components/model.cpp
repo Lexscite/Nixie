@@ -3,7 +3,7 @@
 #include "model.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	Model::Model(std::string mesh_path, std::string vs_path, std::string ps_path, std::string texture_path) :
 		mesh_path_(mesh_path),

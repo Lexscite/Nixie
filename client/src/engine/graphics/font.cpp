@@ -6,7 +6,7 @@
 #include <algorithm>
 
 
-namespace Nixie
+namespace nixie
 {
 	Font::Font() :
 		name_(),

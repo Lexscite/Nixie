@@ -4,7 +4,7 @@
 #include "game_object.h"
 #include <d3d11.h>
 
-namespace Nixie
+namespace nixie
 {
 	Transform::Transform(std::shared_ptr<GameObject> game_object) :
 		game_object_(game_object),

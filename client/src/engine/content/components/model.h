@@ -8,7 +8,7 @@
 #include "../../graphics/material.h"
 
 
-namespace Nixie
+namespace nixie
 {
 	class Model : public Component
 	{
