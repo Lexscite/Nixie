@@ -29,12 +29,11 @@ namespace nixie
 		MultiByteToWideChar(CP_UTF8, 0, file_path.c_str(), -1, file_path_w, file_path_wchar_num);
 
 		HRESULT hr = DirectX::CreateWICTextureFromFile(DirectXManager::Get()->GetDevice(), file_path_w, &texture_, &texture_view_);
+		delete[] file_path_w;
 		if (FAILED(hr))
 		{
 			return false;
 		}
-
-		delete[] file_path_w;
 
 		return true;
 	}
