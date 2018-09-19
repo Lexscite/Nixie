@@ -1,5 +1,6 @@
-# Nixie - Simple DirectX11 client/server game engine
-Simple DirectX11 client-server game engine
+# Nixie
+## Simple DirectX11 client-server game engine.
+This is my sandbox pet project. Used only for self-education and discovering c++ best practices and design patterns.
 
 ## Instalation
 ```
