@@ -1,6 +1,3 @@
 [submodule "dependencies/mathfu"]
 	path = dependencies/mathfu
 	url = https://github.com/google/mathfu
-[submodule "dependencies/assimp"]
-	path = dependencies/assimp
-	url = https://github.com/assimp/assimp
