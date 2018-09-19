@@ -21,6 +21,7 @@ namespace nixie
 
 	private:
 		bool LoadFromFile(const std::string& file_path);
+		bool LoadObj(const std::string& file_path);
 		bool CreateVertexBuffer();
 		bool CreateIndexBuffer();
 

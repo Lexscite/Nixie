@@ -19,22 +19,40 @@ namespace nixie
 		camera->GetTransform()->SetPosition(0, 0, 10);
 		AddGameObject(camera);
 
-		auto deer = std::make_shared<GameObject>("Deer");
-		deer->AddComponent(std::make_shared<Model>(
-			"../data/meshes/deer.txt",
+		//auto deer = std::make_shared<GameObject>("Deer");
+		//deer->AddComponent(std::make_shared<Model>(
+		//	"../data/meshes/deer.txt",
+		//	"../data/shaders/default_vs.cso",
+		//	"../data/shaders/default_ps.cso",
+		//	"../data/textures/mailbox.jpg"));
+		//AddGameObject(deer);
+
+		//auto text = std::make_shared<GameObject>("Text");
+		//text->AddComponent(std::make_shared<Text>(
+		//	"Hello",
+		//	"../data/shaders/font_vs.cso",
+		//	"../data/shaders/font_ps.cso",
+		//	"../data/textures/fonts/consolas.png"));
+		//text->GetTransform()->SetScale(.1f);
+		//AddGameObject(text);
+
+		auto tri = std::make_shared<GameObject>("Tri");
+		tri->AddComponent(std::make_shared<Model>(
+			"../data/meshes/tri.txt",
 			"../data/shaders/default_vs.cso",
 			"../data/shaders/default_ps.cso",
 			"../data/textures/mailbox.jpg"));
-		AddGameObject(deer);
+		tri->GetTransform()->SetPosition(-1, 0, 0);
+		AddGameObject(tri);
 
-		auto text = std::make_shared<GameObject>("Text");
-		text->AddComponent(std::make_shared<Text>(
-			"Hello",
-			"../data/shaders/font_vs.cso",
-			"../data/shaders/font_ps.cso",
-			"../data/textures/fonts/consolas.png"));
-		text->GetTransform()->SetScale(.1f);
-		AddGameObject(text);
+		auto quat = std::make_shared<GameObject>("Quat");
+		quat->AddComponent(std::make_shared<Model>(
+			"../data/meshes/quat.txt",
+			"../data/shaders/default_vs.cso",
+			"../data/shaders/default_ps.cso",
+			"../data/textures/mailbox.jpg"));
+		quat->GetTransform()->SetPosition(1, 0, 0);
+		AddGameObject(quat);
 
 		SetCamera(std::static_pointer_cast<Camera>(camera->GetComponent("Camera")));
 

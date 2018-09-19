@@ -124,6 +124,14 @@ namespace nixie
 	}
 
 
+	bool Mesh::LoadObj(const std::string& file_path)
+	{
+		// TODO: Load .obj mesh
+
+		return true;
+	}
+
+
 	bool Mesh::CreateVertexBuffer()
 	{
 		D3D11_BUFFER_DESC vertex_buffer_desc;
