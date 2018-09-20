@@ -1,169 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="engine">
-      <UniqueIdentifier>{e91cac3a-6a01-4570-8e65-3e641b7c373d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\graphics">
-      <UniqueIdentifier>{d4ae0545-efb1-4a7e-93a8-8edf434d7326}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\network">
-      <UniqueIdentifier>{814b1610-46d2-4acc-bdce-8d99f876b613}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\content">
-      <UniqueIdentifier>{2c7da10d-620c-4007-af17-37c1818aead8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\content\components">
-      <UniqueIdentifier>{a40a03f6-0afa-45b9-b304-4c7ab8620bf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\input">
-      <UniqueIdentifier>{6b07f1dc-e3ea-4689-84bc-5117e9518491}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\math">
-      <UniqueIdentifier>{6bbdc746-4baf-4301-acd1-4f676f957eda}</UniqueIdentifier>
-    </Filter>
     <Filter Include="shaders">
       <UniqueIdentifier>{105da953-ac5f-40ab-bb72-5565dd929577}</UniqueIdentifier>
     </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{814b1610-46d2-4acc-bdce-8d99f876b613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="components">
+      <UniqueIdentifier>{a40a03f6-0afa-45b9-b304-4c7ab8620bf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\content\components\camera.cpp">
-      <Filter>engine\content\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\content\component.cpp">
-      <Filter>engine\content</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\content\game_object.cpp">
-      <Filter>engine\content</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\content\scene.cpp">
-      <Filter>engine\content</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\content\transform.cpp">
-      <Filter>engine\content</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\graphics\shader.cpp">
-      <Filter>engine\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\graphics\texture.cpp">
-      <Filter>engine\graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\input\input.cpp">
-      <Filter>engine\input</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\network\connection.cpp">
-      <Filter>engine\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\network\packet.cpp">
-      <Filter>engine\network</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\time.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\content\components\model.cpp">
-      <Filter>engine\content\components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\graphics\material.cpp">
-      <Filter>engine\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\engine\graphics\font.cpp">
-      <Filter>engine\graphics</Filter>
+    <ClCompile Include="src\stdafx_client.cpp" />
+    <ClCompile Include="src\network\connection.cpp">
+      <Filter>network</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\content\components\text.cpp">
-      <Filter>engine\content\components</Filter>
+    <ClCompile Include="src\network\packet.cpp">
+      <Filter>network</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\logger.cpp">
-      <Filter>engine</Filter>
+    <ClCompile Include="src\components\camera.cpp">
+      <Filter>components</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\app.cpp">
-      <Filter>engine</Filter>
+    <ClCompile Include="src\components\model.cpp">
+      <Filter>components</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\directx_manager.cpp">
-      <Filter>engine\graphics</Filter>
+    <ClCompile Include="src\components\text.cpp">
+      <Filter>components</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\mesh.cpp">
-      <Filter>engine\graphics</Filter>
-    </ClCompile>
+    <ClCompile Include="src\application.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\content\components\camera.h">
-      <Filter>engine\content\components</Filter>
+    <ClInclude Include="src\stdafx_client.h" />
+    <ClInclude Include="src\network\connection.h">
+      <Filter>network</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\content\component.h">
-      <Filter>engine\content</Filter>
+    <ClInclude Include="src\network\packet.h">
+      <Filter>network</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\content\game_object.h">
-      <Filter>engine\content</Filter>
+    <ClInclude Include="src\components\camera.h">
+      <Filter>components</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\content\scene.h">
-      <Filter>engine\content</Filter>
+    <ClInclude Include="src\components\model.h">
+      <Filter>components</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\content\transform.h">
-      <Filter>engine\content</Filter>
+    <ClInclude Include="src\components\text.h">
+      <Filter>components</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\graphics\shader.h">
-      <Filter>engine\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphics\texture.h">
-      <Filter>engine\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\input\input.h">
-      <Filter>engine\input</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\network\connection.h">
-      <Filter>engine\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\network\packet.h">
-      <Filter>engine\network</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\time.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\content\components\model.h">
-      <Filter>engine\content\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphics\mesh.h">
-      <Filter>engine\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphics\material.h">
-      <Filter>engine\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\engine\math\math.h">
-      <Filter>engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\math\quaternion.h">
-      <Filter>engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\math\matrix.h">
-      <Filter>engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\math\color.h">
-      <Filter>engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\math\vector.h">
-      <Filter>engine\math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphics\font.h">
-      <Filter>engine\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\content\components\text.h">
-      <Filter>engine\content\components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\logger.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\app.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphics\vertex.h">
-      <Filter>engine\graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphics\directx_manager.h">
-      <Filter>engine\graphics</Filter>
-    </ClInclude>
+    <ClInclude Include="src\application.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

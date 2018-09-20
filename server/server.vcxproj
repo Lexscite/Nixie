@@ -148,18 +148,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\core\connection.h" />
-    <ClInclude Include="src\core\chat_message.h" />
-    <ClInclude Include="src\core\packet_manager.h" />
-    <ClInclude Include="src\core\packet.h" />
-    <ClInclude Include="src\core\server.h" />
+    <ClInclude Include="src\connection.h" />
+    <ClInclude Include="src\chat_message.h" />
+    <ClInclude Include="src\packet_manager.h" />
+    <ClInclude Include="src\packet.h" />
+    <ClInclude Include="src\server.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\connection.cpp" />
-    <ClCompile Include="src\core\chat_message.cpp" />
-    <ClCompile Include="src\core\packet_manager.cpp" />
-    <ClCompile Include="src\core\packet.cpp" />
-    <ClCompile Include="src\core\server.cpp" />
+    <ClCompile Include="src\connection.cpp" />
+    <ClCompile Include="src\chat_message.cpp" />
+    <ClCompile Include="src\packet_manager.cpp" />
+    <ClCompile Include="src\packet.cpp" />
+    <ClCompile Include="src\server.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

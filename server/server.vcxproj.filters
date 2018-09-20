@@ -1,48 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{b007407c-dc92-47c2-9c0d-251bde33d20f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\core">
-      <UniqueIdentifier>{b341ae71-0cc1-4c2b-b9bf-7d829ddc88ac}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="src\chat_message.h" />
+    <ClInclude Include="src\connection.h" />
+    <ClInclude Include="src\packet.h" />
+    <ClInclude Include="src\packet_manager.h" />
+    <ClInclude Include="src\server.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\core\chat_message.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\connection.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\packet.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\packet_manager.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\server.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\core\chat_message.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\connection.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\packet.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\packet_manager.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\server.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
+    <ClCompile Include="src\chat_message.cpp" />
+    <ClCompile Include="src\connection.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\packet.cpp" />
+    <ClCompile Include="src\packet_manager.cpp" />
+    <ClCompile Include="src\server.cpp" />
   </ItemGroup>
 </Project>

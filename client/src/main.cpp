@@ -1,15 +1,15 @@
-#include "stdafx.h"
+#include "stdafx_client.h"
 
-#include "engine/app.h"
+#include "application.h"
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	int exit_code = 0;
 
-	if (nixie::App::Init(hInstance))
+	if (nixie::Application::Init(hInstance))
 	{
-		exit_code = nixie::App::Run();
+		exit_code = nixie::Application::Run();
 	}
 
 	return exit_code;
