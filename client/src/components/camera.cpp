@@ -1,5 +1,4 @@
 #include "../stdafx_client.h"
-
 #include "camera.h"
 
 #include "math/quaternion.h"
@@ -11,11 +10,14 @@
 namespace nixie
 {
 	Camera::Camera() :
+		fov_(mathfu::kPi / 4),
+		aspect_ratio_(8.0f / 6.0f),
+		z_near_(0.1f),
+		z_far_(1000.0f),
 		view_matrix_(),
 		projection_matrix_(),
 		locked_(false),
-		lock_point_(),
-		fov_(mathfu::kPi / 4)
+		lock_point_()
 	{}
 
 
@@ -29,12 +31,7 @@ namespace nixie
 
 	bool Camera::OnInit()
 	{
-		float screen_w = 800.0f;
-		float screen_h = 600.0f;
-		float aspect_ratio = screen_w / screen_h;
-		float znear = 0.1f, zfar = 1000.0f;
-
-		projection_matrix_ = Matrix4x4<float>::Perspective(fov_, aspect_ratio, znear, zfar, -1.0f);
+		projection_matrix_ = Matrix4x4<float>::Perspective(fov_, aspect_ratio_, z_near_, z_far_, -1.0f);
 
 		CalculateViewMatrix();
 

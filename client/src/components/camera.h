@@ -26,13 +26,13 @@ namespace nixie
 		virtual bool OnUpdate() override;
 
 	private:
+		float fov_, aspect_ratio_, z_near_, z_far_;
+		
 		Matrix4x4<float> view_matrix_;
 		Matrix4x4<float> projection_matrix_;
 
 		bool locked_;
 		Vector3<float> lock_point_;
-
-		float fov_;
 	};
 }
 

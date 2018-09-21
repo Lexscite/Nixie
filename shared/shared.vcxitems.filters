@@ -82,6 +82,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\renderer.h">
       <Filter>core\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\text_mesh.h">
+      <Filter>core\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)stdafx_core.cpp" />
@@ -128,6 +131,9 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)core\graphics\renderer.cpp">
+      <Filter>core\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\graphics\text_mesh.cpp">
       <Filter>core\graphics</Filter>
     </ClCompile>
   </ItemGroup>

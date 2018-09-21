@@ -4,8 +4,7 @@
 #pragma once
 
 #include "core/component.h"
-#include "core/graphics/font.h"
-#include "core/graphics/mesh.h"
+#include "core/graphics/text_mesh.h"
 #include "core/graphics/material.h"
 
 
@@ -32,8 +31,7 @@ namespace nixie
 		std::string ps_path_;
 		std::string texture_path_;
 
-		std::shared_ptr<Font> font_;
-		std::shared_ptr<Mesh> mesh_;
+		std::shared_ptr<TextMesh> mesh_;
 		std::shared_ptr<Material> material_;
 	};
 }

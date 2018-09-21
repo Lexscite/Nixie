@@ -18,17 +18,14 @@ namespace nixie
 
 	bool Text::OnInit()
 	{
-		font_ = std::make_shared<Font>();
-		if (!font_->Init(texture_path_))
+		auto font = std::make_shared<Font>();
+		if (!font->Init())
 		{
 			return false;
 		}
 
-		mesh_ = std::make_shared<Mesh>(font_->BuildVertexArray(text_));
-		if (!mesh_->CreateBuffers())
-		{
-			return false;
-		}
+		mesh_ = std::make_shared<TextMesh>(font);
+		mesh_->Generate(text_);
 
 		material_ = std::make_shared<Material>();
 		if (!material_->Init(vs_path_, ps_path_, texture_path_, false))

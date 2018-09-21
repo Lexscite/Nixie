@@ -15,28 +15,22 @@ namespace nixie
 	public:
 		struct CharData
 		{
-			int x, y, width, height, origin_x, origin_y;
+			float x, y, width, height, origin_x, origin_y;
 		};
 
 	public:
 		Font();
 
-		bool Init(std::string texture_path);
+		bool Init();
 
-		std::vector<VertexPTN> BuildVertexArray(std::string s);
-		
-	private:
-		bool LoadTexture(std::string texture_path);
-		
-		std::vector<VertexPTN> CreateCharPlane(const CharData& c, const Vector3<float>& pos);
+		float GetWidth();
+		float GetHeight();
+		CharData GetCharData(const char& c);
 
 	private:
-		std::string name_;
+		float width_, height_;
+
 		std::map<char, Font::CharData> characters_;
-
-		int width_, height_;
-
-		std::unique_ptr<Texture> texture_;
 	};
 }
 

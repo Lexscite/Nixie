@@ -16,14 +16,16 @@ namespace nixie
 		Rectangle(T s) : Rectangle(s, s) {}
 		Rectangle(T width, T height) : width(width), height(height) {}
 
-		Vector2<T>T GetCenter()
+		Vector2<T> GetCenter()
 		{
 			return Vector2<T>(width / 2, height / 2);
 		}
 
-	private:
+	public:
 		T width, height;
 	};
+
+	using Rectanglef = Rectangle<float>;
 }
 
 #endif

@@ -1,18 +1,13 @@
 #include "../../stdafx_core.h"
-
 #include "font.h"
-
 
 namespace nixie
 {
 	Font::Font() :
-		name_(),
-		characters_(),
-		texture_(nullptr)
+		characters_()
 	{}
 
-
-	bool Font::Init(std::string texture_path)
+	bool Font::Init()
 	{
 		width_ = 321;
 		height_ = 120;
@@ -115,77 +110,21 @@ namespace nixie
 			{'~', { 205, 102, 19, 8, 1, 13} },
 		};
 
-		if (!LoadTexture(texture_path))
-		{
-			return false;
-		}
-
 		return true;
 	}
 
-
-	bool Font::LoadTexture(std::string texture_path)
+	float Font::GetWidth()
 	{
-		texture_ = std::make_unique<Texture>();
-		if (!texture_->Init(texture_path))
-		{
-			return false;
-		}
-
-		return true;
+		return width_;
 	}
 
-
-	std::vector<VertexPTN> Font::BuildVertexArray(std::string s)
+	float Font::GetHeight()
 	{
-		std::vector<VertexPTN> vertices;
-		Vector3<float> pos = Vector3<float>(0.0f);
-
-		for (auto& c : s)
-		{
-			auto fc = characters_[c];
-			auto v = CreateCharPlane(fc, pos);
-			vertices.insert(vertices.begin(), v.begin(), v.end());
-			pos += Vector3<float>(static_cast<float>(fc.width), 0, 0);
-		}
-
-		return vertices;
+		return height_;
 	}
 
-
-	std::vector<VertexPTN> Font::CreateCharPlane(const CharData& c, const Vector3<float>& pos)
+	Font::CharData Font::GetCharData(const char& c)
 	{
-		auto v = std::vector<VertexPTN>();
-		v.resize(6);
-
-		float t_left = static_cast<float>(c.x) / static_cast<float>(width_);
-		float t_right = (static_cast<float>(c.x) + static_cast<float>(c.width)) / static_cast<float>(width_);
-		float t_top = static_cast<float>(c.y) / static_cast<float>(height_);
-		float t_bottom = (static_cast<float>(c.y) + static_cast<float>(c.height)) / static_cast<float>(height_);
-
-		v[0] = {
-			pos,
-			Vector2<float>(t_left, t_top),
-			Vector3<float>(0.0f, 0.0f, 0.0f)
-		};
-		v[1] = {
-			Vector3<float>(pos.x + static_cast<float>(c.width), pos.y + static_cast<float>(c.height), pos.z),
-			Vector2<float>(t_right, t_bottom),
-			Vector3<float>(0.0f, 0.0f, 0.0f)
-		};
-		v[2] = {
-			Vector3<float>(pos.x, pos.y + static_cast<float>(c.height), pos.z),
-			Vector2<float>(t_left, t_bottom),
-			Vector3<float>(0.0f, 0.0f, 0.0f)
-		};
-		v[3] = v[0];
-		v[4] = {
-			Vector3<float>(pos.x + static_cast<float>(c.width), pos.y, pos.z),
-			Vector2<float>(t_right, t_top),
-			Vector3<float>(0.0f, 0.0f, 0.0f)
-		};
-		v[5] = v[1];
-
-		return v;
+		return characters_[c];
 	}
 }

@@ -264,8 +264,20 @@ namespace nixie
 	{
 		auto camera = std::make_shared<GameObject>("Camera");
 		camera->AddComponent(std::make_shared<Camera>());
-		camera->GetTransform()->SetPosition(0, 0, 10);
+		camera->GetTransform()->SetPosition(0, 0, -10);
+		camera->GetTransform()->SetRotationByDegrees(0, 180, 0);
 		scene->AddGameObject(camera);
+
+		auto text = std::make_shared<GameObject>("Text");
+		text->AddComponent(std::make_shared<Text>(
+			"Hello World",
+			"../data/shaders/font_vs.cso",
+			"../data/shaders/font_ps.cso",
+			"../data/textures/fonts/consolas.png"));
+		text->GetTransform()->SetScale(0.1f);
+		scene->AddGameObject(text);
+
+		directx_->ToggleWireframeMode();
 
 		auto tri = std::make_shared<GameObject>("Tri");
 		tri->AddComponent(std::make_shared<Model>(

@@ -26,11 +26,11 @@ namespace nixie
 		ID3D11Buffer* GetVertexBuffer();
 		ID3D11Buffer* GetIndexBuffer();
 
-	private:
+	protected:
 		bool CreateVertexBuffer();
 		bool CreateIndexBuffer();
 
-	private:
+	protected:
 		std::shared_ptr<ID3D11Device> device_;
 		std::shared_ptr<ID3D11DeviceContext> device_context_;
 
