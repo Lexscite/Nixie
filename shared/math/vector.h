@@ -14,6 +14,10 @@ namespace nixie
 
 	template<class T>
 	using Vector4 = mathfu::Vector<T, 4>;
+
+	using Vector2f = mathfu::Vector<float, 2>;
+	using Vector3f = mathfu::Vector<float, 3>;
+	using Vector4f = mathfu::Vector<float, 4>;
 }
 
 #endif

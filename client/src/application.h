@@ -1,5 +1,5 @@
-#ifndef NIXIE_APP_H_
-#define NIXIE_APP_H_
+#ifndef NIXIE_APPLICATION_H_
+#define NIXIE_APPLICATION_H_
 
 #pragma once
 

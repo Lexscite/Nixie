@@ -5,7 +5,6 @@
 #pragma comment(lib, "d3d11.lib")
 
 #include "mathfu/matrix.h"
-#include <d3d11.h>
 
 
 namespace nixie
@@ -18,6 +17,10 @@ namespace nixie
 
 	template<class T>
 	using Matrix4x4 = mathfu::Matrix<T, 4>;
+
+	using Matrix3x3f = mathfu::Matrix<float, 3>;
+	using Matrix4x3f = mathfu::Matrix<float, 4, 3>;
+	using Matrix4x4f = mathfu::Matrix<float, 4>;
 }
 
 #endif

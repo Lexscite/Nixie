@@ -8,6 +8,8 @@ namespace nixie
 {
 	template<class T>
 	using Quaternion = mathfu::Quaternion<T>;
+
+	using Quaternionf = mathfu::Quaternion<float>;
 }
 
 #endif
