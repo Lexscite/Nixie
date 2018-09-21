@@ -73,6 +73,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\vertex.h">
       <Filter>core\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)math\rectangle.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\mesh_loader.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\renderer.h">
+      <Filter>core\graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)stdafx_core.cpp" />
@@ -114,6 +123,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)core\time.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\mesh_loader.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\graphics\renderer.cpp">
+      <Filter>core\graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

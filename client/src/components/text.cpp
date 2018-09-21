@@ -1,8 +1,9 @@
 #include "../stdafx_client.h"
-
 #include "text.h"
 
 #include "camera.h"
+#include "core/mesh_loader.h"
+#include "core/graphics/renderer.h"
 
 
 namespace nixie
@@ -24,7 +25,7 @@ namespace nixie
 		}
 
 		mesh_ = std::make_shared<Mesh>(font_->BuildVertexArray(text_));
-		if (!mesh_->Init())
+		if (!mesh_->CreateBuffers())
 		{
 			return false;
 		}
@@ -48,7 +49,7 @@ namespace nixie
 			return false;
 		}
 
-		mesh_->Render();
+		Renderer::Get().RenderMesh(mesh_);
 
 		return true;
 	}

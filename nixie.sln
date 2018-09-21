@@ -13,6 +13,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "client", "client\client.vcx
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		shared\shared.vcxitems*{8e428987-daa4-4f72-b541-69025a5e6eb9}*SharedItemsImports = 4
 		shared\shared.vcxitems*{97560842-44dd-46b5-9756-ed7d75d68ebb}*SharedItemsImports = 4
 		shared\shared.vcxitems*{e3cfca99-6e3e-46b8-8cf2-28dbebca00fd}*SharedItemsImports = 9
 	EndGlobalSection

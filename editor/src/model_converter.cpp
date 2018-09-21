@@ -147,10 +147,10 @@ namespace nixie
 
 	bool ModelConverter::Read(char* filename)
 	{
-		v_coords_ = new Vector3[v_count_];
-		t_coords_ = new Vector3[t_count_];
-		n_coords_ = new Vector3[n_count_];
-		faces_ = new Face[f_count_];
+		v_coords_.resize(v_count_);
+		t_coords_.resize(t_count_);
+		n_coords_.resize(n_count_);
+		faces_.resize(f_count_);
 
 		int v_index = 0;
 		int t_index = 0;
@@ -309,27 +309,6 @@ namespace nixie
 		}
 
 		output_fs.close();
-
-		if (v_coords_)
-		{
-			delete[] v_coords_;
-			v_coords_ = 0;
-		}
-		if (t_coords_)
-		{
-			delete[] t_coords_;
-			t_coords_ = 0;
-		}
-		if (n_coords_)
-		{
-			delete[] n_coords_;
-			n_coords_ = 0;
-		}
-		if (faces_)
-		{
-			delete[] faces_;
-			faces_ = 0;
-		}
 
 		return true;
 	}

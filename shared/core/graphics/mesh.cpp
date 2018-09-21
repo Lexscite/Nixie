@@ -6,7 +6,7 @@
 
 namespace nixie
 {
-	Mesh::Mesh(std::string file_path) :
+	Mesh::Mesh() :
 		device_(DirectXManager::Get()->GetDevice()),
 		device_context_(DirectXManager::Get()->GetDeviceContext()),
 		v_(),
@@ -15,12 +15,7 @@ namespace nixie
 		i_count_(0),
 		vertex_buffer_(nullptr),
 		index_buffer_(nullptr)
-	{
-		if (!LoadFromFile(file_path))
-		{
-			throw std::runtime_error("Couldn't open mesh file: \"" + file_path + "\"");
-		}
-	}
+	{}
 
 
 	Mesh::Mesh(std::vector<VertexPTN> v) :
@@ -32,7 +27,6 @@ namespace nixie
 		i_count_(unsigned long(v_count_)),
 		vertex_buffer_(nullptr),
 		index_buffer_(nullptr)
-
 	{
 		for (unsigned long i = 0; i < i_count_; i++)
 		{
@@ -41,7 +35,7 @@ namespace nixie
 	}
 
 
-	bool Mesh::Init()
+	bool Mesh::CreateBuffers()
 	{
 		if (!CreateVertexBuffer())
 		{
@@ -59,76 +53,39 @@ namespace nixie
 	}
 
 
-	void Mesh::Render()
+	unsigned long Mesh::GetVertexCount()
 	{
-		unsigned int stride = sizeof(VertexPTN);
-		unsigned int offset = 0;
-
-		device_context_->IASetVertexBuffers(0, 1, &vertex_buffer_, &stride, &offset);
-		device_context_->IASetIndexBuffer(index_buffer_, DXGI_FORMAT_R32_UINT, 0);
-		device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		device_context_->DrawIndexed(i_count_, 0, 0);
+		return v_count_;
 	}
 
 
-	bool Mesh::LoadFromFile(const std::string& file_path)
+	unsigned long Mesh::GetIndexCount()
 	{
-		std::ifstream fin;
-		fin.open(file_path);
-
-		if (fin.fail())
-			return false;
-
-		char input;
-
-		fin.get(input);
-		while (input != ':')
-			fin.get(input);
-
-		fin >> v_count_;
-
-		i_count_ = v_count_;
-
-		v_.resize(v_count_);
-		i_.resize(i_count_);
-
-		fin.get(input);
-		while (input != ':')
-			fin.get(input);
-		fin.get(input);
-		fin.get(input);
-
-		for (unsigned int i = 0; i < v_count_; i++)
-		{
-			fin >>
-				v_[i].position.x >>
-				v_[i].position.y >>
-				v_[i].position.z;
-			fin >>
-				v_[i].texture.x >>
-				v_[i].texture.y;
-			fin >>
-				v_[i].normal.x >>
-				v_[i].normal.y >>
-				v_[i].normal.z;
-		}
-
-
-		fin.close();
-
-		for (unsigned long i = 0; i < i_count_; i++)
-			i_[i] = i;
-
-		return true;
+		return i_count_;
 	}
 
 
-	bool Mesh::LoadObj(const std::string& file_path)
+	std::vector<VertexPTN> Mesh::GetVertices()
 	{
-		// TODO: Load .obj mesh
+		return v_;
+	}
 
-		return true;
+
+	std::vector<unsigned long> Mesh::GetIndices()
+	{
+		return i_;
+	}
+
+
+	ID3D11Buffer* Mesh::GetVertexBuffer()
+	{
+		return vertex_buffer_;
+	}
+
+
+	ID3D11Buffer* Mesh::GetIndexBuffer()
+	{
+		return index_buffer_;
 	}
 
 

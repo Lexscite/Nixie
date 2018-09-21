@@ -21,6 +21,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\font.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\material.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\mesh.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\mesh_loader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\renderer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)math\rectangle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\shader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\texture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\vertex.h" />
@@ -70,6 +73,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\input\input.cpp">
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../../stdafx_core.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\mesh_loader.cpp">
+      <PrecompiledHeaderFile>../stdafx_core.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\graphics\renderer.cpp">
+      <PrecompiledHeaderFile>../../stdafx_core.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)core\scene.cpp">
       <PrecompiledHeaderFile>../stdafx_core.h</PrecompiledHeaderFile>

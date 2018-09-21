@@ -6,22 +6,17 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+
+#include "math/vector.h"
 
 namespace nixie
 {
-	typedef struct {
-		float x, y, z;
-	} Vector3;
-
-	typedef struct {
-		int x, y, z;
-	} IntVector3;
-
 	struct Face
 	{
-		IntVector3 v;
-		IntVector3 t;
-		IntVector3 n;
+		Vector3<int> v;
+		Vector3<int> t;
+		Vector3<int> n;
 	};
 
 	class ModelConverter final
@@ -47,10 +42,10 @@ namespace nixie
 
 		int v_count_, t_count_, n_count_, f_count_;
 
-		Vector3* v_coords_;
-		Vector3* t_coords_;
-		Vector3* n_coords_;
-		Face* faces_;
+		std::vector<Vector3<float>> v_coords_;
+		std::vector<Vector3<float>> t_coords_;
+		std::vector<Vector3<float>> n_coords_;
+		std::vector<Face> faces_;
 	};
 }
 

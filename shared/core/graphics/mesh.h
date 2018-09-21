@@ -12,15 +12,21 @@ namespace nixie
 	class Mesh
 	{
 	public:
-		Mesh(std::string file_path);
+		Mesh();
 		Mesh(std::vector<VertexPTN> v);
 
-		bool Init();
-		void Render();
+		bool CreateBuffers();
+
+		unsigned long GetVertexCount();
+		unsigned long GetIndexCount();
+
+		std::vector<VertexPTN> GetVertices();
+		std::vector<unsigned long> GetIndices();
+
+		ID3D11Buffer* GetVertexBuffer();
+		ID3D11Buffer* GetIndexBuffer();
 
 	private:
-		bool LoadFromFile(const std::string& file_path);
-		bool LoadObj(const std::string& file_path);
 		bool CreateVertexBuffer();
 		bool CreateIndexBuffer();
 
@@ -28,11 +34,11 @@ namespace nixie
 		std::shared_ptr<ID3D11Device> device_;
 		std::shared_ptr<ID3D11DeviceContext> device_context_;
 
-		std::vector<VertexPTN> v_;
 		unsigned long v_count_;
-
-		std::vector<unsigned long> i_;
 		unsigned long i_count_;
+
+		std::vector<VertexPTN> v_;
+		std::vector<unsigned long> i_;
 
 		ID3D11Buffer* vertex_buffer_;
 		ID3D11Buffer* index_buffer_;

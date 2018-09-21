@@ -1,7 +1,9 @@
 #include "../stdafx_client.h"
-
 #include "model.h"
+
 #include "camera.h"
+#include "core/mesh_loader.h"
+#include "core/graphics/renderer.h"
 
 
 namespace nixie
@@ -15,8 +17,8 @@ namespace nixie
 
 	bool Model::OnInit()
 	{
-		mesh_ = std::make_shared<Mesh>(mesh_path_);
-		if (!mesh_->Init())
+		mesh_ = MeshLoader::Get().Load(mesh_path_);
+		if (!mesh_->CreateBuffers())
 		{
 			std::cerr << "Error: Failed to initialize mesh" << std::endl;
 			return false;
@@ -43,7 +45,7 @@ namespace nixie
 			return false;
 		}
 
-		mesh_->Render();
+		Renderer::Get().RenderMesh(mesh_);
 
 		return true;
 	}
