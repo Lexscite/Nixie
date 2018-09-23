@@ -1,46 +1,30 @@
 #include "../../stdafx_core.h"
-
 #include "texture.h"
-
 
 namespace nixie
 {
-	Texture::Texture()
-	{
-		texture_view_ = nullptr;
-	}
-
+	Texture::Texture(ID3D11Resource* resource, ID3D11ShaderResourceView* shader_resource_view) :
+		resource_(resource),
+		shader_resource_view(shader_resource_view)
+	{}
 
 	Texture::~Texture()
 	{
-		if (texture_view_)
+		if (resource_)
 		{
-			texture_view_->Release();
-			texture_view_ = nullptr;
+			resource_->Release();
+			resource_ = nullptr;
+		}
+
+		if (shader_resource_view)
+		{
+			shader_resource_view->Release();
+			shader_resource_view = nullptr;
 		}
 	}
 
-
-	bool Texture::Init(std::string file_path)
+	ID3D11ShaderResourceView* Texture::GetShaderResourceView()
 	{
-		// Temporary file_path convertion into wide character string
-		int file_path_wchar_num = MultiByteToWideChar(CP_UTF8, 0, file_path.c_str(), -1, nullptr, 0);
-		wchar_t* file_path_w = new wchar_t[file_path_wchar_num];
-		MultiByteToWideChar(CP_UTF8, 0, file_path.c_str(), -1, file_path_w, file_path_wchar_num);
-
-		HRESULT hr = DirectX::CreateWICTextureFromFile(DirectXManager::Get()->GetDevice(), file_path_w, &texture_, &texture_view_);
-		delete[] file_path_w;
-		if (FAILED(hr))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-
-	ID3D11ShaderResourceView* Texture::GetTextureView()
-	{
-		return texture_view_;
+		return shader_resource_view;
 	}
 }

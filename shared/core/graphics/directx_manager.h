@@ -8,7 +8,6 @@
 
 #include <d3d11.h>
 
-#include "WICTextureLoader.h"
 #include "math/color.h"
 
 

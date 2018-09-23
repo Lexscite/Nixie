@@ -1,11 +1,8 @@
 #ifndef NIXIE_MATERIAL_H_
 #define NIXIE_MATERIAL_H_
 
-#pragma once
-
 #include "texture.h"
 #include "shader.h"
-
 
 namespace nixie
 {
@@ -19,8 +16,8 @@ namespace nixie
 			const Matrix4x4<float>& projection_matrix);
 
 	private:
-		std::unique_ptr<Shader> shader_;
-		std::unique_ptr<Texture> texture_;
+		std::shared_ptr<Shader> shader_;
+		std::shared_ptr<Texture> texture_;
 	};
 }
 

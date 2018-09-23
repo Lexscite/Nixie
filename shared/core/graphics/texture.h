@@ -1,26 +1,21 @@
 #ifndef NIXIE_TEXTURE_H_
 #define NIXIE_TEXTURE_H_
 
-#pragma once
-
 #include "directx_manager.h"
-
 
 namespace nixie
 {
 	class Texture
 	{
 	public:
-		Texture();
+		Texture(ID3D11Resource* resource, ID3D11ShaderResourceView* shader_resource_view);
 		~Texture();
 
-		bool Init(std::string file_path);
-
-		ID3D11ShaderResourceView* GetTextureView();
+		ID3D11ShaderResourceView* GetShaderResourceView();
 
 	private:
-		ID3D11Resource* texture_;
-		ID3D11ShaderResourceView* texture_view_;
+		ID3D11Resource* resource_;
+		ID3D11ShaderResourceView* shader_resource_view;
 	};
 }
 

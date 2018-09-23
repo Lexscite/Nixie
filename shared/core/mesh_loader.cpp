@@ -1,55 +1,8 @@
 #include "../stdafx_core.h"
-
 #include "mesh_loader.h"
-
 
 namespace nixie
 {
-	MeshLoader::MeshLoader() :
-		meshes_()
-	{}
-
-
-	MeshLoader& MeshLoader::Get()
-	{
-		static MeshLoader instance;
-		return instance;
-	}
-
-
-	std::shared_ptr<Mesh> MeshLoader::Load(std::string file_path)
-	{
-		auto it = meshes_.find(file_path);
-
-		if (it != meshes_.end())
-		{
-			return it->second;
-		}
-		else
-		{
-			auto mesh = ProcessFile(file_path);
-			meshes_.insert(std::pair<std::string, std::shared_ptr<Mesh>>(file_path, mesh));
-
-			return mesh;
-		}
-	}
-
-
-	void MeshLoader::Unload(std::string file_path)
-	{
-		auto it = meshes_.find(file_path);
-
-		if (it == meshes_.end())
-		{
-			throw std::runtime_error("Trying to unload non-existing mesh: \"" + file_path + "\"");
-		}
-		else
-		{
-			meshes_.erase(it);
-		}
-	}
-
-
 	std::shared_ptr<Mesh> MeshLoader::ProcessFile(std::string file_path)
 	{
 		std::ifstream fin;
@@ -91,7 +44,6 @@ namespace nixie
 				v[i].normal.y >>
 				v[i].normal.z;
 		}
-
 
 		fin.close();
 

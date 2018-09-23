@@ -85,6 +85,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\graphics\text_mesh.h">
       <Filter>core\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\resource_loader.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\texture_loader.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)core\input\input.cpp">
@@ -134,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)core\graphics\text_mesh.cpp">
       <Filter>core\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\texture_loader.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

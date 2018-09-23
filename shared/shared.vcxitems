@@ -37,8 +37,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)math\matrix.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)math\quaternion.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)math\vector.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\resource_loader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)stdafx_core.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\time.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\texture_loader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)core\component.cpp">
@@ -99,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)core\time.cpp">
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../stdafx_core.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\texture_loader.cpp">
       <PrecompiledHeaderFile>../stdafx_core.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemGroup>
