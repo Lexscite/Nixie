@@ -1,5 +1,4 @@
 #include "stdafx_client.h"
-
 #include "application.h"
 
 #include "core/logger.h"
@@ -264,8 +263,7 @@ namespace nixie
 	{
 		auto camera = std::make_shared<GameObject>("Camera");
 		camera->AddComponent(std::make_shared<Camera>());
-		camera->GetTransform()->SetPosition(0, 0, -10);
-		camera->GetTransform()->SetRotationByDegrees(0, 180, 0);
+		camera->GetTransform()->SetPosition(0, 0, 10);
 		scene->AddGameObject(camera);
 
 		auto text = std::make_shared<GameObject>("Text");
@@ -274,27 +272,17 @@ namespace nixie
 			"../data/shaders/font_vs.cso",
 			"../data/shaders/font_ps.cso",
 			"../data/textures/fonts/consolas.png"));
-		text->GetTransform()->SetScale(0.1f);
-		text->GetTransform()->SetRotationByDegrees(0, 180, 0);
+		text->GetTransform()->SetScale(0.01f);
 		scene->AddGameObject(text);
 
-		auto tri = std::make_shared<GameObject>("Tri");
-		tri->AddComponent(std::make_shared<Model>(
-			"../data/meshes/tri.txt",
+		auto cube = std::make_shared<GameObject>("Cube");
+		cube->AddComponent(std::make_shared<Model>(
+			"../data/meshes/cube.mesh",
 			"../data/shaders/default_vs.cso",
 			"../data/shaders/default_ps.cso",
-			"../data/textures/mailbox.jpg"));
-		tri->GetTransform()->SetPosition(-1, 0, 10);
-		scene->AddGameObject(tri);
-
-		auto quat = std::make_shared<GameObject>("Quat");
-		quat->AddComponent(std::make_shared<Model>(
-			"../data/meshes/quat.txt",
-			"../data/shaders/default_vs.cso",
-			"../data/shaders/default_ps.cso",
-			"../data/textures/mailbox.jpg"));
-		quat->GetTransform()->SetPosition(1, 0, 0);
-		scene->AddGameObject(quat);
+			"../data/textures/placeholder.png"));
+		cube->GetTransform()->SetPosition(0, 0, 0);
+		scene->AddGameObject(cube);
 
 		scene->SetCamera(std::static_pointer_cast<Camera>(camera->GetComponent("Camera")));
 

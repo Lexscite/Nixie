@@ -41,17 +41,13 @@ namespace nixie
 
 		float t_left = c.x / t_width;
 		float t_right = (c.x + c.width) / t_width;
-		float t_top = c.y / t_height;
-		float t_bottom = (c.y + c.height) / t_height;
+		float t_bottom = c.y / t_height;
+		float t_top = (c.y + c.height) / t_height;
+
 
 		auto v_left_top = VertexPTN(
 			Vector3f(offset, 0, 0),
 			Vector2f(t_left, t_top),
-			Vector3f(0.0f, 0.0f, 1.0f));
-
-		auto v_left_bottom = VertexPTN(
-			Vector3f(offset, c.height, 0),
-			Vector2f(t_left, t_bottom),
 			Vector3f(0.0f, 0.0f, 1.0f));
 
 		auto v_right_top = VertexPTN(
@@ -59,12 +55,17 @@ namespace nixie
 			Vector2f(t_right, t_top),
 			Vector3f(0.0f, 0.0f, 1.0f));
 
-		auto v_right_bottom = VertexPTN(
+		auto v_left_bottom = VertexPTN(
 			Vector3f(offset, c.height, 0),
 			Vector2f(t_left, t_bottom),
 			Vector3f(0.0f, 0.0f, 1.0f));
 
-		return std::vector<VertexPTN>({
+		auto v_right_bottom = VertexPTN(
+			Vector3f(offset + c.width, c.height, 0),
+			Vector2f(t_right, t_bottom),
+			Vector3f(0.0f, 0.0f, 1.0f));
+
+		auto vertices = std::vector<VertexPTN>({
 				v_left_top,
 				v_right_bottom,
 				v_left_bottom,
@@ -72,5 +73,7 @@ namespace nixie
 				v_right_top,
 				v_right_bottom
 			});
+
+		return vertices;
 	}
 }

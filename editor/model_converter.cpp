@@ -271,7 +271,7 @@ namespace nixie
 	bool ModelConverter::Write(char* filename)
 	{
 		std::ofstream output_fs;
-		output_fs.open(std::string(filename).substr(0, std::string(filename).find_last_of('.')) + ".txt");
+		output_fs.open(std::string(filename).substr(0, std::string(filename).find_last_of('.')) + ".mesh");
 
 		output_fs << "Vertex Count: " << (f_count_ * 3) << std::endl;
 		output_fs << std::endl;
