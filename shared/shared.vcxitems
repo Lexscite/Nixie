@@ -97,10 +97,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)core\transform.cpp">
       <PrecompiledHeaderFile>../stdafx_core.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)stdafx_core.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx_core.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)core\time.cpp">
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../stdafx_core.h</PrecompiledHeaderFile>

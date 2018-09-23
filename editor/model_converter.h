@@ -1,12 +1,7 @@
-#ifndef MODEL_CONVERTER_H
-#define MODEL_CONVERTER_H
+#ifndef NIXIE_MESH_CONVERTER_H_
+#define NIXIE_MESH_CONVERTER_H_
 
 #pragma once
-
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
 
 #include "math/vector.h"
 

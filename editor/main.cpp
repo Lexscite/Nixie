@@ -1,3 +1,5 @@
+#include "stdafx_editor.h"
+
 #include "model_converter.h"
 
 int main()

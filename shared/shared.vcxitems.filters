@@ -87,7 +87,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)stdafx_core.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)core\input\input.cpp">
       <Filter>core\input</Filter>
     </ClCompile>

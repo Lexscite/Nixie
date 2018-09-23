@@ -73,23 +73,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)\bin\</OutDir>
-    <IntDir>$(ProjectDir)\bin\int\</IntDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>$(SolutionDir)bin\int\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)\bin\</OutDir>
-    <IntDir>$(ProjectDir)\bin\int\</IntDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>$(SolutionDir)bin\int\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\build\$(Configuration)\server\</OutDir>
-    <IntDir>$(SolutionDir)\build\$(Configuration)\server\int\</IntDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>$(SolutionDir)bin\int\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\build\$(Configuration)\server\</OutDir>
-    <IntDir>$(SolutionDir)\build\$(Configuration)\server\int\</IntDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>$(SolutionDir)bin\int\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug|Win32'">
     <ClCompile>
@@ -152,19 +152,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\connection.h" />
-    <ClInclude Include="src\chat_message.h" />
-    <ClInclude Include="src\packet_manager.h" />
-    <ClInclude Include="src\packet.h" />
-    <ClInclude Include="src\server.h" />
+    <ClInclude Include="connection.h" />
+    <ClInclude Include="chat_message.h" />
+    <ClInclude Include="packet_manager.h" />
+    <ClInclude Include="packet.h" />
+    <ClInclude Include="server.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\connection.cpp" />
-    <ClCompile Include="src\chat_message.cpp" />
-    <ClCompile Include="src\packet_manager.cpp" />
-    <ClCompile Include="src\packet.cpp" />
-    <ClCompile Include="src\server.cpp" />
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="connection.cpp" />
+    <ClCompile Include="chat_message.cpp" />
+    <ClCompile Include="packet_manager.cpp" />
+    <ClCompile Include="packet.cpp" />
+    <ClCompile Include="server.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

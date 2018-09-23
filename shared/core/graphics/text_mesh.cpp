@@ -17,10 +17,10 @@ namespace nixie
 
 		for (auto& c : text)
 		{
-			auto fc = font_->GetCharData(c);
-			auto v = GenerateChar(fc, offset);
+			auto c_data = font_->GetCharData(c);
+			auto v = GenerateChar(c_data, offset);
 			v_.insert(v_.begin(), v.begin(), v.end());
-			offset += fc.width;
+			offset += c_data.width;
 		}
 
 		v_count_ = i_count_ = static_cast<unsigned long>(v_.size());

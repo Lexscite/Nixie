@@ -275,9 +275,8 @@ namespace nixie
 			"../data/shaders/font_ps.cso",
 			"../data/textures/fonts/consolas.png"));
 		text->GetTransform()->SetScale(0.1f);
+		text->GetTransform()->SetRotationByDegrees(0, 180, 0);
 		scene->AddGameObject(text);
-
-		directx_->ToggleWireframeMode();
 
 		auto tri = std::make_shared<GameObject>("Tri");
 		tri->AddComponent(std::make_shared<Model>(
@@ -285,7 +284,7 @@ namespace nixie
 			"../data/shaders/default_vs.cso",
 			"../data/shaders/default_ps.cso",
 			"../data/textures/mailbox.jpg"));
-		tri->GetTransform()->SetPosition(-1, 0, 0);
+		tri->GetTransform()->SetPosition(-1, 0, 10);
 		scene->AddGameObject(tri);
 
 		auto quat = std::make_shared<GameObject>("Quat");

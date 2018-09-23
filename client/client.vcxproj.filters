@@ -12,59 +12,59 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\stdafx_client.cpp" />
-    <ClCompile Include="src\network\connection.cpp">
+    <ClCompile Include="components\camera.cpp">
+      <Filter>components</Filter>
+    </ClCompile>
+    <ClCompile Include="components\model.cpp">
+      <Filter>components</Filter>
+    </ClCompile>
+    <ClCompile Include="components\text.cpp">
+      <Filter>components</Filter>
+    </ClCompile>
+    <ClCompile Include="network\connection.cpp">
       <Filter>network</Filter>
     </ClCompile>
-    <ClCompile Include="src\network\packet.cpp">
+    <ClCompile Include="network\packet.cpp">
       <Filter>network</Filter>
     </ClCompile>
-    <ClCompile Include="src\components\camera.cpp">
-      <Filter>components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\components\model.cpp">
-      <Filter>components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\components\text.cpp">
-      <Filter>components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\application.cpp" />
+    <ClCompile Include="application.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx_client.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\stdafx_client.h" />
-    <ClInclude Include="src\network\connection.h">
+    <ClInclude Include="components\camera.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\model.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="components\text.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="network\connection.h">
       <Filter>network</Filter>
     </ClInclude>
-    <ClInclude Include="src\network\packet.h">
+    <ClInclude Include="network\packet.h">
       <Filter>network</Filter>
     </ClInclude>
-    <ClInclude Include="src\components\camera.h">
-      <Filter>components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\components\model.h">
-      <Filter>components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\components\text.h">
-      <Filter>components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\application.h" />
+    <ClInclude Include="application.h" />
+    <ClInclude Include="stdafx_client.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\default_ps.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\default_vs.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\font_ps.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\font_vs.hlsl">
+      <Filter>shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="src\shaders\default_ps.hlsl">
-      <Filter>shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="src\shaders\default_vs.hlsl">
-      <Filter>shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="src\shaders\font_ps.hlsl">
-      <Filter>shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="src\shaders\font_vs.hlsl">
-      <Filter>shaders</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>
