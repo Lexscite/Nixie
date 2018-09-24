@@ -13,26 +13,21 @@ namespace nixie
 	public:
 		Camera();
 
-		void CalculateViewMatrix();
-		Matrix4x4<float> GetViewMatrix();
-		Matrix4x4<float> GetProjectionMatrix();
-
-		void LockOnPoint(const Vector3<float>& p);
-		void LockOnGameObject(std::shared_ptr<GameObject> o);
-		void Unlock() { locked_ = false; }
+		Matrix4x4f GetViewMatrix();
+		Matrix4x4f GetProjectionMatrix();
 
 	private:
 		virtual bool OnInit() override;
 		virtual bool OnUpdate() override;
 
+		void CalculateViewMatrix();
+		void CalculateProjectionMatrix();
+
 	private:
 		float fov_, aspect_ratio_, z_near_, z_far_;
 		
-		Matrix4x4<float> view_matrix_;
-		Matrix4x4<float> projection_matrix_;
-
-		bool locked_;
-		Vector3<float> lock_point_;
+		Matrix4x4f view_matrix_;
+		Matrix4x4f projection_matrix_;
 	};
 }
 

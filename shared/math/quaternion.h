@@ -3,13 +3,9 @@
 
 #include "mathfu/quaternion.h"
 
-
 namespace nixie
 {
-	template<class T>
-	using Quaternion = mathfu::Quaternion<T>;
-
-	using Quaternionf = mathfu::Quaternion<float>;
+	using Quaternion = mathfu::Quaternion<float>;
 }
 
 #endif

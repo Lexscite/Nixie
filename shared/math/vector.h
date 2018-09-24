@@ -3,7 +3,6 @@
 
 #include "mathfu/vector.h"
 
-
 namespace nixie
 {
 	template<class T>

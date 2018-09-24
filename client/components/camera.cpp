@@ -6,7 +6,6 @@
 #include "math/vector.h"
 #include "math/matrix.h"
 
-
 namespace nixie
 {
 	Camera::Camera() :
@@ -15,11 +14,8 @@ namespace nixie
 		z_near_(0.1f),
 		z_far_(1000.0f),
 		view_matrix_(),
-		projection_matrix_(),
-		locked_(false),
-		lock_point_()
+		projection_matrix_()
 	{}
-
 
 	bool Camera::OnUpdate()
 	{
@@ -28,55 +24,35 @@ namespace nixie
 		return true;
 	}
 
-
 	bool Camera::OnInit()
 	{
-		projection_matrix_ = Matrix4x4<float>::Perspective(fov_, aspect_ratio_, z_near_, z_far_, -1.0f);
-
 		CalculateViewMatrix();
+		CalculateProjectionMatrix();
 
 		return true;
 	}
 
-
 	void Camera::CalculateViewMatrix()
 	{
-		Vector3<float> pos = GetTransform()->GetPosition();
-		Vector3<float> at;
+		Vector3f pos = GetTransform()->GetPosition();
+		Vector3f at = pos + GetTransform()->GetForward();
+		Vector3f up = GetTransform()->GetUp();
 
-		if (locked_)
-		{
-			at = lock_point_;
-		}
-		else
-		{
-			at = pos + GetTransform()->GetForward();
-		}
-
-		view_matrix_ = Matrix4x4<float>::LookAt(at, pos, GetTransform()->GetUp(), -1.0f);
+		view_matrix_ = Matrix4x4f::LookAt(at, pos, up, -1.0f);
 	}
 
+	void Camera::CalculateProjectionMatrix()
+	{
+		projection_matrix_ = Matrix4x4f::Perspective(fov_, aspect_ratio_, z_near_, z_far_, -1.0f);
+	}
 
-	Matrix4x4<float> Camera::GetViewMatrix()
+	Matrix4x4f Camera::GetViewMatrix()
 	{
 		return view_matrix_;
 	}
 
-
-	Matrix4x4<float> Camera::GetProjectionMatrix()
+	Matrix4x4f Camera::GetProjectionMatrix()
 	{
 		return projection_matrix_;
-	}
-
-
-	void Camera::LockOnPoint(const Vector3<float>& p)
-	{
-		lock_point_ = p; locked_ = true;
-	}
-
-
-	void Camera::LockOnGameObject(std::shared_ptr<GameObject> o)
-	{
-		lock_point_ = o->GetTransform()->GetPosition(); locked_ = true;
 	}
 }

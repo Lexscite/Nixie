@@ -1,31 +1,25 @@
 #ifndef NIXIE_RECTANGLE_H_
 #define NIXIE_RECTANGLE_H_
 
-#pragma once
-
 #include "vector.h"
-
 
 namespace nixie
 {
-	template<class T>
 	class Rectangle
 	{
 	public:
-		Rectangle() : Rectangle(T(0), T(0)) {}
-		Rectangle(T s) : Rectangle(s, s) {}
-		Rectangle(T width, T height) : width(width), height(height) {}
+		Rectangle() : Rectangle(0, 0) {}
+		Rectangle(float s) : Rectangle(s, s) {}
+		Rectangle(float width, float height) : width(width), height(height) {}
 
-		Vector2<T> GetCenter()
+		Vector2f GetCenter()
 		{
-			return Vector2<T>(width / 2, height / 2);
+			return Vector2f(width / 2, height / 2);
 		}
 
 	public:
-		T width, height;
+		float width, height;
 	};
-
-	using Rectanglef = Rectangle<float>;
 }
 
 #endif

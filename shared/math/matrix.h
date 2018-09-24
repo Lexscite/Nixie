@@ -1,11 +1,7 @@
 #ifndef NIXIE_MATRIX_H_
 #define NIXIE_MATRIX_H_
 
-#pragma comment(lib, "dxgi.lib")
-#pragma comment(lib, "d3d11.lib")
-
 #include "mathfu/matrix.h"
-
 
 namespace nixie
 {
