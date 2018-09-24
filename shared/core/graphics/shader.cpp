@@ -255,7 +255,7 @@ namespace nixie
 			ied.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 			ied.InstanceDataStepRate = 0;
 
-			if (i == 0)
+			if (lstrcmp(ied.SemanticName, LPCSTR("POSITION")) == 0)
 			{
 				ied.Format = DXGI_FORMAT_R32G32B32_FLOAT;
 			}
