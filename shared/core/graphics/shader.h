@@ -3,6 +3,11 @@
 
 #pragma once
 
+#pragma comment(lib, "d3dcompiler.lib")
+
+#include <d3d11shader.h>
+#include <d3dcompiler.h>
+
 #include "directx_manager.h"
 #include "math/color.h"
 #include "math/vector.h"
@@ -14,6 +19,17 @@ namespace nixie
 	class Shader
 	{
 	private:
+		struct ShaderBuffer
+		{
+			ShaderBuffer(unsigned int size) :
+				data(new byte[size]),
+				size(size)
+			{}
+
+			byte* data;
+			unsigned int size;
+		};
+
 		struct MatrixBuffer
 		{
 			Matrix4x4<float> world_matrix;
@@ -46,16 +62,12 @@ namespace nixie
 			ID3D11ShaderResourceView* texture);
 
 	private:
-		bool CreateVertexShader(std::vector<unsigned char*> buffer);
-		bool CreateInputLayout(std::vector<unsigned char*> buffer);
-		D3D11_INPUT_ELEMENT_DESC CreateInputElement(LPCSTR name, unsigned int index, DXGI_FORMAT format, unsigned int slot, unsigned int offset, D3D11_INPUT_CLASSIFICATION slot_class, unsigned int step_rate);
+		bool CreateInputLayout(ShaderBuffer buffer);
 		bool CreateMatrixBuffer();
-
-		bool CreatePixelShader(std::vector<unsigned char*> buffer);
 		bool CreateSamplerState();
 		bool CreateLightBuffer();
 
-		std::vector<unsigned char*> LoadFromFile(std::string file_path);
+		ShaderBuffer LoadFromFile(std::string file_path);
 
 	private:
 		std::shared_ptr<ID3D11Device> device_;

@@ -44,7 +44,6 @@ namespace nixie
 		float t_bottom = c.y / t_height;
 		float t_top = (c.y + c.height) / t_height;
 
-
 		auto v_left_top = VertexPTN(
 			Vector3f(offset, 0, 0),
 			Vector2f(t_left, t_top),
@@ -67,11 +66,11 @@ namespace nixie
 
 		auto vertices = std::vector<VertexPTN>({
 				v_left_top,
-				v_right_bottom,
 				v_left_bottom,
+				v_right_bottom,
 				v_left_top,
-				v_right_top,
-				v_right_bottom
+				v_right_bottom,
+				v_right_top
 			});
 
 		return vertices;

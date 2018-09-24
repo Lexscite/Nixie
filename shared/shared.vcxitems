@@ -38,6 +38,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)math\quaternion.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)math\vector.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\resource_loader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\shader_loader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)stdafx_core.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\time.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)core\texture_loader.h" />
@@ -104,6 +105,9 @@
       <PrecompiledHeaderFile>../stdafx_core.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)core\texture_loader.cpp">
+      <PrecompiledHeaderFile>../stdafx_core.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\shader_loader.cpp">
       <PrecompiledHeaderFile>../stdafx_core.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemGroup>

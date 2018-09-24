@@ -91,6 +91,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)core\texture_loader.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)core\shader_loader.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)core\input\input.cpp">
@@ -142,6 +145,9 @@
       <Filter>core\graphics</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)core\texture_loader.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)core\shader_loader.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

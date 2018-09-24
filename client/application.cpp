@@ -263,7 +263,8 @@ namespace nixie
 	{
 		auto camera = std::make_shared<GameObject>("Camera");
 		camera->AddComponent(std::make_shared<Camera>());
-		camera->GetTransform()->SetPosition(0, 0, 10);
+		camera->GetTransform()->SetPosition(0, 0, -5);
+		camera->GetTransform()->SetRotationByDegrees(0, 180, 0);
 		scene->AddGameObject(camera);
 
 		auto text = std::make_shared<GameObject>("Text");
@@ -272,7 +273,8 @@ namespace nixie
 			"../data/shaders/font_vs.cso",
 			"../data/shaders/font_ps.cso",
 			"../data/textures/fonts/consolas.png"));
-		text->GetTransform()->SetScale(0.01f);
+		text->GetTransform()->SetPosition(1, 1, 0);
+		text->GetTransform()->SetScale(0.005f);
 		scene->AddGameObject(text);
 
 		auto cube = std::make_shared<GameObject>("Cube");

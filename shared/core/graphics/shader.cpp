@@ -1,8 +1,7 @@
 #include "../../stdafx_core.h"
-
 #include "shader.h"
-#include "core/logger.h"
 
+#include "core/logger.h"
 
 namespace nixie
 {
@@ -12,8 +11,10 @@ namespace nixie
 		input_layout_(nullptr),
 		sampler_state_(nullptr),
 		matrix_buffer_(nullptr),
-		light_buffer_(nullptr) {}
-
+		light_buffer_(nullptr),
+		device_(std::unique_ptr<ID3D11Device>(DirectXManager::Get()->GetDevice())),
+		device_context_(std::unique_ptr<ID3D11DeviceContext>(DirectXManager::Get()->GetDeviceContext()))
+	{}
 
 	Shader::~Shader()
 	{
@@ -54,18 +55,17 @@ namespace nixie
 		}
 	}
 
-
 	bool Shader::Init(std::string vs_path, std::string ps_path, bool light)
 	{
-		device_ = std::unique_ptr<ID3D11Device>(DirectXManager::Get()->GetDevice());
-		device_context_ = std::unique_ptr<ID3D11DeviceContext>(DirectXManager::Get()->GetDeviceContext());
+		HRESULT hr;
+
+		light_ = light;
 
 		auto vs_buffer = LoadFromFile(vs_path);
 		auto ps_buffer = LoadFromFile(ps_path);
 
-		light_ = light;
-
-		if (!CreateVertexShader(vs_buffer))
+		hr = device_->CreateVertexShader(vs_buffer.data, vs_buffer.size, nullptr, &vertex_shader_);
+		if (FAILED(hr))
 		{
 			return false;
 		}
@@ -80,7 +80,8 @@ namespace nixie
 			return false;
 		}
 
-		if (!CreatePixelShader(ps_buffer))
+		hr = device_->CreatePixelShader(ps_buffer.data, ps_buffer.size, nullptr, &pixel_shader_);
+		if (FAILED(hr))
 		{
 			return false;
 		}
@@ -114,9 +115,11 @@ namespace nixie
 			}
 		}
 
+		delete[] vs_buffer.data;
+		delete[] ps_buffer.data;
+
 		return true;
 	}
-
 
 	bool Shader::Update(
 		const Matrix4x4<float>& world_matrix,
@@ -139,7 +142,6 @@ namespace nixie
 		matrix_buffer->view_matrix = view_matrix.Transpose();
 		matrix_buffer->projection_matrix = projection_matrix.Transpose();
 		device_context_->Unmap(matrix_buffer_, 0);
-
 
 		if (light_)
 		{
@@ -190,8 +192,7 @@ namespace nixie
 		return true;
 	}
 
-
-	std::vector<unsigned char*> Shader::LoadFromFile(std::string file_path)
+	Shader::ShaderBuffer Shader::LoadFromFile(std::string file_path)
 	{
 		std::ifstream fs;
 
@@ -203,78 +204,103 @@ namespace nixie
 		}
 
 		fs.seekg(0, std::ios::end);
-		std::streampos size = fs.tellg();
+		auto size = static_cast<unsigned int>(fs.tellg());
 		fs.seekg(0, std::ios::beg);
 
-		auto buffer = std::vector<unsigned char*>(size, 0);
-		buffer.reserve(size);
+		ShaderBuffer buffer = ShaderBuffer(size);
 
-		fs.read(reinterpret_cast<char*>(&buffer[0]), size);
+		fs.read(reinterpret_cast<char*>(&buffer.data[0]), buffer.size);
 		fs.close();
 
 		return buffer;
 	}
 
-	bool Shader::CreateVertexShader(std::vector<unsigned char*> buffer)
+	bool Shader::CreateInputLayout(Shader::ShaderBuffer buffer)
 	{
-		HRESULT hr = device_->CreateVertexShader(buffer.data(), buffer.size(), nullptr, &vertex_shader_);
+		HRESULT hr;
+
+		ID3D11ShaderReflection* reflection = nullptr;
+		hr = D3DReflect(buffer.data, buffer.size, IID_ID3D11ShaderReflection, (void**)&reflection);
+		if (FAILED(hr))
+		{
+			Logger::Write("Failed to reflect shader buffer");
+			return false;
+		}
+
+		D3D11_SHADER_DESC shader_desc;
+		hr = reflection->GetDesc(&shader_desc);
+		if (FAILED(hr))
+		{
+			Logger::Write("Failed to get shader description");
+			return false;
+		}
+
+		std::vector<D3D11_INPUT_ELEMENT_DESC> ieds;
+
+		for (unsigned int i = 0; i < shader_desc.InputParameters; i++)
+		{
+			D3D11_SIGNATURE_PARAMETER_DESC param_desc;
+			hr = reflection->GetInputParameterDesc(i, &param_desc);
+			if (FAILED(hr))
+			{
+				Logger::Write("Failed to get input parameter description");
+				return false;
+			}
+
+			D3D11_INPUT_ELEMENT_DESC ied;
+			ied.SemanticName = param_desc.SemanticName;
+			ied.SemanticIndex = param_desc.SemanticIndex;
+			ied.InputSlot = 0;
+			ied.AlignedByteOffset = i == 0 ? 0 : D3D11_APPEND_ALIGNED_ELEMENT;
+			ied.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+			ied.InstanceDataStepRate = 0;
+
+			if (i == 0)
+			{
+				ied.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+			}
+			else if (param_desc.Mask == 1)
+			{
+				if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) ied.Format = DXGI_FORMAT_R32_UINT;
+				else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) ied.Format = DXGI_FORMAT_R32_SINT;
+				else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) ied.Format = DXGI_FORMAT_R32_FLOAT;
+			}
+			else if (param_desc.Mask <= 3)
+			{
+				if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) ied.Format = DXGI_FORMAT_R32G32_UINT;
+				else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) ied.Format = DXGI_FORMAT_R32G32_SINT;
+				else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) ied.Format = DXGI_FORMAT_R32G32_FLOAT;
+			}
+			else if (param_desc.Mask <= 7)
+			{
+				if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) ied.Format = DXGI_FORMAT_R32G32B32_UINT;
+				else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) ied.Format = DXGI_FORMAT_R32G32B32_SINT;
+				else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) ied.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+			}
+			else if (param_desc.Mask <= 15)
+			{
+				if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32) ied.Format = DXGI_FORMAT_R32G32B32A32_UINT;
+				else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32) ied.Format = DXGI_FORMAT_R32G32B32A32_SINT;
+				else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32) ied.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+			}
+
+			ieds.push_back(ied);
+		}
+
+		hr = device_->CreateInputLayout(ieds.data(), static_cast<unsigned int>(ieds.size()), buffer.data, buffer.size, &input_layout_);
 		if (FAILED(hr))
 		{
 			return false;
 		}
 
-		return true;
-	}
-
-
-	bool Shader::CreateInputLayout(std::vector<unsigned char*> buffer)
-	{
-		std::vector<D3D11_INPUT_ELEMENT_DESC> polygon_layout;
-
-		auto position = CreateInputElement("POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0);
-		polygon_layout.push_back(position);
-
-		auto texcoord = CreateInputElement("TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0);
-		polygon_layout.push_back(texcoord);
-
-		auto normal = CreateInputElement("NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0);
-		polygon_layout.push_back(normal);
-
-		HRESULT hr = device_->CreateInputLayout(polygon_layout.data(), static_cast<unsigned int>(polygon_layout.size()), buffer.data(), buffer.size(), &input_layout_);
-		if (FAILED(hr))
-		{
-			return false;
-		}
+		reflection->Release();
 
 		return true;
 	}
-
-
-	D3D11_INPUT_ELEMENT_DESC Shader::CreateInputElement(LPCSTR name, unsigned int index, DXGI_FORMAT format, unsigned int slot, unsigned int offset, D3D11_INPUT_CLASSIFICATION slot_class, unsigned int step_rate)
-	{
-		D3D11_INPUT_ELEMENT_DESC el;
-		el.SemanticName = name;
-		el.SemanticIndex = index;
-		el.Format = format;
-		el.InputSlot = slot;
-		el.AlignedByteOffset = offset;
-		el.InputSlotClass = slot_class;
-		el.InstanceDataStepRate = step_rate;
-
-		return el;
-	}
-
 
 	bool Shader::CreateMatrixBuffer()
 	{
-		D3D11_BUFFER_DESC matrix_buffer_desc;
-		matrix_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
-		matrix_buffer_desc.ByteWidth = sizeof(MatrixBuffer);
-		matrix_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		matrix_buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		matrix_buffer_desc.MiscFlags = 0;
-		matrix_buffer_desc.StructureByteStride = 0;
-
+		D3D11_BUFFER_DESC matrix_buffer_desc = { sizeof(MatrixBuffer), D3D11_USAGE_DYNAMIC, D3D11_BIND_CONSTANT_BUFFER, D3D11_CPU_ACCESS_WRITE, 0, 0 };
 		HRESULT hr = device_->CreateBuffer(&matrix_buffer_desc, nullptr, &matrix_buffer_);
 		if (FAILED(hr))
 		{
@@ -284,36 +310,9 @@ namespace nixie
 		return true;
 	}
 
-
-	bool Shader::CreatePixelShader(std::vector<unsigned char*> buffer)
-	{
-		HRESULT hr = device_->CreatePixelShader(buffer.data(), buffer.size(), nullptr, &pixel_shader_);
-		if (FAILED(hr))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-
 	bool Shader::CreateSamplerState()
 	{
-		D3D11_SAMPLER_DESC sampler_desc;
-		sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-		sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-		sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-		sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-		sampler_desc.MipLODBias = 0.0f;
-		sampler_desc.MaxAnisotropy = 1;
-		sampler_desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-		sampler_desc.BorderColor[0] = 0;
-		sampler_desc.BorderColor[1] = 0;
-		sampler_desc.BorderColor[2] = 0;
-		sampler_desc.BorderColor[3] = 0;
-		sampler_desc.MinLOD = 0;
-		sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
-
+		D3D11_SAMPLER_DESC sampler_desc = { D3D11_FILTER_MIN_MAG_MIP_LINEAR, D3D11_TEXTURE_ADDRESS_WRAP, D3D11_TEXTURE_ADDRESS_WRAP, D3D11_TEXTURE_ADDRESS_WRAP, 0.0f, 1, D3D11_COMPARISON_ALWAYS, { 0.0f, 0.0f, 0.0f, 0.0f }, 0, D3D11_FLOAT32_MAX };
 		HRESULT hr = device_->CreateSamplerState(&sampler_desc, &sampler_state_);
 		if (FAILED(hr))
 		{
@@ -323,17 +322,9 @@ namespace nixie
 		return true;
 	}
 
-
 	bool Shader::CreateLightBuffer()
 	{
-		D3D11_BUFFER_DESC light_buffer_desc;
-		light_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
-		light_buffer_desc.ByteWidth = sizeof(LightBuffer);
-		light_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		light_buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		light_buffer_desc.MiscFlags = 0;
-		light_buffer_desc.StructureByteStride = 0;
-
+		D3D11_BUFFER_DESC light_buffer_desc = { sizeof(LightBuffer), D3D11_USAGE_DYNAMIC, D3D11_BIND_CONSTANT_BUFFER, D3D11_CPU_ACCESS_WRITE, 0, 0 };
 		HRESULT hr = device_->CreateBuffer(&light_buffer_desc, nullptr, &light_buffer_);
 		if (FAILED(hr))
 		{
