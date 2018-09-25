@@ -1,4 +1,4 @@
-**/bin/**
+**/build/**
 .vs
 *.suo
 *.user

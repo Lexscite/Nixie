@@ -10,4 +10,4 @@ This is my sandbox pet project. Used only for self-education and discovering c++
 git clone --recursive https://github.com/lexscite/nixie
 ```
 ## Debug
-Set projects debugging directory to "$(SolutionDir)bin\\"
+Set projects debugging directory to "$(SolutionDir)build\\"

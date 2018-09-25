@@ -9,7 +9,6 @@
 
 #include "network/connection.h"
 
-
 namespace nixie
 {
 	class Application final

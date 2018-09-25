@@ -270,19 +270,19 @@ namespace nixie
 		auto text = std::make_shared<GameObject>("Text");
 		text->AddComponent(std::make_shared<Text>(
 			"Hello World",
-			"../data/shaders/font_vs.cso",
-			"../data/shaders/font_ps.cso",
-			"../data/textures/fonts/consolas.png"));
+			"../assets/shaders/font_vs.cso",
+			"../assets/shaders/font_ps.cso",
+			"../assets/textures/fonts/consolas.png"));
 		text->GetTransform()->SetPosition(1, 1, 0);
 		text->GetTransform()->SetScale(0.005f);
 		scene->AddGameObject(text);
 
 		auto cube = std::make_shared<GameObject>("Cube");
 		cube->AddComponent(std::make_shared<Model>(
-			"../data/meshes/cube.mesh",
-			"../data/shaders/default_vs.cso",
-			"../data/shaders/default_ps.cso",
-			"../data/textures/placeholder.png"));
+			"../assets/meshes/cube.mesh",
+			"../assets/shaders/default_vs.cso",
+			"../assets/shaders/default_ps.cso",
+			"../assets/textures/placeholder.png"));
 		cube->GetTransform()->SetPosition(0, 0, 0);
 		scene->AddGameObject(cube);
 
