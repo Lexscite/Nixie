@@ -7,7 +7,7 @@ This is my sandbox pet project. Used only for self-education and discovering c++
 
 ## Instalation
 ```
-git clone --recursive https://github.com/lexscite/nixie
+git clone --recursive https://github.com/lexscite/voodoo-engine
 ```
 ## Debug
 Set projects debugging directory to "$(SolutionDir)build\\"
