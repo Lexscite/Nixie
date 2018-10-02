@@ -1,7 +1,7 @@
 #include "../../stdafx_core.h"
 #include "font.h"
 
-namespace vodoo
+namespace voodoo
 {
 	Font::Font() :
 		characters_()

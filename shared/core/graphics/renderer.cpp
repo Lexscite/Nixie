@@ -3,7 +3,7 @@
 #include "renderer.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	Renderer::Renderer() :
 		device_(DirectXManager::Get()->GetDevice()),

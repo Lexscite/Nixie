@@ -6,7 +6,7 @@
 #include "transform.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	Scene::Scene() :
 		clear_color_(Color(100, 100, 100))

@@ -1,10 +1,10 @@
-#ifndef vodoo_TIME_H_
-#define vodoo_TIME_H_
+#ifndef VOODOO_TIME_H_
+#define VOODOO_TIME_H_
 
 #pragma once
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Time
 	{

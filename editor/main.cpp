@@ -6,7 +6,7 @@ int main()
 {
 	int exit_code = 0;
 
-	vodoo::ModelConverter* model_converter = vodoo::ModelConverter::Get();
+	voodoo::ModelConverter* model_converter = voodoo::ModelConverter::Get();
 	if (model_converter->Init())
 		exit_code = model_converter->Run();
 

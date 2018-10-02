@@ -1,5 +1,5 @@
-#ifndef vodoo_FONT_MESH_H_
-#define vodoo_FONT_MESH_H_
+#ifndef VOODOO_FONT_MESH_H_
+#define VOODOO_FONT_MESH_H_
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "font.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class TextMesh : public Mesh
 	{

@@ -6,7 +6,7 @@
 #include "core/graphics/renderer.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	Model::Model(std::string mesh_path, std::string vs_path, std::string ps_path, std::string texture_path) :
 		mesh_path_(mesh_path),

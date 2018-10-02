@@ -1,17 +1,17 @@
-#ifndef vodoo_LOG_H_
-#define vodoo_LOG_H_
+#ifndef VOODOO_LOG_H_
+#define VOODOO_LOG_H_
 
 #pragma once
 
 // Comment this to disable Windows native debug console window
-#ifndef vodoo_LOG_CONSOLE_ENABLED
-#define vodoo_LOG_CONSOLE_ENABLED
+#ifndef VOODOO_LOG_CONSOLE_ENABLED
+#define VOODOO_LOG_CONSOLE_ENABLED
 #endif
 
 
-namespace vodoo
+namespace voodoo
 {
-#ifdef vodoo_LOG_CONSOLE_ENABLED
+#ifdef VOODOO_LOG_CONSOLE_ENABLED
 	class ConsoleBuffer : public std::streambuf {
 	public:
 		ConsoleBuffer() {
@@ -36,14 +36,14 @@ namespace vodoo
 
 		static Logger& Get();
 
-#ifdef vodoo_LOG_CONSOLE_ENABLED
+#ifdef VOODOO_LOG_CONSOLE_ENABLED
 		static void WriteToConsole(std::string s);
 #endif
 
 	private:
 		std::ofstream fs_;
 
-#ifdef vodoo_LOG_CONSOLE_ENABLED
+#ifdef VOODOO_LOG_CONSOLE_ENABLED
 		ConsoleBuffer console_buffer_;
 		std::streambuf* cout_buffer_;
 		std::streambuf* cerr_buffer_;

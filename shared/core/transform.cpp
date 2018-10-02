@@ -4,7 +4,7 @@
 #include "game_object.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	Transform::Transform(std::shared_ptr<GameObject> game_object) :
 		game_object_(game_object),

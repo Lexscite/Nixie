@@ -1,9 +1,9 @@
-#ifndef vodoo_RECTANGLE_H_
-#define vodoo_RECTANGLE_H_
+#ifndef VOODOO_RECTANGLE_H_
+#define VOODOO_RECTANGLE_H_
 
 #include "vector.h"
 
-namespace vodoo
+namespace voodoo
 {
 	class Rectangle
 	{

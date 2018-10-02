@@ -5,7 +5,7 @@
 #include "component.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	GameObject::GameObject(std::string name) : 
 		name_(name),

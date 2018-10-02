@@ -1,10 +1,10 @@
-#ifndef vodoo_GAME_OBJECT_H_
-#define vodoo_GAME_OBJECT_H_
+#ifndef VOODOO_GAME_OBJECT_H_
+#define VOODOO_GAME_OBJECT_H_
 
 #pragma once
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Scene;
 	class Component;

@@ -1,5 +1,5 @@
-#ifndef vodoo_MESH_H_
-#define vodoo_MESH_H_
+#ifndef VOODOO_MESH_H_
+#define VOODOO_MESH_H_
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "vertex.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Mesh
 	{

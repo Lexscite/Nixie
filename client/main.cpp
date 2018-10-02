@@ -7,9 +7,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	int exit_code = 0;
 
-	if (vodoo::Application::Init(hInstance))
+	if (voodoo::Application::Init(hInstance))
 	{
-		exit_code = vodoo::Application::Run();
+		exit_code = voodoo::Application::Run();
 	}
 
 	return exit_code;

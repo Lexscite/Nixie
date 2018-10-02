@@ -3,7 +3,7 @@
 #include "packet.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	Packet::Packet()
 	{

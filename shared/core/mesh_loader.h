@@ -1,10 +1,10 @@
-#ifndef vodoo_MESH_LOADER_H_
-#define vodoo_MESH_LOADER_H_
+#ifndef VOODOO_MESH_LOADER_H_
+#define VOODOO_MESH_LOADER_H_
 
 #include "resource_loader.h"
 #include "graphics/mesh.h"
 
-namespace vodoo
+namespace voodoo
 {
 	class MeshLoader : public ResourceLoader<Mesh>
 	{

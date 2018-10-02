@@ -3,17 +3,17 @@
 #include "logger.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	Logger::Logger()
 	{
 		fs_.open("log.txt");
 
-#ifdef vodoo_LOG_CONSOLE_ENABLED
+#ifdef VOODOO_LOG_CONSOLE_ENABLED
 		if (AllocConsole())
 		{
 			freopen("CONOUT$", "w", stdout);
-			SetConsoleTitle("vodoo | Debug Console");
+			SetConsoleTitle("voodoo | Debug Console");
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
 		}
 
@@ -27,7 +27,7 @@ namespace vodoo
 	{
 		fs_.close();
 
-#ifdef vodoo_LOG_CONSOLE_ENABLED
+#ifdef VOODOO_LOG_CONSOLE_ENABLED
 		std::cout.rdbuf(cout_buffer_);
 		std::cout.rdbuf(cerr_buffer_);
 #endif
@@ -45,13 +45,13 @@ namespace vodoo
 	{
 		Get().fs_ << s << std::endl;
 
-#ifdef vodoo_LOG_CONSOLE_ENABLED
+#ifdef VOODOO_LOG_CONSOLE_ENABLED
 		WriteToConsole(s);
 #endif
 	}
 
 
-#ifdef vodoo_LOG_CONSOLE_ENABLED
+#ifdef VOODOO_LOG_CONSOLE_ENABLED
 	void Logger::WriteToConsole(std::string s)
 	{
 		std::cout << s << std::endl;

@@ -1,10 +1,10 @@
-#ifndef vodoo_VERTEX_H_
-#define vodoo_VERTEX_H_
+#ifndef VOODOO_VERTEX_H_
+#define VOODOO_VERTEX_H_
 
 #include "math/vector.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	struct VertexP
 	{

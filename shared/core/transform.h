@@ -1,5 +1,5 @@
-#ifndef vodoo_TRANSFORM_H_
-#define vodoo_TRANSFORM_H_
+#ifndef VOODOO_TRANSFORM_H_
+#define VOODOO_TRANSFORM_H_
 
 #pragma once
 
@@ -9,7 +9,7 @@
 #include "math/matrix.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class GameObject;
 

@@ -3,7 +3,7 @@
 #include "connection.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	Connection::Connection() {}
 

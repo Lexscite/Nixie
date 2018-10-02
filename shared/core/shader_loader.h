@@ -1,10 +1,10 @@
-#ifndef vodoo_SHADER_LOADER_H_
-#define vodoo_SHADER_LOADER_H_
+#ifndef VOODOO_SHADER_LOADER_H_
+#define VOODOO_SHADER_LOADER_H_
 
 #include "resource_loader.h"
 #include "graphics/shader.h"
 
-namespace vodoo
+namespace voodoo
 {
 	class ShaderLoader : public ResourceLoader<Shader>
 	{

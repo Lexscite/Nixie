@@ -1,7 +1,7 @@
 #include "../stdafx_core.h"
 #include "shader_loader.h"
 
-namespace vodoo
+namespace voodoo
 {
 	std::shared_ptr<Shader> ShaderLoader::ProcessFile(std::string file_path)
 	{

@@ -1,12 +1,12 @@
-#ifndef vodoo_CONNECTION_H_
-#define vodoo_CONNECTION_H_
+#ifndef VOODOO_CONNECTION_H_
+#define VOODOO_CONNECTION_H_
 
 #pragma once
 
 #include "packet.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Connection
 	{

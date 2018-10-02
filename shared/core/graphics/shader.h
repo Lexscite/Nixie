@@ -1,5 +1,5 @@
-#ifndef vodoo_SHADER_H_
-#define vodoo_SHADER_H_
+#ifndef VOODOO_SHADER_H_
+#define VOODOO_SHADER_H_
 
 #pragma once
 
@@ -14,7 +14,7 @@
 #include "math/matrix.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Shader
 	{

@@ -1,5 +1,5 @@
-#ifndef vodoo_FONT_H_
-#define vodoo_FONT_H_
+#ifndef VOODOO_FONT_H_
+#define VOODOO_FONT_H_
 
 #pragma once
 
@@ -8,7 +8,7 @@
 #include "math/vector.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Font
 	{

@@ -1,11 +1,11 @@
-#ifndef vodoo_INPUT_H_
-#define vodoo_INPUT_H_
+#ifndef VOODOO_INPUT_H_
+#define VOODOO_INPUT_H_
 
 #pragma once
 
 
 
-namespace vodoo
+namespace voodoo
 {
 
 }

@@ -1,11 +1,11 @@
-#ifndef vodoo_MESH_CONVERTER_H_
-#define vodoo_MESH_CONVERTER_H_
+#ifndef VOODOO_MESH_CONVERTER_H_
+#define VOODOO_MESH_CONVERTER_H_
 
 #pragma once
 
 #include "math/vector.h"
 
-namespace vodoo
+namespace voodoo
 {
 	struct Face
 	{

@@ -2,7 +2,7 @@
 #include "text_mesh.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	TextMesh::TextMesh(std::shared_ptr<Font> font) :
 		font_(font)

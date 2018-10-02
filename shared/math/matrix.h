@@ -1,9 +1,9 @@
-#ifndef vodoo_MATRIX_H_
-#define vodoo_MATRIX_H_
+#ifndef VOODOO_MATRIX_H_
+#define VOODOO_MATRIX_H_
 
 #include "mathfu/matrix.h"
 
-namespace vodoo
+namespace voodoo
 {
 	template<class T>
 	using Matrix3x3 = mathfu::Matrix<T, 3>;

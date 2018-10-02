@@ -1,10 +1,10 @@
-#ifndef vodoo_MATERIAL_H_
-#define vodoo_MATERIAL_H_
+#ifndef VOODOO_MATERIAL_H_
+#define VOODOO_MATERIAL_H_
 
 #include "texture.h"
 #include "shader.h"
 
-namespace vodoo
+namespace voodoo
 {
 	class Material
 	{

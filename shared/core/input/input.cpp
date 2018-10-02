@@ -3,7 +3,7 @@
 #include "input.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 
 }

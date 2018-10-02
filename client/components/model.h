@@ -1,5 +1,5 @@
-#ifndef vodoo_MODEL_H_
-#define vodoo_MODEL_H_
+#ifndef VOODOO_MODEL_H_
+#define VOODOO_MODEL_H_
 
 #pragma once
 
@@ -8,7 +8,7 @@
 #include "core/graphics/material.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Model : public Component
 	{

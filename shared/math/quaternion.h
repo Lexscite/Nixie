@@ -1,9 +1,9 @@
-#ifndef vodoo_QUATERNION_H_
-#define vodoo_QUATERNION_H_
+#ifndef VOODOO_QUATERNION_H_
+#define VOODOO_QUATERNION_H_
 
 #include "mathfu/quaternion.h"
 
-namespace vodoo
+namespace voodoo
 {
 	using Quaternion = mathfu::Quaternion<float>;
 }

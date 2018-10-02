@@ -1,7 +1,7 @@
-#ifndef vodoo_RESOURCE_LOADER_H_
-#define vodoo_RESOURCE_LOADER_H_
+#ifndef VOODOO_RESOURCE_LOADER_H_
+#define VOODOO_RESOURCE_LOADER_H_
 
-namespace vodoo
+namespace voodoo
 {
 	template<class T>
 	class ResourceLoader

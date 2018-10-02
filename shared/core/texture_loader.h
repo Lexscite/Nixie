@@ -1,10 +1,10 @@
-#ifndef vodoo_TEXTURE_LOADER_H_
-#define vodoo_TEXTURE_LOADER_H_
+#ifndef VOODOO_TEXTURE_LOADER_H_
+#define VOODOO_TEXTURE_LOADER_H_
 
 #include "resource_loader.h"
 #include "graphics/texture.h"
 
-namespace vodoo
+namespace voodoo
 {
 	class TextureLoader : public ResourceLoader<Texture>
 	{

@@ -3,7 +3,7 @@
 #include "time.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	Time* Time::singleton_;
 

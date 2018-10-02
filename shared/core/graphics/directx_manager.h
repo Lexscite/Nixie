@@ -1,5 +1,5 @@
-#ifndef vodoo_DIRECTX_MANAGER_H_
-#define vodoo_DIRECTX_MANAGER_H_
+#ifndef VOODOO_DIRECTX_MANAGER_H_
+#define VOODOO_DIRECTX_MANAGER_H_
 
 #pragma once
 
@@ -11,7 +11,7 @@
 #include "math/color.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Color;
 

@@ -3,7 +3,7 @@
 
 #include "core/logger.h"
 
-namespace vodoo
+namespace voodoo
 {
 	Shader::Shader() :
 		vertex_shader_(nullptr),

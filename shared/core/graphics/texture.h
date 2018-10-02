@@ -1,9 +1,9 @@
-#ifndef vodoo_TEXTURE_H_
-#define vodoo_TEXTURE_H_
+#ifndef VOODOO_TEXTURE_H_
+#define VOODOO_TEXTURE_H_
 
 #include "directx_manager.h"
 
-namespace vodoo
+namespace voodoo
 {
 	class Texture
 	{

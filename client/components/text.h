@@ -1,5 +1,5 @@
-#ifndef vodoo_TEXT_H_
-#define vodoo_TEXT_H_
+#ifndef VOODOO_TEXT_H_
+#define VOODOO_TEXT_H_
 
 #pragma once
 
@@ -8,7 +8,7 @@
 #include "core/graphics/material.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Font;
 	class Material;

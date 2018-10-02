@@ -1,5 +1,5 @@
-#ifndef vodoo_RENDERER_H_
-#define vodoo_RENDERER_H_
+#ifndef VOODOO_RENDERER_H_
+#define VOODOO_RENDERER_H_
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "mesh.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Renderer
 	{

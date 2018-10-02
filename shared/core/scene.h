@@ -1,12 +1,12 @@
-#ifndef vodoo_SCENE_H_
-#define vodoo_SCENE_H_
+#ifndef VOODOO_SCENE_H_
+#define VOODOO_SCENE_H_
 
 #pragma once
 
 #include "math/color.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class GameObject;
 	class Camera;

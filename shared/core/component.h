@@ -1,5 +1,5 @@
-#ifndef vodoo_COMPONENT_H_
-#define vodoo_COMPONENT_H_
+#ifndef VOODOO_COMPONENT_H_
+#define VOODOO_COMPONENT_H_
 
 #pragma once
 
@@ -8,7 +8,7 @@
 #include "scene.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Transform;
 	class Scene;

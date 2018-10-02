@@ -1,5 +1,5 @@
-#ifndef vodoo_COLOR_H_
-#define vodoo_COLOR_H_
+#ifndef VOODOO_COLOR_H_
+#define VOODOO_COLOR_H_
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "vector.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Color
 	{

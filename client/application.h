@@ -1,5 +1,5 @@
-#ifndef vodoo_APPLICATION_H_
-#define vodoo_APPLICATION_H_
+#ifndef VOODOO_APPLICATION_H_
+#define VOODOO_APPLICATION_H_
 
 #pragma once
 
@@ -9,7 +9,7 @@
 
 #include "network/connection.h"
 
-namespace vodoo
+namespace voodoo
 {
 	class Application final
 	{

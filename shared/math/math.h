@@ -1,10 +1,10 @@
-#ifndef vodoo_MATH_H_
-#define vodoo_MATH_H_
+#ifndef VOODOO_MATH_H_
+#define VOODOO_MATH_H_
 
 #include "mathfu/utilities.h"
 #include "mathfu/constants.h"
 
-namespace vodoo
+namespace voodoo
 {
 	template<class T>
 	const auto Clamp = mathfu::Clamp<T>;

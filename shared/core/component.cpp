@@ -3,7 +3,7 @@
 #include "component.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	bool Component::Init(std::shared_ptr<GameObject> game_object)
 	{

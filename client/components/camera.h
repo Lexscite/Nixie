@@ -1,12 +1,12 @@
-#ifndef vodoo_CAMERA_H_
-#define vodoo_CAMERA_H_
+#ifndef VOODOO_CAMERA_H_
+#define VOODOO_CAMERA_H_
 
 #pragma once
 
 #include "core/component.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	class Camera : public Component
 	{

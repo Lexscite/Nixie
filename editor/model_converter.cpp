@@ -1,7 +1,7 @@
 #include "stdafx_editor.h"
 #include "model_converter.h"
 
-namespace vodoo
+namespace voodoo
 {
 	ModelConverter::ModelConverter()
 	{

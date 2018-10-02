@@ -3,7 +3,7 @@
 
 #include "../texture_loader.h"
 
-namespace vodoo
+namespace voodoo
 {
 	bool Material::Init(std::string vs_path, std::string ps_path, std::string texture_path, bool light)
 	{

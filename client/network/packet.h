@@ -6,7 +6,7 @@
 #pragma comment(lib,"ws2_32.lib")
 
 
-namespace vodoo
+namespace voodoo
 {
 	enum class PacketType
 	{

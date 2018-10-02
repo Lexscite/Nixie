@@ -6,7 +6,7 @@
 #include "core/graphics/renderer.h"
 
 
-namespace vodoo
+namespace voodoo
 {
 	Text::Text(std::string text, std::string vs_path, std::string ps_path, std::string texture_path) :
 		text_(text),
