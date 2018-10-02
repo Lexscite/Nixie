@@ -1,12 +1,12 @@
-#ifndef NIXIE_CAMERA_H_
-#define NIXIE_CAMERA_H_
+#ifndef vodoo_CAMERA_H_
+#define vodoo_CAMERA_H_
 
 #pragma once
 
 #include "core/component.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class Camera : public Component
 	{

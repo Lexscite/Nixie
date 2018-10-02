@@ -1,12 +1,12 @@
-#ifndef NIXIE_CONNECTION_H_
-#define NIXIE_CONNECTION_H_
+#ifndef vodoo_CONNECTION_H_
+#define vodoo_CONNECTION_H_
 
 #pragma once
 
 #include "packet.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class Connection
 	{

@@ -1,5 +1,5 @@
-#ifndef NIXIE_TRANSFORM_H_
-#define NIXIE_TRANSFORM_H_
+#ifndef vodoo_TRANSFORM_H_
+#define vodoo_TRANSFORM_H_
 
 #pragma once
 
@@ -9,7 +9,7 @@
 #include "math/matrix.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class GameObject;
 

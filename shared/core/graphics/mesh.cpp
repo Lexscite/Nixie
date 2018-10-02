@@ -4,7 +4,7 @@
 #include "core/logger.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	Mesh::Mesh() :
 		device_(DirectXManager::Get()->GetDevice()),

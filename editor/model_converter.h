@@ -1,11 +1,11 @@
-#ifndef NIXIE_MESH_CONVERTER_H_
-#define NIXIE_MESH_CONVERTER_H_
+#ifndef vodoo_MESH_CONVERTER_H_
+#define vodoo_MESH_CONVERTER_H_
 
 #pragma once
 
 #include "math/vector.h"
 
-namespace nixie
+namespace vodoo
 {
 	struct Face
 	{

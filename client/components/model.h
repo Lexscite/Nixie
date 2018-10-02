@@ -1,5 +1,5 @@
-#ifndef NIXIE_MODEL_H_
-#define NIXIE_MODEL_H_
+#ifndef vodoo_MODEL_H_
+#define vodoo_MODEL_H_
 
 #pragma once
 
@@ -8,7 +8,7 @@
 #include "core/graphics/material.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class Model : public Component
 	{

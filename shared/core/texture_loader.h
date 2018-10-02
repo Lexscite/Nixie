@@ -1,10 +1,10 @@
-#ifndef NIXIE_TEXTURE_LOADER_H_
-#define NIXIE_TEXTURE_LOADER_H_
+#ifndef vodoo_TEXTURE_LOADER_H_
+#define vodoo_TEXTURE_LOADER_H_
 
 #include "resource_loader.h"
 #include "graphics/texture.h"
 
-namespace nixie
+namespace vodoo
 {
 	class TextureLoader : public ResourceLoader<Texture>
 	{

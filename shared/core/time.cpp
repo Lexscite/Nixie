@@ -3,7 +3,7 @@
 #include "time.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	Time* Time::singleton_;
 

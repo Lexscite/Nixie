@@ -1,9 +1,9 @@
-#ifndef NIXIE_MATRIX_H_
-#define NIXIE_MATRIX_H_
+#ifndef vodoo_MATRIX_H_
+#define vodoo_MATRIX_H_
 
 #include "mathfu/matrix.h"
 
-namespace nixie
+namespace vodoo
 {
 	template<class T>
 	using Matrix3x3 = mathfu::Matrix<T, 3>;

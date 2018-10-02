@@ -1,5 +1,5 @@
-#ifndef NIXIE_RENDERER_H_
-#define NIXIE_RENDERER_H_
+#ifndef vodoo_RENDERER_H_
+#define vodoo_RENDERER_H_
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "mesh.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class Renderer
 	{

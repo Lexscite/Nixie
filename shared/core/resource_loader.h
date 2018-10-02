@@ -1,7 +1,7 @@
-#ifndef NIXIE_RESOURCE_LOADER_H_
-#define NIXIE_RESOURCE_LOADER_H_
+#ifndef vodoo_RESOURCE_LOADER_H_
+#define vodoo_RESOURCE_LOADER_H_
 
-namespace nixie
+namespace vodoo
 {
 	template<class T>
 	class ResourceLoader

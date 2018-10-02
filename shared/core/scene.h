@@ -1,12 +1,12 @@
-#ifndef NIXIE_SCENE_H_
-#define NIXIE_SCENE_H_
+#ifndef vodoo_SCENE_H_
+#define vodoo_SCENE_H_
 
 #pragma once
 
 #include "math/color.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class GameObject;
 	class Camera;

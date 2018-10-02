@@ -3,7 +3,7 @@
 #include "renderer.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	Renderer::Renderer() :
 		device_(DirectXManager::Get()->GetDevice()),

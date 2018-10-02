@@ -3,7 +3,7 @@
 
 #include "WICTextureLoader.h"
 
-namespace nixie
+namespace vodoo
 {
 	std::shared_ptr<Texture> TextureLoader::ProcessFile(std::string file_path)
 	{

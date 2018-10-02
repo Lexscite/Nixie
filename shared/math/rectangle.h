@@ -1,9 +1,9 @@
-#ifndef NIXIE_RECTANGLE_H_
-#define NIXIE_RECTANGLE_H_
+#ifndef vodoo_RECTANGLE_H_
+#define vodoo_RECTANGLE_H_
 
 #include "vector.h"
 
-namespace nixie
+namespace vodoo
 {
 	class Rectangle
 	{

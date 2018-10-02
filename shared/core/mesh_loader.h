@@ -1,10 +1,10 @@
-#ifndef NIXIE_MESH_LOADER_H_
-#define NIXIE_MESH_LOADER_H_
+#ifndef vodoo_MESH_LOADER_H_
+#define vodoo_MESH_LOADER_H_
 
 #include "resource_loader.h"
 #include "graphics/mesh.h"
 
-namespace nixie
+namespace vodoo
 {
 	class MeshLoader : public ResourceLoader<Mesh>
 	{

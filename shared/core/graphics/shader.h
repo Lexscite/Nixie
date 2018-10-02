@@ -1,5 +1,5 @@
-#ifndef NIXIE_SHADER_H_
-#define NIXIE_SHADER_H_
+#ifndef vodoo_SHADER_H_
+#define vodoo_SHADER_H_
 
 #pragma once
 
@@ -14,7 +14,7 @@
 #include "math/matrix.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class Shader
 	{

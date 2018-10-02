@@ -1,5 +1,5 @@
-#ifndef NIXIE_FONT_MESH_H_
-#define NIXIE_FONT_MESH_H_
+#ifndef vodoo_FONT_MESH_H_
+#define vodoo_FONT_MESH_H_
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "font.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class TextMesh : public Mesh
 	{

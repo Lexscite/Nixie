@@ -1,5 +1,5 @@
-#ifndef NIXIE_TEXT_H_
-#define NIXIE_TEXT_H_
+#ifndef vodoo_TEXT_H_
+#define vodoo_TEXT_H_
 
 #pragma once
 
@@ -8,7 +8,7 @@
 #include "core/graphics/material.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class Font;
 	class Material;

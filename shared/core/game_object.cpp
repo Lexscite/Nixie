@@ -5,7 +5,7 @@
 #include "component.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	GameObject::GameObject(std::string name) : 
 		name_(name),

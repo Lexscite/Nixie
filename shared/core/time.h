@@ -1,10 +1,10 @@
-#ifndef NIXIE_TIME_H_
-#define NIXIE_TIME_H_
+#ifndef vodoo_TIME_H_
+#define vodoo_TIME_H_
 
 #pragma once
 
 
-namespace nixie
+namespace vodoo
 {
 	class Time
 	{

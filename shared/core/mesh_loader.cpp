@@ -1,7 +1,7 @@
 #include "../stdafx_core.h"
 #include "mesh_loader.h"
 
-namespace nixie
+namespace vodoo
 {
 	std::shared_ptr<Mesh> MeshLoader::ProcessFile(std::string file_path)
 	{

@@ -1,5 +1,5 @@
-#ifndef NIXIE_DIRECTX_MANAGER_H_
-#define NIXIE_DIRECTX_MANAGER_H_
+#ifndef vodoo_DIRECTX_MANAGER_H_
+#define vodoo_DIRECTX_MANAGER_H_
 
 #pragma once
 
@@ -11,7 +11,7 @@
 #include "math/color.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class Color;
 

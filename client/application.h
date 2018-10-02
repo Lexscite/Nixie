@@ -1,5 +1,5 @@
-#ifndef NIXIE_APPLICATION_H_
-#define NIXIE_APPLICATION_H_
+#ifndef vodoo_APPLICATION_H_
+#define vodoo_APPLICATION_H_
 
 #pragma once
 
@@ -9,7 +9,7 @@
 
 #include "network/connection.h"
 
-namespace nixie
+namespace vodoo
 {
 	class Application final
 	{

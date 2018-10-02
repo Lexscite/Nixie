@@ -1,9 +1,9 @@
-#ifndef NIXIE_TEXTURE_H_
-#define NIXIE_TEXTURE_H_
+#ifndef vodoo_TEXTURE_H_
+#define vodoo_TEXTURE_H_
 
 #include "directx_manager.h"
 
-namespace nixie
+namespace vodoo
 {
 	class Texture
 	{

@@ -1,5 +1,5 @@
-#ifndef NIXIE_COLOR_H_
-#define NIXIE_COLOR_H_
+#ifndef vodoo_COLOR_H_
+#define vodoo_COLOR_H_
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "vector.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class Color
 	{

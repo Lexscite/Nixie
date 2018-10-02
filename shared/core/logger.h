@@ -1,17 +1,17 @@
-#ifndef NIXIE_LOG_H_
-#define NIXIE_LOG_H_
+#ifndef vodoo_LOG_H_
+#define vodoo_LOG_H_
 
 #pragma once
 
 // Comment this to disable Windows native debug console window
-#ifndef NIXIE_LOG_CONSOLE_ENABLED
-#define NIXIE_LOG_CONSOLE_ENABLED
+#ifndef vodoo_LOG_CONSOLE_ENABLED
+#define vodoo_LOG_CONSOLE_ENABLED
 #endif
 
 
-namespace nixie
+namespace vodoo
 {
-#ifdef NIXIE_LOG_CONSOLE_ENABLED
+#ifdef vodoo_LOG_CONSOLE_ENABLED
 	class ConsoleBuffer : public std::streambuf {
 	public:
 		ConsoleBuffer() {
@@ -36,14 +36,14 @@ namespace nixie
 
 		static Logger& Get();
 
-#ifdef NIXIE_LOG_CONSOLE_ENABLED
+#ifdef vodoo_LOG_CONSOLE_ENABLED
 		static void WriteToConsole(std::string s);
 #endif
 
 	private:
 		std::ofstream fs_;
 
-#ifdef NIXIE_LOG_CONSOLE_ENABLED
+#ifdef vodoo_LOG_CONSOLE_ENABLED
 		ConsoleBuffer console_buffer_;
 		std::streambuf* cout_buffer_;
 		std::streambuf* cerr_buffer_;

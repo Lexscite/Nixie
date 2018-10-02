@@ -1,10 +1,10 @@
-#ifndef NIXIE_GAME_OBJECT_H_
-#define NIXIE_GAME_OBJECT_H_
+#ifndef vodoo_GAME_OBJECT_H_
+#define vodoo_GAME_OBJECT_H_
 
 #pragma once
 
 
-namespace nixie
+namespace vodoo
 {
 	class Scene;
 	class Component;

@@ -1,5 +1,5 @@
-#ifndef NIXIE_COMPONENT_H_
-#define NIXIE_COMPONENT_H_
+#ifndef vodoo_COMPONENT_H_
+#define vodoo_COMPONENT_H_
 
 #pragma once
 
@@ -8,7 +8,7 @@
 #include "scene.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class Transform;
 	class Scene;

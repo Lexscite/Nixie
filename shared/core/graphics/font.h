@@ -1,5 +1,5 @@
-#ifndef NIXIE_FONT_H_
-#define NIXIE_FONT_H_
+#ifndef vodoo_FONT_H_
+#define vodoo_FONT_H_
 
 #pragma once
 
@@ -8,7 +8,7 @@
 #include "math/vector.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class Font
 	{

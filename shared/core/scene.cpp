@@ -6,7 +6,7 @@
 #include "transform.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	Scene::Scene() :
 		clear_color_(Color(100, 100, 100))

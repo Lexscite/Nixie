@@ -1,5 +1,5 @@
-#ifndef NIXIE_MESH_H_
-#define NIXIE_MESH_H_
+#ifndef vodoo_MESH_H_
+#define vodoo_MESH_H_
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "vertex.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	class Mesh
 	{

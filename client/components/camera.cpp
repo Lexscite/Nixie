@@ -6,7 +6,7 @@
 #include "math/vector.h"
 #include "math/matrix.h"
 
-namespace nixie
+namespace vodoo
 {
 	Camera::Camera() :
 		fov_(mathfu::kPi / 4),

@@ -4,7 +4,7 @@
 #include "../logger.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	DirectXManager::DirectXManager() :
 		swap_chain_(nullptr),

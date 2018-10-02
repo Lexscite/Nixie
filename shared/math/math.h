@@ -1,10 +1,10 @@
-#ifndef NIXIE_MATH_H_
-#define NIXIE_MATH_H_
+#ifndef vodoo_MATH_H_
+#define vodoo_MATH_H_
 
 #include "mathfu/utilities.h"
 #include "mathfu/constants.h"
 
-namespace nixie
+namespace vodoo
 {
 	template<class T>
 	const auto Clamp = mathfu::Clamp<T>;

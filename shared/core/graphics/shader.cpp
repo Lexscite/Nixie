@@ -3,7 +3,7 @@
 
 #include "core/logger.h"
 
-namespace nixie
+namespace vodoo
 {
 	Shader::Shader() :
 		vertex_shader_(nullptr),

@@ -3,17 +3,17 @@
 #include "logger.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	Logger::Logger()
 	{
 		fs_.open("log.txt");
 
-#ifdef NIXIE_LOG_CONSOLE_ENABLED
+#ifdef vodoo_LOG_CONSOLE_ENABLED
 		if (AllocConsole())
 		{
 			freopen("CONOUT$", "w", stdout);
-			SetConsoleTitle("Nixie | Debug Console");
+			SetConsoleTitle("vodoo | Debug Console");
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
 		}
 
@@ -27,7 +27,7 @@ namespace nixie
 	{
 		fs_.close();
 
-#ifdef NIXIE_LOG_CONSOLE_ENABLED
+#ifdef vodoo_LOG_CONSOLE_ENABLED
 		std::cout.rdbuf(cout_buffer_);
 		std::cout.rdbuf(cerr_buffer_);
 #endif
@@ -45,13 +45,13 @@ namespace nixie
 	{
 		Get().fs_ << s << std::endl;
 
-#ifdef NIXIE_LOG_CONSOLE_ENABLED
+#ifdef vodoo_LOG_CONSOLE_ENABLED
 		WriteToConsole(s);
 #endif
 	}
 
 
-#ifdef NIXIE_LOG_CONSOLE_ENABLED
+#ifdef vodoo_LOG_CONSOLE_ENABLED
 	void Logger::WriteToConsole(std::string s)
 	{
 		std::cout << s << std::endl;

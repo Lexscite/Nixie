@@ -1,7 +1,7 @@
 #include "../../stdafx_core.h"
 #include "texture.h"
 
-namespace nixie
+namespace vodoo
 {
 	Texture::Texture(ID3D11Resource* resource, ID3D11ShaderResourceView* shader_resource_view) :
 		resource_(resource),

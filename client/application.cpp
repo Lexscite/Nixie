@@ -7,7 +7,7 @@
 #include "components/text.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	HWND Application::window_ = nullptr;
 	LPCSTR Application::window_caption_ = nullptr;
@@ -95,7 +95,7 @@ namespace nixie
 	{
 		WNDCLASSEX wc;
 		LPCSTR class_name = "MainWindowClass";
-		window_caption_ = "Nixie";
+		window_caption_ = "vodoo";
 		DWORD style = WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU;
 
 		ZeroMemory(&wc, sizeof(WNDCLASSEX));

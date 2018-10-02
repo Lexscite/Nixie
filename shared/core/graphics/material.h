@@ -1,10 +1,10 @@
-#ifndef NIXIE_MATERIAL_H_
-#define NIXIE_MATERIAL_H_
+#ifndef vodoo_MATERIAL_H_
+#define vodoo_MATERIAL_H_
 
 #include "texture.h"
 #include "shader.h"
 
-namespace nixie
+namespace vodoo
 {
 	class Material
 	{

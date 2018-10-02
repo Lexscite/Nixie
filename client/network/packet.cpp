@@ -3,7 +3,7 @@
 #include "packet.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	Packet::Packet()
 	{

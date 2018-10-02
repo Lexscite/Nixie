@@ -1,10 +1,10 @@
-#ifndef NIXIE_VERTEX_H_
-#define NIXIE_VERTEX_H_
+#ifndef vodoo_VERTEX_H_
+#define vodoo_VERTEX_H_
 
 #include "math/vector.h"
 
 
-namespace nixie
+namespace vodoo
 {
 	struct VertexP
 	{

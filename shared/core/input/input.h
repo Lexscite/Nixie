@@ -1,11 +1,11 @@
-#ifndef NIXIE_INPUT_H_
-#define NIXIE_INPUT_H_
+#ifndef vodoo_INPUT_H_
+#define vodoo_INPUT_H_
 
 #pragma once
 
 
 
-namespace nixie
+namespace vodoo
 {
 
 }
