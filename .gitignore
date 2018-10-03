@@ -1,4 +1,5 @@
 **/build/**
+voodoo_core/lib
 .vs
 *.suo
 *.user

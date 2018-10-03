@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\component.cpp" />
+    <ClCompile Include="src\game_object.cpp" />
+    <ClCompile Include="src\logger.cpp" />
+    <ClCompile Include="src\mesh_loader.cpp" />
+    <ClCompile Include="src\scene.cpp" />
+    <ClCompile Include="src\shader_loader.cpp" />
+    <ClCompile Include="src\texture_loader.cpp" />
+    <ClCompile Include="src\time.cpp" />
+    <ClCompile Include="src\directx_manager.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\font.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\material.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mesh.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\text_mesh.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shader.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\transform.cpp">
+      <Filter>components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer.cpp">
+      <Filter>components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model.cpp">
+      <Filter>components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\camera.cpp">
+      <Filter>components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\text.cpp">
+      <Filter>components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\voodoo\component.h" />
+    <ClInclude Include="include\voodoo\game_object.h" />
+    <ClInclude Include="include\voodoo\logger.h" />
+    <ClInclude Include="include\voodoo\mesh_loader.h" />
+    <ClInclude Include="include\voodoo\resource_loader.h" />
+    <ClInclude Include="include\voodoo\scene.h" />
+    <ClInclude Include="include\voodoo\shader_loader.h" />
+    <ClInclude Include="include\voodoo\texture_loader.h" />
+    <ClInclude Include="include\voodoo\time.h" />
+    <ClInclude Include="include\voodoo\color.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\directx_manager.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\font.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\material.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\mesh.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\text_mesh.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\texture.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\math.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\matrix.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\quaternion.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\rectangle.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\vector.h">
+      <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\shader.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\vertex.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\transform.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\renderer.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\model.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\camera.h">
+      <Filter>components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\text.h">
+      <Filter>components</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="graphics">
+      <UniqueIdentifier>{06673403-cd15-4f4b-84da-4713cbb7b5a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="math">
+      <UniqueIdentifier>{342fcbfb-4ab9-496c-9625-40bad162181e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="components">
+      <UniqueIdentifier>{5f9740b9-b695-4c41-87ca-7addee79cfb9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
