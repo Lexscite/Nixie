@@ -12,7 +12,8 @@ namespace voodoo
 
 		// Load image buffer
 		int image_w, image_h, image_bpp;
-		byte* image_buffer = stbi_load(file_path.c_str(), &image_w, &image_h, &image_bpp, 4);
+		byte* image_buffer = stbi_load(
+			file_path.c_str(), &image_w, &image_h, &image_bpp, 4);
 
 		D3D11_TEXTURE2D_DESC texture_desc;
 		ZeroMemory(&texture_desc, sizeof(texture_desc));
@@ -26,29 +27,31 @@ namespace voodoo
 		texture_desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 		texture_desc.CPUAccessFlags = 0;
 
-		D3D11_SUBRESOURCE_DATA subResource;
-		subResource.pSysMem = image_buffer;
-		subResource.SysMemPitch = texture_desc.Width * 4;
-		subResource.SysMemSlicePitch = 0;
+		D3D11_SUBRESOURCE_DATA subresource_data;
+		subresource_data.pSysMem = image_buffer;
+		subresource_data.SysMemPitch = texture_desc.Width * 4;
+		subresource_data.SysMemSlicePitch = 0;
 
 		ID3D11Texture2D* texture;
-		hr = DirectXManager::Get()->GetDevice()->CreateTexture2D(&texture_desc, &subResource, &texture);
+		hr = DirectXManager::Get()->GetDevice()->CreateTexture2D(
+			&texture_desc, &subresource_data, &texture);
 
-		// Free image buffer
+		// Release image buffer
 		stbi_image_free(image_buffer);
 		if (FAILED(hr)) {
 			throw std::runtime_error("Failed to create texture from memory");
 		}
 
-		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-		ZeroMemory(&srvDesc, sizeof(srvDesc));
-		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MipLevels = texture_desc.MipLevels;
-		srvDesc.Texture2D.MostDetailedMip = 0;
+		D3D11_SHADER_RESOURCE_VIEW_DESC shader_resource_view_desc;
+		ZeroMemory(&shader_resource_view_desc, sizeof(shader_resource_view_desc));
+		shader_resource_view_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		shader_resource_view_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		shader_resource_view_desc.Texture2D.MipLevels = texture_desc.MipLevels;
+		shader_resource_view_desc.Texture2D.MostDetailedMip = 0;
 
 		ID3D11ShaderResourceView* shader_resource_view;
-		hr = DirectXManager::Get()->GetDevice()->CreateShaderResourceView(texture, &srvDesc, &shader_resource_view);
+		hr = DirectXManager::Get()->GetDevice()->CreateShaderResourceView(
+			texture, &shader_resource_view_desc, &shader_resource_view);
 		if (FAILED(hr)) {
 			throw std::runtime_error("Failed to create shader resource view from texture");
 		}
