@@ -113,7 +113,6 @@
     <ClInclude Include="include\voodoo\text.h">
       <Filter>components</Filter>
     </ClInclude>
-    <ClInclude Include="src\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">

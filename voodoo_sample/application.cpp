@@ -31,17 +31,11 @@ namespace voodoo
 			Logger::Write("Failed to initialize window");
 			return false;
 		}
-		else {
-			Logger::Write("Window initialized");
-		}
 
 		if (!directx_->Init(window_, screen_width_, screen_height_, vsync_enabled_, fullscreen_enabled_)) {
 			MessageBoxA(window_, "DirectX initialization failed", "Error", MB_OK | MB_ICONERROR);
 			Logger::Write("Failed to initialize DirectX");
 			return false;
-		}
-		else {
-			Logger::Write("DirectX initialized");
 		}
 
 		//if (!CConnection::GetSingleton()->Establish("127.0.0.1", 1111)) {
