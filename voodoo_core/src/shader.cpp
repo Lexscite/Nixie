@@ -3,6 +3,7 @@
 
 #ifdef VOODOO_DIRECTX
 // Run-time shader compilation dependencies
+#pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 #include <d3d11shader.h>
 #include <d3dcompiler.h>

@@ -1,7 +1,5 @@
 #pragma once
 
-#define VOODOO_LOG_CONSOLE_ENABLED
-
 #include <windows.h>
 #include <memory>
 #include <iostream>

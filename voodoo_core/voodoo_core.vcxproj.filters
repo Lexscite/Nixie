@@ -113,6 +113,7 @@
     <ClInclude Include="include\voodoo\text.h">
       <Filter>components</Filter>
     </ClInclude>
+    <ClInclude Include="src\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
@@ -124,8 +125,5 @@
     <Filter Include="components">
       <UniqueIdentifier>{5f9740b9-b695-4c41-87ca-7addee79cfb9}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>
