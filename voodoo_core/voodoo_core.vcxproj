@@ -86,7 +86,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\mesh_loader.cpp">
+    <ClCompile Include="src\mesh_manager.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -102,15 +102,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\shader_loader.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\texture_loader.cpp">
+    <ClCompile Include="src\image_manager.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -136,6 +128,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\voodoo\image.h" />
     <ClInclude Include="include\voodoo\camera.h" />
     <ClInclude Include="include\voodoo\component.h" />
     <ClInclude Include="include\voodoo\game_object.h" />
@@ -151,11 +144,10 @@
     <ClInclude Include="include\voodoo\text_mesh.h" />
     <ClInclude Include="include\voodoo\vertex.h" />
     <ClInclude Include="include\voodoo\logger.h" />
-    <ClInclude Include="include\voodoo\mesh_loader.h" />
-    <ClInclude Include="include\voodoo\resource_loader.h" />
+    <ClInclude Include="include\voodoo\mesh_manager.h" />
+    <ClInclude Include="include\voodoo\asset_manager.h" />
     <ClInclude Include="include\voodoo\scene.h" />
-    <ClInclude Include="include\voodoo\shader_loader.h" />
-    <ClInclude Include="include\voodoo\texture_loader.h" />
+    <ClInclude Include="include\voodoo\image_manager.h" />
     <ClInclude Include="include\voodoo\time.h" />
     <ClInclude Include="include\voodoo\transform.h" />
     <ClInclude Include="include\voodoo\color.h" />

@@ -1,5 +1,5 @@
 #include "voodoo/material.h"
-#include "voodoo/texture_loader.h"
+#include "voodoo/image_manager.h"
 
 namespace voodoo
 {
@@ -10,7 +10,7 @@ namespace voodoo
 			return false;
 		}
 
-		texture_ = TextureLoader::Get().Load(texture_path);
+		texture_ = std::make_shared<Texture>(ImageManager::Get().Retrieve(texture_path));
 
 		return true;
 	}
@@ -20,7 +20,7 @@ namespace voodoo
 		const Matrix4x4<float>& view_matrix,
 		const Matrix4x4<float>& projection_matrix)
 	{
-		if (!shader_->Update(world_matrix, view_matrix, projection_matrix, texture_->GetShaderResourceView())) {
+		if (!shader_->Update(world_matrix, view_matrix, projection_matrix, texture_->srv)) {
 			return false;
 		}
 

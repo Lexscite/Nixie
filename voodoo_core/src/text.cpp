@@ -1,6 +1,5 @@
 #include "voodoo/text.h"
 #include "voodoo/camera.h"
-#include "voodoo/mesh_loader.h"
 #include "voodoo/renderer.h"
 
 namespace voodoo

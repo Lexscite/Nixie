@@ -1,6 +1,6 @@
 #include "voodoo/model.h"
 #include "voodoo/camera.h"
-#include "voodoo/mesh_loader.h"
+#include "voodoo/mesh_manager.h"
 #include "voodoo/renderer.h"
 
 #include <iostream>
@@ -16,7 +16,7 @@ namespace voodoo
 
 	bool Model::OnInit()
 	{
-		mesh_ = MeshLoader::Get().Load(mesh_path_);
+		mesh_ = MeshManager::Get().Retrieve(mesh_path_);
 		if (!mesh_->CreateBuffers()) {
 			std::cerr << "Error: Failed to initialize mesh" << std::endl;
 			return false;

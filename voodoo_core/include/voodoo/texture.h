@@ -2,20 +2,21 @@
 #define VOODOO_TEXTURE_H_
 
 #include "directx_manager.h"
+#include "image.h"
+
+#include <stdexcept>
 
 namespace voodoo
 {
-	class Texture
+	struct Texture
 	{
 	public:
-		Texture(ID3D11Resource* resource, ID3D11ShaderResourceView* shader_resource_view);
+		Texture(std::shared_ptr<Image> image);
 		~Texture();
 
-		ID3D11ShaderResourceView* GetShaderResourceView();
-
-	private:
-		ID3D11Resource* resource_;
-		ID3D11ShaderResourceView* shader_resource_view;
+	public:
+		ID3D11Texture2D* texture;
+		ID3D11ShaderResourceView* srv;
 	};
 }
 

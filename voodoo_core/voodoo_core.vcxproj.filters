@@ -4,10 +4,7 @@
     <ClCompile Include="src\component.cpp" />
     <ClCompile Include="src\game_object.cpp" />
     <ClCompile Include="src\logger.cpp" />
-    <ClCompile Include="src\mesh_loader.cpp" />
     <ClCompile Include="src\scene.cpp" />
-    <ClCompile Include="src\shader_loader.cpp" />
-    <ClCompile Include="src\texture_loader.cpp" />
     <ClCompile Include="src\time.cpp" />
     <ClCompile Include="src\directx_manager.cpp">
       <Filter>graphics</Filter>
@@ -45,16 +42,18 @@
     <ClCompile Include="src\text.cpp">
       <Filter>components</Filter>
     </ClCompile>
+    <ClCompile Include="src\image_manager.cpp">
+      <Filter>assets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mesh_manager.cpp">
+      <Filter>assets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\voodoo\component.h" />
     <ClInclude Include="include\voodoo\game_object.h" />
     <ClInclude Include="include\voodoo\logger.h" />
-    <ClInclude Include="include\voodoo\mesh_loader.h" />
-    <ClInclude Include="include\voodoo\resource_loader.h" />
     <ClInclude Include="include\voodoo\scene.h" />
-    <ClInclude Include="include\voodoo\shader_loader.h" />
-    <ClInclude Include="include\voodoo\texture_loader.h" />
     <ClInclude Include="include\voodoo\time.h" />
     <ClInclude Include="include\voodoo\color.h">
       <Filter>math</Filter>
@@ -113,6 +112,18 @@
     <ClInclude Include="include\voodoo\text.h">
       <Filter>components</Filter>
     </ClInclude>
+    <ClInclude Include="include\voodoo\image.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\image_manager.h">
+      <Filter>assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\mesh_manager.h">
+      <Filter>assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\asset_manager.h">
+      <Filter>assets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
@@ -123,6 +134,9 @@
     </Filter>
     <Filter Include="components">
       <UniqueIdentifier>{5f9740b9-b695-4c41-87ca-7addee79cfb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{b814f404-fcd4-45d9-8745-a82ebe762751}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
