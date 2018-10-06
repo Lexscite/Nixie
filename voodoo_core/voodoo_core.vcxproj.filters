@@ -48,6 +48,9 @@
     <ClCompile Include="src\mesh_manager.cpp">
       <Filter>assets</Filter>
     </ClCompile>
+    <ClCompile Include="src\component_factory.cpp" />
+    <ClCompile Include="src\engine.cpp" />
+    <ClCompile Include="src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\voodoo\component.h" />
@@ -85,9 +88,6 @@
     <ClInclude Include="include\voodoo\quaternion.h">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="include\voodoo\rectangle.h">
-      <Filter>math</Filter>
-    </ClInclude>
     <ClInclude Include="include\voodoo\vector.h">
       <Filter>math</Filter>
     </ClInclude>
@@ -123,6 +123,13 @@
     </ClInclude>
     <ClInclude Include="include\voodoo\asset_manager.h">
       <Filter>assets</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\component_factory.h" />
+    <ClInclude Include="include\voodoo\engine.h" />
+    <ClInclude Include="include\voodoo\graphics_api.h" />
+    <ClInclude Include="include\voodoo\window.h" />
+    <ClInclude Include="include\voodoo\rect.h">
+      <Filter>math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

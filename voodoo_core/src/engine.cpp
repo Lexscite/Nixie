@@ -13,24 +13,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef VOODOO_IMAGE_MANAGER_H_
-#define VOODOO_IMAGE_MANAGER_H_
-
-#include "asset_manager.h"
-#include "image.h"
+#include "../include/voodoo/engine.h"
 
 namespace voodoo {
-class ImageManager : public AssetManager<Image> {
- public:
-  // Temporal singleton
-  static ImageManager& Get() {
-    static ImageManager instance;
-    return instance;
-  }
+bool Engine::Init() { return true; }
 
- private:
-  virtual std::shared_ptr<Image> Load(std::string filename) override;
-};
+void Engine::Run() {}
 }  // namespace voodoo
-
-#endif

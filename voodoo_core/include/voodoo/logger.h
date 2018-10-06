@@ -1,3 +1,18 @@
+// This file is part of Voodoo Engine.
+//
+// Voodoo Engine is free software : you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Voodoo Engine is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
+
 #ifndef VOODOO_LOG_H_
 #define VOODOO_LOG_H_
 
@@ -10,52 +25,46 @@
 #include <windows.h>
 #endif  // _WIN32 &&_DEBUG
 
+#include <fstream>
 #include <iostream>
 #include <string>
-#include <fstream>
 
-namespace voodoo
-{
+namespace voodoo {
 #ifdef VOODOO_LOG_CONSOLE_ENABLED
-	class ConsoleBuffer : public std::streambuf {
-	public:
-		ConsoleBuffer()
-		{
-			setp(0, 0);
-		}
+class ConsoleBuffer : public std::streambuf {
+ public:
+  ConsoleBuffer() { setp(0, 0); }
 
-		virtual int_type overflow(int_type c = traits_type::eof())
-		{
-			return fputc(c, stdout) == EOF ? traits_type::eof() : c;
-		}
-	};
+  virtual int_type overflow(int_type c = traits_type::eof()) {
+    return fputc(c, stdout) == EOF ? traits_type::eof() : c;
+  }
+};
 #endif
 
-	class Logger final
-	{
-	public:
-		~Logger();
+class Logger final {
+ public:
+  ~Logger();
 
-		static void Write(std::string s);
+  static void Write(std::string s);
 
-	private:
-		Logger();
+ private:
+  Logger();
 
-		static Logger& Get();
+  static Logger& Get();
 
-	private:
-		std::ofstream fs_;
+ private:
+  std::ofstream fs_;
 
 #ifdef VOODOO_LOG_CONSOLE_ENABLED
-	private:
-		static void WriteToConsole(std::string s);
+ private:
+  static void WriteToConsole(std::string s);
 
-	private:
-		ConsoleBuffer console_buffer_;
-		std::streambuf* cout_buffer_;
-		std::streambuf* cerr_buffer_;
+ private:
+  ConsoleBuffer console_buffer_;
+  std::streambuf* cout_buffer_;
+  std::streambuf* cerr_buffer_;
 #endif
-	};
-}
+};
+}  // namespace voodoo
 
 #endif

@@ -1,51 +1,49 @@
+// This file is part of Voodoo Engine.
+//
+// Voodoo Engine is free software : you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Voodoo Engine is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
+
 #ifndef VOODOO_APPLICATION_H_
 #define VOODOO_APPLICATION_H_
+
+#include "connection.h"
 
 #include <voodoo/directx_manager.h>
 #include <voodoo/scene.h>
 #include <voodoo/time.h>
-#include "connection.h"
+#include <voodoo/window.h>
 
-namespace voodoo
-{
-	class Application final
-	{
-	public:
-		static bool Init(HINSTANCE instance);
-		static int Run();
+namespace voodoo {
+class Application final {
+ public:
+  static bool Init(HINSTANCE instance, std::wstring name);
+  static int Run();
 
-		static HWND GetWindow() { return window_; }
-		static DirectXManager* GetDirectX() { return directx_; }
-		static std::shared_ptr<Scene> GetScene() { return scene_; }
+  static DirectXManager* GetDirectX();
+  static std::shared_ptr<Scene> GetScene();
 
-	private:
-		static bool InitWindow(HINSTANCE instance);
-		static void InitSettings();
-		static bool Update(float delta_time);
+ private:
+  static bool Update(float delta_time);
+  static void CalculateFrameStats();
+  static bool LoadScene();
 
-		static void CalculateFrameStats();
-
-		static bool LoadScene();
-
-	protected:
-		static LRESULT CALLBACK MessageProcessor(HWND window, UINT message, WPARAM w_param, LPARAM l_param);
-
-	private:
-		static HWND window_;
-		static LPCWSTR window_caption_;
-
-		static Time* time_;
-		static DirectXManager* directx_;
-		static std::shared_ptr<Scene> scene_;
-
-		static unsigned int screen_width_;
-		static unsigned int screen_height_;
-
-		static bool vsync_enabled_;
-		static bool fullscreen_enabled_;
-
-		static bool is_paused_;
-	};
-}
+ private:
+  static std::wstring name_;
+  static std::unique_ptr<Window> window_;
+  static Time* time_;
+  static DirectXManager* directx_;
+  static std::shared_ptr<Scene> scene_;
+};
+}  // namespace voodoo
 
 #endif

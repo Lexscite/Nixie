@@ -1,44 +1,50 @@
+// This file is part of Voodoo Engine.
+//
+// Voodoo Engine is free software : you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Voodoo Engine is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
+
 #ifndef VOODOO_VERTEX_H_
 #define VOODOO_VERTEX_H_
 
 #include "vector.h"
 
-namespace voodoo
-{
-	struct VertexP
-	{
-		VertexP() = default;
+namespace voodoo {
+struct VertexP {
+  VertexP() = default;
 
-		VertexP(const Vector3<float>& position) :
-			position(position)
-		{}
+  VertexP(const Vector3<float>& position) : position(position) {}
 
-		Vector3<float> position;
-	};
+  Vector3<float> position;
+};
 
-	struct VertexPT : public VertexP
-	{
-		VertexPT() = default;
+struct VertexPT : public VertexP {
+  VertexPT() = default;
 
-		VertexPT(const Vector3<float>& position, const Vector2<float>& texture) :
-			VertexP(position),
-			texture(texture)
-		{}
+  VertexPT(const Vector3<float>& position, const Vector2<float>& texture)
+      : VertexP(position), texture(texture) {}
 
-		Vector2<float> texture;
-	};
+  Vector2<float> texture;
+};
 
-	struct VertexPTN : public VertexPT
-	{
-		VertexPTN() = default;
+struct VertexPTN : public VertexPT {
+  VertexPTN() = default;
 
-		VertexPTN(const Vector3<float>& position, const Vector2<float>& texture, const Vector3<float>& normal) :
-			VertexPT(position, texture),
-			normal(normal)
-		{}
+  VertexPTN(const Vector3<float>& position, const Vector2<float>& texture,
+            const Vector3<float>& normal)
+      : VertexPT(position, texture), normal(normal) {}
 
-		Vector3<float> normal;
-	};
-}
+  Vector3<float> normal;
+};
+}  // namespace voodoo
 
 #endif

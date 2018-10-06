@@ -13,24 +13,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef VOODOO_IMAGE_MANAGER_H_
-#define VOODOO_IMAGE_MANAGER_H_
+#ifndef VOODOO_RECTANGLE_H_
+#define VOODOO_RECTANGLE_H_
 
-#include "asset_manager.h"
-#include "image.h"
+#include <mathfu/rect.h>
 
 namespace voodoo {
-class ImageManager : public AssetManager<Image> {
- public:
-  // Temporal singleton
-  static ImageManager& Get() {
-    static ImageManager instance;
-    return instance;
-  }
+template <class T>
+using Rect = mathfu::Rect<T>;
 
- private:
-  virtual std::shared_ptr<Image> Load(std::string filename) override;
-};
+using Rectf = Rect<float>;
 }  // namespace voodoo
 
 #endif

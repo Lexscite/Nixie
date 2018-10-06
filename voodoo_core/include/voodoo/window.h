@@ -13,24 +13,35 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef VOODOO_IMAGE_MANAGER_H_
-#define VOODOO_IMAGE_MANAGER_H_
+#ifndef VOODOO_WINDOW_H_
+#define VOODOO_WINDOW_H_
 
-#include "asset_manager.h"
-#include "image.h"
+#include "rect.h"
+
+#ifdef _WIN32
+#include <windows.h>
+#endif  // _WIN32
+
+#include <string>
 
 namespace voodoo {
-class ImageManager : public AssetManager<Image> {
+class Window {
  public:
-  // Temporal singleton
-  static ImageManager& Get() {
-    static ImageManager instance;
-    return instance;
-  }
+  bool Init(HINSTANCE instance, int width, int height, std::wstring caption);
+  HWND GetHandle();
+  Rect<int> GetRect();
+  int GetWidth();
+  int GetHeight();
 
  private:
-  virtual std::shared_ptr<Image> Load(std::string filename) override;
+  LRESULT CALLBACK MsgProc(HWND handle, UINT msg, WPARAM w_param,
+                           LPARAM l_param);
+  static LRESULT CALLBACK MsgRouter(HWND handle, UINT msg, WPARAM w_param,
+                                    LPARAM l_param);
+
+ private:
+  HWND handle_;
 };
 }  // namespace voodoo
 
-#endif
+#endif  // VOODOO_WINDOW_H_

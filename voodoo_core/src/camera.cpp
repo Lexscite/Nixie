@@ -1,8 +1,23 @@
-#include "voodoo/camera.h"
-#include "voodoo/quaternion.h"
-#include "voodoo/vector.h"
-#include "voodoo/matrix.h"
-#include "voodoo/math.h"
+// This file is part of Voodoo Engine.
+//
+// Voodoo Engine is free software : you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Voodoo Engine is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
+
+#include "../include/voodoo/camera.h"
+#include "../include/voodoo/quaternion.h"
+#include "../include/voodoo/vector.h"
+#include "../include/voodoo/matrix.h"
+#include "../include/voodoo/math.h"
 
 namespace voodoo
 {
@@ -41,7 +56,8 @@ namespace voodoo
 
 	void Camera::CalculateProjectionMatrix()
 	{
-		projection_matrix_ = Matrix4x4f::Perspective(fov_, aspect_ratio_, z_near_, z_far_, -1.0f);
+		projection_matrix_ = Matrix4x4f::Perspective(fov_, aspect_ratio_,
+                                                 z_near_, z_far_, -1.0f);
 	}
 
 	Matrix4x4f Camera::GetViewMatrix()
@@ -53,4 +69,4 @@ namespace voodoo
 	{
 		return projection_matrix_;
 	}
-}
+}  // namespace voodoo
