@@ -27,8 +27,11 @@ void Renderer::Render(std::shared_ptr<Mesh> mesh,
   auto vm = game_object_->GetScene()->GetCamera()->GetViewMatrix();
   auto pm = game_object_->GetScene()->GetCamera()->GetProjectionMatrix();
 
-  if (!material->Update(wm, vm, pm)) {
-    throw std::runtime_error("Failed to update material");
+  auto shader = material->shader;
+  auto srv = material->texture->srv;
+
+  if (!shader->Update(wm, vm, pm, srv)) {
+    throw std::runtime_error("Failed to update shader");
   }
 
   unsigned int stride = sizeof(mesh->GetVertices()[0]);
