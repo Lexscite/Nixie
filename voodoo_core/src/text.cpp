@@ -15,7 +15,6 @@
 
 #include "../include/voodoo/text.h"
 #include "../include/voodoo/camera.h"
-#include "../include/voodoo/renderer.h"
 
 namespace voodoo {
 Text::Text(std::string text, std::string vs_path, std::string ps_path,
@@ -26,6 +25,8 @@ Text::Text(std::string text, std::string vs_path, std::string ps_path,
       texture_path_(texture_path) {}
 
 bool Text::OnInit() {
+  renderer_ = std::static_pointer_cast<Renderer>(game_object_->GetComponent("Renderer"));
+
   auto font = std::make_shared<Font>();
   if (!font->Init()) {
     return false;
@@ -43,14 +44,7 @@ bool Text::OnInit() {
 }
 
 bool Text::OnUpdate() {
-  if (!material_->Update(GetTransform()->CalculateWorldMatrix(),
-                         GetScene()->GetCamera()->GetViewMatrix(),
-                         GetScene()->GetCamera()->GetProjectionMatrix())) {
-    return false;
-  }
-
-  Renderer::Get().RenderMesh(mesh_);
-
+  renderer_->Render(mesh_, material_);
   return true;
 }
 }  // namespace voodoo

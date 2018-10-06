@@ -42,7 +42,7 @@ class Component : public std::enable_shared_from_this<Component> {
   virtual bool OnInit();
   virtual bool OnUpdate();
 
- private:
+ protected:
   std::shared_ptr<GameObject> game_object_;
 };
 }  // namespace voodoo

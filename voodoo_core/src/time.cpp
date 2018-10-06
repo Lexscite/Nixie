@@ -41,6 +41,7 @@ Time::Time()
   __int64 counts_per_second;
   QueryPerformanceFrequency((LARGE_INTEGER*)&counts_per_second);
   seconds_per_count_ = 1 / (double)counts_per_second;
+  Reset();
 }
 
 void Time::Start() {

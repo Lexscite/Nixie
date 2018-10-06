@@ -17,6 +17,7 @@
 
 #include "application.h"
 
+#include <voodoo/renderer.h>
 #include <voodoo/camera.h>
 #include <voodoo/logger.h>
 #include <voodoo/model.h>
@@ -129,6 +130,8 @@ bool Application::LoadScene() {
   scene->AddGameObject(camera);
 
   auto text = std::make_shared<GameObject>("Text");
+  text->AddComponent(std::make_shared<Renderer>(directx_->GetDevice(),
+                                                directx_->GetDeviceContext()));
   text->AddComponent(
       std::make_shared<Text>("Hello World", "../assets/shaders/font_vs.cso",
                              "../assets/shaders/font_ps.cso",
@@ -138,6 +141,8 @@ bool Application::LoadScene() {
   scene->AddGameObject(text);
 
   auto cube = std::make_shared<GameObject>("Cube");
+  cube->AddComponent(std::make_shared<Renderer>(directx_->GetDevice(),
+                                                directx_->GetDeviceContext()));
   cube->AddComponent(std::make_shared<Model>(
       "../assets/meshes/cube.mesh", "../assets/shaders/default_vs.cso",
       "../assets/shaders/default_ps.cso",

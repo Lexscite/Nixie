@@ -19,6 +19,7 @@
 #include "component.h"
 #include "material.h"
 #include "mesh.h"
+#include "renderer.h"
 
 namespace voodoo {
 class Model : public Component {
@@ -38,6 +39,7 @@ class Model : public Component {
 
   std::shared_ptr<Mesh> mesh_;
   std::shared_ptr<Material> material_;
+  std::shared_ptr<Renderer> renderer_;
 };
 }  // namespace voodoo
 

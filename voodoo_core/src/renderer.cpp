@@ -14,19 +14,24 @@
 // along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "../include/voodoo/renderer.h"
+#include "../include/voodoo/camera.h"
+#include "../include/voodoo/scene.h"
 
 namespace voodoo {
-Renderer::Renderer()
-    : device_(DirectXManager::Get()->GetDevice()),
-      device_context_(DirectXManager::Get()->GetDeviceContext()) {}
+Renderer::Renderer(ID3D11Device* device, ID3D11DeviceContext* device_context)
+    : device_(device), device_context_(device_context) {}
 
-Renderer& Renderer::Get() {
-  static Renderer instance;
-  return instance;
-}
+void Renderer::Render(std::shared_ptr<Mesh> mesh,
+                      std::shared_ptr<Material> material) {
+  auto wm = GetTransform()->CalculateWorldMatrix();
+  auto vm = game_object_->GetScene()->GetCamera()->GetViewMatrix();
+  auto pm = game_object_->GetScene()->GetCamera()->GetProjectionMatrix();
 
-void Renderer::RenderMesh(std::shared_ptr<Mesh> mesh) {
-  unsigned int stride = sizeof(VertexPTN);
+  if (!material->Update(wm, vm, pm)) {
+    throw std::runtime_error("Failed to update material");
+  }
+
+  unsigned int stride = sizeof(mesh->GetVertices()[0]);
   unsigned int offset = 0;
 
   auto vertex_buffer = mesh->GetVertexBuffer();

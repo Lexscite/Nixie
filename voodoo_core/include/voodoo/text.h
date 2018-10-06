@@ -19,6 +19,7 @@
 #include "component.h"
 #include "material.h"
 #include "text_mesh.h"
+#include "renderer.h"
 
 namespace voodoo {
 class Font;
@@ -42,6 +43,7 @@ class Text : public Component {
   std::string ps_path_;
   std::string texture_path_;
 
+  std::shared_ptr<Renderer> renderer_;
   std::shared_ptr<TextMesh> mesh_;
   std::shared_ptr<Material> material_;
 };

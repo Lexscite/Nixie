@@ -16,7 +16,7 @@
 #include "../include/voodoo/model.h"
 #include "../include/voodoo/camera.h"
 #include "../include/voodoo/mesh_manager.h"
-#include "../include/voodoo/renderer.h"
+#include "../include/voodoo/time.h"
 
 #include <iostream>
 
@@ -29,6 +29,8 @@ Model::Model(std::string mesh_path, std::string vs_path, std::string ps_path,
       texture_path_(texture_path) {}
 
 bool Model::OnInit() {
+  renderer_ = std::static_pointer_cast<Renderer>(game_object_->GetComponent("Renderer"));
+
   mesh_ = MeshManager::Get().Retrieve(mesh_path_);
   if (!mesh_->CreateBuffers()) {
     std::cerr << "Error: Failed to initialize mesh" << std::endl;
@@ -45,20 +47,9 @@ bool Model::OnInit() {
 }
 
 bool Model::OnUpdate() {
-  auto x = GetScene();
-  auto y = x->GetCamera();
-  auto z = y->GetViewMatrix();
-
-  auto world_matrix = GetTransform()->CalculateWorldMatrix();
-  auto view_matrix = GetScene()->GetCamera()->GetViewMatrix();
-  auto projection_matrix = GetScene()->GetCamera()->GetProjectionMatrix();
-
-  if (!material_->Update(world_matrix, view_matrix, projection_matrix)) {
-    return false;
-  }
-
-  Renderer::Get().RenderMesh(mesh_);
-
+  // Temporary rotation
+  GetTransform()->RotateByDegrees(0, 20 * Time::GetDeltaTime(), 0);
+  renderer_->Render(mesh_, material_);
   return true;
 }
 }  // namespace voodoo

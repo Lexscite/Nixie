@@ -16,15 +16,16 @@
 #ifndef VOODOO_RENDERER_H_
 #define VOODOO_RENDERER_H_
 
-#include "directx_manager.h"
+#include "component.h"
+#include "material.h"
 #include "mesh.h"
 
 namespace voodoo {
-class Renderer {
+class Renderer : public Component {
  public:
-  static Renderer& Get();
+  Renderer(ID3D11Device* device, ID3D11DeviceContext* device_context);
 
-  void RenderMesh(std::shared_ptr<Mesh> mesh);
+  void Render(std::shared_ptr<Mesh> mesh, std::shared_ptr<Material> material);
 
  private:
   Renderer();
