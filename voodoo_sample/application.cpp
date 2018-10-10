@@ -125,28 +125,32 @@ bool Application::LoadScene() {
 
   auto camera = std::make_shared<GameObject>("Camera");
   camera->AddComponent(std::make_shared<Camera>());
-  camera->GetTransform()->SetPosition(0, 0, -5);
-  camera->GetTransform()->SetRotationByDegrees(0, 180, 0);
+  camera->GetTransform()->SetPosition(3.75f, 5, 3.75f);
+  camera->GetTransform()->SetRotationByDegrees(45, 225, 0);
   scene->AddGameObject(camera);
 
   auto text = std::make_shared<GameObject>("Text");
-  text->AddComponent(std::make_shared<Renderer>(directx_->GetDevice(),
-                                                directx_->GetDeviceContext()));
-  text->AddComponent(
-      std::make_shared<Text>("Hello World", "../assets/shaders/font_vs.cso",
-                             "../assets/shaders/font_ps.cso",
-                             "../assets/textures/fonts/consolas.png"));
-  text->GetTransform()->SetPosition(1, 1, 0);
+  text->AddComponent(std::make_shared<Renderer>(
+    directx_->GetDevice(),
+    directx_->GetDeviceContext()));
+  text->AddComponent(std::make_shared<Text>(
+    "Hello World",
+    "../assets/shaders/font_vs.cso",
+    "../assets/shaders/font_ps.cso",
+    "../assets/textures/fonts/consolas.png"));
+  text->GetTransform()->SetPosition(1, 1, 1);
   text->GetTransform()->SetScale(0.005f);
   scene->AddGameObject(text);
 
   auto cube = std::make_shared<GameObject>("Cube");
-  cube->AddComponent(std::make_shared<Renderer>(directx_->GetDevice(),
-                                                directx_->GetDeviceContext()));
+  cube->AddComponent(std::make_shared<Renderer>(
+    directx_->GetDevice(),
+    directx_->GetDeviceContext()));
   cube->AddComponent(std::make_shared<Model>(
-      "../assets/meshes/cube.mesh", "../assets/shaders/default_vs.cso",
-      "../assets/shaders/default_ps.cso",
-      "../assets/textures/placeholder.png"));
+    "../assets/meshes/cube.mesh",
+    "../assets/shaders/default_vs.cso",
+    "../assets/shaders/default_ps.cso",
+    "../assets/textures/placeholder.png"));
   cube->GetTransform()->SetPosition(0, 0, 0);
   scene->AddGameObject(cube);
 

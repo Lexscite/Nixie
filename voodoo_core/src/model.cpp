@@ -47,8 +47,6 @@ bool Model::OnInit() {
 }
 
 bool Model::OnUpdate() {
-  // Temporary rotation
-  GetTransform()->RotateByDegrees(0, 20 * Time::GetDeltaTime(), 0);
   renderer_->Render(mesh_, material_);
   return true;
 }

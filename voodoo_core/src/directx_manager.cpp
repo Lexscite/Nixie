@@ -319,9 +319,10 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
 bool DirectXManager::CreateRasterizerStates() {
   HRESULT hr;
 
+  // Wireframe mode
   D3D11_RASTERIZER_DESC rasterizer_desc;
   rasterizer_desc.AntialiasedLineEnable = false;
-  rasterizer_desc.CullMode = D3D11_CULL_BACK;
+  rasterizer_desc.CullMode = D3D11_CULL_NONE;
   rasterizer_desc.DepthBias = 0;
   rasterizer_desc.DepthBiasClamp = 0.0f;
   rasterizer_desc.DepthClipEnable = true;
@@ -337,7 +338,8 @@ bool DirectXManager::CreateRasterizerStates() {
     return false;
   }
 
-  rasterizer_desc.CullMode = D3D11_CULL_NONE;
+  // Solid mode
+  rasterizer_desc.CullMode = D3D11_CULL_BACK;
   rasterizer_desc.FillMode = D3D11_FILL_SOLID;
 
   hr = device_->CreateRasterizerState(&rasterizer_desc,
@@ -363,7 +365,7 @@ bool DirectXManager::CreateBlendStates() {
   blend_desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
   blend_desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
   blend_desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-  blend_desc.RenderTarget[0].RenderTargetWriteMask = 0x0f;
+  blend_desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
   hr = device_->CreateBlendState(&blend_desc, &blend_state_on_);
   if (FAILED(hr)) {

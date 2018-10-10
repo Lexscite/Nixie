@@ -23,7 +23,7 @@
 
 namespace voodoo {
 class Font;
-class Material;
+struct Material;
 
 class Text : public Component {
  public:

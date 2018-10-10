@@ -54,11 +54,11 @@ Vector3f Transform::GetDown() {
 }
 
 Vector3f Transform::GetForward() {
-  return rotation_.ToMatrix4() * Vector3f(0, 0, -1);
+  return rotation_.ToMatrix4() * Vector3f(0, 0, 1);
 }
 
 Vector3f Transform::GetBackward() {
-  return rotation_.ToMatrix4() * Vector3f(0, 0, 1);
+  return rotation_.ToMatrix4() * Vector3f(0, 0, -1);
 }
 
 Vector3f Transform::GetRight() {
