@@ -50,18 +50,21 @@ std::vector<VertexPTN> TextMesh::GenerateChar(Font::CharData c, float offset) {
   float t_bottom = c.y / t_height;
   float t_top = (c.y + c.height) / t_height;
 
-  auto v_lt = VertexPTN(Vector3f(-offset, 0, 0), Vector2f(t_left, t_top),
+  auto v_lt = VertexPTN(Vector3f(-offset, 0, 0),
+                        Vector2f(t_left, t_top),
                         Vector3f(0.0f, 0.0f, 1.0f));
 
   auto v_rt = VertexPTN(Vector3f(-offset + c.width, 0, 0),
-                        Vector2f(t_right, t_top), Vector3f(0.0f, 0.0f, 1.0f));
+                        Vector2f(t_right, t_top),
+                        Vector3f(0.0f, 0.0f, 1.0f));
 
   auto v_lb = VertexPTN(Vector3f(-offset, c.height, 0),
-                        Vector2f(t_left, t_bottom), Vector3f(0.0f, 0.0f, 1.0f));
+                        Vector2f(t_left, t_bottom),
+                        Vector3f(0.0f, 0.0f, 1.0f));
 
-  auto v_rb =
-      VertexPTN(Vector3f(-offset + c.width, c.height, 0),
-                Vector2f(t_right, t_bottom), Vector3f(0.0f, 0.0f, 1.0f));
+  auto v_rb = VertexPTN(Vector3f(-offset + c.width, c.height, 0),
+                        Vector2f(t_right, t_bottom),
+                        Vector3f(0.0f, 0.0f, 1.0f));
 
   return std::vector<VertexPTN>({v_lt, v_rb, v_lb, v_lt, v_rt, v_rb});
 }
