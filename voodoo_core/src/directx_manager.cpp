@@ -337,6 +337,7 @@ bool DirectXManager::CreateRasterizerStates() {
     return false;
   }
 
+  rasterizer_desc.CullMode = D3D11_CULL_NONE;
   rasterizer_desc.FillMode = D3D11_FILL_SOLID;
 
   hr = device_->CreateRasterizerState(&rasterizer_desc,
