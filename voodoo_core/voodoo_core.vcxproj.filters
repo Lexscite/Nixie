@@ -6,9 +6,6 @@
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\time.cpp" />
-    <ClCompile Include="src\directx_manager.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\font.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
@@ -42,6 +39,9 @@
     <ClCompile Include="src\component_factory.cpp" />
     <ClCompile Include="src\engine.cpp" />
     <ClCompile Include="src\window.cpp" />
+    <ClCompile Include="src\directx.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\voodoo\component.h" />
@@ -51,9 +51,6 @@
     <ClInclude Include="include\voodoo\time.h" />
     <ClInclude Include="include\voodoo\color.h">
       <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="include\voodoo\directx_manager.h">
-      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\font.h">
       <Filter>graphics</Filter>
@@ -119,6 +116,9 @@
       <Filter>math</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\graphics_api.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\directx.h">
       <Filter>graphics</Filter>
     </ClInclude>
   </ItemGroup>

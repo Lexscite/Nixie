@@ -34,9 +34,9 @@
 #endif  // VOODOO_DIRECTX
 
 namespace voodoo {
-class DirectXManager : public GraphicsAPI {
+class DirectX : public GraphicsAPI {
  public:
-  DirectXManager();
+  DirectX();
   virtual bool Init(std::shared_ptr<Window> window,
                     bool vsync_enabled, bool fullscreen_enabled) override;
   virtual bool Render(std::shared_ptr<Renderer> renderer) override;

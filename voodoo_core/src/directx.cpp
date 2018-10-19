@@ -13,15 +13,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
-#include "../include/voodoo/directx_manager.h"
+#include "../include/voodoo/directx.h"
+#include "../include/voodoo/camera.h"
 #include "../include/voodoo/logger.h"
 #include "../include/voodoo/renderer.h"
-#include "../include/voodoo/camera.h"
 
 #include <vector>
 
 namespace voodoo {
-DirectXManager::DirectXManager()
+DirectX::DirectX()
     : swap_chain_(nullptr),
       render_target_view_(nullptr),
       depth_stencil_buffer_(nullptr),
@@ -31,8 +31,8 @@ DirectXManager::DirectXManager()
       blend_state_on_(nullptr),
       blend_state_off_(nullptr) {}
 
-bool DirectXManager::Init(std::shared_ptr<Window> window,
-                          bool vsync_enabled, bool fullscreen_enabled) {
+bool DirectX::Init(std::shared_ptr<Window> window,
+                   bool vsync_enabled, bool fullscreen_enabled) {
   if (!InitDevice()) {
     Log::Error("Failed to create device");
     return false;
@@ -276,7 +276,7 @@ bool DirectXManager::Init(std::shared_ptr<Window> window,
   return true;
 }
 
-bool DirectXManager::Render(std::shared_ptr<Renderer> renderer) {
+bool DirectX::Render(std::shared_ptr<Renderer> renderer) {
   auto wm = renderer->GetTransform()->CalculateWorldMatrix();
   auto vm = renderer->GetScene()->GetCamera()->GetViewMatrix();
   auto pm = renderer->GetScene()->GetCamera()->GetProjectionMatrix();
@@ -304,14 +304,14 @@ bool DirectXManager::Render(std::shared_ptr<Renderer> renderer) {
   return true;
 }
 
-void DirectXManager::ToggleWireframeMode() {
+void DirectX::ToggleWireframeMode() {
   wireframe_mode_enabled_ = !wireframe_mode_enabled_;
   device_context_->RSSetState(wireframe_mode_enabled_
                                   ? rasterizer_state_wireframe_mode_on_
                                   : rasterizer_state_wireframe_mode_off_);
 }
 
-void DirectXManager::ToggleBlendMode() {
+void DirectX::ToggleBlendMode() {
   alpha_blending_enabled_ = !alpha_blending_enabled_;
   float factor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
   device_context_->OMSetBlendState(
@@ -319,7 +319,7 @@ void DirectXManager::ToggleBlendMode() {
       0xffffffff);
 }
 
-void DirectXManager::Release() {
+void DirectX::Release() {
   if (swap_chain_) {
     swap_chain_->SetFullscreenState(false, NULL);
   }
@@ -374,13 +374,13 @@ void DirectXManager::Release() {
   }
 }
 
-void DirectXManager::BeginScene(const Color& c) {
+void DirectX::BeginScene(const Color& c) {
   device_context_->ClearRenderTargetView(render_target_view_, c);
   device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH,
                                          1.0f, 0);
 }
 
-void DirectXManager::EndScene() {
+void DirectX::EndScene() {
   if (vsync_enabled_) {
     swap_chain_->Present(1, 0);
   } else {
@@ -388,13 +388,13 @@ void DirectXManager::EndScene() {
   }
 }
 
-std::shared_ptr<ID3D11Device> DirectXManager::GetDevice() { return device_; }
+std::shared_ptr<ID3D11Device> DirectX::GetDevice() { return device_; }
 
-std::shared_ptr<ID3D11DeviceContext> DirectXManager::GetDeviceContext() {
+std::shared_ptr<ID3D11DeviceContext> DirectX::GetDeviceContext() {
   return device_context_;
 }
 
-bool DirectXManager::InitDevice() {
+bool DirectX::InitDevice() {
   HRESULT hr;
 
   unsigned int device_creation_flags = 0;
@@ -409,8 +409,13 @@ bool DirectXManager::InitDevice() {
   };
 
   std::vector<D3D_FEATURE_LEVEL> feature_levels = {
-      D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_1, D3D_FEATURE_LEVEL_10_0,
-      D3D_FEATURE_LEVEL_9_3, D3D_FEATURE_LEVEL_9_2, D3D_FEATURE_LEVEL_9_1};
+      D3D_FEATURE_LEVEL_11_0,
+      D3D_FEATURE_LEVEL_10_1,
+      D3D_FEATURE_LEVEL_10_0,
+      D3D_FEATURE_LEVEL_9_3,
+      D3D_FEATURE_LEVEL_9_2,
+      D3D_FEATURE_LEVEL_9_1,
+  };
 
   ID3D11Device* device = nullptr;
   ID3D11DeviceContext* device_context = nullptr;
@@ -422,7 +427,6 @@ bool DirectXManager::InitDevice() {
           &device, &feature_level_, &device_context);
 
       if (SUCCEEDED(hr)) {
-        Log::Info("Device successfully created");
         device_ = std::shared_ptr<ID3D11Device>(device);
         device_context_ = std::shared_ptr<ID3D11DeviceContext>(device_context);
         return true;
@@ -432,13 +436,15 @@ bool DirectXManager::InitDevice() {
 
   if (FAILED(hr)) {
     Log::Info("Failed to create DirectX device");
+    delete device;
+    delete device_context;
     return false;
   }
 
   return true;
 }
 
-bool DirectXManager::CreateRasterizerStates() {
+bool DirectX::CreateRasterizerStates() {
   HRESULT hr;
 
   // Wireframe mode
@@ -475,7 +481,7 @@ bool DirectXManager::CreateRasterizerStates() {
   return true;
 }
 
-bool DirectXManager::CreateBlendStates() {
+bool DirectX::CreateBlendStates() {
   HRESULT hr;
 
   D3D11_BLEND_DESC blend_desc;

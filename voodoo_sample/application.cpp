@@ -28,7 +28,7 @@ namespace voodoo {
 std::wstring Application::name_;
 std::shared_ptr<Window> Application::window_;
 Time* Application::time_;
-std::shared_ptr<DirectXManager> Application::directx_;
+std::shared_ptr<DirectX> Application::directx_;
 std::shared_ptr<Scene> Application::scene_;
 
 bool Application::Init(HINSTANCE instance, std::wstring name) {
@@ -41,7 +41,7 @@ bool Application::Init(HINSTANCE instance, std::wstring name) {
     return false;
   }
 
-  directx_ = std::make_shared<DirectXManager>();
+  directx_ = std::make_shared<DirectX>();
   if (!directx_->Init(window_, true, false)) {
     Log::Error("Failed to initialize DirectX");
     return false;
@@ -80,7 +80,7 @@ int Application::Run() {
   return static_cast<int>(msg.wParam);
 }
 
-std::shared_ptr<DirectXManager> Application::GetDirectX() { return directx_; }
+std::shared_ptr<DirectX> Application::GetDirectX() { return directx_; }
 
 std::shared_ptr<Scene> Application::GetScene() { return scene_; }
 

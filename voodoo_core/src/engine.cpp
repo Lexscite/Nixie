@@ -15,7 +15,7 @@
 
 #include "../include/voodoo/engine.h"
 
-#include "../include/voodoo/directx_manager.h"
+#include "../include/voodoo/directx.h"
 
 namespace voodoo {
 bool Engine::Init(HINSTANCE instance, std::wstring name) {
@@ -25,7 +25,7 @@ bool Engine::Init(HINSTANCE instance, std::wstring name) {
   }
   return true;
 
-  graphics_api_ = std::make_shared<DirectXManager>();
+  graphics_api_ = std::make_shared<DirectX>();
   if (!graphics_api_->Init(window_, true, false)) {
     Log::Info("Failed to initialize DirectX");
     return false;

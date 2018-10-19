@@ -16,7 +16,7 @@
 #ifndef VOODOO_TEXTURE_H_
 #define VOODOO_TEXTURE_H_
 
-#include "directx_manager.h"
+#include "directx.h"
 #include "image.h"
 
 #include <stdexcept>

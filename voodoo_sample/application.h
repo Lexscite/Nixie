@@ -18,7 +18,7 @@
 
 #include "connection.h"
 
-#include <voodoo/directx_manager.h>
+#include <voodoo/directx.h>
 #include <voodoo/scene.h>
 #include <voodoo/time.h>
 #include <voodoo/window.h>
@@ -29,7 +29,7 @@ class Application final {
   static bool Init(HINSTANCE instance, std::wstring name);
   static int Run();
 
-  static std::shared_ptr<DirectXManager> GetDirectX();
+  static std::shared_ptr<DirectX> GetDirectX();
   static std::shared_ptr<Scene> GetScene();
 
  private:
@@ -41,7 +41,7 @@ class Application final {
   static std::wstring name_;
   static std::shared_ptr<Window> window_;
   static Time* time_;
-  static std::shared_ptr<DirectXManager> directx_;
+  static std::shared_ptr<DirectX> directx_;
   static std::shared_ptr<Scene> scene_;
 };
 }  // namespace voodoo

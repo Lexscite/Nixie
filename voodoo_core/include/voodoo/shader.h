@@ -17,7 +17,7 @@
 #define VOODOO_SHADER_H_
 
 #include "color.h"
-#include "directx_manager.h"
+#include "directx.h"
 #include "matrix.h"
 #include "vector.h"
 

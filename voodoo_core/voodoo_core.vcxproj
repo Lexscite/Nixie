@@ -38,7 +38,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\directx_manager.cpp">
+    <ClCompile Include="src\directx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </PrecompiledHeaderFile>
@@ -122,7 +122,7 @@
     <ClInclude Include="include\voodoo\camera.h" />
     <ClInclude Include="include\voodoo\component.h" />
     <ClInclude Include="include\voodoo\game_object.h" />
-    <ClInclude Include="include\voodoo\directx_manager.h" />
+    <ClInclude Include="include\voodoo\directx.h" />
     <ClInclude Include="include\voodoo\font.h" />
     <ClInclude Include="include\voodoo\material.h" />
     <ClInclude Include="include\voodoo\mesh.h" />
