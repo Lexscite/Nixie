@@ -20,18 +20,7 @@
 #include "graphics_api.h"
 #include "window.h"
 
-#ifdef _WIN32
-// Enable DirectX
-#define VOODOO_DIRECTX
-#include <windows.h>
-#endif  // _WIN32
-
-#ifdef VOODOO_DIRECTX
-// Core DirectX dependencies
-#pragma comment(lib, "dxgi.lib")
-#pragma comment(lib, "d3d11.lib")
-#include <d3d11.h>
-#endif  // VOODOO_DIRECTX
+#include <map>
 
 namespace voodoo {
 class DirectX : public GraphicsAPI {
@@ -40,16 +29,15 @@ class DirectX : public GraphicsAPI {
   virtual bool Init(std::shared_ptr<Window> window) override;
   virtual bool Render(std::shared_ptr<Renderer> renderer,
                       std::shared_ptr<Camera> camera) override;
+  virtual bool CreateMeshBuffers(std::shared_ptr<Mesh> mesh) override;
 
   void Release();
   void BeginScene(const Color& c);
   void EndScene();
 
+
   void ToggleWireframeMode();
   void ToggleBlendMode();
-
-  std::shared_ptr<ID3D11Device> GetDevice();
-  std::shared_ptr<ID3D11DeviceContext> GetDeviceContext();
 
  private:
   bool CreateDevice();
@@ -68,12 +56,10 @@ class DirectX : public GraphicsAPI {
   bool wireframe_mode_enabled_;
   bool alpha_blending_enabled_;
   bool msaa_enabled_;
+
   unsigned int msaa_quality_;
   unsigned int adapter_memory_;
   char adapter_desc_[128];
-
-  std::shared_ptr<ID3D11Device> device_;
-  std::shared_ptr<ID3D11DeviceContext> device_context_;
 
   D3D_FEATURE_LEVEL feature_level_;
   IDXGISwapChain* swap_chain_;

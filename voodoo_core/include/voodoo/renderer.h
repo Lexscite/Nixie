@@ -26,7 +26,6 @@ class Renderer : public Component {
   Renderer(std::shared_ptr<ID3D11Device> device,
            std::shared_ptr<ID3D11DeviceContext> device_context);
 
-  bool CreateBuffers();
   bool InitMaterial(std::string texture_path, std::string vs_path,
                     std::string ps_path, bool light);
 
@@ -35,22 +34,15 @@ class Renderer : public Component {
 
   std::shared_ptr<Mesh> GetMesh();
   std::shared_ptr<Material> GetMaterial();
-  ID3D11Buffer* GetVertexBuffer();
-  ID3D11Buffer* GetIndexBuffer();
 
  private:
-  bool CreateVertexBuffer();
-  bool CreateIndexBuffer();
+  unsigned int mesh_buffers_id;
 
- private:
   std::shared_ptr<Mesh> mesh_;
   std::shared_ptr<Material> material_;
 
   std::shared_ptr<ID3D11Device> device_;
   std::shared_ptr<ID3D11DeviceContext> device_context_;
-
-  ID3D11Buffer* v_buffer_;
-  ID3D11Buffer* i_buffer_;
 };
 }  // namespace voodoo
 

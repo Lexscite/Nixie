@@ -32,10 +32,6 @@ bool Model::OnInit() {
   mesh_ = MeshManager::Get().Retrieve(mesh_path_);
 
   renderer_->SetMesh(mesh_);
-  if (!renderer_->CreateBuffers()) {
-    return false;
-  }
-
   material_ = make_shared<Material>();
   renderer_->SetMaterial(material_);
   if (!renderer_->InitMaterial(texture_path_, vs_path_, ps_path_, true)) {

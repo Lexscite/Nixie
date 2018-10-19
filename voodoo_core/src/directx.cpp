@@ -100,8 +100,9 @@ bool DirectX::Render(std::shared_ptr<Renderer> renderer,
   auto mesh = renderer->GetMesh();
   auto shader = material->shader;
   auto srv = material->texture->srv;
-  auto v_buffer = renderer->GetVertexBuffer();
-  auto i_buffer = renderer->GetIndexBuffer();
+  auto buffers = mesh_buffers_[mesh];
+  auto v_buffer = buffers.first;
+  auto i_buffer = buffers.second;
 
   if (!shader->Update(wm, vm, pm, srv)) {
     throw std::runtime_error("Failed to update shader");
@@ -198,10 +199,47 @@ void DirectX::EndScene() {
   }
 }
 
-std::shared_ptr<ID3D11Device> DirectX::GetDevice() { return device_; }
+bool DirectX::CreateMeshBuffers(std::shared_ptr<Mesh> mesh) {
+  HRESULT hr;
 
-std::shared_ptr<ID3D11DeviceContext> DirectX::GetDeviceContext() {
-  return device_context_;
+  D3D11_BUFFER_DESC desc;
+  desc.Usage = D3D11_USAGE_DEFAULT;
+  desc.ByteWidth = sizeof(mesh->vertices[0]) * mesh->vertex_count;
+  desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+  desc.CPUAccessFlags = 0;
+  desc.MiscFlags = 0;
+  desc.StructureByteStride = 0;
+
+  D3D11_SUBRESOURCE_DATA data;
+  data.pSysMem = mesh->vertices.data();
+  data.SysMemPitch = 0;
+  data.SysMemSlicePitch = 0;
+
+  ID3D11Buffer* v;
+  hr = device_->CreateBuffer(&desc, &data, &v);
+  if (FAILED(hr)) {
+    return false;
+  }
+
+  desc.ByteWidth = sizeof(mesh->indices[0]) * mesh->index_count;
+  desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+
+  data.pSysMem = mesh->indices.data();
+
+  ID3D11Buffer* i;
+  hr = device_->CreateBuffer(&desc, &data, &i);
+  if (FAILED(hr)) {
+    return false;
+  }
+
+  auto v_buffer = MeshBufferPtr(v);
+  auto i_buffer = MeshBufferPtr(i);
+  auto buffers = MeshBufferPair(v, i);
+
+  mesh_buffers_.insert(std::pair<std::shared_ptr<Mesh>,
+                                 MeshBufferPair>(mesh, buffers));
+
+  return true;
 }
 
 bool DirectX::CreateDevice() {

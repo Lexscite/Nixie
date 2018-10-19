@@ -48,14 +48,22 @@ bool Application::Init(HINSTANCE instance, std::wstring name) {
     return false;
   }
 
+  vector<std::shared_ptr<Renderer>> renderers;
   scene_ = CreateScene();
-  for (auto go : scene_->GetGameObjects())
+  for (auto go : scene_->GetGameObjects()) {
+    auto r = go->GetComponent<Renderer>();
+    if (r) renderers.push_back(r);
     for (auto c : go->GetComponents())
       if (c->IsBehavior())
         if (!static_pointer_cast<Behavior>(c)->Init()) {
           Log::Error("Failed to initialize component");
           return false;
         }
+  }
+
+  for (auto r : renderers) {
+    directx_->CreateMeshBuffers(r->GetMesh());
+  }
 
   return true;
 }
