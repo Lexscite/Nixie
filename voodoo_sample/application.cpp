@@ -26,33 +26,33 @@
 namespace voodoo {
 // Static members initialization.
 std::wstring Application::name_;
-std::unique_ptr<Window> Application::window_;
+std::shared_ptr<Window> Application::window_;
 Time* Application::time_;
-DirectXManager* Application::directx_;
+std::shared_ptr<DirectXManager> Application::directx_;
 std::shared_ptr<Scene> Application::scene_;
 
 bool Application::Init(HINSTANCE instance, std::wstring name) {
   name_ = name;
   time_ = Time::Get();
 
-  window_ = std::make_unique<Window>();
+  window_ = std::make_shared<Window>();
   if (!window_->Init(instance, 800, 600, name_)) {
-    Logger::Write("Failed to initialize window");
+    Log::Error("Failed to initialize window");
+    return false;
   }
 
-  directx_ = DirectXManager::Get();
-  if (!directx_->Init(window_->GetHandle(), window_->GetWidth(),
-                      window_->GetHeight(), true, false)) {
-    Logger::Write("Failed to initialize DirectX");
+  directx_ = std::make_shared<DirectXManager>();
+  if (!directx_->Init(window_, true, false)) {
+    Log::Error("Failed to initialize DirectX");
     return false;
   }
 
   if (!LoadScene()) {
-    Logger::Write("Failed to load scene");
+    Log::Error("Failed to load scene");
     return false;
   } else {
     if (!scene_->Init()) {
-      Logger::Write("Failed to initialize scene");
+      Log::Error("Failed to initialize scene");
       return false;
     }
   }
@@ -80,17 +80,33 @@ int Application::Run() {
   return static_cast<int>(msg.wParam);
 }
 
-DirectXManager* Application::GetDirectX() { return directx_; }
+std::shared_ptr<DirectXManager> Application::GetDirectX() { return directx_; }
 
 std::shared_ptr<Scene> Application::GetScene() { return scene_; }
 
 bool Application::Update(float delta_time) {
+  using namespace std;
   directx_->BeginScene(scene_->GetClearColor());
+  vector<shared_ptr<Renderer>> renderers;
 
-  if (!scene_->Update()) {
-    Logger::Write("Failed to update scene");
-    return false;
+  for (auto go : scene_->GetGameObjects()) {
+    auto r = go->GetComponent<Renderer>();
+    if (r) {
+      renderers.push_back(r);
+    }
+    for (auto c : go->GetComponents()) {
+      c->Update();
+    }
   }
+
+  for (auto r : renderers) {
+    directx_->Render(r);
+  }
+
+  //if (!scene_->Update()) {
+  //  Log::Info("Failed to update scene");
+  //  return false;
+  //}
 
   directx_->EndScene();
 
@@ -124,38 +140,37 @@ bool Application::LoadScene() {
   auto scene = std::make_shared<Scene>();
 
   auto camera = std::make_shared<GameObject>("Camera");
-  camera->AddComponent(std::make_shared<Camera>());
+  camera->AddComponent<Camera>();
   camera->GetTransform()->SetPosition(3.75f, 5, 3.75f);
   camera->GetTransform()->SetRotationByDegrees(45, 225, 0);
   scene->AddGameObject(camera);
 
-  auto text = std::make_shared<GameObject>("Text");
-  text->AddComponent(std::make_shared<Renderer>(
+  auto cube = std::make_shared<GameObject>("Cube");
+  cube->AddComponent<Renderer>(
     directx_->GetDevice(),
-    directx_->GetDeviceContext()));
-  text->AddComponent(std::make_shared<Text>(
+    directx_->GetDeviceContext());
+  cube->AddComponent<Model>(
+    "../assets/meshes/cube.mesh",
+    "../assets/shaders/default_vs.cso",
+    "../assets/shaders/default_ps.cso",
+    "../assets/textures/placeholder.png");
+  cube->GetTransform()->SetPosition(0, 0, 0);
+  scene->AddGameObject(cube);
+
+  auto text = std::make_shared<GameObject>("Text");
+  text->AddComponent<Renderer>(
+    directx_->GetDevice(),
+    directx_->GetDeviceContext());
+  text->AddComponent<Text>(
     "Hello World",
     "../assets/shaders/font_vs.cso",
     "../assets/shaders/font_ps.cso",
-    "../assets/textures/fonts/consolas.png"));
+    "../assets/textures/fonts/consolas.png");
   text->GetTransform()->SetPosition(1, 1, 1);
   text->GetTransform()->SetScale(0.005f);
   scene->AddGameObject(text);
 
-  auto cube = std::make_shared<GameObject>("Cube");
-  cube->AddComponent(std::make_shared<Renderer>(
-    directx_->GetDevice(),
-    directx_->GetDeviceContext()));
-  cube->AddComponent(std::make_shared<Model>(
-    "../assets/meshes/cube.mesh",
-    "../assets/shaders/default_vs.cso",
-    "../assets/shaders/default_ps.cso",
-    "../assets/textures/placeholder.png"));
-  cube->GetTransform()->SetPosition(0, 0, 0);
-  scene->AddGameObject(cube);
-
-  scene->SetCamera(
-      std::static_pointer_cast<Camera>(camera->GetComponent("Camera")));
+  scene->SetCamera(camera->GetComponent<Camera>());
 
   scene_ = scene;
 

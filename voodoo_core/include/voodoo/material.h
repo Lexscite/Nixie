@@ -25,10 +25,6 @@
 namespace voodoo {
 struct Material {
  public:
-  bool Init(std::string vs_path, std::string ps_path, std::string texture_path,
-            bool light);
-
- public:
   std::shared_ptr<Shader> shader;
   std::shared_ptr<Texture> texture;
 };

@@ -29,7 +29,6 @@ class Model : public Component {
 
  private:
   virtual bool OnInit() override;
-  virtual bool OnUpdate() override;
 
  private:
   std::string mesh_path_;

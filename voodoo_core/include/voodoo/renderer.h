@@ -23,15 +23,34 @@
 namespace voodoo {
 class Renderer : public Component {
  public:
-  Renderer(ID3D11Device* device, ID3D11DeviceContext* device_context);
+  Renderer(std::shared_ptr<ID3D11Device> device,
+           std::shared_ptr<ID3D11DeviceContext> device_context);
 
-  void Render(std::shared_ptr<Mesh> mesh, std::shared_ptr<Material> material);
+  bool CreateBuffers();
+  bool InitMaterial(std::string texture_path, std::string vs_path,
+                    std::string ps_path, bool light);
+
+  void SetMesh(std::shared_ptr<Mesh> mesh);
+  void SetMaterial(std::shared_ptr<Material> material);
+
+  std::shared_ptr<Mesh> GetMesh();
+  std::shared_ptr<Material> GetMaterial();
+  ID3D11Buffer* GetVertexBuffer();
+  ID3D11Buffer* GetIndexBuffer();
 
  private:
-  Renderer();
+  bool CreateVertexBuffer();
+  bool CreateIndexBuffer();
 
-  ID3D11Device* device_;
-  ID3D11DeviceContext* device_context_;
+ private:
+  std::shared_ptr<Mesh> mesh_;
+  std::shared_ptr<Material> material_;
+
+  std::shared_ptr<ID3D11Device> device_;
+  std::shared_ptr<ID3D11DeviceContext> device_context_;
+
+  ID3D11Buffer* v_buffer_;
+  ID3D11Buffer* i_buffer_;
 };
 }  // namespace voodoo
 

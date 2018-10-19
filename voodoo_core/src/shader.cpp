@@ -27,17 +27,16 @@
 #include <vector>
 
 namespace voodoo {
-Shader::Shader()
+Shader::Shader(std::shared_ptr<ID3D11Device> device,
+               std::shared_ptr<ID3D11DeviceContext> device_context)
     : vertex_shader_(nullptr),
       pixel_shader_(nullptr),
       input_layout_(nullptr),
       sampler_state_(nullptr),
       matrix_buffer_(nullptr),
       light_buffer_(nullptr),
-      device_(
-          std::unique_ptr<ID3D11Device>(DirectXManager::Get()->GetDevice())),
-      device_context_(std::unique_ptr<ID3D11DeviceContext>(
-          DirectXManager::Get()->GetDeviceContext())) {}
+      device_(device),
+      device_context_(device_context) {}
 
 Shader::~Shader() {
   if (vertex_shader_) {
@@ -199,7 +198,7 @@ Shader::ShaderBuffer Shader::LoadFromFile(std::string file_path) {
 
   fs.open(file_path, std::ios::in | std::ios::binary);
   if (fs.fail()) {
-    Logger::Write("Error: Failed to open shader file ");
+    Log::Error("Error: Failed to open shader file ");
     throw std::runtime_error("Failed to open shader file");
   }
 
@@ -222,14 +221,14 @@ bool Shader::CreateInputLayout(Shader::ShaderBuffer buffer) {
   hr = D3DReflect(buffer.data, buffer.size, IID_ID3D11ShaderReflection,
                   (void**)&reflection);
   if (FAILED(hr)) {
-    Logger::Write("Failed to reflect shader buffer");
+    Log::Error("Failed to reflect shader buffer");
     return false;
   }
 
   D3D11_SHADER_DESC shader_desc;
   hr = reflection->GetDesc(&shader_desc);
   if (FAILED(hr)) {
-    Logger::Write("Failed to get shader description");
+    Log::Error("Failed to get shader description");
     return false;
   }
 
@@ -239,7 +238,7 @@ bool Shader::CreateInputLayout(Shader::ShaderBuffer buffer) {
     D3D11_SIGNATURE_PARAMETER_DESC param_desc;
     hr = reflection->GetInputParameterDesc(i, &param_desc);
     if (FAILED(hr)) {
-      Logger::Write("Failed to get input parameter description");
+      Log::Error("Failed to get input parameter description");
       return false;
     }
 

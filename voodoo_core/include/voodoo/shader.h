@@ -51,7 +51,8 @@ class Shader {
   };
 
  public:
-  Shader();
+  Shader(std::shared_ptr<ID3D11Device> device,
+         std::shared_ptr<ID3D11DeviceContext> device_context);
   ~Shader();
 
   bool Init(std::string vs_path, std::string ps_path, bool light);

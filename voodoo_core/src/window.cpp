@@ -16,35 +16,37 @@
 #include "../include/voodoo/window.h"
 
 namespace voodoo {
-bool Window::Init(HINSTANCE instance, int width, int height,
+bool Window::Init(HINSTANCE instance,
+                  int width, int height,
                   std::wstring caption) {
-  // Register window class
-  WNDCLASSEX wc;
+  WNDCLASSEX wcex;
   std::wstring wc_name = caption + L"Window";
   DWORD style = WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU;
 
-  memset(&wc, 0, sizeof(wc));
-  wc.cbClsExtra = NULL;
-  wc.cbWndExtra = NULL;
-  wc.cbSize = sizeof(wc);
-  wc.style = CS_HREDRAW | CS_VREDRAW;
-  wc.hInstance = instance;
-  wc.lpfnWndProc = MsgRouter;
-  wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-  wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
-  wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-  wc.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
-  wc.lpszMenuName = NULL;
-  wc.lpszClassName = wc_name.c_str();
-
-  if (!RegisterClassEx(&wc)) {
+  memset(&wcex, 0, sizeof(wcex));
+  wcex.cbClsExtra = NULL;
+  wcex.cbWndExtra = NULL;
+  wcex.cbSize = sizeof(wcex);
+  wcex.style = CS_HREDRAW | CS_VREDRAW;
+  wcex.hInstance = instance;
+  wcex.lpfnWndProc = MsgRouter;
+  wcex.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+  wcex.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+  wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+  wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
+  wcex.lpszMenuName = NULL;
+  wcex.lpszClassName = wc_name.c_str();
+  if (!RegisterClassEx(&wcex)) {
     return false;
   }
 
-  // Create window
-  handle_ =
-      CreateWindowEx(WS_EX_APPWINDOW, wc_name.c_str(), caption.c_str(), style,
-                     0, 0, width, height, NULL, NULL, instance, NULL);
+  handle_ = CreateWindowEx(
+      WS_EX_APPWINDOW,
+      wc_name.c_str(),
+      caption.c_str(),
+      style,
+      0, 0, width, height,
+      NULL, NULL, instance, NULL);
   if (!handle_) {
     return false;
   }
@@ -56,10 +58,11 @@ bool Window::Init(HINSTANCE instance, int width, int height,
   DWORD ws = static_cast<DWORD>(GetWindowLongPtr(handle_, GWL_STYLE));
   DWORD wexs = static_cast<DWORD>(GetWindowLongPtr(handle_, GWL_EXSTYLE));
   AdjustWindowRectEx(&wr, ws, false, wexs);
-  SetWindowPos(handle_, NULL, wr.left, wr.top, wr.right - wr.left,
-               wr.bottom - wr.top, NULL);
+  SetWindowPos(handle_, NULL,
+               wr.left, wr.top,
+               wr.right - wr.left, wr.bottom - wr.top,
+               NULL);
 
-  // Display window
   ShowWindow(handle_, SW_SHOW);
 
   return true;
@@ -79,7 +82,6 @@ int Window::GetWidth() { return GetRect().size.x; }
 
 int Window::GetHeight() { return GetRect().size.y; }
 
-// Actual member msg processor.
 LRESULT CALLBACK Window::MsgProc(HWND handle, UINT msg, WPARAM w_param,
                                  LPARAM l_param) {
   switch (msg) {
@@ -107,7 +109,6 @@ LRESULT CALLBACK Window::MsgProc(HWND handle, UINT msg, WPARAM w_param,
   }
 }
 
-// Static window msg router.
 LRESULT CALLBACK Window::MsgRouter(HWND handle, UINT msg, WPARAM w_param,
                                    LPARAM l_param) {
   if (msg == WM_NCCREATE) {

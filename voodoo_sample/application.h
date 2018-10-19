@@ -29,7 +29,7 @@ class Application final {
   static bool Init(HINSTANCE instance, std::wstring name);
   static int Run();
 
-  static DirectXManager* GetDirectX();
+  static std::shared_ptr<DirectXManager> GetDirectX();
   static std::shared_ptr<Scene> GetScene();
 
  private:
@@ -39,9 +39,9 @@ class Application final {
 
  private:
   static std::wstring name_;
-  static std::unique_ptr<Window> window_;
+  static std::shared_ptr<Window> window_;
   static Time* time_;
-  static DirectXManager* directx_;
+  static std::shared_ptr<DirectXManager> directx_;
   static std::shared_ptr<Scene> scene_;
 };
 }  // namespace voodoo

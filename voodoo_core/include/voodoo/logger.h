@@ -41,19 +41,38 @@ class ConsoleBuffer : public std::streambuf {
 };
 #endif
 
-class Logger final {
+enum LogEntryLevel {
+  kLogEntryLevelInfo = 0,
+  kLogEntryLevelWarning = 1,
+  kLogEntryLevelError = 2,
+};
+
+struct LogEntry {
+public:
+  std::string body;
+  LogEntryLevel level;
+};
+
+class Log final {
  public:
-  ~Logger();
+  ~Log();
 
-  static void Write(std::string s);
+  static void Info(std::string message);
+  static void Warning(std::string message);
+  static void Error(std::string message);
+
+  static void Write(std::string message);
+  static void Write(std::string message, LogEntryLevel level);
+
+  static void Throw(std::string message);
 
  private:
-  Logger();
+  Log();
 
-  static Logger& Get();
+  static Log& Get();
 
  private:
-  std::ofstream fs_;
+  std::ofstream log_file_;
 
 #ifdef VOODOO_LOG_CONSOLE_ENABLED
  private:

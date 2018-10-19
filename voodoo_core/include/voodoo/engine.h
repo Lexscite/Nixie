@@ -17,15 +17,26 @@
 #define VOODOO_ENGINE_H_
 
 #include "graphics_api.h"
+#include "logger.h"
+#include "time.h"
+#include "window.h"
+
+#include <memory>
 
 namespace voodoo {
 class Engine {
  public:
-  bool Init();
+  bool Init(HINSTANCE instance, std::wstring name);
   void Run();
 
+  std::shared_ptr<Time> GetTime();
+  std::shared_ptr<Window> GetWindow();
+  std::shared_ptr<GraphicsAPI> GetGraphicsAPI();
+
  private:
-  GraphicsAPI graphics_api;
+  std::shared_ptr<Time> time_;
+  std::shared_ptr<Window> window_;
+  std::shared_ptr<GraphicsAPI> graphics_api_;
 };
 }  // namespace voodoo
 

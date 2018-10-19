@@ -30,7 +30,7 @@ bool GameObject::Init(std::shared_ptr<Scene> scene) {
 
   for (auto component : GetComponents()) {
     if (!component->Init(shared_from_this())) {
-      Logger::Write("Failed to initialize component \"" + component->GetName() +
+      Log::Info("Failed to initialize component \"" + component->GetName() +
                     "\"");
       return false;
     }
@@ -40,9 +40,9 @@ bool GameObject::Init(std::shared_ptr<Scene> scene) {
 }
 
 bool GameObject::Update() {
-  for (auto& component : GetComponents()) {
+  for (auto component : GetComponents()) {
     if (!component->Update()) {
-      Logger::Write("Failed to update component \"" + component->GetName() +
+      Log::Info("Failed to update component \"" + component->GetName() +
                     "\"");
       return false;
     }
@@ -77,7 +77,7 @@ std::shared_ptr<Component> GameObject::GetComponent(std::string name) {
 std::vector<std::shared_ptr<Component>> GameObject::GetComponents() {
   std::vector<std::shared_ptr<Component>> result;
 
-  for (auto& it : components_) {
+  for (auto it : components_) {
     result.push_back(it.second);
   }
 

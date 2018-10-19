@@ -17,6 +17,7 @@
 #define VOODOO_COMPONENT_H_
 
 #include "game_object.h"
+#include "logger.h"
 #include "scene.h"
 #include "transform.h"
 
@@ -24,9 +25,6 @@
 #include <string>
 
 namespace voodoo {
-class Transform;
-class Scene;
-
 class Component : public std::enable_shared_from_this<Component> {
  public:
   virtual bool Init(std::shared_ptr<GameObject> game_object) final;
@@ -37,6 +35,17 @@ class Component : public std::enable_shared_from_this<Component> {
   std::shared_ptr<Scene> GetScene();
   std::shared_ptr<GameObject> GetGameObject();
   std::shared_ptr<Transform> GetTransform();
+
+  template <class T>
+  std::shared_ptr<T> GetComponent() {
+    return game_object_->GetComponent<T>();
+  }
+
+  template <class T, class... Arg_T>
+  std::shared_ptr<T> AddComponent(Arg_T&&... args) {
+    using namespace std;
+    return game_object_->AddComponent(forward<Arg_T>(args)...);
+  }
 
  private:
   virtual bool OnInit();

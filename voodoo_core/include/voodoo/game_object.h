@@ -42,6 +42,25 @@ class GameObject final : public std::enable_shared_from_this<GameObject> {
   std::shared_ptr<GameObject> GetParent() { return parent_; }
   std::shared_ptr<Transform> GetTransform() { return transform_; }
 
+  template <class T>
+  std::shared_ptr<T> GetComponent() {
+    using namespace std;
+    auto name = string(typeid(T).name()).erase(0, 14);
+    auto component = GetComponent(name);
+    return static_pointer_cast<T>(component);
+  }
+
+  template <class T, class... Arg_T>
+  std::shared_ptr<T> AddComponent(Arg_T&&... args) {
+    using namespace std;
+    if (GetComponent<T>())
+      return nullptr;
+    auto component = make_shared<T>(forward<Arg_T>(args)...);
+    auto name = component->GetName();
+    components_.insert(pair<string, shared_ptr<Component>>(name, component));
+    return component;
+  }
+
  private:
   std::string name_;
   std::shared_ptr<Scene> scene_;

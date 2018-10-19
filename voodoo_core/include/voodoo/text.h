@@ -18,7 +18,8 @@
 
 #include "component.h"
 #include "material.h"
-#include "text_mesh.h"
+#include "font.h"
+#include "mesh.h"
 #include "renderer.h"
 
 namespace voodoo {
@@ -30,11 +31,11 @@ class Text : public Component {
   Text(std::string text, std::string vs_path, std::string ps_path,
        std::string texture_path);
 
-  void SetText(const std::string& text) { text_ = text; }
-
  private:
   virtual bool OnInit() override;
-  virtual bool OnUpdate() override;
+
+  std::shared_ptr<Mesh> GenerateMesh();
+  std::vector<VertexPTN> GenerateChar(Font::CharData c, float offset);
 
  private:
   std::string text_;
@@ -43,8 +44,9 @@ class Text : public Component {
   std::string ps_path_;
   std::string texture_path_;
 
+  std::shared_ptr<Font> font_;
   std::shared_ptr<Renderer> renderer_;
-  std::shared_ptr<TextMesh> mesh_;
+  std::shared_ptr<Mesh> mesh_;
   std::shared_ptr<Material> material_;
 };
 }  // namespace voodoo

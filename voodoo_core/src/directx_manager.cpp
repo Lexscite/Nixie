@@ -15,14 +15,14 @@
 
 #include "../include/voodoo/directx_manager.h"
 #include "../include/voodoo/logger.h"
+#include "../include/voodoo/renderer.h"
+#include "../include/voodoo/camera.h"
 
 #include <vector>
 
 namespace voodoo {
 DirectXManager::DirectXManager()
     : swap_chain_(nullptr),
-      device_(nullptr),
-      device_context_(nullptr),
       render_target_view_(nullptr),
       depth_stencil_buffer_(nullptr),
       depth_stencil_state_(nullptr),
@@ -31,17 +31,13 @@ DirectXManager::DirectXManager()
       blend_state_on_(nullptr),
       blend_state_off_(nullptr) {}
 
-DirectXManager* DirectXManager::singleton_;
+bool DirectXManager::Init(std::shared_ptr<Window> window,
+                          bool vsync_enabled, bool fullscreen_enabled) {
+  if (!InitDevice()) {
+    Log::Error("Failed to create device");
+    return false;
+  }
 
-DirectXManager* DirectXManager::Get() {
-  if (singleton_ == 0) singleton_ = new DirectXManager;
-
-  return singleton_;
-}
-
-bool DirectXManager::Init(HWND window, unsigned int screen_width,
-                          unsigned int screen_height, bool vsync_enabled,
-                          bool fullscreen_enabled) {
   HRESULT hr;
 
   vsync_enabled_ = vsync_enabled;
@@ -54,21 +50,21 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
   hr = CreateDXGIFactory(__uuidof(IDXGIFactory),
                          reinterpret_cast<void**>(&factory));
   if (FAILED(hr)) {
-    Logger::Write("Failed to create DXGIFactory");
+    Log::Error("Failed to create DXGIFactory");
     return false;
   }
 
   IDXGIAdapter* adapter;
   hr = factory->EnumAdapters(0, &adapter);
   if (FAILED(hr)) {
-    Logger::Write("Failed to enum adapters");
+    Log::Error("Failed to enum adapters");
     return false;
   }
 
   IDXGIOutput* adapter_output;
   hr = adapter->EnumOutputs(0, &adapter_output);
   if (FAILED(hr)) {
-    Logger::Write("Failed to enum adapters outputs");
+    Log::Error("Failed to enum adapters outputs");
     return false;
   }
 
@@ -76,14 +72,14 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
   hr = adapter_output->GetDisplayModeList(
       DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &num_modes, NULL);
   if (FAILED(hr)) {
-    Logger::Write("Failed to get display modes list");
+    Log::Error("Failed to get display modes list");
     return false;
   }
 
   DXGI_MODE_DESC* d_modes;
   d_modes = new DXGI_MODE_DESC[num_modes];
   if (!d_modes) {
-    Logger::Write("Failed to create display mode list");
+    Log::Error("Failed to create display mode list");
     return false;
   }
 
@@ -91,14 +87,14 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
                                           DXGI_ENUM_MODES_INTERLACED,
                                           &num_modes, d_modes);
   if (FAILED(hr)) {
-    Logger::Write("Failed to fill display mode list struct");
+    Log::Error("Failed to fill display mode list struct");
     return false;
   }
 
   unsigned int numerator, denominator;
   for (unsigned int i = 0; i < num_modes; i++) {
-    if (d_modes[i].Width == static_cast<unsigned int>(screen_width)) {
-      if (d_modes[i].Height == static_cast<unsigned int>(screen_height)) {
+    if (d_modes[i].Width == static_cast<unsigned int>(window->GetWidth())) {
+      if (d_modes[i].Height == static_cast<unsigned int>(window->GetHeight())) {
         numerator = d_modes[i].RefreshRate.Numerator;
         denominator = d_modes[i].RefreshRate.Denominator;
       }
@@ -108,63 +104,27 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
   DXGI_ADAPTER_DESC adapter_desc;
   hr = adapter->GetDesc(&adapter_desc);
   if (FAILED(hr)) {
-    Logger::Write("Failed to get adapter description");
+    Log::Error("Failed to get adapter description");
     return false;
   }
 
   adapter_memory_ = static_cast<unsigned int>(
       adapter_desc.DedicatedVideoMemory / 1024 / 1024);
 
-  unsigned int device_creation_flags = 0;
-#if defined(_DEBUG)
-  device_creation_flags = D3D11_CREATE_DEVICE_DEBUG;
-#endif
-
-  std::vector<D3D_DRIVER_TYPE> driver_types = {
-      D3D_DRIVER_TYPE_HARDWARE,
-      D3D_DRIVER_TYPE_SOFTWARE,
-      D3D_DRIVER_TYPE_WARP,
-  };
-
-  std::vector<D3D_FEATURE_LEVEL> feature_levels = {
-      D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_1, D3D_FEATURE_LEVEL_10_0,
-      D3D_FEATURE_LEVEL_9_3,  D3D_FEATURE_LEVEL_9_2,  D3D_FEATURE_LEVEL_9_1};
-
-  for (auto driver_type : driver_types) {
-    for (int y = 0; y < feature_levels.size(); y++) {
-      hr = D3D11CreateDevice(
-          0, driver_type, 0, device_creation_flags, &feature_levels[y],
-          static_cast<unsigned int>(feature_levels.size()), D3D11_SDK_VERSION,
-          &device_, &feature_level_, &device_context_);
-
-      if (SUCCEEDED(hr)) {
-        break;
-      }
-    }
-
-    if (SUCCEEDED(hr)) {
-      break;
-    }
-  }
-  if (FAILED(hr)) {
-    Logger::Write("Failed to create DirectX device");
-    return false;
-  }
-
   UINT msaa_quality;
   hr = device_->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4,
                                               &msaa_quality);
   if (FAILED(hr)) {
-    Logger::Write("Failed to check multisample quality levels");
+    Log::Error("Failed to check multisample quality levels");
     return false;
   }
 
   DXGI_SWAP_CHAIN_DESC swap_chain_desc;
   ZeroMemory(&swap_chain_desc, sizeof(swap_chain_desc));
-  swap_chain_desc.OutputWindow = window;
+  swap_chain_desc.OutputWindow = window->GetHandle();
   swap_chain_desc.Windowed = !fullscreen_enabled_;
-  swap_chain_desc.BufferDesc.Width = screen_width;
-  swap_chain_desc.BufferDesc.Height = screen_height;
+  swap_chain_desc.BufferDesc.Width = window->GetWidth();
+  swap_chain_desc.BufferDesc.Height = window->GetHeight();
   swap_chain_desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
   swap_chain_desc.BufferDesc.RefreshRate.Numerator =
       vsync_enabled_ ? numerator : 0;
@@ -180,9 +140,9 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
   swap_chain_desc.SampleDesc.Count = msaa_enabled_ ? 4 : 1;
   swap_chain_desc.SampleDesc.Quality = msaa_enabled_ ? msaa_quality - 1 : 0;
 
-  hr = factory->CreateSwapChain(device_, &swap_chain_desc, &swap_chain_);
+  hr = factory->CreateSwapChain(device_.get(), &swap_chain_desc, &swap_chain_);
   if (FAILED(hr)) {
-    Logger::Write("Failed to create swap chain");
+    Log::Error("Failed to create swap chain");
     return false;
   }
 
@@ -210,14 +170,14 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
   hr = swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D),
                               reinterpret_cast<LPVOID*>(&back_buffer));
   if (FAILED(hr)) {
-    Logger::Write("Failed to get the back buffer");
+    Log::Error("Failed to get the back buffer");
     return false;
   }
 
   hr = device_->CreateRenderTargetView(back_buffer, nullptr,
                                        &render_target_view_);
   if (FAILED(hr)) {
-    Logger::Write("Failed to create render target view");
+    Log::Error("Failed to create render target view");
     return false;
   }
 
@@ -228,8 +188,8 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
 
   D3D11_TEXTURE2D_DESC depth_buffer_desc;
   ZeroMemory(&depth_buffer_desc, sizeof(depth_buffer_desc));
-  depth_buffer_desc.Width = screen_width;
-  depth_buffer_desc.Height = screen_height;
+  depth_buffer_desc.Width = window->GetWidth();
+  depth_buffer_desc.Height = window->GetHeight();
   depth_buffer_desc.MipLevels = 1;
   depth_buffer_desc.ArraySize = 1;
   depth_buffer_desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -248,7 +208,7 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
   hr = device_->CreateTexture2D(&depth_buffer_desc, nullptr,
                                 &depth_stencil_buffer_);
   if (FAILED(hr)) {
-    Logger::Write("Failed to create back buffer texture");
+    Log::Error("Failed to create back buffer texture");
     return false;
   }
 
@@ -272,7 +232,7 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
   hr = device_->CreateDepthStencilState(&depth_stencil_desc,
                                         &depth_stencil_state_);
   if (FAILED(hr)) {
-    Logger::Write("Failed to create depth stencil state");
+    Log::Error("Failed to create depth stencil state");
     return false;
   }
 
@@ -287,7 +247,7 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
   hr = device_->CreateDepthStencilView(
       depth_stencil_buffer_, &depth_stencil_view_desc, &depth_stencil_view_);
   if (FAILED(hr)) {
-    Logger::Write("Failed to create depth stencil view");
+    Log::Error("Failed to create depth stencil view");
     return false;
   }
 
@@ -300,8 +260,8 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
 
   D3D11_VIEWPORT viewport;
   ZeroMemory(&viewport, sizeof(viewport));
-  viewport.Width = static_cast<float>(screen_width);
-  viewport.Height = static_cast<float>(screen_height);
+  viewport.Width = static_cast<float>(window->GetWidth());
+  viewport.Height = static_cast<float>(window->GetHeight());
   viewport.MinDepth = 0;
   viewport.MaxDepth = 1;
   viewport.TopLeftX = 0;
@@ -310,6 +270,168 @@ bool DirectXManager::Init(HWND window, unsigned int screen_width,
   device_context_->RSSetViewports(1, &viewport);
 
   if (!CreateBlendStates()) {
+    return false;
+  }
+
+  return true;
+}
+
+bool DirectXManager::Render(std::shared_ptr<Renderer> renderer) {
+  auto wm = renderer->GetTransform()->CalculateWorldMatrix();
+  auto vm = renderer->GetScene()->GetCamera()->GetViewMatrix();
+  auto pm = renderer->GetScene()->GetCamera()->GetProjectionMatrix();
+
+  auto material = renderer->GetMaterial();
+  auto mesh = renderer->GetMesh();
+  auto shader = material->shader;
+  auto srv = material->texture->srv;
+  auto v_buffer = renderer->GetVertexBuffer();
+  auto i_buffer = renderer->GetIndexBuffer();
+
+  if (!shader->Update(wm, vm, pm, srv)) {
+    throw std::runtime_error("Failed to update shader");
+  }
+
+  unsigned int stride = sizeof(mesh->vertices[0]);
+  unsigned int offset = 0;
+
+  device_context_->IASetVertexBuffers(0, 1, &v_buffer, &stride, &offset);
+  device_context_->IASetIndexBuffer(i_buffer, DXGI_FORMAT_R32_UINT, 0);
+  device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+  device_context_->DrawIndexed(mesh->index_count, 0, 0);
+
+  return true;
+}
+
+void DirectXManager::ToggleWireframeMode() {
+  wireframe_mode_enabled_ = !wireframe_mode_enabled_;
+  device_context_->RSSetState(wireframe_mode_enabled_
+                                  ? rasterizer_state_wireframe_mode_on_
+                                  : rasterizer_state_wireframe_mode_off_);
+}
+
+void DirectXManager::ToggleBlendMode() {
+  alpha_blending_enabled_ = !alpha_blending_enabled_;
+  float factor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+  device_context_->OMSetBlendState(
+      alpha_blending_enabled_ ? blend_state_on_ : blend_state_off_, factor,
+      0xffffffff);
+}
+
+void DirectXManager::Release() {
+  if (swap_chain_) {
+    swap_chain_->SetFullscreenState(false, NULL);
+  }
+
+  if (blend_state_on_) {
+    blend_state_on_->Release();
+    blend_state_on_ = nullptr;
+  }
+
+  if (blend_state_off_) {
+    blend_state_off_->Release();
+    blend_state_off_ = nullptr;
+  }
+
+  if (rasterizer_state_wireframe_mode_off_) {
+    rasterizer_state_wireframe_mode_off_->Release();
+    rasterizer_state_wireframe_mode_off_ = nullptr;
+  }
+
+  if (depth_stencil_view_) {
+    depth_stencil_view_->Release();
+    depth_stencil_view_ = nullptr;
+  }
+
+  if (depth_stencil_state_) {
+    depth_stencil_state_->Release();
+    depth_stencil_state_ = nullptr;
+  }
+
+  if (depth_stencil_buffer_) {
+    depth_stencil_buffer_->Release();
+    depth_stencil_buffer_ = nullptr;
+  }
+
+  if (render_target_view_) {
+    render_target_view_->Release();
+    render_target_view_ = nullptr;
+  }
+
+  if (device_context_) {
+    device_context_->Release();
+    device_context_ = nullptr;
+  }
+
+  if (device_) {
+    device_->Release();
+    device_ = nullptr;
+  }
+  if (swap_chain_) {
+    swap_chain_->Release();
+    swap_chain_ = nullptr;
+  }
+}
+
+void DirectXManager::BeginScene(const Color& c) {
+  device_context_->ClearRenderTargetView(render_target_view_, c);
+  device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH,
+                                         1.0f, 0);
+}
+
+void DirectXManager::EndScene() {
+  if (vsync_enabled_) {
+    swap_chain_->Present(1, 0);
+  } else {
+    swap_chain_->Present(0, 0);
+  }
+}
+
+std::shared_ptr<ID3D11Device> DirectXManager::GetDevice() { return device_; }
+
+std::shared_ptr<ID3D11DeviceContext> DirectXManager::GetDeviceContext() {
+  return device_context_;
+}
+
+bool DirectXManager::InitDevice() {
+  HRESULT hr;
+
+  unsigned int device_creation_flags = 0;
+#ifdef _DEBUG
+  device_creation_flags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif  // _DEBUG
+
+  std::vector<D3D_DRIVER_TYPE> driver_types = {
+      D3D_DRIVER_TYPE_HARDWARE,
+      D3D_DRIVER_TYPE_SOFTWARE,
+      D3D_DRIVER_TYPE_WARP,
+  };
+
+  std::vector<D3D_FEATURE_LEVEL> feature_levels = {
+      D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_1, D3D_FEATURE_LEVEL_10_0,
+      D3D_FEATURE_LEVEL_9_3, D3D_FEATURE_LEVEL_9_2, D3D_FEATURE_LEVEL_9_1};
+
+  ID3D11Device* device = nullptr;
+  ID3D11DeviceContext* device_context = nullptr;
+  for (auto driver_type : driver_types) {
+    for (int y = 0; y < feature_levels.size(); y++) {
+      hr = D3D11CreateDevice(
+          0, driver_type, 0, device_creation_flags, &feature_levels[y],
+          static_cast<unsigned int>(feature_levels.size()), D3D11_SDK_VERSION,
+          &device, &feature_level_, &device_context);
+
+      if (SUCCEEDED(hr)) {
+        Log::Info("Device successfully created");
+        device_ = std::shared_ptr<ID3D11Device>(device);
+        device_context_ = std::shared_ptr<ID3D11DeviceContext>(device_context);
+        return true;
+      }
+    }
+  }
+
+  if (FAILED(hr)) {
+    Log::Info("Failed to create DirectX device");
     return false;
   }
 
@@ -385,96 +507,5 @@ bool DirectXManager::CreateBlendStates() {
       0xffffffff);
 
   return true;
-}
-
-void DirectXManager::ToggleWireframeMode() {
-  wireframe_mode_enabled_ = !wireframe_mode_enabled_;
-  device_context_->RSSetState(wireframe_mode_enabled_
-                                  ? rasterizer_state_wireframe_mode_on_
-                                  : rasterizer_state_wireframe_mode_off_);
-}
-
-void DirectXManager::ToggleBlendMode() {
-  alpha_blending_enabled_ = !alpha_blending_enabled_;
-  float factor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-  device_context_->OMSetBlendState(
-      alpha_blending_enabled_ ? blend_state_on_ : blend_state_off_, factor,
-      0xffffffff);
-}
-
-void DirectXManager::Release() {
-  if (swap_chain_) {
-    swap_chain_->SetFullscreenState(false, NULL);
-  }
-
-  if (blend_state_on_) {
-    blend_state_on_->Release();
-    blend_state_on_ = nullptr;
-  }
-
-  if (blend_state_off_) {
-    blend_state_off_->Release();
-    blend_state_off_ = nullptr;
-  }
-
-  if (rasterizer_state_wireframe_mode_off_) {
-    rasterizer_state_wireframe_mode_off_->Release();
-    rasterizer_state_wireframe_mode_off_ = nullptr;
-  }
-
-  if (depth_stencil_view_) {
-    depth_stencil_view_->Release();
-    depth_stencil_view_ = nullptr;
-  }
-
-  if (depth_stencil_state_) {
-    depth_stencil_state_->Release();
-    depth_stencil_state_ = nullptr;
-  }
-
-  if (depth_stencil_buffer_) {
-    depth_stencil_buffer_->Release();
-    depth_stencil_buffer_ = nullptr;
-  }
-
-  if (render_target_view_) {
-    render_target_view_->Release();
-    render_target_view_ = nullptr;
-  }
-
-  if (device_context_) {
-    device_context_->Release();
-    device_context_ = nullptr;
-  }
-
-  if (device_) {
-    device_->Release();
-    device_ = nullptr;
-  }
-
-  if (swap_chain_) {
-    swap_chain_->Release();
-    swap_chain_ = nullptr;
-  }
-}
-
-void DirectXManager::BeginScene(const Color& c) {
-  device_context_->ClearRenderTargetView(render_target_view_, c);
-  device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH,
-                                         1.0f, 0);
-}
-
-void DirectXManager::EndScene() {
-  if (vsync_enabled_) {
-    swap_chain_->Present(1, 0);
-  } else {
-    swap_chain_->Present(0, 0);
-  }
-}
-
-ID3D11Device* DirectXManager::GetDevice() { return device_; }
-
-ID3D11DeviceContext* DirectXManager::GetDeviceContext() {
-  return device_context_;
 }
 }  // namespace voodoo

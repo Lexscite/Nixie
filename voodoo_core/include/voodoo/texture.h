@@ -24,7 +24,7 @@
 namespace voodoo {
 struct Texture {
  public:
-  Texture(std::shared_ptr<Image> image);
+  Texture(std::shared_ptr<ID3D11Device> device, std::shared_ptr<Image> image);
   ~Texture();
 
  public:

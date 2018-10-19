@@ -16,7 +16,7 @@
 #include "../include/voodoo/texture.h"
 
 namespace voodoo {
-Texture::Texture(std::shared_ptr<Image> image) {
+Texture::Texture(std::shared_ptr<ID3D11Device> device, std::shared_ptr<Image> image) {
   HRESULT hr;
 
   D3D11_TEXTURE2D_DESC texture_desc;
@@ -36,7 +36,7 @@ Texture::Texture(std::shared_ptr<Image> image) {
   subresource_data.SysMemPitch = texture_desc.Width * 4;
   subresource_data.SysMemSlicePitch = 0;
 
-  hr = DirectXManager::Get()->GetDevice()->CreateTexture2D(
+  hr = device->CreateTexture2D(
       &texture_desc, &subresource_data, &texture);
   if (FAILED(hr)) {
     throw std::runtime_error("Failed to create texture from memory");
@@ -61,7 +61,7 @@ Texture::Texture(std::shared_ptr<Image> image) {
       break;
   }
 
-  hr = DirectXManager::Get()->GetDevice()->CreateShaderResourceView(
+  hr = device->CreateShaderResourceView(
       texture, &srv_desc, &srv);
   if (FAILED(hr)) {
     throw std::runtime_error(

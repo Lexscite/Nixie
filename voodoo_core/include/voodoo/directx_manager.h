@@ -17,6 +17,8 @@
 #define VOODOO_DIRECTX_MANAGER_H_
 
 #include "color.h"
+#include "graphics_api.h"
+#include "window.h"
 
 #ifdef _WIN32
 // Enable DirectX
@@ -32,45 +34,41 @@
 #endif  // VOODOO_DIRECTX
 
 namespace voodoo {
-class DirectXManager {
+class DirectXManager : public GraphicsAPI {
  public:
-  static DirectXManager* Get();
+  DirectXManager();
+  virtual bool Init(std::shared_ptr<Window> window,
+                    bool vsync_enabled, bool fullscreen_enabled) override;
+  virtual bool Render(std::shared_ptr<Renderer> renderer) override;
 
-  bool Init(HWND window, unsigned int screen_width, unsigned int screen_height,
-            bool vsync_enabled, bool fullscreen_enabled);
   void Release();
-
   void BeginScene(const Color& c);
   void EndScene();
 
-  ID3D11Device* GetDevice();
-  ID3D11DeviceContext* GetDeviceContext();
-
   void ToggleWireframeMode();
   void ToggleBlendMode();
+  std::shared_ptr<ID3D11Device> GetDevice();
+  std::shared_ptr<ID3D11DeviceContext> GetDeviceContext();
 
  private:
-  DirectXManager();
-
+  bool InitDevice();
   bool CreateRasterizerStates();
   bool CreateBlendStates();
 
  private:
-  static DirectXManager* singleton_;
-
   bool vsync_enabled_;
   bool fullscreen_enabled_;
   bool msaa_enabled_;
   bool wireframe_mode_enabled_;
   bool alpha_blending_enabled_;
-
-  ID3D11Device* device_;
-  ID3D11DeviceContext* device_context_;
-  IDXGISwapChain* swap_chain_;
-  D3D_FEATURE_LEVEL feature_level_;
-
   UINT adapter_memory_;
   char adapter_desc_[128];
+
+  std::shared_ptr<ID3D11Device> device_;
+  std::shared_ptr<ID3D11DeviceContext> device_context_;
+
+  D3D_FEATURE_LEVEL feature_level_;
+  IDXGISwapChain* swap_chain_;
 
   ID3D11RenderTargetView* render_target_view_;
   ID3D11Texture2D* depth_stencil_buffer_;

@@ -15,8 +15,34 @@
 
 #include "../include/voodoo/engine.h"
 
+#include "../include/voodoo/directx_manager.h"
+
 namespace voodoo {
-bool Engine::Init() { return true; }
+bool Engine::Init(HINSTANCE instance, std::wstring name) {
+  window_ = std::make_shared<Window>();
+  if (!window_->Init(instance, 640, 480, name)) {
+    Log::Info("Failed to initialize window");
+  }
+  return true;
+
+  graphics_api_ = std::make_shared<DirectXManager>();
+  if (!graphics_api_->Init(window_, true, false)) {
+    Log::Info("Failed to initialize DirectX");
+    return false;
+  }
+}
 
 void Engine::Run() {}
+
+std::shared_ptr<Time> Engine::GetTime() {
+  return time_;
+}
+
+std::shared_ptr<Window> Engine::GetWindow() {
+  return window_;
+}
+
+std::shared_ptr<GraphicsAPI> Engine::GetGraphicsAPI() {
+  return graphics_api_;
+}
 }  // namespace voodoo

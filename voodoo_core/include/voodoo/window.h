@@ -34,10 +34,10 @@ class Window {
   int GetHeight();
 
  private:
-  LRESULT CALLBACK MsgProc(HWND handle, UINT msg, WPARAM w_param,
-                           LPARAM l_param);
-  static LRESULT CALLBACK MsgRouter(HWND handle, UINT msg, WPARAM w_param,
-                                    LPARAM l_param);
+  LRESULT CALLBACK MsgProc(HWND handle, UINT msg,
+                           WPARAM w_param, LPARAM l_param);
+  static LRESULT CALLBACK MsgRouter(HWND handle, UINT msg,
+                                    WPARAM w_param, LPARAM l_param);
 
  private:
   HWND handle_;

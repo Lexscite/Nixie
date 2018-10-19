@@ -16,8 +16,17 @@
 #ifndef VOODOO_GRAPHICS_API_H_
 #define VOODOO_GRAPHICS_API_H_
 
+#include "window.h"
+
 namespace voodoo {
-class GraphicsAPI {};
+class Renderer;
+
+class GraphicsAPI {
+ public:
+  virtual bool Init(std::shared_ptr<Window> window,
+                    bool vsync, bool fullscreen) = 0;
+  virtual bool Render(std::shared_ptr<Renderer> renderer) = 0;
+};
 }  // namespace voodoo
 
 #endif

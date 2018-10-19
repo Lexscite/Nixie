@@ -29,25 +29,23 @@ Model::Model(std::string mesh_path, std::string vs_path, std::string ps_path,
       texture_path_(texture_path) {}
 
 bool Model::OnInit() {
-  renderer_ = std::static_pointer_cast<Renderer>(game_object_->GetComponent("Renderer"));
+  using namespace std;
+  renderer_ = GetComponent<Renderer>();
 
   mesh_ = MeshManager::Get().Retrieve(mesh_path_);
-  if (!mesh_->CreateBuffers()) {
-    std::cerr << "Error: Failed to initialize mesh" << std::endl;
+
+  renderer_->SetMesh(mesh_);
+  if (!renderer_->CreateBuffers()) {
     return false;
   }
 
-  material_ = std::make_shared<Material>();
-  if (!material_->Init(vs_path_, ps_path_, texture_path_, true)) {
-    std::cerr << "Error: Failed to initialize material" << std::endl;
+  material_ = make_shared<Material>();
+  renderer_->SetMaterial(material_);
+  if (!renderer_->InitMaterial(texture_path_, vs_path_, ps_path_, true)) {
+    Log::Error("Failed to initialize material");
     return false;
   }
 
-  return true;
-}
-
-bool Model::OnUpdate() {
-  renderer_->Render(mesh_, material_);
   return true;
 }
 }  // namespace voodoo

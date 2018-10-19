@@ -22,10 +22,9 @@ namespace voodoo {
 Scene::Scene() : clear_color_(Color(100, 100, 100)) {}
 
 bool Scene::Init() {
-  for (auto& game_object : GetGameObjects()) {
-    if (!game_object->Init(shared_from_this())) {
-      Logger::Write("Failed to initialize actor \"" + game_object->GetName() +
-                    "\"");
+  for (auto go : GetGameObjects()) {
+    if (!go->Init(shared_from_this())) {
+      Log::Info("Failed to initialize actor \"" + go->GetName() + "\"");
       return false;
     }
   }
@@ -34,10 +33,9 @@ bool Scene::Init() {
 }
 
 bool Scene::Update() {
-  for (auto& game_object : GetGameObjects()) {
-    if (!game_object->Update()) {
-      Logger::Write("Failed to update actor \"" + game_object->GetName() +
-                    "\"");
+  for (auto go : GetGameObjects()) {
+    if (!go->Update()) {
+      Log::Error("Failed to update game object \"" + go->GetName() + "\"");
       return false;
     }
   }
@@ -45,36 +43,29 @@ bool Scene::Update() {
   return true;
 }
 
-bool Scene::AddGameObject(std::shared_ptr<GameObject> new_game_object) {
-  std::string name = new_game_object->GetName();
+bool Scene::AddGameObject(std::shared_ptr<GameObject> go) {
+  using namespace std;
+  string name = go->GetName();
 
-  if (GetGameObject(name) != nullptr) {
+  if (GetGameObject(name)) {
+    Log::Error("Failed to add game object \"" + name + "\"");
     return false;
   }
 
-  game_objects_.insert(std::pair<std::string, std::shared_ptr<GameObject>>(
-      name, new_game_object));
-
+  game_objects_.insert(pair<string, shared_ptr<GameObject>>(name, go));
   return true;
 }
 
 std::shared_ptr<GameObject> Scene::GetGameObject(std::string name) {
-  auto result = game_objects_.find(name);
-
-  if (result == game_objects_.end()) {
-    return nullptr;
-  } else {
-    return result->second;
-  }
+  auto go = game_objects_.find(name);
+  return go == game_objects_.end() ? nullptr : go->second;
 }
 
 std::vector<std::shared_ptr<GameObject>> Scene::GetGameObjects() {
-  std::vector<std::shared_ptr<GameObject>> result;
-
-  for (auto& it : game_objects_) {
+  using namespace std;
+  vector<shared_ptr<GameObject>> result;
+  for (auto it : game_objects_)
     result.push_back(it.second);
-  }
-
   return result;
 }
 }  // namespace voodoo

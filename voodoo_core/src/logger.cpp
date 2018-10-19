@@ -16,10 +16,11 @@
 #include "../include/voodoo/logger.h"
 
 namespace voodoo {
-Logger::Logger() {
-  fs_.open("log.txt");
+Log::Log() {
+  log_file_.open("log.txt");
 
 #ifdef VOODOO_LOG_CONSOLE_ENABLED
+  using namespace std;
   if (AllocConsole()) {
     freopen("CONOUT$", "w", stdout);
     SetConsoleTitle(L"voodoo | Debug Console");
@@ -28,34 +29,67 @@ Logger::Logger() {
         FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
   }
 
-  cout_buffer_ = std::cout.rdbuf(&console_buffer_);
-  cerr_buffer_ = std::cerr.rdbuf(&console_buffer_);
-#endif
+  cout_buffer_ = cout.rdbuf(&console_buffer_);
+  cerr_buffer_ = cerr.rdbuf(&console_buffer_);
+#endif  // VOODOO_LOG_CONSOLE_ENABLED
 }
 
-Logger::~Logger() {
-  fs_.close();
+Log::~Log() {
+  log_file_.close();
 
 #ifdef VOODOO_LOG_CONSOLE_ENABLED
-  std::cout.rdbuf(cout_buffer_);
-  std::cout.rdbuf(cerr_buffer_);
-#endif
+  using namespace std;
+  cout.rdbuf(cout_buffer_);
+  cout.rdbuf(cerr_buffer_);
+#endif  // VOODOO_LOG_CONSOLE_ENABLED
 }
 
-Logger& Logger::Get() {
-  static Logger instance;
+Log& Log::Get() {
+  static Log instance;
   return instance;
 }
 
-void Logger::Write(std::string s) {
-  Get().fs_ << s << std::endl;
-
-#ifdef VOODOO_LOG_CONSOLE_ENABLED
-  WriteToConsole(s);
-#endif
+void Log::Info(std::string message) {
+  Write(message, kLogEntryLevelInfo);
 }
 
+void Log::Warning(std::string message) {
+  Write(message, kLogEntryLevelWarning);
+}
+
+void Log::Error(std::string message) {
+  Write(message, kLogEntryLevelError);
+}
+
+void Log::Write(std::string message) {
+  Info(message);
+}
+
+void Log::Write(std::string message, LogEntryLevel level) {
+  using namespace std;
+  string prefix;
+  switch (level) {
+    case kLogEntryLevelWarning:
+      prefix = "Warning: ";
+      break;
+    case kLogEntryLevelError:
+      prefix = "Error: ";
+      break;
+    default:
+      prefix = "";
+      break;
+  }
+
+  Get().log_file_ << prefix << message << endl;
+
 #ifdef VOODOO_LOG_CONSOLE_ENABLED
-void Logger::WriteToConsole(std::string s) { std::cout << s << std::endl; }
-#endif
+  cout << prefix << message << endl;
+#endif  // VOODOO_LOG_CONSOLE_ENABLED
+}
+
+void Log::Throw(std::string message) {
+  using namespace std;
+  Error(message);
+  throw runtime_error(message);
+}
 }  // namespace voodoo

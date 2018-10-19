@@ -12,15 +12,6 @@
     <ClCompile Include="src\font.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
-    <ClCompile Include="src\material.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\mesh.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\text_mesh.cpp">
-      <Filter>graphics</Filter>
-    </ClCompile>
     <ClCompile Include="src\texture.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
@@ -73,9 +64,6 @@
     <ClInclude Include="include\voodoo\mesh.h">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\voodoo\text_mesh.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
     <ClInclude Include="include\voodoo\texture.h">
       <Filter>graphics</Filter>
     </ClInclude>
@@ -126,10 +114,12 @@
     </ClInclude>
     <ClInclude Include="include\voodoo\component_factory.h" />
     <ClInclude Include="include\voodoo\engine.h" />
-    <ClInclude Include="include\voodoo\graphics_api.h" />
     <ClInclude Include="include\voodoo\window.h" />
     <ClInclude Include="include\voodoo\rect.h">
       <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\graphics_api.h">
+      <Filter>graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

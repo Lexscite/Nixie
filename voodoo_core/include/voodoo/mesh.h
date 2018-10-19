@@ -16,45 +16,32 @@
 #ifndef VOODOO_MESH_H_
 #define VOODOO_MESH_H_
 
-#include "directx_manager.h"
 #include "vertex.h"
 
-#include <memory>
 #include <vector>
 
 namespace voodoo {
-class Mesh {
+struct Mesh {
  public:
-  Mesh();
-  Mesh(std::vector<VertexPTN> v);
+  Mesh() : vertices(),
+           vertex_count(0),
+           indices(),
+           index_count(0) {}
 
-  bool CreateBuffers();
+  Mesh(std::vector<VertexPTN> v) : vertices(v),
+                                   indices(),
+                                   vertex_count(unsigned long(v.size())),
+                                   index_count(vertex_count) {
+    for (unsigned long i = 0; i < index_count; i++)
+      indices.push_back(i);
+  }
 
-  unsigned long GetVertexCount();
-  unsigned long GetIndexCount();
+ public:
+  unsigned long vertex_count;
+  unsigned long index_count;
 
-  std::vector<VertexPTN> GetVertices();
-  std::vector<unsigned long> GetIndices();
-
-  ID3D11Buffer* GetVertexBuffer();
-  ID3D11Buffer* GetIndexBuffer();
-
- protected:
-  bool CreateVertexBuffer();
-  bool CreateIndexBuffer();
-
- protected:
-  std::shared_ptr<ID3D11Device> device_;
-  std::shared_ptr<ID3D11DeviceContext> device_context_;
-
-  unsigned long v_count_;
-  unsigned long i_count_;
-
-  std::vector<VertexPTN> v_;
-  std::vector<unsigned long> i_;
-
-  ID3D11Buffer* vertex_buffer_;
-  ID3D11Buffer* index_buffer_;
+  std::vector<VertexPTN> vertices;
+  std::vector<unsigned long> indices;
 };
 }  // namespace voodoo
 
