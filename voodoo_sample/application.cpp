@@ -71,8 +71,7 @@ int Application::Run() {
       time_->Tick();
       CalculateFrameStats();
       if (!Update(0.0f)) {
-        // Temporary error exit code
-        return 404;
+        return 1;
       }
     }
   }
@@ -87,22 +86,18 @@ std::shared_ptr<Scene> Application::GetScene() { return scene_; }
 bool Application::Update(float delta_time) {
   using namespace std;
   directx_->BeginScene(scene_->GetClearColor());
-  vector<shared_ptr<Behavior>> behaviors;
   vector<shared_ptr<Renderer>> renderers;
 
   for (auto go : scene_->GetGameObjects()) {
     auto r = go->GetComponent<Renderer>();
     if (r) renderers.push_back(r);
-    for (auto c : go->GetComponents()) {
-      if (c->IsBehavior()) {
-        reinterpret_pointer_cast<Behavior>(c)->Update();
-      }
-    }
+    for (auto c : go->GetComponents())
+      if (c->IsBehavior())
+        static_pointer_cast<Behavior>(c)->Update();
   }
 
-  for (auto r : renderers) {
+  for (auto r : renderers)
     directx_->Render(r, scene_->GetCamera());
-  }
 
   directx_->EndScene();
 

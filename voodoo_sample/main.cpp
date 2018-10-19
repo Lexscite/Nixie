@@ -19,7 +19,7 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
                    LPSTR lpCmdLine, int nShowCmd) {
-  int exit_code = 0;
+  int exit_code = 1;
 
   if (voodoo::Application::Init(hInstance, L"Voodoo Sample")) {
     exit_code = voodoo::Application::Run();
