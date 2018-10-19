@@ -1,11 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\component.cpp" />
-    <ClCompile Include="src\game_object.cpp" />
-    <ClCompile Include="src\logger.cpp" />
-    <ClCompile Include="src\scene.cpp" />
-    <ClCompile Include="src\time.cpp" />
     <ClCompile Include="src\font.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
@@ -16,19 +11,19 @@
       <Filter>graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\transform.cpp">
-      <Filter>components</Filter>
+      <Filter>logic\components</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer.cpp">
-      <Filter>components</Filter>
+      <Filter>logic\components</Filter>
     </ClCompile>
     <ClCompile Include="src\model.cpp">
-      <Filter>components</Filter>
+      <Filter>logic\components</Filter>
     </ClCompile>
     <ClCompile Include="src\camera.cpp">
-      <Filter>components</Filter>
+      <Filter>logic\components</Filter>
     </ClCompile>
     <ClCompile Include="src\text.cpp">
-      <Filter>components</Filter>
+      <Filter>logic\components</Filter>
     </ClCompile>
     <ClCompile Include="src\image_manager.cpp">
       <Filter>assets</Filter>
@@ -36,19 +31,35 @@
     <ClCompile Include="src\mesh_manager.cpp">
       <Filter>assets</Filter>
     </ClCompile>
-    <ClCompile Include="src\component_factory.cpp" />
-    <ClCompile Include="src\engine.cpp" />
-    <ClCompile Include="src\window.cpp" />
     <ClCompile Include="src\directx.cpp">
       <Filter>graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\component.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_object.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\component_factory.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\logger.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\time.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\voodoo\component.h" />
-    <ClInclude Include="include\voodoo\game_object.h" />
-    <ClInclude Include="include\voodoo\logger.h" />
-    <ClInclude Include="include\voodoo\scene.h" />
-    <ClInclude Include="include\voodoo\time.h" />
     <ClInclude Include="include\voodoo\color.h">
       <Filter>math</Filter>
     </ClInclude>
@@ -83,19 +94,19 @@
       <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\transform.h">
-      <Filter>components</Filter>
+      <Filter>logic\components</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\renderer.h">
-      <Filter>components</Filter>
+      <Filter>logic\components</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\model.h">
-      <Filter>components</Filter>
+      <Filter>logic\components</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\camera.h">
-      <Filter>components</Filter>
+      <Filter>logic\components</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\text.h">
-      <Filter>components</Filter>
+      <Filter>logic\components</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\image.h">
       <Filter>graphics</Filter>
@@ -109,9 +120,6 @@
     <ClInclude Include="include\voodoo\asset_manager.h">
       <Filter>assets</Filter>
     </ClInclude>
-    <ClInclude Include="include\voodoo\component_factory.h" />
-    <ClInclude Include="include\voodoo\engine.h" />
-    <ClInclude Include="include\voodoo\window.h" />
     <ClInclude Include="include\voodoo\rect.h">
       <Filter>math</Filter>
     </ClInclude>
@@ -121,6 +129,30 @@
     <ClInclude Include="include\voodoo\directx.h">
       <Filter>graphics</Filter>
     </ClInclude>
+    <ClInclude Include="include\voodoo\component.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\game_object.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\scene.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\component_factory.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\engine.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\logger.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\time.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\window.h">
+      <Filter>system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
@@ -129,11 +161,17 @@
     <Filter Include="math">
       <UniqueIdentifier>{342fcbfb-4ab9-496c-9625-40bad162181e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="components">
-      <UniqueIdentifier>{5f9740b9-b695-4c41-87ca-7addee79cfb9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="assets">
       <UniqueIdentifier>{b814f404-fcd4-45d9-8745-a82ebe762751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system">
+      <UniqueIdentifier>{31bf4913-9c34-4633-8473-e48e2c281d9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logic">
+      <UniqueIdentifier>{71486b65-2427-4a00-8515-c557e1745200}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logic\components">
+      <UniqueIdentifier>{5f9740b9-b695-4c41-87ca-7addee79cfb9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

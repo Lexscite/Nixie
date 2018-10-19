@@ -33,30 +33,34 @@ class GameObject final : public std::enable_shared_from_this<GameObject> {
   bool Init(std::shared_ptr<Scene> scene);
   bool Update();
 
-  bool AddComponent(std::shared_ptr<Component> new_component);
-  std::shared_ptr<Component> GetComponent(std::string name);
   std::vector<std::shared_ptr<Component>> GetComponents();
 
-  std::string GetName() { return name_; }
-  std::shared_ptr<Scene> GetScene() { return scene_; }
-  std::shared_ptr<GameObject> GetParent() { return parent_; }
-  std::shared_ptr<Transform> GetTransform() { return transform_; }
+  std::string GetName();
+  std::shared_ptr<Scene> GetScene();
+  std::shared_ptr<GameObject> GetParent();
+  std::shared_ptr<Transform> GetTransform();
 
   template <class T>
   std::shared_ptr<T> GetComponent() {
     using namespace std;
     auto name = string(typeid(T).name()).erase(0, 14);
-    auto component = GetComponent(name);
-    return static_pointer_cast<T>(component);
+    auto result = components_.find(name);
+    if (result == components_.end()) {
+      return nullptr;
+    } else {
+      return static_pointer_cast<T>(result->second);
+    }
   }
 
   template <class T, class... Arg_T>
   std::shared_ptr<T> AddComponent(Arg_T&&... args) {
     using namespace std;
-    if (GetComponent<T>())
+    auto name = string(typeid(T).name()).erase(0, 14);
+    if (GetComponent<T>()) {
+      Log::Warning("GameObject " + GetName() + " already have " + name + " component");
       return nullptr;
+    }
     auto component = make_shared<T>(forward<Arg_T>(args)...);
-    auto name = component->GetName();
     components_.insert(pair<string, shared_ptr<Component>>(name, component));
     return component;
   }

@@ -31,7 +31,7 @@ bool GameObject::Init(std::shared_ptr<Scene> scene) {
   for (auto component : GetComponents()) {
     if (!component->Init(shared_from_this())) {
       Log::Info("Failed to initialize component \"" + component->GetName() +
-                    "\"");
+                "\"");
       return false;
     }
   }
@@ -43,35 +43,12 @@ bool GameObject::Update() {
   for (auto component : GetComponents()) {
     if (!component->Update()) {
       Log::Info("Failed to update component \"" + component->GetName() +
-                    "\"");
+                "\"");
       return false;
     }
   }
 
   return true;
-}
-
-bool GameObject::AddComponent(std::shared_ptr<Component> new_component) {
-  std::string name = new_component->GetName();
-
-  if (GetComponent(name) != nullptr) {
-    return false;
-  }
-
-  components_.insert(
-      std::pair<std::string, std::shared_ptr<Component>>(name, new_component));
-
-  return true;
-}
-
-std::shared_ptr<Component> GameObject::GetComponent(std::string name) {
-  auto result = components_.find(name);
-
-  if (result == components_.end()) {
-    return nullptr;
-  } else {
-    return result->second;
-  }
 }
 
 std::vector<std::shared_ptr<Component>> GameObject::GetComponents() {
@@ -83,4 +60,9 @@ std::vector<std::shared_ptr<Component>> GameObject::GetComponents() {
 
   return result;
 }
+
+std::string GameObject::GetName() { return name_; }
+std::shared_ptr<Scene> GameObject::GetScene() { return scene_; }
+std::shared_ptr<GameObject> GameObject::GetParent() { return parent_; }
+std::shared_ptr<Transform> GameObject::GetTransform() { return transform_; }
 }  // namespace voodoo

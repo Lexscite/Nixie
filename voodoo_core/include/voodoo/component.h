@@ -30,8 +30,6 @@ class Component : public std::enable_shared_from_this<Component> {
   virtual bool Init(std::shared_ptr<GameObject> game_object) final;
   virtual bool Update();
 
-  std::string GetName();
-
   std::shared_ptr<Scene> GetScene();
   std::shared_ptr<GameObject> GetGameObject();
   std::shared_ptr<Transform> GetTransform();

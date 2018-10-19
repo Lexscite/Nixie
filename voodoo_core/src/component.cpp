@@ -38,11 +38,6 @@ bool Component::Update() {
 
 bool Component::OnUpdate() { return true; }
 
-std::string Component::GetName() {
-  // TODO: Very strange stuff going on here so get it the hell out
-  return std::string(typeid(*shared_from_this()).name()).erase(0, 14);
-}
-
 std::shared_ptr<Scene> Component::GetScene() {
   return game_object_->GetScene();
 }
