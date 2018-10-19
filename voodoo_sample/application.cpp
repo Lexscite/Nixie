@@ -42,7 +42,7 @@ bool Application::Init(HINSTANCE instance, std::wstring name) {
   }
 
   directx_ = std::make_shared<DirectX>();
-  if (!directx_->Init(window_, true, false)) {
+  if (!directx_->Init(window_)) {
     Log::Error("Failed to initialize DirectX");
     return false;
   }
@@ -100,7 +100,7 @@ bool Application::Update(float delta_time) {
   }
 
   for (auto r : renderers) {
-    directx_->Render(r);
+    directx_->Render(r, scene_->GetCamera());
   }
 
   //if (!scene_->Update()) {

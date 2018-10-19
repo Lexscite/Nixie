@@ -20,12 +20,13 @@
 
 namespace voodoo {
 class Renderer;
+class Camera;
 
 class GraphicsAPI {
  public:
-  virtual bool Init(std::shared_ptr<Window> window,
-                    bool vsync, bool fullscreen) = 0;
-  virtual bool Render(std::shared_ptr<Renderer> renderer) = 0;
+  virtual bool Init(std::shared_ptr<Window> window) = 0;
+  virtual bool Render(std::shared_ptr<Renderer> renderer,
+                      std::shared_ptr<Camera> camera) = 0;
 };
 }  // namespace voodoo
 

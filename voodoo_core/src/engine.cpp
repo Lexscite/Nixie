@@ -26,7 +26,7 @@ bool Engine::Init(HINSTANCE instance, std::wstring name) {
   return true;
 
   graphics_api_ = std::make_shared<DirectX>();
-  if (!graphics_api_->Init(window_, true, false)) {
+  if (!graphics_api_->Init(window_)) {
     Log::Info("Failed to initialize DirectX");
     return false;
   }

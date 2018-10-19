@@ -37,9 +37,9 @@ namespace voodoo {
 class DirectX : public GraphicsAPI {
  public:
   DirectX();
-  virtual bool Init(std::shared_ptr<Window> window,
-                    bool vsync_enabled, bool fullscreen_enabled) override;
-  virtual bool Render(std::shared_ptr<Renderer> renderer) override;
+  virtual bool Init(std::shared_ptr<Window> window) override;
+  virtual bool Render(std::shared_ptr<Renderer> renderer,
+                      std::shared_ptr<Camera> camera) override;
 
   void Release();
   void BeginScene(const Color& c);
@@ -47,21 +47,29 @@ class DirectX : public GraphicsAPI {
 
   void ToggleWireframeMode();
   void ToggleBlendMode();
+
   std::shared_ptr<ID3D11Device> GetDevice();
   std::shared_ptr<ID3D11DeviceContext> GetDeviceContext();
 
  private:
-  bool InitDevice();
+  bool CreateDevice();
+  bool CreateSwapChain(std::shared_ptr<Window> window);
+  bool CreateRenderTargetView();
+  bool CreateDepthBuffer(std::shared_ptr<Window> window);
+  bool CreateDepthStencilView();
+  bool CreateDepthStencilStates();
   bool CreateRasterizerStates();
   bool CreateBlendStates();
+  bool CreateViewport(std::shared_ptr<Window> window);
 
  private:
   bool vsync_enabled_;
   bool fullscreen_enabled_;
-  bool msaa_enabled_;
   bool wireframe_mode_enabled_;
   bool alpha_blending_enabled_;
-  UINT adapter_memory_;
+  bool msaa_enabled_;
+  unsigned int msaa_quality_;
+  unsigned int adapter_memory_;
   char adapter_desc_[128];
 
   std::shared_ptr<ID3D11Device> device_;
