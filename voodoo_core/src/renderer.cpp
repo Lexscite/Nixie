@@ -14,9 +14,7 @@
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "../include/voodoo/renderer.h"
-#include "../include/voodoo/camera.h"
 #include "../include/voodoo/image_manager.h"
-#include "../include/voodoo/scene.h"
 
 namespace voodoo {
 Renderer::Renderer(std::shared_ptr<ID3D11Device> device,

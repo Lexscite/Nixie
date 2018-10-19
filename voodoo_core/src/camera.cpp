@@ -14,10 +14,6 @@
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "../include/voodoo/camera.h"
-#include "../include/voodoo/quaternion.h"
-#include "../include/voodoo/vector.h"
-#include "../include/voodoo/matrix.h"
-#include "../include/voodoo/math.h"
 
 namespace voodoo
 {

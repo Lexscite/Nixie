@@ -14,7 +14,6 @@
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "../include/voodoo/text.h"
-#include "../include/voodoo/camera.h"
 
 namespace voodoo {
 Text::Text(std::string text, std::string vs_path, std::string ps_path,

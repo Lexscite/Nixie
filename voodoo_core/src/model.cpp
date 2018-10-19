@@ -16,9 +16,6 @@
 #include "../include/voodoo/model.h"
 #include "../include/voodoo/camera.h"
 #include "../include/voodoo/mesh_manager.h"
-#include "../include/voodoo/time.h"
-
-#include <iostream>
 
 namespace voodoo {
 Model::Model(std::string mesh_path, std::string vs_path, std::string ps_path,
