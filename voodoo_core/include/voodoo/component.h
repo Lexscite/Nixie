@@ -27,12 +27,13 @@
 namespace voodoo {
 class Component : public std::enable_shared_from_this<Component> {
  public:
-  virtual bool Init(std::shared_ptr<GameObject> game_object) final;
-  virtual bool Update();
-
   std::shared_ptr<Scene> GetScene();
   std::shared_ptr<GameObject> GetGameObject();
   std::shared_ptr<Transform> GetTransform();
+
+  // TODO: find another way
+  void SetGameObject(std::shared_ptr<GameObject> go);
+  virtual bool IsBehavior();
 
   template <class T>
   std::shared_ptr<T> GetComponent() {
@@ -44,10 +45,6 @@ class Component : public std::enable_shared_from_this<Component> {
     using namespace std;
     return game_object_->AddComponent(forward<Arg_T>(args)...);
   }
-
- private:
-  virtual bool OnInit();
-  virtual bool OnUpdate();
 
  protected:
   std::shared_ptr<GameObject> game_object_;

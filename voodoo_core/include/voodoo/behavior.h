@@ -13,41 +13,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef VOODOO_TEXT_H_
-#define VOODOO_TEXT_H_
+#ifndef VOODOO_BEHAVIOR_H_
+#define VOODOO_BEHAVIOR_H_
 
-#include "behavior.h"
-#include "material.h"
-#include "font.h"
-#include "mesh.h"
-#include "renderer.h"
+#include "component.h"
 
 namespace voodoo {
-class Font;
-struct Material;
-
-class Text : public Behavior {
+class Behavior : public Component {
  public:
-  Text(std::string text, std::string vs_path, std::string ps_path,
-       std::string texture_path);
+  virtual bool Init() final;
+  virtual bool Update() final;
+  virtual bool IsBehavior() override final;
 
  private:
-  virtual bool OnInit() override;
-
-  std::shared_ptr<Mesh> GenerateMesh();
-  std::vector<VertexPTN> GenerateChar(Font::CharData c, float offset);
-
- private:
-  std::string text_;
-
-  std::string vs_path_;
-  std::string ps_path_;
-  std::string texture_path_;
-
-  std::shared_ptr<Font> font_;
-  std::shared_ptr<Renderer> renderer_;
-  std::shared_ptr<Mesh> mesh_;
-  std::shared_ptr<Material> material_;
+  virtual bool OnInit();
+  virtual bool OnUpdate();
 };
 }  // namespace voodoo
 

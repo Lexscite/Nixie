@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\behavior.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\component.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -116,6 +117,7 @@
     <ClCompile Include="src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\voodoo\behavior.h" />
     <ClInclude Include="include\voodoo\engine.h" />
     <ClInclude Include="include\voodoo\graphics_api.h" />
     <ClInclude Include="include\voodoo\image.h" />

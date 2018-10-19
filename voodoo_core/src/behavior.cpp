@@ -13,32 +13,22 @@
 // You should have received a copy of the GNU General Public License
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef VOODOO_CAMERA_H_
-#define VOODOO_CAMERA_H_
-
-#include "behavior.h"
+#include "../include/voodoo/behavior.h"
 
 namespace voodoo {
-class Camera : public Behavior {
- public:
-  Camera();
+bool Behavior::Init() {
+  if (!OnInit())
+    return false;
+  return true;
+}
 
-  Matrix4x4f GetViewMatrix();
-  Matrix4x4f GetProjectionMatrix();
+bool Behavior::Update() {
+  if (!OnUpdate())
+    return false;
+  return true;
+}
 
- private:
-  virtual bool OnInit() override;
-  virtual bool OnUpdate() override;
-
-  void CalculateViewMatrix();
-  void CalculateProjectionMatrix();
-
- private:
-  float fov_, aspect_ratio_, z_near_, z_far_;
-
-  Matrix4x4f view_matrix_;
-  Matrix4x4f projection_matrix_;
-};
+bool Behavior::IsBehavior() { return true; }
+bool Behavior::OnInit() { return true; }
+bool Behavior::OnUpdate() { return true; }
 }  // namespace voodoo
-
-#endif

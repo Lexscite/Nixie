@@ -21,39 +21,16 @@
 namespace voodoo {
 Scene::Scene() : clear_color_(Color(100, 100, 100)) {}
 
-bool Scene::Init() {
-  for (auto go : GetGameObjects()) {
-    if (!go->Init(shared_from_this())) {
-      Log::Info("Failed to initialize actor \"" + go->GetName() + "\"");
-      return false;
-    }
-  }
-
-  return true;
-}
-
-bool Scene::Update() {
-  for (auto go : GetGameObjects()) {
-    if (!go->Update()) {
-      Log::Error("Failed to update game object \"" + go->GetName() + "\"");
-      return false;
-    }
-  }
-
-  return true;
-}
-
-bool Scene::AddGameObject(std::shared_ptr<GameObject> go) {
+std::shared_ptr<GameObject> Scene::AddGameObject(std::string name) {
   using namespace std;
-  string name = go->GetName();
-
   if (GetGameObject(name)) {
-    Log::Error("Failed to add game object \"" + name + "\"");
-    return false;
+    Log::Warning("GameObject with name \"" + name + "\" already exists");
+    return nullptr;
   }
 
+  auto go = make_shared<GameObject>(name, shared_from_this());
   game_objects_.insert(pair<string, shared_ptr<GameObject>>(name, go));
-  return true;
+  return go;
 }
 
 std::shared_ptr<GameObject> Scene::GetGameObject(std::string name) {
@@ -68,4 +45,8 @@ std::vector<std::shared_ptr<GameObject>> Scene::GetGameObjects() {
     result.push_back(it.second);
   return result;
 }
+
+Color Scene::GetClearColor() { return clear_color_; }
+std::shared_ptr<Camera> Scene::GetCamera() { return camera_; }
+void Scene::SetCamera(std::shared_ptr<Camera> camera) { camera_ = camera; }
 }  // namespace voodoo

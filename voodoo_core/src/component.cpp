@@ -16,28 +16,6 @@
 #include "../include/voodoo/component.h"
 
 namespace voodoo {
-bool Component::Init(std::shared_ptr<GameObject> game_object) {
-  game_object_ = game_object;
-
-  if (!OnInit()) {
-    return false;
-  }
-
-  return true;
-}
-
-bool Component::OnInit() { return true; }
-
-bool Component::Update() {
-  if (!OnUpdate()) {
-    return false;
-  }
-
-  return true;
-}
-
-bool Component::OnUpdate() { return true; }
-
 std::shared_ptr<Scene> Component::GetScene() {
   return game_object_->GetScene();
 }
@@ -47,4 +25,10 @@ std::shared_ptr<GameObject> Component::GetGameObject() { return game_object_; }
 std::shared_ptr<Transform> Component::GetTransform() {
   return game_object_->GetTransform();
 }
+
+void Component::SetGameObject(std::shared_ptr<GameObject> go) {
+  game_object_ = go;
+}
+
+bool Component::IsBehavior() { return false; }
 }  // namespace voodoo

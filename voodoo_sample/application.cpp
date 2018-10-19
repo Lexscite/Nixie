@@ -17,10 +17,10 @@
 
 #include "application.h"
 
-#include <voodoo/renderer.h>
 #include <voodoo/camera.h>
 #include <voodoo/logger.h>
 #include <voodoo/model.h>
+#include <voodoo/renderer.h>
 #include <voodoo/text.h>
 
 namespace voodoo {
@@ -32,30 +32,30 @@ std::shared_ptr<DirectX> Application::directx_;
 std::shared_ptr<Scene> Application::scene_;
 
 bool Application::Init(HINSTANCE instance, std::wstring name) {
+  using namespace std;
   name_ = name;
   time_ = Time::Get();
 
-  window_ = std::make_shared<Window>();
+  window_ = make_shared<Window>();
   if (!window_->Init(instance, 800, 600, name_)) {
     Log::Error("Failed to initialize window");
     return false;
   }
 
-  directx_ = std::make_shared<DirectX>();
+  directx_ = make_shared<DirectX>();
   if (!directx_->Init(window_)) {
     Log::Error("Failed to initialize DirectX");
     return false;
   }
 
-  if (!LoadScene()) {
-    Log::Error("Failed to load scene");
-    return false;
-  } else {
-    if (!scene_->Init()) {
-      Log::Error("Failed to initialize scene");
-      return false;
-    }
-  }
+  scene_ = CreateScene();
+  for (auto go : scene_->GetGameObjects())
+    for (auto c : go->GetComponents())
+      if (c->IsBehavior())
+        if (!static_pointer_cast<Behavior>(c)->Init()) {
+          Log::Error("Failed to initialize component");
+          return false;
+        }
 
   return true;
 }
@@ -87,26 +87,22 @@ std::shared_ptr<Scene> Application::GetScene() { return scene_; }
 bool Application::Update(float delta_time) {
   using namespace std;
   directx_->BeginScene(scene_->GetClearColor());
+  vector<shared_ptr<Behavior>> behaviors;
   vector<shared_ptr<Renderer>> renderers;
 
   for (auto go : scene_->GetGameObjects()) {
     auto r = go->GetComponent<Renderer>();
-    if (r) {
-      renderers.push_back(r);
-    }
+    if (r) renderers.push_back(r);
     for (auto c : go->GetComponents()) {
-      c->Update();
+      if (c->IsBehavior()) {
+        reinterpret_pointer_cast<Behavior>(c)->Update();
+      }
     }
   }
 
   for (auto r : renderers) {
     directx_->Render(r, scene_->GetCamera());
   }
-
-  //if (!scene_->Update()) {
-  //  Log::Info("Failed to update scene");
-  //  return false;
-  //}
 
   directx_->EndScene();
 
@@ -136,44 +132,38 @@ void Application::CalculateFrameStats() {
   }
 }
 
-bool Application::LoadScene() {
+std::shared_ptr<Scene> Application::CreateScene() {
   auto scene = std::make_shared<Scene>();
 
-  auto camera = std::make_shared<GameObject>("Camera");
+  auto camera = scene->AddGameObject("Camera");
   camera->AddComponent<Camera>();
   camera->GetTransform()->SetPosition(3.75f, 5, 3.75f);
   camera->GetTransform()->SetRotationByDegrees(45, 225, 0);
-  scene->AddGameObject(camera);
-
-  auto cube = std::make_shared<GameObject>("Cube");
-  cube->AddComponent<Renderer>(
-    directx_->GetDevice(),
-    directx_->GetDeviceContext());
-  cube->AddComponent<Model>(
-    "../assets/meshes/cube.mesh",
-    "../assets/shaders/default_vs.cso",
-    "../assets/shaders/default_ps.cso",
-    "../assets/textures/placeholder.png");
-  cube->GetTransform()->SetPosition(0, 0, 0);
-  scene->AddGameObject(cube);
-
-  auto text = std::make_shared<GameObject>("Text");
-  text->AddComponent<Renderer>(
-    directx_->GetDevice(),
-    directx_->GetDeviceContext());
-  text->AddComponent<Text>(
-    "Hello World",
-    "../assets/shaders/font_vs.cso",
-    "../assets/shaders/font_ps.cso",
-    "../assets/textures/fonts/consolas.png");
-  text->GetTransform()->SetPosition(1, 1, 1);
-  text->GetTransform()->SetScale(0.005f);
-  scene->AddGameObject(text);
-
   scene->SetCamera(camera->GetComponent<Camera>());
 
-  scene_ = scene;
+  auto cube = scene->AddGameObject("Cube");
+  cube->AddComponent<Renderer>(
+      directx_->GetDevice(),
+      directx_->GetDeviceContext());
+  cube->AddComponent<Model>(
+      "../assets/meshes/cube.mesh",
+      "../assets/shaders/default_vs.cso",
+      "../assets/shaders/default_ps.cso",
+      "../assets/textures/placeholder.png");
+  cube->GetTransform()->SetPosition(0, 0, 0);
 
-  return true;
+  auto text = scene->AddGameObject("Text");
+  text->AddComponent<Renderer>(
+      directx_->GetDevice(),
+      directx_->GetDeviceContext());
+  text->AddComponent<Text>(
+      "Hello World",
+      "../assets/shaders/font_vs.cso",
+      "../assets/shaders/font_ps.cso",
+      "../assets/textures/fonts/consolas.png");
+  text->GetTransform()->SetPosition(1, 1, 1);
+  text->GetTransform()->SetScale(0.005f);
+
+  return scene;
 }
 }  // namespace voodoo

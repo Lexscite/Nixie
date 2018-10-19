@@ -19,50 +19,23 @@
 #include "../include/voodoo/transform.h"
 
 namespace voodoo {
-GameObject::GameObject(std::string name)
+GameObject::GameObject(std::string name, std::shared_ptr<Scene> scene)
     : name_(name),
-      scene_(nullptr),
+      scene_(scene),
       parent_(nullptr),
       transform_(new Transform(std::shared_ptr<GameObject>(this))) {}
 
-bool GameObject::Init(std::shared_ptr<Scene> scene) {
-  scene_ = scene;
-
-  for (auto component : GetComponents()) {
-    if (!component->Init(shared_from_this())) {
-      Log::Info("Failed to initialize component \"" + component->GetName() +
-                "\"");
-      return false;
-    }
-  }
-
-  return true;
-}
-
-bool GameObject::Update() {
-  for (auto component : GetComponents()) {
-    if (!component->Update()) {
-      Log::Info("Failed to update component \"" + component->GetName() +
-                "\"");
-      return false;
-    }
-  }
-
-  return true;
-}
+std::string GameObject::GetName() { return name_; }
+std::shared_ptr<Scene> GameObject::GetScene() { return scene_; }
+std::shared_ptr<GameObject> GameObject::GetParent() { return parent_; }
+std::shared_ptr<Transform> GameObject::GetTransform() { return transform_; }
 
 std::vector<std::shared_ptr<Component>> GameObject::GetComponents() {
   std::vector<std::shared_ptr<Component>> result;
-
   for (auto it : components_) {
     result.push_back(it.second);
   }
 
   return result;
 }
-
-std::string GameObject::GetName() { return name_; }
-std::shared_ptr<Scene> GameObject::GetScene() { return scene_; }
-std::shared_ptr<GameObject> GameObject::GetParent() { return parent_; }
-std::shared_ptr<Transform> GameObject::GetTransform() { return transform_; }
 }  // namespace voodoo

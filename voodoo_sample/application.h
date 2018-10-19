@@ -35,7 +35,7 @@ class Application final {
  private:
   static bool Update(float delta_time);
   static void CalculateFrameStats();
-  static bool LoadScene();
+  static std::shared_ptr<Scene> CreateScene();
 
  private:
   static std::wstring name_;

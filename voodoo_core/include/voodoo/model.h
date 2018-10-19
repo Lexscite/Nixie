@@ -16,13 +16,13 @@
 #ifndef VOODOO_MODEL_H_
 #define VOODOO_MODEL_H_
 
-#include "component.h"
+#include "behavior.h"
 #include "material.h"
 #include "mesh.h"
 #include "renderer.h"
 
 namespace voodoo {
-class Model : public Component {
+class Model : public Behavior {
  public:
   Model(std::string mesh_file_path, std::string vs_shader_path,
         std::string ps_shader_path, std::string texture_path);

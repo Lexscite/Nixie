@@ -28,17 +28,13 @@ class Transform;
 
 class GameObject final : public std::enable_shared_from_this<GameObject> {
  public:
-  GameObject(std::string name);
-
-  bool Init(std::shared_ptr<Scene> scene);
-  bool Update();
-
-  std::vector<std::shared_ptr<Component>> GetComponents();
+  GameObject(std::string name, std::shared_ptr<Scene> scene);
 
   std::string GetName();
   std::shared_ptr<Scene> GetScene();
   std::shared_ptr<GameObject> GetParent();
   std::shared_ptr<Transform> GetTransform();
+  std::vector<std::shared_ptr<Component>> GetComponents();
 
   template <class T>
   std::shared_ptr<T> GetComponent() {
@@ -61,6 +57,7 @@ class GameObject final : public std::enable_shared_from_this<GameObject> {
       return nullptr;
     }
     auto component = make_shared<T>(forward<Arg_T>(args)...);
+    component->SetGameObject(shared_from_this());
     components_.insert(pair<string, shared_ptr<Component>>(name, component));
     return component;
   }
