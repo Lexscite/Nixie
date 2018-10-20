@@ -19,7 +19,7 @@
 namespace voodoo {
 class Time {
  public:
-  static Time* Get();
+  Time();
 
   void Start();
   void Stop();
@@ -27,16 +27,11 @@ class Time {
   void Tick();
 
   float GetTime() const;
-  static float GetDeltaTime();
+  float GetDeltaTime();
 
  private:
-  Time();
-
- private:
-  static Time* singleton_;
-
   double seconds_per_count_;
-  double delta_time_;
+  float delta_time_;
 
   __int64 base_time_;
   __int64 paused_time_;

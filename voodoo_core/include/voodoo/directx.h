@@ -20,26 +20,23 @@
 #include "graphics_api.h"
 #include "window.h"
 
-#include <map>
-
 namespace voodoo {
 class DirectX : public GraphicsAPI {
  public:
   DirectX();
+
   virtual bool Init(std::shared_ptr<Window> window) override;
-  virtual bool Render(std::shared_ptr<Renderer> renderer,
-                      std::shared_ptr<Camera> camera) override;
+  virtual bool Render(std::shared_ptr<Scene>) override;
   virtual bool CreateMeshBuffers(std::shared_ptr<Mesh> mesh) override;
-
-  void Release();
-  void BeginScene(const Color& c);
-  void EndScene();
-
+  virtual void Release() override;
 
   void ToggleWireframeMode();
   void ToggleBlendMode();
 
  private:
+  void BeginScene(const Color& c);
+  void EndScene();
+
   bool CreateDevice();
   bool CreateSwapChain(std::shared_ptr<Window> window);
   bool CreateRenderTargetView();

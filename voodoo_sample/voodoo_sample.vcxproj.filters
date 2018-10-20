@@ -4,30 +4,9 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{105da953-ac5f-40ab-bb72-5565dd929577}</UniqueIdentifier>
     </Filter>
-    <Filter Include="network">
-      <UniqueIdentifier>{814b1610-46d2-4acc-bdce-8d99f876b613}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="application.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="connection.cpp">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="packet.cpp">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="application.h" />
-    <ClInclude Include="connection.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="packet.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders\default_ps.hlsl">

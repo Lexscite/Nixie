@@ -61,6 +61,12 @@
     <ClCompile Include="src\behavior.cpp">
       <Filter>logic</Filter>
     </ClCompile>
+    <ClCompile Include="src\connection.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\packet.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\voodoo\color.h">
@@ -159,6 +165,12 @@
     <ClInclude Include="include\voodoo\behavior.h">
       <Filter>logic</Filter>
     </ClInclude>
+    <ClInclude Include="include\voodoo\packet.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\connection.h">
+      <Filter>network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
@@ -178,6 +190,9 @@
     </Filter>
     <Filter Include="logic\components">
       <UniqueIdentifier>{5f9740b9-b695-4c41-87ca-7addee79cfb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{4f049438-a39c-4eb7-9c5e-e25c047dbde1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

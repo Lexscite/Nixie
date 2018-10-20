@@ -30,6 +30,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\component_factory.cpp" />
+    <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\engine.cpp" />
     <ClCompile Include="src\game_object.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -50,6 +51,7 @@
       </PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\model.cpp" />
+    <ClCompile Include="src\packet.cpp" />
     <ClCompile Include="src\renderer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -118,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\voodoo\behavior.h" />
+    <ClInclude Include="include\voodoo\connection.h" />
     <ClInclude Include="include\voodoo\engine.h" />
     <ClInclude Include="include\voodoo\graphics_api.h" />
     <ClInclude Include="include\voodoo\image.h" />
@@ -129,6 +132,7 @@
     <ClInclude Include="include\voodoo\material.h" />
     <ClInclude Include="include\voodoo\mesh.h" />
     <ClInclude Include="include\voodoo\model.h" />
+    <ClInclude Include="include\voodoo\packet.h" />
     <ClInclude Include="include\voodoo\renderer.h" />
     <ClInclude Include="include\voodoo\shader.h" />
     <ClInclude Include="include\voodoo\text.h" />

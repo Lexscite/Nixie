@@ -20,23 +20,32 @@
 #include "logger.h"
 #include "time.h"
 #include "window.h"
-
-#include <memory>
+#include "scene.h"
 
 namespace voodoo {
 class Engine {
  public:
   bool Init(HINSTANCE instance, std::wstring name);
-  void Run();
+  void Release();
+  int Run();
+  bool LoadScene(std::shared_ptr<Scene> scene);
 
+  std::wstring GetName();
   std::shared_ptr<Time> GetTime();
   std::shared_ptr<Window> GetWindow();
   std::shared_ptr<GraphicsAPI> GetGraphicsAPI();
+  std::shared_ptr<Scene> GetScene();
 
  private:
+  void Update();
+  void UpdateCaption();
+
+ private:
+  std::wstring name_;
   std::shared_ptr<Time> time_;
   std::shared_ptr<Window> window_;
   std::shared_ptr<GraphicsAPI> graphics_api_;
+  std::shared_ptr<Scene> scene_;
 };
 }  // namespace voodoo
 

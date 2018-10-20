@@ -16,11 +16,11 @@
 #ifndef VOODOO_WINDOW_H_
 #define VOODOO_WINDOW_H_
 
-#include "rect.h"
-
 #ifdef _WIN32
 #include <windows.h>
 #endif  // _WIN32
+
+#include "rect.h"
 
 #include <string>
 

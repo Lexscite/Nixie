@@ -18,6 +18,10 @@
 
 #include "packet.h"
 
+#include <windows.h>
+#include <string>
+#include <iostream>
+
 namespace voodoo {
 class Connection {
  public:

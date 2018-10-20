@@ -22,14 +22,6 @@
 #endif  // _WIN32
 
 namespace voodoo {
-Time* Time::singleton_;
-
-Time* Time::Get() {
-  if (singleton_ == nullptr) singleton_ = new Time;
-
-  return singleton_;
-}
-
 Time::Time()
     : seconds_per_count_(0),
       delta_time_(-1),
@@ -85,15 +77,14 @@ void Time::Tick() {
   __int64 current_time;
   QueryPerformanceCounter((LARGE_INTEGER*)&current_time);
   current_time_ = current_time;
-  delta_time_ = (current_time_ - previous_time_) * seconds_per_count_;
+  delta_time_ = static_cast<float>((current_time_ - previous_time_) *
+                                   seconds_per_count_);
   previous_time_ = current_time_;
 
   if (delta_time_ < 0) delta_time_ = 0;
 }
 
-float Time::GetDeltaTime() {
-  return static_cast<float>(Time::Get()->delta_time_);
-}
+float Time::GetDeltaTime() { return delta_time_; }
 
 float Time::GetTime() const {
   if (is_stopped_)

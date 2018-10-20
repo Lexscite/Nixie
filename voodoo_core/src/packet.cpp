@@ -13,9 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
-
-#include "packet.h"
+#include "../include/voodoo/packet.h"
 
 namespace voodoo {
 Packet::Packet() {}

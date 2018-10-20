@@ -31,12 +31,12 @@
 
 #include <map>
 #include <memory>
+#include <vector>
 
 namespace voodoo {
-class Camera;
-class Renderer;
-class Window;
 struct Mesh;
+class Scene;
+class Window;
 
 class GraphicsAPI {
  protected:
@@ -49,9 +49,9 @@ class GraphicsAPI {
 
  public:
   virtual bool Init(std::shared_ptr<Window> window) = 0;
-  virtual bool Render(std::shared_ptr<Renderer> renderer,
-                      std::shared_ptr<Camera> camera) = 0;
+  virtual bool Render(std::shared_ptr<Scene> scene) = 0;
   virtual bool CreateMeshBuffers(std::shared_ptr<Mesh> mesh) = 0;
+  virtual void Release() = 0;
 
   DevicePtr GetDevice() { return device_; }
   DeviceContextPtr GetDeviceContext() { return device_context_; }

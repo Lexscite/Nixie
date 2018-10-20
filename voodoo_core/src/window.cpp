@@ -22,6 +22,7 @@ bool Window::Init(HINSTANCE instance,
   WNDCLASSEX wcex;
   std::wstring wc_name = caption + L"Window";
   DWORD style = WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU;
+  DWORD ex_style = WS_EX_APPWINDOW;
 
   memset(&wcex, 0, sizeof(wcex));
   wcex.cbClsExtra = NULL;
@@ -34,14 +35,14 @@ bool Window::Init(HINSTANCE instance,
   wcex.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
   wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
   wcex.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
-  wcex.lpszMenuName = NULL;
+  wcex.lpszMenuName = caption.c_str();
   wcex.lpszClassName = wc_name.c_str();
   if (!RegisterClassEx(&wcex)) {
     return false;
   }
 
   handle_ = CreateWindowEx(
-      WS_EX_APPWINDOW,
+      ex_style,
       wc_name.c_str(),
       caption.c_str(),
       style,
@@ -55,9 +56,7 @@ bool Window::Init(HINSTANCE instance,
   int x = GetSystemMetrics(SM_CXSCREEN) / 2 - width / 2;
   int y = GetSystemMetrics(SM_CYSCREEN) / 2 - height / 2;
   RECT wr = {x, y, x + width, y + height};
-  DWORD ws = static_cast<DWORD>(GetWindowLongPtr(handle_, GWL_STYLE));
-  DWORD wexs = static_cast<DWORD>(GetWindowLongPtr(handle_, GWL_EXSTYLE));
-  AdjustWindowRectEx(&wr, ws, false, wexs);
+  AdjustWindowRectEx(&wr, style, false, ex_style);
   SetWindowPos(handle_, NULL,
                wr.left, wr.top,
                wr.right - wr.left, wr.bottom - wr.top,

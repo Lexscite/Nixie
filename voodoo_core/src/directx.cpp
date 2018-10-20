@@ -18,8 +18,6 @@
 #include "../include/voodoo/logger.h"
 #include "../include/voodoo/renderer.h"
 
-#include <vector>
-
 namespace voodoo {
 DirectX::DirectX()
     : swap_chain_(nullptr),
@@ -90,50 +88,91 @@ bool DirectX::Init(std::shared_ptr<Window> window) {
   return true;
 }
 
-bool DirectX::Render(std::shared_ptr<Renderer> renderer,
-                     std::shared_ptr<Camera> camera) {
-  auto wm = renderer->GetTransform()->CalculateWorldMatrix();
-  auto vm = camera->GetViewMatrix();
-  auto pm = camera->GetProjectionMatrix();
+bool DirectX::Render(std::shared_ptr<Scene> scene) {
+  using namespace std;
+  vector<shared_ptr<Renderer>> renderers;
+  auto camera = scene->GetCamera();
 
-  auto material = renderer->GetMaterial();
-  auto mesh = renderer->GetMesh();
-  auto shader = material->shader;
-  auto srv = material->texture->srv;
-  auto buffers = mesh_buffers_[mesh];
-  auto v_buffer = buffers.first;
-  auto i_buffer = buffers.second;
+  BeginScene(scene->GetClearColor());
 
-  if (!shader->Update(wm, vm, pm, srv)) {
-    throw std::runtime_error("Failed to update shader");
+  for (auto go : scene->GetGameObjects()) {
+    auto r = go->GetComponent<Renderer>();
+    if (r) renderers.push_back(r);
   }
 
-  unsigned int stride = sizeof(mesh->vertices[0]);
-  unsigned int offset = 0;
+  for (auto renderer : renderers) {
+    auto wm = renderer->GetTransform()->CalculateWorldMatrix();
+    auto vm = camera->GetViewMatrix();
+    auto pm = camera->GetProjectionMatrix();
 
-  device_context_->IASetVertexBuffers(0, 1, &v_buffer, &stride, &offset);
-  device_context_->IASetIndexBuffer(i_buffer, DXGI_FORMAT_R32_UINT, 0);
-  device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    auto material = renderer->GetMaterial();
+    auto mesh = renderer->GetMesh();
+    auto shader = material->shader;
+    auto srv = material->texture->srv;
+    auto buffers = mesh_buffers_[mesh];
+    auto v_buffer = buffers.first;
+    auto i_buffer = buffers.second;
 
-  device_context_->DrawIndexed(mesh->index_count, 0, 0);
+    if (!shader->Update(wm, vm, pm, srv)) {
+      throw std::runtime_error("Failed to update shader");
+    }
+
+    unsigned int stride = sizeof(mesh->vertices[0]);
+    unsigned int offset = 0;
+
+    device_context_->IASetVertexBuffers(0, 1, &v_buffer, &stride, &offset);
+    device_context_->IASetIndexBuffer(i_buffer, DXGI_FORMAT_R32_UINT, 0);
+    device_context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+    device_context_->DrawIndexed(mesh->index_count, 0, 0);
+  }
+
+  EndScene();
 
   return true;
 }
 
-void DirectX::ToggleWireframeMode() {
-  wireframe_mode_enabled_ = !wireframe_mode_enabled_;
-  device_context_->RSSetState(wireframe_mode_enabled_
-                                  ? rasterizer_state_wireframe_mode_on_
-                                  : rasterizer_state_wireframe_mode_off_);
-}
+bool DirectX::CreateMeshBuffers(std::shared_ptr<Mesh> mesh) {
+  HRESULT hr;
 
-void DirectX::ToggleBlendMode() {
-  alpha_blending_enabled_ = !alpha_blending_enabled_;
-  float factor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-  device_context_->OMSetBlendState(alpha_blending_enabled_
-                                       ? blend_state_on_
-                                       : blend_state_off_,
-                                   factor, 0xffffffff);
+  D3D11_BUFFER_DESC desc;
+  desc.Usage = D3D11_USAGE_DEFAULT;
+  desc.ByteWidth = sizeof(mesh->vertices[0]) * mesh->vertex_count;
+  desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+  desc.CPUAccessFlags = 0;
+  desc.MiscFlags = 0;
+  desc.StructureByteStride = 0;
+
+  D3D11_SUBRESOURCE_DATA data;
+  data.pSysMem = mesh->vertices.data();
+  data.SysMemPitch = 0;
+  data.SysMemSlicePitch = 0;
+
+  ID3D11Buffer* v;
+  hr = device_->CreateBuffer(&desc, &data, &v);
+  if (FAILED(hr)) {
+    return false;
+  }
+
+  desc.ByteWidth = sizeof(mesh->indices[0]) * mesh->index_count;
+  desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+
+  data.pSysMem = mesh->indices.data();
+
+  ID3D11Buffer* i;
+  hr = device_->CreateBuffer(&desc, &data, &i);
+  if (FAILED(hr)) {
+    return false;
+  }
+
+  auto v_buffer = MeshBufferPtr(v);
+  auto i_buffer = MeshBufferPtr(i);
+  auto buffers = MeshBufferPair(v, i);
+
+  mesh_buffers_.insert(std::pair<std::shared_ptr<Mesh>,
+                                 MeshBufferPair>(mesh, buffers));
+
+  return true;
 }
 
 void DirectX::Release() {
@@ -185,6 +224,22 @@ void DirectX::Release() {
   }
 }
 
+void DirectX::ToggleWireframeMode() {
+  wireframe_mode_enabled_ = !wireframe_mode_enabled_;
+  device_context_->RSSetState(wireframe_mode_enabled_
+                                  ? rasterizer_state_wireframe_mode_on_
+                                  : rasterizer_state_wireframe_mode_off_);
+}
+
+void DirectX::ToggleBlendMode() {
+  alpha_blending_enabled_ = !alpha_blending_enabled_;
+  float factor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+  device_context_->OMSetBlendState(alpha_blending_enabled_
+                                       ? blend_state_on_
+                                       : blend_state_off_,
+                                   factor, 0xffffffff);
+}
+
 void DirectX::BeginScene(const Color& c) {
   device_context_->ClearRenderTargetView(render_target_view_, c);
   device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH,
@@ -197,49 +252,6 @@ void DirectX::EndScene() {
   } else {
     swap_chain_->Present(0, 0);
   }
-}
-
-bool DirectX::CreateMeshBuffers(std::shared_ptr<Mesh> mesh) {
-  HRESULT hr;
-
-  D3D11_BUFFER_DESC desc;
-  desc.Usage = D3D11_USAGE_DEFAULT;
-  desc.ByteWidth = sizeof(mesh->vertices[0]) * mesh->vertex_count;
-  desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-  desc.CPUAccessFlags = 0;
-  desc.MiscFlags = 0;
-  desc.StructureByteStride = 0;
-
-  D3D11_SUBRESOURCE_DATA data;
-  data.pSysMem = mesh->vertices.data();
-  data.SysMemPitch = 0;
-  data.SysMemSlicePitch = 0;
-
-  ID3D11Buffer* v;
-  hr = device_->CreateBuffer(&desc, &data, &v);
-  if (FAILED(hr)) {
-    return false;
-  }
-
-  desc.ByteWidth = sizeof(mesh->indices[0]) * mesh->index_count;
-  desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-
-  data.pSysMem = mesh->indices.data();
-
-  ID3D11Buffer* i;
-  hr = device_->CreateBuffer(&desc, &data, &i);
-  if (FAILED(hr)) {
-    return false;
-  }
-
-  auto v_buffer = MeshBufferPtr(v);
-  auto i_buffer = MeshBufferPtr(i);
-  auto buffers = MeshBufferPair(v, i);
-
-  mesh_buffers_.insert(std::pair<std::shared_ptr<Mesh>,
-                                 MeshBufferPair>(mesh, buffers));
-
-  return true;
 }
 
 bool DirectX::CreateDevice() {
