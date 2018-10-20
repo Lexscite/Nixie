@@ -16,7 +16,7 @@
 #ifndef VOODOO_MESH_CONVERTER_H_
 #define VOODOO_MESH_CONVERTER_H_
 
-#include <voodoo/vector.h>
+#include <voodoo/math.h>
 
 namespace voodoo {
 struct Face {

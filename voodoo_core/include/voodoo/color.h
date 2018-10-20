@@ -17,40 +17,48 @@
 #define VOODOO_COLOR_H_
 
 #include "math.h"
-#include "vector.h"
 
 namespace voodoo {
-class Color {
+struct Color {
  public:
   Color(){};
-  Color(const float& s) {
-    float cs = ClampChannel(s);
-    r = g = b = cs;
-  }
-  Color(const float& r, const float& g, const float& b)
-      : r(ClampChannel(r)), g(ClampChannel(g)), b(ClampChannel(b)), a(1) {}
-  Color(const float& r, const float& g, const float& b, const float& a)
-      : r(ClampChannel(r)),
-        g(ClampChannel(g)),
-        b(ClampChannel(b)),
-        a(ClampChannel(a)) {}
-  Color(const Vector3<float>& v)
-      : r(ClampChannel(v.x)),
-        g(ClampChannel(v.y)),
-        b(ClampChannel(v.z)),
+  Color(const float& s)
+      : r(clamp_color(s)),
+        g(r),
+        b(r),
         a(1) {}
-  Color(const Vector3<float>& v, float a)
-      : r(ClampChannel(v.x)),
-        g(ClampChannel(v.y)),
-        b(ClampChannel(v.z)),
-        a(ClampChannel(a)) {}
+
+  Color(const float& r, const float& g, const float& b)
+      : r(clamp_color(r)),
+        g(clamp_color(g)),
+        b(clamp_color(b)),
+        a(1) {}
+
+  Color(const float& r, const float& g, const float& b, const float& a)
+      : r(clamp_color(r)),
+        g(clamp_color(g)),
+        b(clamp_color(b)),
+        a(clamp_color(a)) {}
+
+  Color(const Vector3f& v)
+      : r(clamp_color(v.x)),
+        g(clamp_color(v.y)),
+        b(clamp_color(v.z)),
+        a(1) {}
+
+  Color(const Vector3f& v, float a)
+      : r(clamp_color(v.x)),
+        g(clamp_color(v.y)),
+        b(clamp_color(v.z)),
+        a(clamp_color(a)) {}
+
+  Color(const Vector4f& v)
+      : r(clamp_color(v.x)),
+        g(clamp_color(v.y)),
+        b(clamp_color(v.z)),
+        a(clamp_color(v.w)) {}
 
   inline operator float*() const { return new float[4]{r, g, b, a}; };
-
- private:
-  float ClampChannel(float value) {
-    return clamp<float>(value, 0.0f, 255.0f) / 255.0f;
-  }
 
  public:
   float r, g, b, a;

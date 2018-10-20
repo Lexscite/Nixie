@@ -16,18 +16,58 @@
 #ifndef VOODOO_MATH_H_
 #define VOODOO_MATH_H_
 
+#include <mathfu/quaternion.h>
+#include <mathfu/rect.h>
 #include <mathfu/constants.h>
-#include <mathfu/utilities.h>
-
-#include "vector.h"
 
 namespace voodoo {
-namespace math {
-static constexpr float kPi = mathfu::kPi;
-}  // namespace math
+template <class T>
+// Vector
+using Vector2 = mathfu::Vector<T, 2>;
 
 template <class T>
+using Vector3 = mathfu::Vector<T, 3>;
+
+template <class T>
+using Vector4 = mathfu::Vector<T, 4>;
+
+using Vector2f = Vector2<float>;
+using Vector3f = Vector3<float>;
+using Vector4f = Vector4<float>;
+
+// Quaternion
+using Quaternion = mathfu::Quaternion<float>;
+
+// Matrix
+template <class T>
+using Matrix3x3 = mathfu::Matrix<T, 3>;
+
+template <class T>
+using Matrix4x3 = mathfu::Matrix<T, 4, 3>;
+
+template <class T>
+using Matrix4x4 = mathfu::Matrix<T, 4>;
+
+using Matrix3x3f = Matrix3x3<float>;
+using Matrix4x3f = Matrix4x3<float>;
+using Matrix4x4f = Matrix4x4<float>;
+
+// Rectangle
+template <class T>
+using Rect = mathfu::Rect<T>;
+
+using Rectf = Rect<float>;
+
+// Constants
+static constexpr float kPi = mathfu::kPi;
+
+// Functions
+template <class T>
 const auto clamp = mathfu::Clamp<T>;
+
+inline float clamp_color(float v) {
+  return clamp<float>(v, 0.0f, 255.0f) / 255.0f;
+}
 
 // Radians to degrees
 template <class T>

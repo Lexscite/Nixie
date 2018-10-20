@@ -119,6 +119,7 @@
     <ClCompile Include="src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\voodoo\color.h" />
     <ClInclude Include="include\voodoo\behavior.h" />
     <ClInclude Include="include\voodoo\connection.h" />
     <ClInclude Include="include\voodoo\engine.h" />
@@ -145,12 +146,7 @@
     <ClInclude Include="include\voodoo\image_manager.h" />
     <ClInclude Include="include\voodoo\time.h" />
     <ClInclude Include="include\voodoo\transform.h" />
-    <ClInclude Include="include\voodoo\color.h" />
     <ClInclude Include="include\voodoo\math.h" />
-    <ClInclude Include="include\voodoo\matrix.h" />
-    <ClInclude Include="include\voodoo\quaternion.h" />
-    <ClInclude Include="include\voodoo\rect.h" />
-    <ClInclude Include="include\voodoo\vector.h" />
     <ClInclude Include="include\voodoo\component_factory.h" />
     <ClInclude Include="include\voodoo\window.h" />
   </ItemGroup>

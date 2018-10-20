@@ -16,7 +16,7 @@
 #ifndef VOODOO_VERTEX_H_
 #define VOODOO_VERTEX_H_
 
-#include "vector.h"
+#include "math.h"
 
 namespace voodoo {
 struct VertexP {

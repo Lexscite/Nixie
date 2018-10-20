@@ -19,9 +19,6 @@
 #include "component.h"
 
 #include "math.h"
-#include "vector.h"
-#include "matrix.h"
-#include "quaternion.h"
 
 namespace voodoo {
 class Transform : public Component {

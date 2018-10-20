@@ -20,7 +20,7 @@
 #include <windows.h>
 #endif  // _WIN32
 
-#include "rect.h"
+#include "math.h"
 
 #include <string>
 

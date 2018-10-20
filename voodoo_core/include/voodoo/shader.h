@@ -18,8 +18,6 @@
 
 #include "color.h"
 #include "directx.h"
-#include "matrix.h"
-#include "vector.h"
 
 #include <string>
 

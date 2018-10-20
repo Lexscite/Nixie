@@ -16,9 +16,9 @@
 #ifndef VOODOO_FONT_H_
 #define VOODOO_FONT_H_
 
+#include "math.h"
 #include "mesh.h"
 #include "texture.h"
-#include "vector.h"
 
 #include <map>
 

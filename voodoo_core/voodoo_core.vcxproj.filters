@@ -69,9 +69,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\voodoo\color.h">
-      <Filter>math</Filter>
-    </ClInclude>
     <ClInclude Include="include\voodoo\font.h">
       <Filter>graphics</Filter>
     </ClInclude>
@@ -83,15 +80,6 @@
     </ClInclude>
     <ClInclude Include="include\voodoo\texture.h">
       <Filter>graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="include\voodoo\matrix.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="include\voodoo\quaternion.h">
-      <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="include\voodoo\vector.h">
-      <Filter>math</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\shader.h">
       <Filter>graphics</Filter>
@@ -125,9 +113,6 @@
     </ClInclude>
     <ClInclude Include="include\voodoo\asset_manager.h">
       <Filter>assets</Filter>
-    </ClInclude>
-    <ClInclude Include="include\voodoo\rect.h">
-      <Filter>math</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\graphics_api.h">
       <Filter>graphics</Filter>
@@ -171,13 +156,13 @@
     <ClInclude Include="include\voodoo\math.h">
       <Filter>system</Filter>
     </ClInclude>
+    <ClInclude Include="include\voodoo\color.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="graphics">
       <UniqueIdentifier>{06673403-cd15-4f4b-84da-4713cbb7b5a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="math">
-      <UniqueIdentifier>{342fcbfb-4ab9-496c-9625-40bad162181e}</UniqueIdentifier>
     </Filter>
     <Filter Include="assets">
       <UniqueIdentifier>{b814f404-fcd4-45d9-8745-a82ebe762751}</UniqueIdentifier>

@@ -21,9 +21,6 @@
 #include "scene.h"
 
 #include "math.h"
-#include "matrix.h"
-#include "quaternion.h"
-#include "vector.h"
 
 #include <memory>
 #include <string>
