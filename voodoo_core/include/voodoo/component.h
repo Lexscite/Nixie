@@ -19,7 +19,6 @@
 #include "game_object.h"
 #include "logger.h"
 #include "scene.h"
-#include "transform.h"
 
 #include "math.h"
 #include "matrix.h"
@@ -34,6 +33,7 @@ class Component : public std::enable_shared_from_this<Component> {
  public:
   std::shared_ptr<Scene> GetScene();
   std::shared_ptr<GameObject> GetGameObject();
+  std::shared_ptr<GameObject> GetParent();
   std::shared_ptr<Transform> GetTransform();
 
   // TODO: find another way

@@ -14,7 +14,7 @@
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "../include/voodoo/game_object.h"
-#include "../include/voodoo/component.h"
+
 #include "../include/voodoo/logger.h"
 #include "../include/voodoo/transform.h"
 
@@ -22,13 +22,23 @@ namespace voodoo {
 GameObject::GameObject(std::string name, std::shared_ptr<Scene> scene)
     : name_(name),
       scene_(scene),
-      parent_(nullptr),
-      transform_(new Transform(std::shared_ptr<GameObject>(this))) {}
+      parent_(nullptr) {}
 
-std::string GameObject::GetName() { return name_; }
-std::shared_ptr<Scene> GameObject::GetScene() { return scene_; }
-std::shared_ptr<GameObject> GameObject::GetParent() { return parent_; }
-std::shared_ptr<Transform> GameObject::GetTransform() { return transform_; }
+std::string GameObject::GetName() {
+  return name_;
+}
+
+std::shared_ptr<Scene> GameObject::GetScene() {
+  return scene_;
+}
+
+std::shared_ptr<GameObject> GameObject::GetParent() {
+  return parent_;
+}
+
+std::shared_ptr<Transform> GameObject::GetTransform() {
+  return GetComponent<Transform>();
+}
 
 std::vector<std::shared_ptr<Component>> GameObject::GetComponents() {
   std::vector<std::shared_ptr<Component>> result;

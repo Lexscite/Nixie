@@ -30,6 +30,7 @@ std::shared_ptr<GameObject> Scene::AddGameObject(std::string name) {
 
   auto go = make_shared<GameObject>(name, shared_from_this());
   game_objects_.insert(pair<string, shared_ptr<GameObject>>(name, go));
+  go->AddComponent<Transform>();
   return go;
 }
 

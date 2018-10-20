@@ -66,7 +66,6 @@ class GameObject final : public std::enable_shared_from_this<GameObject> {
   std::string name_;
   std::shared_ptr<Scene> scene_;
   std::shared_ptr<GameObject> parent_;
-  std::shared_ptr<Transform> transform_;
   std::map<std::string, std::shared_ptr<Component>> components_;
 };
 }  // namespace voodoo

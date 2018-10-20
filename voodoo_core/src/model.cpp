@@ -14,8 +14,11 @@
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "../include/voodoo/model.h"
-#include "../include/voodoo/camera.h"
+
 #include "../include/voodoo/mesh_manager.h"
+
+// Components
+#include "../include/voodoo/camera.h"
 
 namespace voodoo {
 Model::Model(std::string mesh_path, std::string vs_path, std::string ps_path,

@@ -84,9 +84,6 @@
     <ClInclude Include="include\voodoo\texture.h">
       <Filter>graphics</Filter>
     </ClInclude>
-    <ClInclude Include="include\voodoo\math.h">
-      <Filter>math</Filter>
-    </ClInclude>
     <ClInclude Include="include\voodoo\matrix.h">
       <Filter>math</Filter>
     </ClInclude>
@@ -170,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="include\voodoo\connection.h">
       <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\math.h">
+      <Filter>system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

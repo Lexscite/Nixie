@@ -14,9 +14,13 @@
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "../include/voodoo/directx.h"
-#include "../include/voodoo/camera.h"
+
 #include "../include/voodoo/logger.h"
+
+// Components
+#include "../include/voodoo/camera.h"
 #include "../include/voodoo/renderer.h"
+#include "../include/voodoo/transform.h"
 
 namespace voodoo {
 DirectX::DirectX()
@@ -101,7 +105,7 @@ bool DirectX::Render(std::shared_ptr<Scene> scene) {
   }
 
   for (auto renderer : renderers) {
-    auto wm = renderer->GetTransform()->CalculateWorldMatrix();
+    auto wm = renderer->GetTransform()->GetWorldMatrix();
     auto vm = camera->GetViewMatrix();
     auto pm = camera->GetProjectionMatrix();
 

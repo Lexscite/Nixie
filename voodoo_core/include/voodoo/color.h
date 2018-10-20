@@ -49,7 +49,7 @@ class Color {
 
  private:
   float ClampChannel(float value) {
-    return Clamp<float>(value, 0.0f, 255.0f) / 255.0f;
+    return clamp<float>(value, 0.0f, 255.0f) / 255.0f;
   }
 
  public:

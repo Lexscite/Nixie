@@ -20,7 +20,13 @@ std::shared_ptr<Scene> Component::GetScene() {
   return game_object_->GetScene();
 }
 
-std::shared_ptr<GameObject> Component::GetGameObject() { return game_object_; }
+std::shared_ptr<GameObject> Component::GetGameObject() {
+  return game_object_;
+}
+
+std::shared_ptr<GameObject> Component::GetParent() {
+  return game_object_->GetParent();
+}
 
 std::shared_ptr<Transform> Component::GetTransform() {
   return game_object_->GetTransform();

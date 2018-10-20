@@ -16,22 +16,19 @@
 #ifndef VOODOO_TRANSFORM_H_
 #define VOODOO_TRANSFORM_H_
 
+#include "component.h"
+
 #include "math.h"
 #include "vector.h"
 #include "matrix.h"
 #include "quaternion.h"
 
 namespace voodoo {
-class GameObject;
-
-class Transform final {
+class Transform : public Component {
  public:
-  Transform(std::shared_ptr<GameObject> game_object);
+  Transform();
 
-  std::shared_ptr<Transform> GetParent();
-  void SetParent(std::shared_ptr<Transform> parent);
-
-  Matrix4x4f CalculateWorldMatrix();
+  Matrix4x4f GetWorldMatrix();
 
   Vector3f GetUp();
   Vector3f GetDown();
@@ -71,9 +68,6 @@ class Transform final {
   void Scale(const Vector3f& v);
 
  private:
-  std::shared_ptr<GameObject> game_object_;
-  std::shared_ptr<Transform> parent_;
-
   Vector3f position_;
   Quaternion rotation_;
   Vector3f scale_;

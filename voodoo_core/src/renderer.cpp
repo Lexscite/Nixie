@@ -14,6 +14,7 @@
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "../include/voodoo/renderer.h"
+
 #include "../include/voodoo/image_manager.h"
 
 namespace voodoo {

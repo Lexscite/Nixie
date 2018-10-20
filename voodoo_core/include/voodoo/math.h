@@ -19,22 +19,34 @@
 #include <mathfu/constants.h>
 #include <mathfu/utilities.h>
 
+#include "vector.h"
+
 namespace voodoo {
 namespace math {
-static constexpr float pi = mathfu::kPi;
-}
+static constexpr float kPi = mathfu::kPi;
+}  // namespace math
 
 template <class T>
-const auto Clamp = mathfu::Clamp<T>;
+const auto clamp = mathfu::Clamp<T>;
 
+// Radians to degrees
 template <class T>
-inline T RadianToDegree(const T& r) {
+inline T rtod(const T& r) {
   return (r * T(180)) / mathfu::kPi;
 }
 
+// Degrees to radians
 template <class T>
-inline T DegreeToRadian(const T& d) {
+inline T dtor(const T& d) {
   return (d * mathfu::kPi) / 180;
+}
+
+const auto dtorf = dtor<float>;
+
+inline Vector3f dtorv(const Vector3f& v) {
+  return Vector3f(dtorf(v.x),
+                  dtorf(v.y),
+                  dtorf(v.z));
 }
 }  // namespace voodoo
 

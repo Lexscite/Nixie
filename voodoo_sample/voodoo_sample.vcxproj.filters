@@ -6,9 +6,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <FxCompile Include="shaders\default_ps.hlsl">
       <Filter>shaders</Filter>
     </FxCompile>
@@ -21,5 +18,8 @@
     <FxCompile Include="shaders\font_vs.hlsl">
       <Filter>shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
 </Project>

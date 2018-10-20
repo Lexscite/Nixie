@@ -13,11 +13,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
-#include <voodoo/camera.h>
 #include <voodoo/engine.h>
+
+// Components
+#include <voodoo/camera.h>
 #include <voodoo/model.h>
 #include <voodoo/renderer.h>
 #include <voodoo/text.h>
+#include <voodoo/transform.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
                    LPSTR lpCmdLine, int nShowCmd) {
@@ -36,24 +39,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
     auto cube = scene->AddGameObject("Cube");
     cube->AddComponent<Renderer>(
-      engine.GetGraphicsAPI()->GetDevice(),
-      engine.GetGraphicsAPI()->GetDeviceContext());
+        engine.GetGraphicsAPI()->GetDevice(),
+        engine.GetGraphicsAPI()->GetDeviceContext());
     cube->AddComponent<Model>(
-      "../assets/meshes/cube.mesh",
-      "../assets/shaders/default_vs.cso",
-      "../assets/shaders/default_ps.cso",
-      "../assets/textures/placeholder.png");
+        "../assets/meshes/cube.mesh",
+        "../assets/shaders/default_vs.cso",
+        "../assets/shaders/default_ps.cso",
+        "../assets/textures/placeholder.png");
     cube->GetTransform()->SetPosition(0, 0, 0);
 
     auto text = scene->AddGameObject("Text");
     text->AddComponent<Renderer>(
-      engine.GetGraphicsAPI()->GetDevice(),
-      engine.GetGraphicsAPI()->GetDeviceContext());
+        engine.GetGraphicsAPI()->GetDevice(),
+        engine.GetGraphicsAPI()->GetDeviceContext());
     text->AddComponent<Text>(
-      "Hello World",
-      "../assets/shaders/font_vs.cso",
-      "../assets/shaders/font_ps.cso",
-      "../assets/textures/fonts/consolas.png");
+        "Hello World",
+        "../assets/shaders/font_vs.cso",
+        "../assets/shaders/font_ps.cso",
+        "../assets/textures/fonts/consolas.png");
     text->GetTransform()->SetPosition(1, 1, 1);
     text->GetTransform()->SetScale(0.005f);
 

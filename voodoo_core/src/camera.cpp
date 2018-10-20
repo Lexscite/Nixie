@@ -15,8 +15,11 @@
 
 #include "../include/voodoo/camera.h"
 
+// Components
+#include "../include/voodoo/transform.h"
+
 namespace voodoo {
-Camera::Camera() : fov_(math::pi / 4),
+Camera::Camera() : fov_(math::kPi / 4),
                    aspect_ratio_(8.0f / 6.0f),
                    z_near_(0.1f),
                    z_far_(1000.0f) {}
