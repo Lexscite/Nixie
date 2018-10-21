@@ -28,7 +28,6 @@ bool Behavior::Update() {
   return true;
 }
 
-bool Behavior::IsBehavior() { return true; }
 bool Behavior::OnInit() { return true; }
 bool Behavior::OnUpdate() { return true; }
 }  // namespace voodoo

@@ -23,7 +23,6 @@ class Behavior : public Component {
  public:
   virtual bool Init() final;
   virtual bool Update() final;
-  virtual bool IsBehavior() override final;
 
  private:
   virtual bool OnInit();

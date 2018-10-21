@@ -29,7 +29,6 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\component_factory.cpp" />
     <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\engine.cpp" />
     <ClCompile Include="src\game_object.cpp">
@@ -147,7 +146,6 @@
     <ClInclude Include="include\voodoo\time.h" />
     <ClInclude Include="include\voodoo\transform.h" />
     <ClInclude Include="include\voodoo\math.h" />
-    <ClInclude Include="include\voodoo\component_factory.h" />
     <ClInclude Include="include\voodoo\window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

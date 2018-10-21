@@ -37,7 +37,7 @@ class Engine {
   std::shared_ptr<Scene> GetScene();
 
  private:
-  void Update();
+  bool Update();
   void UpdateCaption();
 
  private:

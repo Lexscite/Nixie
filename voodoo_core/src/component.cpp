@@ -35,6 +35,4 @@ std::shared_ptr<Transform> Component::GetTransform() {
 void Component::SetGameObject(std::shared_ptr<GameObject> go) {
   game_object_ = go;
 }
-
-bool Component::IsBehavior() { return false; }
 }  // namespace voodoo

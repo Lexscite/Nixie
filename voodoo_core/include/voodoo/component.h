@@ -24,10 +24,13 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 namespace voodoo {
 class Component : public std::enable_shared_from_this<Component> {
- public:
+public:
+  virtual ~Component() = default;
+
   std::shared_ptr<Scene> GetScene();
   std::shared_ptr<GameObject> GetGameObject();
   std::shared_ptr<GameObject> GetParent();
@@ -35,7 +38,6 @@ class Component : public std::enable_shared_from_this<Component> {
 
   // TODO: find another way
   void SetGameObject(std::shared_ptr<GameObject> go);
-  virtual bool IsBehavior();
 
   template <class T>
   std::shared_ptr<T> GetComponent() {
@@ -51,6 +53,58 @@ class Component : public std::enable_shared_from_this<Component> {
  protected:
   std::shared_ptr<GameObject> game_object_;
 };
+
+// Empty class to store each factory in single registry map
+// TODO: Find out a way to get rid of this shoot
+class ComponentFactory {};
+
+template <class T>
+class IComponentFactory
+    : public ComponentFactory,
+      public std::enable_shared_from_this<ComponentFactory> {
+ public:
+  virtual std::shared_ptr<T> Create() = 0;
+};
+
+class ComponentFactoryRegistry {
+ private:
+  using FactoryPtr = std::shared_ptr<ComponentFactory>;
+  using FactoryMap = std::unordered_map<std::string, FactoryPtr>;
+
+ public:
+  static bool Register(std::string name, FactoryPtr factory) {
+    auto it = registry_.find(name);
+    if (it == registry_.end()) {
+      return false;
+    }
+    registry_[name] = factory;
+    return true;
+  }
+
+  template <class T>
+  static FactoryPtr Retrieve() {
+    auto name = string(typeid(T).name()).erase(0, 14);
+    return registry_[name];
+  }
+
+ private:
+  static FactoryMap registry_;
+};
 }  // namespace voodoo
+
+// Macro each component should call after it's definition
+// in order to register itself in system.
+#define VOODOO_REGISTER_COMPONENT(component_name)                              \
+  namespace voodoo {                                                           \
+  class component_name##Factory : public IComponentFactory<component_name> {   \
+    component_name##Factory() {                                                \
+      ComponentFactoryRegistry::Register(#component_name, shared_from_this()); \
+    }                                                                          \
+                                                                               \
+    virtual std::shared_ptr<component_name> Create() {                         \
+      return std::make_shared<component_name>();                               \
+    }                                                                          \
+  };                                                                           \
+  }
 
 #endif

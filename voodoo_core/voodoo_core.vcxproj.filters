@@ -43,9 +43,6 @@
     <ClCompile Include="src\scene.cpp">
       <Filter>logic</Filter>
     </ClCompile>
-    <ClCompile Include="src\component_factory.cpp">
-      <Filter>system</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine.cpp">
       <Filter>system</Filter>
     </ClCompile>
@@ -128,9 +125,6 @@
     </ClInclude>
     <ClInclude Include="include\voodoo\scene.h">
       <Filter>logic</Filter>
-    </ClInclude>
-    <ClInclude Include="include\voodoo\component_factory.h">
-      <Filter>system</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\engine.h">
       <Filter>system</Filter>

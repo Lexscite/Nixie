@@ -15,10 +15,10 @@
 
 #include "../include/voodoo/engine.h"
 
+#include "../include/voodoo/behavior.h"
 #include "../include/voodoo/directx.h"
 #include "../include/voodoo/logger.h"
 #include "../include/voodoo/renderer.h"
-#include "../include/voodoo/behavior.h"
 
 #include <sstream>
 
@@ -60,7 +60,9 @@ int Engine::Run() {
     } else {
       time_->Tick();
       UpdateCaption();
-      Update();
+      if(!Update()) {
+        return false;
+      }
       graphics_api_->Render(scene_);
     }
   }
@@ -68,14 +70,22 @@ int Engine::Run() {
   return static_cast<int>(msg.wParam);
 }
 
-void Engine::Update() {
+bool Engine::Update() {
   using namespace std;
 
   for (auto go : scene_->GetGameObjects()) {
-    for (auto c : go->GetComponents())
-      if (c->IsBehavior())
-        static_pointer_cast<Behavior>(c)->Update();
+    for (auto c : go->GetComponents()) {
+      auto b = dynamic_pointer_cast<Behavior>(c);
+      if (b) {
+        if (!b->Update()) {
+          Log::Error("Failed to update behavior");
+          return false;
+        }
+      }
+    }
   }
+
+  return true;
 }
 
 void Engine::UpdateCaption() {
@@ -102,18 +112,20 @@ void Engine::UpdateCaption() {
 bool Engine::LoadScene(std::shared_ptr<Scene> scene) {
   using namespace std;
   scene_ = scene;
-
   vector<std::shared_ptr<Renderer>> renderers;
 
   for (auto go : scene_->GetGameObjects()) {
     auto r = go->GetComponent<Renderer>();
     if (r) renderers.push_back(r);
-    for (auto c : go->GetComponents())
-      if (c->IsBehavior())
-        if (!static_pointer_cast<Behavior>(c)->Init()) {
-          Log::Error("Failed to initialize component");
+    for (auto c : go->GetComponents()) {
+      auto b = dynamic_pointer_cast<Behavior>(c);
+      if (b) {
+        if (!b->Init()) {
+          Log::Error("Failed to init object");
           return false;
         }
+      }
+    }
   }
 
   for (auto r : renderers) {
