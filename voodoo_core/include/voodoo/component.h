@@ -50,6 +50,12 @@ public:
     return game_object_->AddComponent(forward<Arg_T>(args)...);
   }
 
+  template <class T>
+  static std::shared_ptr<T> Instantiate() {
+    auto factory = ComponentFactoryRegistry::template Retrieve<T>();
+    return factory->Create();
+  }
+
  protected:
   std::shared_ptr<GameObject> game_object_;
 };
@@ -74,15 +80,14 @@ class ComponentFactoryRegistry {
  public:
   static bool Register(std::string name, FactoryPtr factory) {
     auto it = registry_.find(name);
-    if (it == registry_.end()) {
-      return false;
-    }
+    if (it == registry_.end()) return false;
     registry_[name] = factory;
     return true;
   }
 
   template <class T>
   static FactoryPtr Retrieve() {
+    using namespace std;
     auto name = string(typeid(T).name()).erase(0, 14);
     return registry_[name];
   }

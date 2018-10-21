@@ -40,12 +40,9 @@ class GameObject final : public std::enable_shared_from_this<GameObject> {
   std::shared_ptr<T> GetComponent() {
     using namespace std;
     auto name = string(typeid(T).name()).erase(0, 14);
-    auto result = components_.find(name);
-    if (result == components_.end()) {
-      return nullptr;
-    } else {
-      return static_pointer_cast<T>(result->second);
-    }
+    auto it = components_.find(name);
+    bool exists = it != components_.end();
+    return exists ? static_pointer_cast<T>(it->second) : nullptr;
   }
 
   template <class T, class... Arg_T>
