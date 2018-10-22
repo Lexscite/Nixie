@@ -25,13 +25,13 @@
 namespace voodoo {
 DirectX::DirectX()
     : swap_chain_(nullptr),
-      render_target_view_(nullptr),
-      depth_stencil_buffer_(nullptr),
-      depth_stencil_state_(nullptr),
-      depth_stencil_view_(nullptr),
-      rasterizer_state_wireframe_mode_off_(nullptr),
-      blend_state_on_(nullptr),
-      blend_state_off_(nullptr) {}
+      rt_view_(nullptr),
+      ds_buffer_(nullptr),
+      dss_default_(nullptr),
+      ds_view_(nullptr),
+      rs_default_(nullptr),
+      bs_default_(nullptr),
+      bs_no_blend_(nullptr) {}
 
 bool DirectX::Init(std::shared_ptr<Window> window) {
   vsync_enabled_ = true;
@@ -85,9 +85,11 @@ bool DirectX::Init(std::shared_ptr<Window> window) {
     return false;
   }
 
-  device_context_->OMSetDepthStencilState(depth_stencil_state_, 1);
-  device_context_->OMSetRenderTargets(
-      1, &render_target_view_, depth_stencil_view_);
+  auto bs_state = alpha_blending_enabled_ ? bs_default_ : bs_no_blend_;
+  device_context_->OMSetBlendState(bs_state, color(0), 0xffffffff);
+  device_context_->OMSetDepthStencilState(dss_default_, 1);
+  device_context_->OMSetRenderTargets(1, &rt_view_, ds_view_);
+  device_context_->RSSetState(rs_default_);
 
   return true;
 }
@@ -184,39 +186,39 @@ void DirectX::Release() {
     swap_chain_->SetFullscreenState(false, NULL);
   }
 
-  if (blend_state_on_) {
-    blend_state_on_->Release();
-    blend_state_on_ = nullptr;
+  if (bs_default_) {
+    bs_default_->Release();
+    bs_default_ = nullptr;
   }
 
-  if (blend_state_off_) {
-    blend_state_off_->Release();
-    blend_state_off_ = nullptr;
+  if (bs_no_blend_) {
+    bs_no_blend_->Release();
+    bs_no_blend_ = nullptr;
   }
 
-  if (rasterizer_state_wireframe_mode_off_) {
-    rasterizer_state_wireframe_mode_off_->Release();
-    rasterizer_state_wireframe_mode_off_ = nullptr;
+  if (rs_default_) {
+    rs_default_->Release();
+    rs_default_ = nullptr;
   }
 
-  if (depth_stencil_view_) {
-    depth_stencil_view_->Release();
-    depth_stencil_view_ = nullptr;
+  if (ds_view_) {
+    ds_view_->Release();
+    ds_view_ = nullptr;
   }
 
-  if (depth_stencil_state_) {
-    depth_stencil_state_->Release();
-    depth_stencil_state_ = nullptr;
+  if (dss_default_) {
+    dss_default_->Release();
+    dss_default_ = nullptr;
   }
 
-  if (depth_stencil_buffer_) {
-    depth_stencil_buffer_->Release();
-    depth_stencil_buffer_ = nullptr;
+  if (ds_buffer_) {
+    ds_buffer_->Release();
+    ds_buffer_ = nullptr;
   }
 
-  if (render_target_view_) {
-    render_target_view_->Release();
-    render_target_view_ = nullptr;
+  if (rt_view_) {
+    rt_view_->Release();
+    rt_view_ = nullptr;
   }
 
   device_context_->Release();
@@ -231,23 +233,22 @@ void DirectX::Release() {
 void DirectX::ToggleWireframeMode() {
   wireframe_mode_enabled_ = !wireframe_mode_enabled_;
   device_context_->RSSetState(wireframe_mode_enabled_
-                                  ? rasterizer_state_wireframe_mode_on_
-                                  : rasterizer_state_wireframe_mode_off_);
+                                  ? rs_wireframe_
+                                  : rs_default_);
 }
 
 void DirectX::ToggleBlendMode() {
   alpha_blending_enabled_ = !alpha_blending_enabled_;
   float factor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
   device_context_->OMSetBlendState(alpha_blending_enabled_
-                                       ? blend_state_on_
-                                       : blend_state_off_,
+                                       ? bs_default_
+                                       : bs_no_blend_,
                                    factor, 0xffffffff);
 }
 
-void DirectX::BeginScene(const color& c) {
-  device_context_->ClearRenderTargetView(render_target_view_, c);
-  device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH,
-                                         1.0f, 0);
+void DirectX::BeginScene(const color& clear_color) {
+  device_context_->ClearRenderTargetView(rt_view_, clear_color);
+  device_context_->ClearDepthStencilView(ds_view_, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 void DirectX::EndScene() {
@@ -261,7 +262,7 @@ void DirectX::EndScene() {
 bool DirectX::CreateDevice() {
   HRESULT hr;
 
-  unsigned int device_creation_flags = 0;
+  uint device_creation_flags = 0;
 #ifdef _DEBUG
   device_creation_flags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif  // _DEBUG
@@ -410,13 +411,15 @@ bool DirectX::CreateRenderTargetView() {
   HRESULT hr;
 
   ID3D11Texture2D* back_buffer;
-  hr = swap_chain_->GetBuffer(
-      0, __uuidof(ID3D11Texture2D), reinterpret_cast<LPVOID*>(&back_buffer));
-  if (FAILED(hr)) return false;
+  hr = swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<LPVOID*>(&back_buffer));
+  if (FAILED(hr)) {
+    return false;
+  }
 
-  hr = device_->CreateRenderTargetView(
-      back_buffer, nullptr, &render_target_view_);
-  if (FAILED(hr)) return false;
+  hr = device_->CreateRenderTargetView(back_buffer, nullptr, &rt_view_);
+  if (FAILED(hr)) {
+    return false;
+  }
 
   if (back_buffer) {
     back_buffer->Release();
@@ -429,27 +432,21 @@ bool DirectX::CreateRenderTargetView() {
 bool DirectX::CreateDepthBuffer(std::shared_ptr<Window> window) {
   HRESULT hr;
 
-  D3D11_TEXTURE2D_DESC depth_buffer_desc;
-  ZeroMemory(&depth_buffer_desc, sizeof(depth_buffer_desc));
-  depth_buffer_desc.Width = window->GetWidth();
-  depth_buffer_desc.Height = window->GetHeight();
-  depth_buffer_desc.MipLevels = 1;
-  depth_buffer_desc.ArraySize = 1;
-  depth_buffer_desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-  depth_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
-  depth_buffer_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-  depth_buffer_desc.CPUAccessFlags = 0;
-  depth_buffer_desc.MiscFlags = 0;
-  depth_buffer_desc.SampleDesc.Quality = msaa_quality_ - 1;
-  depth_buffer_desc.SampleDesc.Count = msaa_enabled_ ? 4 : 1;
-  if (msaa_enabled_) {
-    depth_buffer_desc.SampleDesc.Quality = msaa_quality_ - 1;
-  } else {
-    depth_buffer_desc.SampleDesc.Quality = 0;
-  }
+  D3D11_TEXTURE2D_DESC desc;
+  memset(&desc, 0, sizeof(desc));
+  desc.Width = window->GetWidth();
+  desc.Height = window->GetHeight();
+  desc.MipLevels = 1;
+  desc.ArraySize = 1;
+  desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+  desc.Usage = D3D11_USAGE_DEFAULT;
+  desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+  desc.CPUAccessFlags = 0;
+  desc.MiscFlags = 0;
+  desc.SampleDesc.Quality = msaa_enabled_ ? msaa_quality_ - 1 : 0;
+  desc.SampleDesc.Count = msaa_enabled_ ? 4 : 1;
 
-  hr = device_->CreateTexture2D(&depth_buffer_desc, nullptr,
-                                &depth_stencil_buffer_);
+  hr = device_->CreateTexture2D(&desc, nullptr, &ds_buffer_);
   if (FAILED(hr)) {
     Log::Error("Failed to create back buffer");
     return false;
@@ -459,14 +456,15 @@ bool DirectX::CreateDepthBuffer(std::shared_ptr<Window> window) {
 }
 
 bool DirectX::CreateDepthStencilView() {
-  D3D11_DEPTH_STENCIL_VIEW_DESC depth_stencil_view_desc;
-  ZeroMemory(&depth_stencil_view_desc, sizeof(depth_stencil_view_desc));
-  depth_stencil_view_desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-  depth_stencil_view_desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-  depth_stencil_view_desc.Texture2D.MipSlice = 0;
+  HRESULT hr;
 
-  HRESULT hr = device_->CreateDepthStencilView(
-      depth_stencil_buffer_, &depth_stencil_view_desc, &depth_stencil_view_);
+  D3D11_DEPTH_STENCIL_VIEW_DESC desc;
+  memset(&desc, 0, sizeof(desc));
+  desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+  desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+  desc.Texture2D.MipSlice = 0;
+
+  hr = device_->CreateDepthStencilView(ds_buffer_, &desc, &ds_view_);
   if (FAILED(hr)) {
     Log::Error("Failed to create depth stencil view");
     return false;
@@ -476,25 +474,25 @@ bool DirectX::CreateDepthStencilView() {
 }
 
 bool DirectX::CreateDepthStencilStates() {
-  D3D11_DEPTH_STENCIL_DESC depth_stencil_desc;
-  ZeroMemory(&depth_stencil_desc, sizeof(depth_stencil_desc));
-  depth_stencil_desc.DepthEnable = true;
-  depth_stencil_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-  depth_stencil_desc.DepthFunc = D3D11_COMPARISON_LESS;
-  depth_stencil_desc.StencilEnable = true;
-  depth_stencil_desc.StencilReadMask = 0xFF;
-  depth_stencil_desc.StencilWriteMask = 0xFF;
-  depth_stencil_desc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-  depth_stencil_desc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
-  depth_stencil_desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-  depth_stencil_desc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-  depth_stencil_desc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-  depth_stencil_desc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
-  depth_stencil_desc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-  depth_stencil_desc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+  HRESULT hr;
 
-  HRESULT hr = device_->CreateDepthStencilState(&depth_stencil_desc,
-                                                &depth_stencil_state_);
+  D3D11_DEPTH_STENCIL_DESC desc;
+  desc.DepthEnable = true;
+  desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+  desc.DepthFunc = D3D11_COMPARISON_LESS;
+  desc.StencilEnable = true;
+  desc.StencilReadMask = 0xFF;
+  desc.StencilWriteMask = 0xFF;
+  desc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+  desc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+  desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+  desc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+  desc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+  desc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+  desc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+  desc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+  hr = device_->CreateDepthStencilState(&desc, &dss_default_);
   if (FAILED(hr)) {
     Log::Error("Failed to create depth stencil state");
     return false;
@@ -506,36 +504,30 @@ bool DirectX::CreateDepthStencilStates() {
 bool DirectX::CreateRasterizerStates() {
   HRESULT hr;
 
-  // Wireframe mode
-  D3D11_RASTERIZER_DESC rasterizer_desc;
-  rasterizer_desc.AntialiasedLineEnable = false;
-  rasterizer_desc.CullMode = D3D11_CULL_NONE;
-  rasterizer_desc.DepthBias = 0;
-  rasterizer_desc.DepthBiasClamp = 0.0f;
-  rasterizer_desc.DepthClipEnable = true;
-  rasterizer_desc.FrontCounterClockwise = false;
-  rasterizer_desc.MultisampleEnable = false;
-  rasterizer_desc.ScissorEnable = false;
-  rasterizer_desc.SlopeScaledDepthBias = 0.0f;
-  rasterizer_desc.FillMode = D3D11_FILL_WIREFRAME;
+  D3D11_RASTERIZER_DESC desc;
+  desc.AntialiasedLineEnable = false;
+  desc.CullMode = D3D11_CULL_BACK;
+  desc.DepthBias = 0;
+  desc.DepthBiasClamp = 0.0f;
+  desc.DepthClipEnable = true;
+  desc.FrontCounterClockwise = false;
+  desc.MultisampleEnable = false;
+  desc.ScissorEnable = false;
+  desc.SlopeScaledDepthBias = 0.0f;
+  desc.FillMode = D3D11_FILL_SOLID;
 
-  hr = device_->CreateRasterizerState(&rasterizer_desc,
-                                      &rasterizer_state_wireframe_mode_on_);
+  hr = device_->CreateRasterizerState(&desc, &rs_default_);
   if (FAILED(hr)) {
     return false;
   }
 
-  // Solid mode
-  rasterizer_desc.CullMode = D3D11_CULL_BACK;
-  rasterizer_desc.FillMode = D3D11_FILL_SOLID;
+  desc.CullMode = D3D11_CULL_NONE;
+  desc.FillMode = D3D11_FILL_WIREFRAME;
 
-  hr = device_->CreateRasterizerState(&rasterizer_desc,
-                                      &rasterizer_state_wireframe_mode_off_);
+  hr = device_->CreateRasterizerState(&desc, &rs_wireframe_);
   if (FAILED(hr)) {
     return false;
   }
-
-  device_context_->RSSetState(rasterizer_state_wireframe_mode_off_);
 
   return true;
 }
@@ -543,33 +535,28 @@ bool DirectX::CreateRasterizerStates() {
 bool DirectX::CreateBlendStates() {
   HRESULT hr;
 
-  D3D11_BLEND_DESC blend_desc;
-  ZeroMemory(&blend_desc, sizeof(blend_desc));
-  blend_desc.RenderTarget[0].BlendEnable = true;
-  blend_desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
-  blend_desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-  blend_desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-  blend_desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-  blend_desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-  blend_desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-  blend_desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+  D3D11_BLEND_DESC desc;
+  memset(&desc, 0, sizeof(desc));
+  desc.RenderTarget[0].BlendEnable = true;
+  desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+  desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+  desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+  desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+  desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+  desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+  desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-  hr = device_->CreateBlendState(&blend_desc, &blend_state_on_);
+  hr = device_->CreateBlendState(&desc, &bs_default_);
   if (FAILED(hr)) {
     return false;
   }
 
-  blend_desc.RenderTarget[0].BlendEnable = false;
+  desc.RenderTarget[0].BlendEnable = false;
 
-  hr = device_->CreateBlendState(&blend_desc, &blend_state_off_);
+  hr = device_->CreateBlendState(&desc, &bs_no_blend_);
   if (FAILED(hr)) {
     return false;
   }
-
-  float factor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-  device_context_->OMSetBlendState(
-      alpha_blending_enabled_ ? blend_state_on_ : blend_state_off_, factor,
-      0xffffffff);
 
   return true;
 }

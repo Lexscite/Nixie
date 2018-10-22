@@ -28,6 +28,9 @@ struct Material;
 
 class Text : public Behavior {
  public:
+  string GetText();
+  void SetText(const string& text);
+
   shared_ptr<Font> GetFont();
   void SetFont(shared_ptr<Font> font);
 

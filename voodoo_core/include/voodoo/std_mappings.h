@@ -23,9 +23,12 @@ namespace voodoo {
 // Fundamentals
 typedef unsigned int uint;
 typedef unsigned char byte;
+typedef unsigned long ulong;
+typedef ulong dword;
 
 // STD
 typedef std::string string;
+typedef std::wstring wstring;
 
 template <class T>
 using vector = std::vector<T>;

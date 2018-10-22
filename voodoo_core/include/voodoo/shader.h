@@ -19,18 +19,16 @@
 #include "color.h"
 #include "directx.h"
 
-#include <string>
-
 namespace voodoo {
+struct ShaderBuffer {
+  ShaderBuffer(unsigned int size) : data(new byte[size]), size(size) {}
+
+  byte* data;
+  unsigned int size;
+};
+
 class Shader {
  private:
-  struct ShaderBuffer {
-    ShaderBuffer(unsigned int size) : data(new byte[size]), size(size) {}
-
-    byte* data;
-    unsigned int size;
-  };
-
   struct MatrixBuffer {
     float4x4 world_matrix;
     float4x4 view_matrix;
@@ -38,9 +36,9 @@ class Shader {
   };
 
   struct LightBuffer {
-    color diffuse_color;
-    color ambient_color;
-    vec3<float> direction;
+    float4 diffuse_color;
+    float4 ambient_color;
+    float3 direction;
     float padding;
   };
 
@@ -49,23 +47,20 @@ class Shader {
   };
 
  public:
-  Shader(std::shared_ptr<ID3D11Device> device,
-         std::shared_ptr<ID3D11DeviceContext> device_context);
+  Shader(shared_ptr<ID3D11Device> device, shared_ptr<ID3D11DeviceContext> device_context);
   ~Shader();
 
-  bool Init(std::string vs_path, std::string ps_path, bool light);
+  bool Init(string vs_path, string ps_path, bool light);
   bool Update(const float4x4& world_matrix,
               const float4x4& view_matrix,
               const float4x4& projection_matrix,
               ID3D11ShaderResourceView* texture);
 
  private:
-  bool CreateInputLayout(ShaderBuffer buffer);
+  bool CreateInputLayout(shared_ptr<ShaderBuffer> buffer);
   bool CreateMatrixBuffer();
-  bool CreateSamplerState();
   bool CreateLightBuffer();
-
-  ShaderBuffer LoadFromFile(std::string file_path);
+  bool CreateSamplerState();
 
  private:
   std::shared_ptr<ID3D11Device> device_;

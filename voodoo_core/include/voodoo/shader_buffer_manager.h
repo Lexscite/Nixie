@@ -13,25 +13,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef VOODOO_MESH_MANAGER_H_
-#define VOODOO_MESH_MANAGER_H_
+#ifndef VOODOO_SHADER_BUFFER_MANAGER_H_
+#define VOODOO_SHADER_BUFFER_MANAGER_H_
 
 #include "asset_manager.h"
 
-#include "mesh.h"
+#include "shader.h"
 
-namespace voodoo {
-class MeshManager : public AssetManager<Mesh> {
- public:
+namespace voodoo{
+class ShaderBufferManager : public AssetManager<ShaderBuffer> {
+public:
   // Temporal singleton
-  static MeshManager& Get() {
-    static MeshManager instance;
+  static ShaderBufferManager& Get() {
+    static ShaderBufferManager instance;
     return instance;
   }
 
- private:
-  virtual std::shared_ptr<Mesh> Load(std::string filename) override;
+private:
+  virtual std::shared_ptr<ShaderBuffer> Load(std::string filename) override;
 };
-}  // namespace voodoo
+}
 
 #endif

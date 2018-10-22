@@ -22,22 +22,18 @@
 
 #include "math.h"
 
-#include <string>
-
 namespace voodoo {
 class Window {
  public:
   bool Init(HINSTANCE instance, int width, int height, std::wstring caption);
   HWND GetHandle();
-  Rect<int> GetRect();
+  recti GetRect();
   int GetWidth();
   int GetHeight();
 
  private:
-  LRESULT CALLBACK MsgProc(HWND handle, UINT msg,
-                           WPARAM w_param, LPARAM l_param);
-  static LRESULT CALLBACK MsgRouter(HWND handle, UINT msg,
-                                    WPARAM w_param, LPARAM l_param);
+  LRESULT CALLBACK MsgProc(HWND handle, UINT msg, WPARAM w_param, LPARAM l_param);
+  static LRESULT CALLBACK MsgRouter(HWND handle, UINT msg, WPARAM w_param, LPARAM l_param);
 
  private:
   HWND handle_;

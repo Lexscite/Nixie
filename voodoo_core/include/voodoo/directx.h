@@ -34,7 +34,7 @@ class DirectX : public GraphicsAPI {
   void ToggleBlendMode();
 
  private:
-  void BeginScene(const color& c);
+  void BeginScene(const color& clear_color);
   void EndScene();
 
   bool CreateDevice();
@@ -61,14 +61,18 @@ class DirectX : public GraphicsAPI {
   D3D_FEATURE_LEVEL feature_level_;
   IDXGISwapChain* swap_chain_;
 
-  ID3D11RenderTargetView* render_target_view_;
-  ID3D11Texture2D* depth_stencil_buffer_;
-  ID3D11DepthStencilState* depth_stencil_state_;
-  ID3D11DepthStencilView* depth_stencil_view_;
-  ID3D11RasterizerState* rasterizer_state_wireframe_mode_on_;
-  ID3D11RasterizerState* rasterizer_state_wireframe_mode_off_;
-  ID3D11BlendState* blend_state_on_;
-  ID3D11BlendState* blend_state_off_;
+  ID3D11RenderTargetView* rt_view_;
+
+  ID3D11Texture2D* ds_buffer_;
+  ID3D11DepthStencilView* ds_view_;
+
+  ID3D11DepthStencilState* dss_default_;
+
+  ID3D11RasterizerState* rs_default_;
+  ID3D11RasterizerState* rs_wireframe_;
+
+  ID3D11BlendState* bs_default_;
+  ID3D11BlendState* bs_no_blend_;
 };
 }  // namespace voodoo
 

@@ -57,6 +57,29 @@ std::shared_ptr<voodoo::Scene> CreateScene(voodoo::Engine engine) {
   cube_mesh_filter->SetMaterial(cube_material);
   cube->GetTransform()->SetPosition(0, 0, 0);
 
+  // Text
+  auto text = scene->AddGameObject("Text");
+  text->AddComponent<Renderer>();
+
+  auto text_text = text->AddComponent<Text>();
+  text_text->SetText("Voodoo");
+  text_text->SetFont(std::make_shared<Font>());
+
+  auto text_shader = std::make_shared<Shader>(
+      engine.GetGraphicsAPI()->GetDevice(),
+      engine.GetGraphicsAPI()->GetDeviceContext());
+  text_shader->Init(
+      "../assets/shaders/font_vs.cso",
+      "../assets/shaders/font_ps.cso",
+      false);
+  auto text_texture = std::make_shared<Texture>(
+      engine.GetGraphicsAPI()->GetDevice(),
+      ImageManager::Get().Retrieve("../assets/textures/fonts/consolas.png"));
+  auto text_material = std::make_shared<Material>(text_shader, text_texture);
+  text_text->SetMaterial(text_material);
+  text->GetTransform()->SetPosition(1.0f, 0, 1.0f);
+  text->GetTransform()->SetScale(0.01f);
+
   return scene;
 }
 

@@ -13,25 +13,31 @@
 // You should have received a copy of the GNU General Public License
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef VOODOO_MESH_MANAGER_H_
-#define VOODOO_MESH_MANAGER_H_
+#include "../include/voodoo/shader_buffer_manager.h"
 
-#include "asset_manager.h"
+#include "../include/voodoo/logger.h"
 
-#include "mesh.h"
+#include <fstream>
 
 namespace voodoo {
-class MeshManager : public AssetManager<Mesh> {
- public:
-  // Temporal singleton
-  static MeshManager& Get() {
-    static MeshManager instance;
-    return instance;
+std::shared_ptr<ShaderBuffer> ShaderBufferManager::Load(std::string filename) {
+  std::ifstream fs;
+
+  fs.open(filename, std::ios::in | std::ios::binary);
+  if (fs.fail()) {
+    Log::Error("Error: Failed to open shader file ");
+    throw std::runtime_error("Failed to open shader file");
   }
 
- private:
-  virtual std::shared_ptr<Mesh> Load(std::string filename) override;
-};
-}  // namespace voodoo
+  fs.seekg(0, std::ios::end);
+  auto size = static_cast<unsigned int>(fs.tellg());
+  fs.seekg(0, std::ios::beg);
 
-#endif
+  auto buffer = std::make_shared<ShaderBuffer>(size);
+
+  fs.read(reinterpret_cast<char*>(&buffer->data[0]), buffer->size);
+  fs.close();
+
+  return buffer;
+}
+}

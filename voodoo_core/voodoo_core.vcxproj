@@ -62,6 +62,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\shader_buffer_manager.cpp" />
     <ClCompile Include="src\text.cpp" />
     <ClCompile Include="src\texture.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -138,6 +139,7 @@
     <ClInclude Include="include\voodoo\packet.h" />
     <ClInclude Include="include\voodoo\renderer.h" />
     <ClInclude Include="include\voodoo\shader.h" />
+    <ClInclude Include="include\voodoo\shader_buffer_manager.h" />
     <ClInclude Include="include\voodoo\std_mappings.h" />
     <ClInclude Include="include\voodoo\text.h" />
     <ClInclude Include="include\voodoo\texture.h" />

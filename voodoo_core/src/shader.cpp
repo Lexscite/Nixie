@@ -16,6 +16,8 @@
 #include "../include/voodoo/shader.h"
 #include "../include/voodoo/logger.h"
 
+#include "../include/voodoo/shader_buffer_manager.h"
+
 #ifdef VOODOO_DIRECTX
 // Run-time shader compilation dependencies
 #pragma comment(lib, "dxguid.lib")
@@ -75,11 +77,14 @@ bool Shader::Init(std::string vs_path, std::string ps_path, bool light) {
 
   light_ = light;
 
-  auto vs_buffer = LoadFromFile(vs_path);
-  auto ps_buffer = LoadFromFile(ps_path);
+  auto vs_buffer = ShaderBufferManager::Get().Retrieve(vs_path);
+  auto ps_buffer = ShaderBufferManager::Get().Retrieve(ps_path);
 
-  hr = device_->CreateVertexShader(vs_buffer.data, vs_buffer.size, nullptr,
-                                   &vertex_shader_);
+  hr = device_->CreateVertexShader(
+      vs_buffer->data,
+      vs_buffer->size,
+      nullptr,
+      &vertex_shader_);
   if (FAILED(hr)) {
     return false;
   }
@@ -92,8 +97,11 @@ bool Shader::Init(std::string vs_path, std::string ps_path, bool light) {
     return false;
   }
 
-  hr = device_->CreatePixelShader(ps_buffer.data, ps_buffer.size, nullptr,
-                                  &pixel_shader_);
+  hr = device_->CreatePixelShader(
+      ps_buffer->data,
+      ps_buffer->size,
+      nullptr,
+      &pixel_shader_);
   if (FAILED(hr)) {
     return false;
   }
@@ -115,15 +123,11 @@ bool Shader::Init(std::string vs_path, std::string ps_path, bool light) {
     pixelBufferDesc.MiscFlags = 0;
     pixelBufferDesc.StructureByteStride = 0;
 
-    HRESULT result =
-        device_->CreateBuffer(&pixelBufferDesc, NULL, &pixel_buffer_);
+    HRESULT result = device_->CreateBuffer(&pixelBufferDesc, NULL, &pixel_buffer_);
     if (FAILED(result)) {
       return false;
     }
   }
-
-  delete[] vs_buffer.data;
-  delete[] ps_buffer.data;
 
   return true;
 }
@@ -171,7 +175,7 @@ bool Shader::Update(const float4x4& world_matrix,
     }
 
     PixelBuffer* dataPtr2 = (PixelBuffer*)mapped_resource.pData;
-    dataPtr2->color = color(255, 255, 255);
+    dataPtr2->color = color(255, 0, 0);
     device_context_->Unmap(pixel_buffer_, 0);
   }
 
@@ -193,33 +197,11 @@ bool Shader::Update(const float4x4& world_matrix,
   return true;
 }
 
-Shader::ShaderBuffer Shader::LoadFromFile(std::string file_path) {
-  std::ifstream fs;
-
-  fs.open(file_path, std::ios::in | std::ios::binary);
-  if (fs.fail()) {
-    Log::Error("Error: Failed to open shader file ");
-    throw std::runtime_error("Failed to open shader file");
-  }
-
-  fs.seekg(0, std::ios::end);
-  auto size = static_cast<unsigned int>(fs.tellg());
-  fs.seekg(0, std::ios::beg);
-
-  ShaderBuffer buffer = ShaderBuffer(size);
-
-  fs.read(reinterpret_cast<char*>(&buffer.data[0]), buffer.size);
-  fs.close();
-
-  return buffer;
-}
-
-bool Shader::CreateInputLayout(Shader::ShaderBuffer buffer) {
+bool Shader::CreateInputLayout(shared_ptr<ShaderBuffer> buffer) {
   HRESULT hr;
 
   ID3D11ShaderReflection* reflection = nullptr;
-  hr = D3DReflect(buffer.data, buffer.size, IID_ID3D11ShaderReflection,
-                  (void**)&reflection);
+  hr = D3DReflect(buffer->data, buffer->size, IID_ID3D11ShaderReflection, (void**)&reflection);
   if (FAILED(hr)) {
     Log::Error("Failed to reflect shader buffer");
     return false;
@@ -287,7 +269,7 @@ bool Shader::CreateInputLayout(Shader::ShaderBuffer buffer) {
 
   hr = device_->CreateInputLayout(ieds.data(),
                                   static_cast<unsigned int>(ieds.size()),
-                                  buffer.data, buffer.size, &input_layout_);
+                                  buffer->data, buffer->size, &input_layout_);
   if (FAILED(hr)) {
     return false;
   }
@@ -298,33 +280,15 @@ bool Shader::CreateInputLayout(Shader::ShaderBuffer buffer) {
 }
 
 bool Shader::CreateMatrixBuffer() {
-  D3D11_BUFFER_DESC matrix_buffer_desc = {sizeof(MatrixBuffer),
-                                          D3D11_USAGE_DYNAMIC,
-                                          D3D11_BIND_CONSTANT_BUFFER,
-                                          D3D11_CPU_ACCESS_WRITE,
-                                          0,
-                                          0};
-  HRESULT hr =
-      device_->CreateBuffer(&matrix_buffer_desc, nullptr, &matrix_buffer_);
-  if (FAILED(hr)) {
-    return false;
-  }
+  D3D11_BUFFER_DESC desc;
+  desc.ByteWidth = sizeof(MatrixBuffer);
+  desc.Usage = D3D11_USAGE_DYNAMIC;
+  desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+  desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+  desc.MiscFlags = 0;
+  desc.StructureByteStride = 0;
 
-  return true;
-}
-
-bool Shader::CreateSamplerState() {
-  D3D11_SAMPLER_DESC sampler_desc = {D3D11_FILTER_MIN_MAG_MIP_LINEAR,
-                                     D3D11_TEXTURE_ADDRESS_WRAP,
-                                     D3D11_TEXTURE_ADDRESS_WRAP,
-                                     D3D11_TEXTURE_ADDRESS_WRAP,
-                                     0.0f,
-                                     1,
-                                     D3D11_COMPARISON_ALWAYS,
-                                     {0.0f, 0.0f, 0.0f, 0.0f},
-                                     0,
-                                     D3D11_FLOAT32_MAX};
-  HRESULT hr = device_->CreateSamplerState(&sampler_desc, &sampler_state_);
+  HRESULT hr = device_->CreateBuffer(&desc, nullptr, &matrix_buffer_);
   if (FAILED(hr)) {
     return false;
   }
@@ -333,14 +297,39 @@ bool Shader::CreateSamplerState() {
 }
 
 bool Shader::CreateLightBuffer() {
-  D3D11_BUFFER_DESC light_buffer_desc = {sizeof(LightBuffer),
-                                         D3D11_USAGE_DYNAMIC,
-                                         D3D11_BIND_CONSTANT_BUFFER,
-                                         D3D11_CPU_ACCESS_WRITE,
-                                         0,
-                                         0};
-  HRESULT hr =
-      device_->CreateBuffer(&light_buffer_desc, nullptr, &light_buffer_);
+  D3D11_BUFFER_DESC desc;
+  desc.ByteWidth = sizeof(LightBuffer);
+  desc.Usage = D3D11_USAGE_DYNAMIC;
+  desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+  desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+  desc.MiscFlags = 0;
+  desc.StructureByteStride = 0;
+
+  HRESULT hr = device_->CreateBuffer(&desc, nullptr, &light_buffer_);
+  if (FAILED(hr)) {
+    return false;
+  }
+
+  return true;
+}
+
+bool Shader::CreateSamplerState() {
+  D3D11_SAMPLER_DESC desc;
+  desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+  desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+  desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+  desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+  desc.MipLODBias = 0;
+  desc.MaxAnisotropy = 1;
+  desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+  desc.BorderColor[0] = 0;
+  desc.BorderColor[1] = 0;
+  desc.BorderColor[2] = 0;
+  desc.BorderColor[3] = 0;
+  desc.MinLOD = 0;
+  desc.MaxLOD = D3D11_FLOAT32_MAX;
+
+  HRESULT hr = device_->CreateSamplerState(&desc, &sampler_state_);
   if (FAILED(hr)) {
     return false;
   }

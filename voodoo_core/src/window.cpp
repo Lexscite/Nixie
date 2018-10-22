@@ -16,11 +16,9 @@
 #include "../include/voodoo/window.h"
 
 namespace voodoo {
-bool Window::Init(HINSTANCE instance,
-                  int width, int height,
-                  std::wstring caption) {
+bool Window::Init(HINSTANCE instance, int width, int height, wstring caption) {
   WNDCLASSEX wcex;
-  std::wstring wc_name = caption + L"Window";
+  wstring wc_name = caption + L"Window";
   DWORD style = WS_OVERLAPPED | WS_MINIMIZEBOX | WS_SYSMENU;
   DWORD ex_style = WS_EX_APPWINDOW;
 
@@ -69,12 +67,15 @@ bool Window::Init(HINSTANCE instance,
 
 HWND Window::GetHandle() { return handle_; }
 
-Rect<int> Window::GetRect() {
+recti Window::GetRect() {
   RECT r;
   GetClientRect(handle_, &r);
-  return Rect<int>(static_cast<int>(r.left), static_cast<int>(r.top),
-                   static_cast<int>(r.right - r.left),
-                   static_cast<int>(r.bottom - r.top));
+  auto left = static_cast<int>(r.left);
+  auto top = static_cast<int>(r.top);
+  auto width = static_cast<int>(r.right - r.left);
+  auto height = static_cast<int>(r.bottom - r.top);
+
+  return {left, top, width, height};
 }
 
 int Window::GetWidth() { return GetRect().size.x; }

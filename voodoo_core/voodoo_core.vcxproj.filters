@@ -67,6 +67,9 @@
     <ClCompile Include="src\mesh_filter.cpp">
       <Filter>logic\components</Filter>
     </ClCompile>
+    <ClCompile Include="src\shader_buffer_manager.cpp">
+      <Filter>assets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\voodoo\font.h">
@@ -164,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="include\voodoo\mesh_filter.h">
       <Filter>logic\components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\shader_buffer_manager.h">
+      <Filter>assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

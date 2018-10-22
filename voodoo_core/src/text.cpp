@@ -16,6 +16,14 @@
 #include "../include/voodoo/text.h"
 
 namespace voodoo {
+string Text::GetText() {
+  return text_;
+}
+
+void Text::SetText(const string& text) {
+  text_ = text;
+}
+
 shared_ptr<Font> Text::GetFont() {
   return font_;
 }

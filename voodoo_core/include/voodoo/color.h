@@ -41,25 +41,35 @@ struct color {
         b(clamp_color(b)),
         a(clamp_color(a)) {}
 
-  color(const vec3f& v)
+  color(const float3& v)
       : r(clamp_color(v.x)),
         g(clamp_color(v.y)),
         b(clamp_color(v.z)),
         a(1) {}
 
-  color(const vec3f& v, float a)
+  color(const float3& v, float a)
       : r(clamp_color(v.x)),
         g(clamp_color(v.y)),
         b(clamp_color(v.z)),
         a(clamp_color(a)) {}
 
-  color(const vec4f& v)
+  color(const float4& v)
       : r(clamp_color(v.x)),
         g(clamp_color(v.y)),
         b(clamp_color(v.z)),
         a(clamp_color(v.w)) {}
 
-  inline operator float*() const { return new float[4]{r, g, b, a}; };
+  inline operator float*() const {
+    return new float[4]{r, g, b, a};
+  }
+
+  inline operator float3() const {
+    return float3(r, g, b);
+  }
+
+  inline operator float4() const {
+    return float4(r, g, b, a);
+  }
 
  public:
   float r, g, b, a;
