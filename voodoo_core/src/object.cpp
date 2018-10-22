@@ -32,10 +32,6 @@ string Object::GetName() {
   return name_;
 }
 
-string Object::GetClassName() {
-  return class_name_;
-}
-
 uint Object::GenerateInstanceId() {
   static uint instance_id_counter;
   uint instance_id = instance_id_counter;

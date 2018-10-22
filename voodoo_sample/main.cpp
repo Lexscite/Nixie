@@ -14,8 +14,8 @@
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <voodoo/engine.h>
-#include <voodoo/mesh_manager.h>
 #include <voodoo/image_manager.h>
+#include <voodoo/mesh_manager.h>
 
 // Components
 #include <voodoo/camera.h>
@@ -66,8 +66,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, LPSTR cmd_line, 
 
   auto engine = Engine();
   if (engine.Init(instance, L"Voodoo Sample")) {
-    if (engine.LoadScene(CreateScene(engine)))
+    if (engine.LoadScene(CreateScene(engine))) {
       exit_code = engine.Run();
+    }
   }
 
   engine.Release();

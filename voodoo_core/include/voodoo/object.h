@@ -27,7 +27,6 @@ class Object : public EnableSharedFromThis<Object> {
 
   uint GetInstanceId();
   string GetName();
-  string GetClassName();
 
  private:
   static uint GenerateInstanceId();
@@ -35,7 +34,6 @@ class Object : public EnableSharedFromThis<Object> {
  protected:
   uint instance_id_;
   string name_;
-  string class_name_;
 };
 }  // namespace voodoo
 
