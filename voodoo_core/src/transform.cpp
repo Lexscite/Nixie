@@ -16,147 +16,142 @@
 #include "../include/voodoo/transform.h"
 
 namespace voodoo {
-Transform::Transform() : position_(Vector3f(0.0f)),
-                         rotation_(Quaternion(1, 0, 0, 0)),
-                         scale_(Vector3f(1.0f)) {}
+Transform::Transform()
+    : position_(kVec3fZeros),
+      rotation_(kQuatfIdentity),
+      scale_(kVec3fOnes) {}
 
-Matrix4x4f Transform::GetWorldMatrix() {
-  auto name = game_object_->GetName();
-  auto position = GetPosition();
-  auto rotation = GetRotation();
-  auto scale = GetScale();
-
-  Matrix4x4f translation_matrix = Matrix4x4f::FromTranslationVector(position);
-  Matrix4x4f rotation_matrix = rotation.ToMatrix4();
-  Matrix4x4f scale_matrix = Matrix4x4f::FromScaleVector(scale);
-
-  return translation_matrix * rotation_matrix * scale_matrix;
+float4x4 Transform::GetWorldMatrix() {
+  float4x4 t = float4x4::FromTranslationVector(GetPosition());
+  float4x4 r = GetRotation().ToMatrix4();
+  float4x4 s = float4x4::FromScaleVector(GetScale());
+  return t * r * s;
 }
 
-Vector3f Transform::GetUp() {
-  return rotation_.ToMatrix4() * Vector3f(0, 1, 0);
+vec3f Transform::GetUp() {
+  return rotation_.ToMatrix4() * kVec3fY;
 }
 
-Vector3f Transform::GetDown() {
-  return rotation_.ToMatrix4() * Vector3f(0, -1, 0);
+vec3f Transform::GetDown() {
+  return rotation_.ToMatrix4() * -kVec3fY;
 }
 
-Vector3f Transform::GetForward() {
-  return rotation_.ToMatrix4() * Vector3f(0, 0, 1);
+vec3f Transform::GetForward() {
+  return rotation_.ToMatrix4() * kVec3fZ;
 }
 
-Vector3f Transform::GetBackward() {
-  return rotation_.ToMatrix4() * Vector3f(0, 0, -1);
+vec3f Transform::GetBackward() {
+  return rotation_.ToMatrix4() * -kVec3fZ;
 }
 
-Vector3f Transform::GetRight() {
-  return rotation_.ToMatrix4() * Vector3f(1, 0, 0);
+vec3f Transform::GetRight() {
+  return rotation_.ToMatrix4() * kVec3fX;
 }
 
-Vector3f Transform::GetLeft() {
-  return rotation_.ToMatrix4() * Vector3f(-1, 0, 0);
+vec3f Transform::GetLeft() {
+  return rotation_.ToMatrix4() * -kVec3fX;
 }
 
-Vector3f Transform::GetPosition() {
-  auto p = GetParent();
-  return p ? p->GetTransform()->GetPosition() + position_ : position_;
+// Position
+vec3f Transform::GetPosition() {
+  auto parent = GetParent();
+  return parent ? parent->GetTransform()->GetPosition() + position_ : position_;
 }
 
-Vector3f Transform::GetLocalPosition() {
+vec3f Transform::GetLocalPosition() {
   return position_;
 }
 
-Quaternion Transform::GetRotation() {
-  auto p = GetParent();
-  return p ? p->GetTransform()->GetRotation() * rotation_ : rotation_;
-}
-
-Quaternion Transform::GetLocalRotation() {
-  return rotation_;
-}
-
-Vector3f Transform::GetScale() {
-  auto p = GetParent();
-  return p ? p->GetTransform()->GetScale() + scale_ : scale_;
-}
-
-Vector3f Transform::GetLocalScale() {
-  return scale_;
-}
-
 void Transform::SetPosition(const float& x, const float& y, const float& z) {
-  position_ = Vector3f(x, y, z);
+  position_ = vec3f(x, y, z);
 }
 
-void Transform::SetPosition(const Vector3f& v) {
+void Transform::SetPosition(const vec3f& v) {
   position_ = v;
 }
 
-void Transform::SetRotation(const float& x, const float& y, const float& z) {
-  rotation_ = Quaternion::FromEulerAngles(x, y, z);
-}
-
-void Transform::SetRotation(const Vector3f& v) {
-  rotation_ = Quaternion::FromEulerAngles(v);
-}
-
-void Transform::SetRotation(const Quaternion& q) {
-  rotation_ = q;
-}
-
-void Transform::SetRotation(const Vector3f& v, const float& s) {
-  rotation_ = Quaternion(s, v);
-}
-
-void Transform::SetRotationByDegrees(const float& x, const float& y,
-                                     const float& z) {
-  auto q = Quaternion::FromEulerAngles(dtorf(x), dtorf(y), dtorf(z));
-  rotation_ = q;
-}
-
-void Transform::SetRotationByDegrees(const Vector3f v) {
-  auto q = Quaternion::FromEulerAngles(dtorv(v));
-  rotation_ = q;
-}
-
-void Transform::SetScale(const float& s) { scale_ = Vector3f(s); }
-
-void Transform::SetScale(const float& x, const float& y, const float& z) {
-  scale_ = Vector3f(x, y, z);
-}
-
-void Transform::SetScale(const Vector3f& v) {
-  scale_ = v;
-}
-
 void Transform::Translate(const float& x, const float& y, const float& z) {
-  position_ += Vector3f(x, y, z);
+  position_ += vec3f(x, y, z);
 }
 
-void Transform::Translate(const Vector3f& v) {
+void Transform::Translate(const vec3f& v) {
   position_ += v;
 }
 
+// Rotation
+quatf Transform::GetRotation() {
+  auto parent = GetParent();
+  return parent ? parent->GetTransform()->GetRotation() * rotation_ : rotation_;
+}
+
+quatf Transform::GetLocalRotation() {
+  return rotation_;
+}
+
+void Transform::SetRotation(const float& x, const float& y, const float& z) {
+  rotation_ = quatf::FromEulerAngles(x, y, z);
+}
+
+void Transform::SetRotation(const vec3f& v) {
+  rotation_ = quatf::FromEulerAngles(v);
+}
+
+void Transform::SetRotation(const quatf& q) {
+  rotation_ = q;
+}
+
+void Transform::SetRotation(const vec3f& v, const float& s) {
+  rotation_ = quatf(s, v);
+}
+
+void Transform::SetRotationByDegrees(const float& x, const float& y, const float& z) {
+  rotation_ = quatf::FromEulerAngles(dtorf(x), dtorf(y), dtorf(z));
+}
+
+void Transform::SetRotationByDegrees(const vec3f v) {
+  rotation_ = quatf::FromEulerAngles(dtorv(v));
+}
+
 void Transform::Rotate(const float& x, const float& y, const float& z) {
-  rotation_ = rotation_ * Quaternion::FromEulerAngles(x, y, z);
+  rotation_ = rotation_ * quatf::FromEulerAngles(x, y, z);
 }
 
-void Transform::Rotate(const Vector3f& v) {
-  rotation_ = rotation_ * Quaternion::FromEulerAngles(v);
+void Transform::Rotate(const vec3f& v) {
+  rotation_ = rotation_ * quatf::FromEulerAngles(v);
 }
 
-void Transform::Rotate(const Quaternion q) {
+void Transform::Rotate(const quatf q) {
   rotation_ = rotation_ * q;
 }
 
 void Transform::RotateByDegrees(const float& x, const float& y, const float& z) {
-  auto q = Quaternion::FromEulerAngles(dtorf(x), dtorf(y), dtorf(z));
-  rotation_ = rotation_ * q;
+  rotation_ = rotation_ * quatf::FromEulerAngles(dtorf(x), dtorf(y), dtorf(z));
 }
 
-void Transform::RotateByDegrees(const Vector3f v) {
-  auto q = Quaternion::FromEulerAngles(dtorv(v));
-  rotation_ = rotation_ * q;
+void Transform::RotateByDegrees(const vec3f v) {
+  rotation_ = rotation_ * quatf::FromEulerAngles(dtorv(v));
+}
+
+// Scale
+vec3f Transform::GetScale() {
+  auto parent = GetParent();
+  return parent ? parent->GetTransform()->GetScale() + scale_ : scale_;
+}
+
+vec3f Transform::GetLocalScale() {
+  return scale_;
+}
+
+void Transform::SetScale(const float& s) {
+  scale_ = vec3f(s);
+}
+
+void Transform::SetScale(const float& x, const float& y, const float& z) {
+  scale_ = vec3f(x, y, z);
+}
+
+void Transform::SetScale(const vec3f& v) {
+  scale_ = v;
 }
 
 void Transform::Scale(const float& value) {
@@ -164,10 +159,10 @@ void Transform::Scale(const float& value) {
 }
 
 void Transform::Scale(const float& x, const float& y, const float& z) {
-  scale_ += Vector3f(x, y, z);
+  scale_ += vec3f(x, y, z);
 }
 
-void Transform::Scale(const Vector3f& v) {
+void Transform::Scale(const vec3f& v) {
   scale_ += v;
 }
 }  // namespace voodoo

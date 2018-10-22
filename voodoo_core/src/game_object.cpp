@@ -19,33 +19,30 @@
 #include "../include/voodoo/transform.h"
 
 namespace voodoo {
-GameObject::GameObject(std::string name, std::shared_ptr<Scene> scene)
-    : name_(name),
-      scene_(scene),
-      parent_(nullptr) {}
+GameObject::GameObject(const string& name, shared_ptr<Scene> scene)
+    : Object(name),
+      scene_(scene) {}
 
-std::string GameObject::GetName() {
-  return name_;
-}
-
-std::shared_ptr<Scene> GameObject::GetScene() {
-  return scene_;
-}
-
-std::shared_ptr<GameObject> GameObject::GetParent() {
+shared_ptr<GameObject> GameObject::GetParent() {
   return parent_;
 }
 
-std::shared_ptr<Transform> GameObject::GetTransform() {
+void GameObject::SetParent(shared_ptr<GameObject> parent) {
+  parent_ = parent;
+}
+
+shared_ptr<Scene> GameObject::GetScene() {
+  return scene_;
+}
+
+shared_ptr<Transform> GameObject::GetTransform() {
   return GetComponent<Transform>();
 }
 
-std::vector<std::shared_ptr<Component>> GameObject::GetComponents() {
-  std::vector<std::shared_ptr<Component>> result;
-  for (auto it : components_) {
-    result.push_back(it.second);
-  }
-
-  return result;
+vector<shared_ptr<Component>> GameObject::GetComponents() {
+  vector<shared_ptr<Component>> components;
+  for (auto it : components_)
+    components.push_back(it.second);
+  return components;
 }
 }  // namespace voodoo

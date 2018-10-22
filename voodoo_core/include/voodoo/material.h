@@ -25,8 +25,13 @@
 namespace voodoo {
 struct Material {
  public:
-  std::shared_ptr<Shader> shader;
-  std::shared_ptr<Texture> texture;
+  Material(shared_ptr<Shader> shader, shared_ptr<Texture> texture)
+      : shader(shader),
+        texture(texture) {}
+
+ public:
+  shared_ptr<Shader> shader;
+  shared_ptr<Texture> texture;
 };
 }  // namespace voodoo
 

@@ -13,35 +13,28 @@
 // You should have received a copy of the GNU General Public License
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
-#include "../include/voodoo/model.h"
-
-#include "../include/voodoo/mesh_manager.h"
-
-// Components
-#include "../include/voodoo/camera.h"
+#include "../include/voodoo/mesh_filter.h"
 
 namespace voodoo {
-Model::Model(std::string mesh_path, std::string vs_path, std::string ps_path,
-             std::string texture_path)
-    : mesh_path_(mesh_path),
-      vs_path_(vs_path),
-      ps_path_(ps_path),
-      texture_path_(texture_path) {}
+shared_ptr<Mesh> MeshFilter::GetMesh() {
+  return mesh_;
+}
 
-bool Model::OnInit() {
-  using namespace std;
+void MeshFilter::SetMesh(shared_ptr<Mesh> mesh) {
+  mesh_ = mesh;
+}
+
+shared_ptr<Material> MeshFilter::GetMaterial() {
+  return material_;
+}
+
+void MeshFilter::SetMaterial(shared_ptr<Material> material) {
+  material_ = material;
+}
+
+void MeshFilter::Start() {
   renderer_ = GetComponent<Renderer>();
-
-  mesh_ = MeshManager::Get().Retrieve(mesh_path_);
-
   renderer_->SetMesh(mesh_);
-  material_ = make_shared<Material>();
   renderer_->SetMaterial(material_);
-  if (!renderer_->InitMaterial(texture_path_, vs_path_, ps_path_, true)) {
-    Log::Error("Failed to initialize material");
-    return false;
-  }
-
-  return true;
 }
 }  // namespace voodoo

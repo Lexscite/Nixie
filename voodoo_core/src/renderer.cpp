@@ -18,33 +18,19 @@
 #include "../include/voodoo/image_manager.h"
 
 namespace voodoo {
-Renderer::Renderer(std::shared_ptr<ID3D11Device> device,
-                   std::shared_ptr<ID3D11DeviceContext> device_context)
-    : device_(device),
-      device_context_(device_context) {}
-
-bool Renderer::InitMaterial(std::string texture_path, std::string vs_path,
-                            std::string ps_path, bool light) {
-  material_->shader = std::make_shared<Shader>(device_, device_context_);
-  if (!material_->shader->Init(vs_path, ps_path, light)) {
-    return false;
-  }
-
-  material_->texture = std::make_shared<Texture>(
-      device_,
-      ImageManager::Get().Retrieve(texture_path));
-
-  return true;
+shared_ptr<Mesh> Renderer::GetMesh() {
+  return mesh_;
 }
 
-void Renderer::SetMesh(std::shared_ptr<Mesh> mesh) {
+void Renderer::SetMesh(shared_ptr<Mesh> mesh) {
   mesh_ = mesh;
 }
 
-void Renderer::SetMaterial(std::shared_ptr<Material> material) {
-  material_ = material;
+shared_ptr<Material> Renderer::GetMaterial() {
+  return material_;
 }
 
-std::shared_ptr<Mesh> Renderer::GetMesh() { return mesh_; }
-std::shared_ptr<Material> Renderer::GetMaterial() { return material_; }
+void Renderer::SetMaterial(shared_ptr<Material> material) {
+  material_ = material;
+}
 }  // namespace voodoo

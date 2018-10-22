@@ -16,9 +16,6 @@
     <ClCompile Include="src\renderer.cpp">
       <Filter>logic\components</Filter>
     </ClCompile>
-    <ClCompile Include="src\model.cpp">
-      <Filter>logic\components</Filter>
-    </ClCompile>
     <ClCompile Include="src\camera.cpp">
       <Filter>logic\components</Filter>
     </ClCompile>
@@ -64,6 +61,12 @@
     <ClCompile Include="src\packet.cpp">
       <Filter>network</Filter>
     </ClCompile>
+    <ClCompile Include="src\object.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mesh_filter.cpp">
+      <Filter>logic\components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\voodoo\font.h">
@@ -88,9 +91,6 @@
       <Filter>logic\components</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\renderer.h">
-      <Filter>logic\components</Filter>
-    </ClInclude>
-    <ClInclude Include="include\voodoo\model.h">
       <Filter>logic\components</Filter>
     </ClInclude>
     <ClInclude Include="include\voodoo\camera.h">
@@ -152,6 +152,18 @@
     </ClInclude>
     <ClInclude Include="include\voodoo\color.h">
       <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\object.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\math_mappings.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\std_mappings.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="include\voodoo\mesh_filter.h">
+      <Filter>logic\components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

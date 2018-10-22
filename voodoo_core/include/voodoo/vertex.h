@@ -22,28 +22,28 @@ namespace voodoo {
 struct VertexP {
   VertexP() = default;
 
-  VertexP(const Vector3<float>& position) : position(position) {}
+  VertexP(const vec3<float>& position) : position(position) {}
 
-  Vector3<float> position;
+  vec3<float> position;
 };
 
 struct VertexPT : public VertexP {
   VertexPT() = default;
 
-  VertexPT(const Vector3<float>& position, const Vector2<float>& texture)
+  VertexPT(const vec3<float>& position, const vec2<float>& texture)
       : VertexP(position), texture(texture) {}
 
-  Vector2<float> texture;
+  vec2<float> texture;
 };
 
 struct VertexPTN : public VertexPT {
   VertexPTN() = default;
 
-  VertexPTN(const Vector3<float>& position, const Vector2<float>& texture,
-            const Vector3<float>& normal)
+  VertexPTN(const vec3<float>& position, const vec2<float>& texture,
+            const vec3<float>& normal)
       : VertexPT(position, texture), normal(normal) {}
 
-  Vector3<float> normal;
+  vec3<float> normal;
 };
 }  // namespace voodoo
 

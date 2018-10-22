@@ -19,20 +19,20 @@
 #include "../include/voodoo/transform.h"
 
 namespace voodoo {
-Camera::Camera() : fov_(kPi / 4),
+Camera::Camera() : fov_(kPiDiv4),
                    aspect_ratio_(8.0f / 6.0f),
                    z_near_(0.1f),
                    z_far_(1000.0f) {}
 
-Matrix4x4f Camera::GetViewMatrix() {
-  Vector3f pos = GetTransform()->GetPosition();
-  Vector3f at = pos + GetTransform()->GetForward();
-  Vector3f up = GetTransform()->GetUp();
+float4x4 Camera::GetViewMatrix() {
+  vec3f pos = GetTransform()->GetPosition();
+  vec3f at = pos + GetTransform()->GetForward();
+  vec3f up = GetTransform()->GetUp();
 
-  return Matrix4x4f::LookAt(at, pos, up, -1.0f);
+  return float4x4::LookAt(at, pos, up, -1.0f);
 }
 
-Matrix4x4f Camera::GetProjectionMatrix() {
-  return Matrix4x4f::Perspective(fov_, aspect_ratio_, z_near_, z_far_, -1.0f);
+float4x4 Camera::GetProjectionMatrix() {
+  return float4x4::Perspective(fov_, aspect_ratio_, z_near_, z_far_, -1.0f);
 }
 }  // namespace voodoo

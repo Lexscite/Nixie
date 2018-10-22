@@ -128,9 +128,9 @@ bool Shader::Init(std::string vs_path, std::string ps_path, bool light) {
   return true;
 }
 
-bool Shader::Update(const Matrix4x4<float>& world_matrix,
-                    const Matrix4x4<float>& view_matrix,
-                    const Matrix4x4<float>& projection_matrix,
+bool Shader::Update(const float4x4& world_matrix,
+                    const float4x4& view_matrix,
+                    const float4x4& projection_matrix,
                     ID3D11ShaderResourceView* texture) {
   HRESULT hr;
 
@@ -158,9 +158,9 @@ bool Shader::Update(const Matrix4x4<float>& world_matrix,
 
     LightBuffer* light_buffer =
         static_cast<LightBuffer*>(mapped_resource.pData);
-    light_buffer->diffuse_color = Color(255, 255, 255);
-    light_buffer->ambient_color = Color(55, 55, 55);
-    light_buffer->direction = Vector3<float>(0, -1, 1);
+    light_buffer->diffuse_color = color(255, 255, 255);
+    light_buffer->ambient_color = color(55, 55, 55);
+    light_buffer->direction = vec3f(0, -1, 1);
     light_buffer->padding = 0.0f;
     device_context_->Unmap(light_buffer_, 0);
   } else {
@@ -171,7 +171,7 @@ bool Shader::Update(const Matrix4x4<float>& world_matrix,
     }
 
     PixelBuffer* dataPtr2 = (PixelBuffer*)mapped_resource.pData;
-    dataPtr2->color = Color(255, 255, 255);
+    dataPtr2->color = color(255, 255, 255);
     device_context_->Unmap(pixel_buffer_, 0);
   }
 

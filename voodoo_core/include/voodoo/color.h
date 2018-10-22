@@ -19,40 +19,41 @@
 #include "math.h"
 
 namespace voodoo {
-struct Color {
+struct color {
  public:
-  Color(){};
-  Color(const float& s)
+  color() {}
+
+  color(const float& s)
       : r(clamp_color(s)),
         g(r),
         b(r),
         a(1) {}
 
-  Color(const float& r, const float& g, const float& b)
+  color(const float& r, const float& g, const float& b)
       : r(clamp_color(r)),
         g(clamp_color(g)),
         b(clamp_color(b)),
         a(1) {}
 
-  Color(const float& r, const float& g, const float& b, const float& a)
+  color(const float& r, const float& g, const float& b, const float& a)
       : r(clamp_color(r)),
         g(clamp_color(g)),
         b(clamp_color(b)),
         a(clamp_color(a)) {}
 
-  Color(const Vector3f& v)
+  color(const vec3f& v)
       : r(clamp_color(v.x)),
         g(clamp_color(v.y)),
         b(clamp_color(v.z)),
         a(1) {}
 
-  Color(const Vector3f& v, float a)
+  color(const vec3f& v, float a)
       : r(clamp_color(v.x)),
         g(clamp_color(v.y)),
         b(clamp_color(v.z)),
         a(clamp_color(a)) {}
 
-  Color(const Vector4f& v)
+  color(const vec4f& v)
       : r(clamp_color(v.x)),
         g(clamp_color(v.y)),
         b(clamp_color(v.z)),

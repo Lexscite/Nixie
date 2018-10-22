@@ -16,23 +16,31 @@
 #include "../include/voodoo/component.h"
 
 namespace voodoo {
-std::shared_ptr<Scene> Component::GetScene() {
-  return game_object_->GetScene();
+Component::Component() {
+  name_ = string(typeid(*this).name()).erase(0, 14);
 }
 
-std::shared_ptr<GameObject> Component::GetGameObject() {
+shared_ptr<GameObject> Component::GetGameObject() {
   return game_object_;
 }
 
-std::shared_ptr<GameObject> Component::GetParent() {
+void Component::SetGameObject(shared_ptr<GameObject> game_object) {
+  game_object_ = game_object;
+}
+
+shared_ptr<GameObject> Component::GetParent() {
   return game_object_->GetParent();
 }
 
-std::shared_ptr<Transform> Component::GetTransform() {
-  return game_object_->GetTransform();
+void Component::SetParent(shared_ptr<GameObject> parent) {
+  game_object_->SetParent(parent);
 }
 
-void Component::SetGameObject(std::shared_ptr<GameObject> go) {
-  game_object_ = go;
+shared_ptr<Scene> Component::GetScene() {
+  return game_object_->GetScene();
+}
+
+shared_ptr<Transform> Component::GetTransform() {
+  return game_object_->GetTransform();
 }
 }  // namespace voodoo

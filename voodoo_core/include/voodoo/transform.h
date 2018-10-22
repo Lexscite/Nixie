@@ -25,49 +25,49 @@ class Transform : public Component {
  public:
   Transform();
 
-  Matrix4x4f GetWorldMatrix();
+  float4x4 GetWorldMatrix();
 
-  Vector3f GetUp();
-  Vector3f GetDown();
-  Vector3f GetForward();
-  Vector3f GetBackward();
-  Vector3f GetRight();
-  Vector3f GetLeft();
+  vec3f GetUp();
+  vec3f GetDown();
+  vec3f GetForward();
+  vec3f GetBackward();
+  vec3f GetRight();
+  vec3f GetLeft();
 
-  Vector3f GetPosition();
-  Vector3f GetLocalPosition();
-  Quaternion GetRotation();
-  Quaternion GetLocalRotation();
-  Vector3f GetScale();
-  Vector3f GetLocalScale();
-
+  vec3f GetPosition();
+  vec3f GetLocalPosition();
   void SetPosition(const float& x, const float& y, const float& z);
-  void SetPosition(const Vector3f& v);
+  void SetPosition(const vec3f& v);
+  void Translate(const float& x, const float& y, const float& z);
+  void Translate(const vec3f& v);
+
+  quatf GetRotation();
+  quatf GetLocalRotation();
   void SetRotation(const float& x, const float& y, const float& z);
-  void SetRotation(const Vector3f& v);
-  void SetRotation(const Quaternion& q);
-  void SetRotation(const Vector3f& v, const float& s);
+  void SetRotation(const vec3f& v);
+  void SetRotation(const quatf& q);
+  void SetRotation(const vec3f& v, const float& s);
   void SetRotationByDegrees(const float& x, const float& y, const float& z);
-  void SetRotationByDegrees(const Vector3f v);
+  void SetRotationByDegrees(const vec3f v);
+  void Rotate(const float& x, const float& y, const float& z);
+  void Rotate(const vec3f& v);
+  void Rotate(const quatf q);
+  void RotateByDegrees(const float& x, const float& y, const float& z);
+  void RotateByDegrees(const vec3f v);
+
+  vec3f GetScale();
+  vec3f GetLocalScale();
   void SetScale(const float& s);
   void SetScale(const float& x, const float& y, const float& z);
-  void SetScale(const Vector3f& v);
-
-  void Translate(const float& x, const float& y, const float& z);
-  void Translate(const Vector3f& v);
-  void Rotate(const float& x, const float& y, const float& z);
-  void Rotate(const Vector3f& v);
-  void Rotate(const Quaternion q);
-  void RotateByDegrees(const float& x, const float& y, const float& z);
-  void RotateByDegrees(const Vector3f v);
+  void SetScale(const vec3f& v);
   void Scale(const float& value);
   void Scale(const float& x, const float& y, const float& z);
-  void Scale(const Vector3f& v);
+  void Scale(const vec3f& v);
 
  private:
-  Vector3f position_;
-  Quaternion rotation_;
-  Vector3f scale_;
+  vec3f position_;
+  quatf rotation_;
+  vec3f scale_;
 };
 }  // namespace voodoo
 

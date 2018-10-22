@@ -18,30 +18,27 @@
 
 #include "color.h"
 
-#include <map>
-#include <string>
-#include <vector>
-
 namespace voodoo {
 class GameObject;
 class Camera;
 
-class Scene final : public std::enable_shared_from_this<Scene> {
+class Scene final : public EnableSharedFromThis<Scene> {
  public:
   Scene();
 
-  std::shared_ptr<GameObject> AddGameObject(std::string name);
-  std::shared_ptr<GameObject> GetGameObject(std::string name);
-  std::vector<std::shared_ptr<GameObject>> GetGameObjects();
+  shared_ptr<Camera> GetCamera();
+  void SetCamera(shared_ptr<Camera> camera);
 
-  Color GetClearColor();
-  std::shared_ptr<Camera> GetCamera();
-  void SetCamera(std::shared_ptr<Camera> camera);
+  color GetClearColor();
+
+  shared_ptr<GameObject> AddGameObject(const string& name);
+  shared_ptr<GameObject> GetGameObject(const string& name);
+  vector<shared_ptr<GameObject>> GetGameObjects();
 
  private:
-  Color clear_color_;
-  std::shared_ptr<Camera> camera_;
-  std::map<std::string, std::shared_ptr<GameObject>> game_objects_;
+  color clear_color_;
+  shared_ptr<Camera> camera_;
+  map<string, shared_ptr<GameObject>> game_objects_;
 };
 }  // namespace voodoo
 

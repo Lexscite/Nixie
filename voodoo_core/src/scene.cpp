@@ -19,35 +19,44 @@
 #include "../include/voodoo/transform.h"
 
 namespace voodoo {
-Scene::Scene() : clear_color_(Color(100, 100, 100)) {}
+Scene::Scene() : clear_color_(color(100, 100, 100)) {}
 
-std::shared_ptr<GameObject> Scene::AddGameObject(std::string name) {
+shared_ptr<Camera> Scene::GetCamera() {
+  return camera_;
+}
+
+void Scene::SetCamera(shared_ptr<Camera> camera) {
+  camera_ = camera;
+}
+
+color Scene::GetClearColor() {
+  return clear_color_;
+}
+
+std::shared_ptr<GameObject> Scene::AddGameObject(const string& name) {
   using namespace std;
   if (GetGameObject(name)) {
     Log::Warning("GameObject with name \"" + name + "\" already exists");
     return nullptr;
   }
 
-  auto go = make_shared<GameObject>(name, shared_from_this());
-  game_objects_.insert(pair<string, shared_ptr<GameObject>>(name, go));
-  go->AddComponent<Transform>();
-  return go;
+  auto game_object = make_shared<GameObject>(name, shared_from_this());
+  game_objects_.insert(pair<string, shared_ptr<GameObject>>(name, game_object));
+  game_object->AddComponent<Transform>();
+
+  return game_object;
 }
 
-std::shared_ptr<GameObject> Scene::GetGameObject(std::string name) {
-  auto go = game_objects_.find(name);
-  return go == game_objects_.end() ? nullptr : go->second;
+std::shared_ptr<GameObject> Scene::GetGameObject(const string& name) {
+  auto it = game_objects_.find(name);
+  return it != game_objects_.end() ? it->second : nullptr;
 }
 
 std::vector<std::shared_ptr<GameObject>> Scene::GetGameObjects() {
-  using namespace std;
-  vector<shared_ptr<GameObject>> result;
+  vector<shared_ptr<GameObject>> game_objects;
   for (auto it : game_objects_)
-    result.push_back(it.second);
-  return result;
-}
+    game_objects.push_back(it.second);
 
-Color Scene::GetClearColor() { return clear_color_; }
-std::shared_ptr<Camera> Scene::GetCamera() { return camera_; }
-void Scene::SetCamera(std::shared_ptr<Camera> camera) { camera_ = camera; }
+  return game_objects;
+}
 }  // namespace voodoo

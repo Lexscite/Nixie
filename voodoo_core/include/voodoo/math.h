@@ -16,77 +16,124 @@
 #ifndef VOODOO_MATH_H_
 #define VOODOO_MATH_H_
 
-#include <mathfu/quaternion.h>
-#include <mathfu/rect.h>
+#include "math_mappings.h"
+
 #include <mathfu/constants.h>
 
 namespace voodoo {
-template <class T>
-// Vector
-using Vector2 = mathfu::Vector<T, 2>;
-
-template <class T>
-using Vector3 = mathfu::Vector<T, 3>;
-
-template <class T>
-using Vector4 = mathfu::Vector<T, 4>;
-
-using Vector2f = Vector2<float>;
-using Vector3f = Vector3<float>;
-using Vector4f = Vector4<float>;
-
-// Quaternion
-using Quaternion = mathfu::Quaternion<float>;
-
-// Matrix
-template <class T>
-using Matrix3x3 = mathfu::Matrix<T, 3>;
-
-template <class T>
-using Matrix4x3 = mathfu::Matrix<T, 4, 3>;
-
-template <class T>
-using Matrix4x4 = mathfu::Matrix<T, 4>;
-
-using Matrix3x3f = Matrix3x3<float>;
-using Matrix4x3f = Matrix4x3<float>;
-using Matrix4x4f = Matrix4x4<float>;
-
-// Rectangle
-template <class T>
-using Rect = mathfu::Rect<T>;
-
-using Rectf = Rect<float>;
-
 // Constants
 static constexpr float kPi = mathfu::kPi;
+static constexpr float kPiDiv2 = kPi / 2;
+static constexpr float kPiDiv4 = kPi / 4;
+
+static const vec2i kVec2iZeros(0, 0);
+static const vec2i kVec2iOnes(1, 1);
+static const vec2i kVec2iX(1, 0);
+static const vec2i kVec2iY(0, 1);
+
+static const vec3i kVec3iZeros(0, 0, 0);
+static const vec3i kVec3iOnes(1, 1, 1);
+static const vec3i kVec3iX(1, 0, 0);
+static const vec3i kVec3iY(0, 1, 0);
+static const vec3i kVec3iZ(0, 0, 1);
+
+static const vec4i kVec4iZeros(0, 0, 0, 0);
+static const vec4i kVec4iOnes(1, 1, 1, 1);
+static const vec4i kVec4iX(1, 0, 0, 0);
+static const vec4i kVec4iY(0, 1, 0, 0);
+static const vec4i kVec4iZ(0, 0, 1, 0);
+static const vec4i kVec4iW(0, 0, 0, 1);
+
+static const vec2ui kVec2uiZeros(0, 0);
+static const vec2ui kVec2uiOnes(1, 1);
+static const vec2ui kVec2uiX(1, 0);
+static const vec2ui kVec2uiY(0, 1);
+
+static const vec3ui kVec3uiZeros(0, 0, 0);
+static const vec3ui kVec3uiOnes(1, 1, 1);
+static const vec3ui kVec3uiX(1, 0, 0);
+static const vec3ui kVec3uiY(0, 1, 0);
+static const vec3ui kVec3uiZ(0, 0, 1);
+
+static const vec4ui kVec4uiZeros(0, 0, 0, 0);
+static const vec4ui kVec4uiOnes(1, 1, 1, 1);
+static const vec4ui kVec4uiX(1, 0, 0, 0);
+static const vec4ui kVec4uiY(0, 1, 0, 0);
+static const vec4ui kVec4uiZ(0, 0, 1, 0);
+static const vec4ui kVec4uiW(0, 0, 0, 1);
+
+static const vec2f kVec2fZeros(0.0f, 0.0f);
+static const vec2f kVec2fOnes(1.0f, 1.0f);
+static const vec2f kVec2fX(1.0f, 0.0f);
+static const vec2f kVec2fY(0.0f, 1.0f);
+
+static const vec3f kVec3fZeros(0.0f, 0.0f, 0.0f);
+static const vec3f kVec3fOnes(1.0f, 1.0f, 1.0f);
+static const vec3f kVec3fX(1.0f, 0.0f, 0.0f);
+static const vec3f kVec3fY(0.0f, 1.0f, 0.0f);
+static const vec3f kVec3fZ(0.0f, 0.0f, 1.0f);
+
+static const vec4f kVec4fZeros(0.0f, 0.0f, 0.0f, 0.0f);
+static const vec4f kVec4fOnes(1.0f, 1.0f, 1.0f, 1.0f);
+static const vec4f kVec4fX(1.0f, 0.0f, 0.0f, 0.0f);
+static const vec4f kVec4fY(0.0f, 1.0f, 0.0f, 0.0f);
+static const vec4f kVec4fZ(0.0f, 0.0f, 1.0f, 0.0f);
+static const vec4f kVec4fW(0.0f, 0.0f, 0.0f, 1.0f);
+
+static const vec2d kVec2dZeros(0.0, 0.0);
+static const vec2d kVec2dOnes(1.0, 1.0);
+static const vec2d kVec2dX(1.0, 0.0);
+static const vec2d kVec2dY(0.0, 1.0);
+
+static const vec3d kVec3dZeros(0.0, 0.0, 0.0);
+static const vec3d kVec3dOnes(1.0, 1.0, 1.0);
+static const vec3d kVec3dX(1.0, 0.0, 0.0);
+static const vec3d kVec3dY(0.0, 1.0, 0.0);
+static const vec3d kVec3dZ(0.0, 0.0, 1.0);
+
+static const vec4d kVec4dZeros(0.0, 0.0, 0.0, 0.0);
+static const vec4d kVec4dOnes(1.0, 1.0, 1.0, 1.0);
+static const vec4d kVec4dX(1.0, 0.0, 0.0, 0.0);
+static const vec4d kVec4dY(0.0, 1.0, 0.0, 0.0);
+static const vec4d kVec4dZ(0.0, 0.0, 1.0, 0.0);
+static const vec4d kVec4dW(0.0, 0.0, 0.0, 1.0);
+
+static const quatf kQuatfIdentity(1.0f, 0.0f, 0.0f, 0.0f);
+static const quatd kQuatIddentity(1.0, 0.0, 0.0, 0.0);
+
+static const float4x3 kAffineIdentity(1.0f, 0.0f, 0.0f, 0.0f,
+                                      0.0f, 1.0f, 0.0f, 0.0f,
+                                      0.0f, 0.0f, 1.0f, 0.0f);
 
 // Functions
 template <class T>
 const auto clamp = mathfu::Clamp<T>;
 
+const auto clampf = clamp<float>;
+
 inline float clamp_color(float v) {
-  return clamp<float>(v, 0.0f, 255.0f) / 255.0f;
+  return clampf(v, 0.0f, 255.0f) / 255.0f;
 }
 
-// Radians to degrees
 template <class T>
-inline T rtod(const T& r) {
+inline Vector<T, 3> cross(const Vector<T, 3>& v1, const Vector<T, 3>& v2) {
+  return Vector<T, 3>::CrossProduct(v1, v2);
+}
+
+template <class T>
+inline T rtod(const T& r) {  // radians to degrees
   return (r * T(180)) / mathfu::kPi;
 }
 
-// Degrees to radians
 template <class T>
-inline T dtor(const T& d) {
+inline T dtor(const T& d) {  // degrees to radians
   return (d * mathfu::kPi) / 180;
 }
 
 const auto dtorf = dtor<float>;
 
-inline Vector3f dtorv(const Vector3f& v) {
-  return Vector3f(dtorf(v.x),
-                  dtorf(v.y),
-                  dtorf(v.z));
+inline float3 dtorv(const float3& v) {
+  return float3(dtorf(v.x), dtorf(v.y), dtorf(v.z));
 }
 }  // namespace voodoo
 

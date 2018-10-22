@@ -17,32 +17,22 @@
 #define VOODOO_RENDERER_H_
 
 #include "component.h"
+
 #include "material.h"
 #include "mesh.h"
 
 namespace voodoo {
 class Renderer : public Component {
  public:
-  Renderer(std::shared_ptr<ID3D11Device> device,
-           std::shared_ptr<ID3D11DeviceContext> device_context);
-
-  bool InitMaterial(std::string texture_path, std::string vs_path,
-                    std::string ps_path, bool light);
-
+  std::shared_ptr<Mesh> GetMesh();
   void SetMesh(std::shared_ptr<Mesh> mesh);
+
+  std::shared_ptr<Material> GetMaterial();
   void SetMaterial(std::shared_ptr<Material> material);
 
-  std::shared_ptr<Mesh> GetMesh();
-  std::shared_ptr<Material> GetMaterial();
-
  private:
-  unsigned int mesh_buffers_id;
-
-  std::shared_ptr<Mesh> mesh_;
-  std::shared_ptr<Material> material_;
-
-  std::shared_ptr<ID3D11Device> device_;
-  std::shared_ptr<ID3D11DeviceContext> device_context_;
+  shared_ptr<Mesh> mesh_;
+  shared_ptr<Material> material_;
 };
 }  // namespace voodoo
 

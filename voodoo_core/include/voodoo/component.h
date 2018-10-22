@@ -16,48 +16,48 @@
 #ifndef VOODOO_COMPONENT_H_
 #define VOODOO_COMPONENT_H_
 
+#include "object.h"
+
 #include "game_object.h"
 #include "logger.h"
 #include "scene.h"
 
 #include "math.h"
 
-#include <memory>
-#include <string>
-#include <unordered_map>
-
 namespace voodoo {
-class Component : public std::enable_shared_from_this<Component> {
+class Component : public Object {
 public:
+  Component();
   virtual ~Component() = default;
 
-  std::shared_ptr<Scene> GetScene();
-  std::shared_ptr<GameObject> GetGameObject();
-  std::shared_ptr<GameObject> GetParent();
-  std::shared_ptr<Transform> GetTransform();
+  shared_ptr<GameObject> GetGameObject();
+  void SetGameObject(shared_ptr<GameObject> game_object);
 
-  // TODO: find another way
-  void SetGameObject(std::shared_ptr<GameObject> go);
+  shared_ptr<GameObject> GetParent();
+  void SetParent(shared_ptr<GameObject> parent);
+
+  shared_ptr<Scene> GetScene();
+  shared_ptr<Transform> GetTransform();
 
   template <class T>
-  std::shared_ptr<T> GetComponent() {
+  shared_ptr<T> GetComponent() {
     return game_object_->GetComponent<T>();
   }
 
-  template <class T, class... Arg_T>
-  std::shared_ptr<T> AddComponent(Arg_T&&... args) {
+  template <class T, class... Types>
+  shared_ptr<T> AddComponent(Types&&... args) {
     using namespace std;
-    return game_object_->AddComponent(forward<Arg_T>(args)...);
+    return game_object_->AddComponent(forward<Types>(args)...);
   }
 
   template <class T>
-  static std::shared_ptr<T> Instantiate() {
+  static shared_ptr<T> Instantiate() {
     auto factory = ComponentFactoryRegistry::template Retrieve<T>();
     return factory->Create();
   }
 
  protected:
-  std::shared_ptr<GameObject> game_object_;
+  shared_ptr<GameObject> game_object_;
 };
 
 // Empty class to store each factory in single registry map

@@ -49,7 +49,8 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\model.cpp" />
+    <ClCompile Include="src\mesh_filter.cpp" />
+    <ClCompile Include="src\object.cpp" />
     <ClCompile Include="src\packet.cpp" />
     <ClCompile Include="src\renderer.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
@@ -130,11 +131,14 @@
     <ClInclude Include="include\voodoo\directx.h" />
     <ClInclude Include="include\voodoo\font.h" />
     <ClInclude Include="include\voodoo\material.h" />
+    <ClInclude Include="include\voodoo\math_mappings.h" />
     <ClInclude Include="include\voodoo\mesh.h" />
-    <ClInclude Include="include\voodoo\model.h" />
+    <ClInclude Include="include\voodoo\mesh_filter.h" />
+    <ClInclude Include="include\voodoo\object.h" />
     <ClInclude Include="include\voodoo\packet.h" />
     <ClInclude Include="include\voodoo\renderer.h" />
     <ClInclude Include="include\voodoo\shader.h" />
+    <ClInclude Include="include\voodoo\std_mappings.h" />
     <ClInclude Include="include\voodoo\text.h" />
     <ClInclude Include="include\voodoo\texture.h" />
     <ClInclude Include="include\voodoo\vertex.h" />

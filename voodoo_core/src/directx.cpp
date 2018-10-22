@@ -244,7 +244,7 @@ void DirectX::ToggleBlendMode() {
                                    factor, 0xffffffff);
 }
 
-void DirectX::BeginScene(const Color& c) {
+void DirectX::BeginScene(const color& c) {
   device_context_->ClearRenderTargetView(render_target_view_, c);
   device_context_->ClearDepthStencilView(depth_stencil_view_, D3D11_CLEAR_DEPTH,
                                          1.0f, 0);

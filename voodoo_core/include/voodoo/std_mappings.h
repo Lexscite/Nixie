@@ -13,19 +13,38 @@
 // You should have received a copy of the GNU General Public License
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
-#include "../include/voodoo/behavior.h"
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace voodoo {
-bool Behavior::Init() {
-  Start();
-  return true;
-}
+// Fundamentals
+typedef unsigned int uint;
+typedef unsigned char byte;
 
-bool Behavior::Tick() {
-  Update();
-  return true;
-}
+// STD
+typedef std::string string;
 
-void Behavior::Start() {}
-void Behavior::Update() {}
+template <class T>
+using vector = std::vector<T>;
+
+template <class Key_T, class Value_T>
+using map = std::map<Key_T, Value_T>;
+
+template <class Key_T, class Value_T>
+using multimap = std::multimap<Key_T, Value_T>;
+
+template <class Key_T, class Value_T>
+using unordered_map = std::unordered_map<Key_T, Value_T>;
+
+template <class T>
+using shared_ptr = std::shared_ptr<T>;
+
+template <class T>
+using unique_ptr = std::unique_ptr<T>;
+
+template <class T>
+using EnableSharedFromThis = std::enable_shared_from_this<T>;
 }  // namespace voodoo

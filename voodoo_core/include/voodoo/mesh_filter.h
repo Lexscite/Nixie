@@ -17,28 +17,27 @@
 #define VOODOO_MODEL_H_
 
 #include "behavior.h"
+
 #include "material.h"
 #include "mesh.h"
 #include "renderer.h"
 
 namespace voodoo {
-class Model : public Behavior {
+class MeshFilter : public Behavior {
  public:
-  Model(std::string mesh_file_path, std::string vs_shader_path,
-        std::string ps_shader_path, std::string texture_path);
+  shared_ptr<Mesh> GetMesh();
+  void SetMesh(shared_ptr<Mesh> mesh);
+
+  shared_ptr<Material> GetMaterial();
+  void SetMaterial(shared_ptr<Material> material);
 
  private:
-  virtual bool OnInit() override;
+  virtual void Start() override;
 
  private:
-  std::string mesh_path_;
-  std::string vs_path_;
-  std::string ps_path_;
-  std::string texture_path_;
-
-  std::shared_ptr<Mesh> mesh_;
-  std::shared_ptr<Material> material_;
-  std::shared_ptr<Renderer> renderer_;
+  shared_ptr<Mesh> mesh_;
+  shared_ptr<Material> material_;
+  shared_ptr<Renderer> renderer_;
 };
 }  // namespace voodoo
 

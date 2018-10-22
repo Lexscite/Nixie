@@ -17,8 +17,8 @@
 #define VOODOO_TEXT_H_
 
 #include "behavior.h"
-#include "material.h"
 #include "font.h"
+#include "material.h"
 #include "mesh.h"
 #include "renderer.h"
 
@@ -28,26 +28,29 @@ struct Material;
 
 class Text : public Behavior {
  public:
-  Text(std::string text, std::string vs_path, std::string ps_path,
-       std::string texture_path);
+  shared_ptr<Font> GetFont();
+  void SetFont(shared_ptr<Font> font);
+
+  shared_ptr<Material> GetMaterial();
+  void SetMaterial(shared_ptr<Material> material);
 
  private:
-  virtual bool OnInit() override;
+  virtual void Start() override;
 
-  std::shared_ptr<Mesh> GenerateMesh();
-  std::vector<VertexPTN> GenerateChar(Font::CharData c, float offset);
+  shared_ptr<Mesh> GenerateMesh();
+  vector<VertexPTN> GenerateChar(Font::CharData c, const float& offset);
 
  private:
-  std::string text_;
+  string text_;
 
-  std::string vs_path_;
-  std::string ps_path_;
-  std::string texture_path_;
+  string vs_path_;
+  string ps_path_;
+  string texture_path_;
 
-  std::shared_ptr<Font> font_;
-  std::shared_ptr<Renderer> renderer_;
-  std::shared_ptr<Mesh> mesh_;
-  std::shared_ptr<Material> material_;
+  shared_ptr<Font> font_;
+  shared_ptr<Renderer> renderer_;
+  shared_ptr<Mesh> mesh_;
+  shared_ptr<Material> material_;
 };
 }  // namespace voodoo
 

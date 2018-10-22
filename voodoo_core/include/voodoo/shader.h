@@ -32,20 +32,20 @@ class Shader {
   };
 
   struct MatrixBuffer {
-    Matrix4x4<float> world_matrix;
-    Matrix4x4<float> view_matrix;
-    Matrix4x4<float> projection_matrix;
+    float4x4 world_matrix;
+    float4x4 view_matrix;
+    float4x4 projection_matrix;
   };
 
   struct LightBuffer {
-    Color diffuse_color;
-    Color ambient_color;
-    Vector3<float> direction;
+    color diffuse_color;
+    color ambient_color;
+    vec3<float> direction;
     float padding;
   };
 
   struct PixelBuffer {
-    Color color;
+    color color;
   };
 
  public:
@@ -54,9 +54,9 @@ class Shader {
   ~Shader();
 
   bool Init(std::string vs_path, std::string ps_path, bool light);
-  bool Update(const Matrix4x4<float>& world_matrix,
-              const Matrix4x4<float>& view_matrix,
-              const Matrix4x4<float>& projection_matrix,
+  bool Update(const float4x4& world_matrix,
+              const float4x4& view_matrix,
+              const float4x4& projection_matrix,
               ID3D11ShaderResourceView* texture);
 
  private:

@@ -34,7 +34,7 @@ class DirectX : public GraphicsAPI {
   void ToggleBlendMode();
 
  private:
-  void BeginScene(const Color& c);
+  void BeginScene(const color& c);
   void EndScene();
 
   bool CreateDevice();

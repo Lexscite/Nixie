@@ -13,22 +13,33 @@
 // You should have received a copy of the GNU General Public License
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
-#ifndef VOODOO_CAMERA_H_
-#define VOODOO_CAMERA_H_
-
-#include "component.h"
+#include "../include/voodoo/object.h"
 
 namespace voodoo {
-class Camera : public Component {
- public:
-  Camera();
+Object::Object()
+    : instance_id_(GenerateInstanceId()),
+      name_() {}
 
-  float4x4 GetViewMatrix();
-  float4x4 GetProjectionMatrix();
+Object::Object(const string& name) : Object() {
+  name_ = name;
+}
 
- private:
-  float fov_, aspect_ratio_, z_near_, z_far_;
-};
+uint Object::GetInstanceId() {
+  return instance_id_;
+}
+
+string Object::GetName() {
+  return name_;
+}
+
+string Object::GetClassName() {
+  return class_name_;
+}
+
+uint Object::GenerateInstanceId() {
+  static uint instance_id_counter;
+  uint instance_id = instance_id_counter;
+  instance_id_counter++;
+  return instance_id;
+}
 }  // namespace voodoo
-
-#endif

@@ -14,53 +14,59 @@
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <voodoo/engine.h>
+#include <voodoo/mesh_manager.h>
+#include <voodoo/image_manager.h>
 
 // Components
 #include <voodoo/camera.h>
-#include <voodoo/model.h>
+#include <voodoo/mesh_filter.h>
 #include <voodoo/renderer.h>
 #include <voodoo/text.h>
 #include <voodoo/transform.h>
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-                   LPSTR lpCmdLine, int nShowCmd) {
+std::shared_ptr<voodoo::Scene> CreateScene(voodoo::Engine engine) {
+  using namespace voodoo;
+  auto scene = std::make_shared<Scene>();
+
+  // Camera
+  auto camera = scene->AddGameObject("Camera");
+  camera->AddComponent<Camera>();
+  camera->GetTransform()->SetPosition(3.75f, 5, 3.75f);
+  camera->GetTransform()->SetRotationByDegrees(45, 225, 0);
+  scene->SetCamera(camera->GetComponent<Camera>());
+
+  // Cube
+  auto cube = scene->AddGameObject("Cube");
+  cube->AddComponent<Renderer>();
+
+  auto cube_mesh_filter = cube->AddComponent<MeshFilter>();
+  auto cube_mesh = MeshManager::Get().Retrieve("../assets/meshes/cube.mesh");
+  cube_mesh_filter->SetMesh(cube_mesh);
+
+  auto cube_shader = std::make_shared<Shader>(
+      engine.GetGraphicsAPI()->GetDevice(),
+      engine.GetGraphicsAPI()->GetDeviceContext());
+  cube_shader->Init(
+      "../assets/shaders/default_vs.cso",
+      "../assets/shaders/default_ps.cso",
+      true);
+  auto cube_texture = std::make_shared<Texture>(
+      engine.GetGraphicsAPI()->GetDevice(),
+      ImageManager::Get().Retrieve("../assets/textures/placeholder.png"));
+  auto cube_material = std::make_shared<Material>(cube_shader, cube_texture);
+  cube_mesh_filter->SetMaterial(cube_material);
+  cube->GetTransform()->SetPosition(0, 0, 0);
+
+  return scene;
+}
+
+int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, LPSTR cmd_line, int cmd_show) {
   using namespace voodoo;
   int exit_code = 1;
 
   auto engine = Engine();
-  if (engine.Init(hInstance, L"Voodoo Sample")) {
-    auto scene = std::make_shared<Scene>();
-
-    auto camera = scene->AddGameObject("Camera");
-    camera->AddComponent<Camera>();
-    camera->GetTransform()->SetPosition(3.75f, 5, 3.75f);
-    camera->GetTransform()->SetRotationByDegrees(45, 225, 0);
-    scene->SetCamera(camera->GetComponent<Camera>());
-
-    auto cube = scene->AddGameObject("Cube");
-    cube->AddComponent<Renderer>(
-        engine.GetGraphicsAPI()->GetDevice(),
-        engine.GetGraphicsAPI()->GetDeviceContext());
-    cube->AddComponent<Model>(
-        "../assets/meshes/cube.mesh",
-        "../assets/shaders/default_vs.cso",
-        "../assets/shaders/default_ps.cso",
-        "../assets/textures/placeholder.png");
-    cube->GetTransform()->SetPosition(0, 0, 0);
-
-    auto text = scene->AddGameObject("Text");
-    text->AddComponent<Renderer>(
-        engine.GetGraphicsAPI()->GetDevice(),
-        engine.GetGraphicsAPI()->GetDeviceContext());
-    text->AddComponent<Text>(
-        "Hello World",
-        "../assets/shaders/font_vs.cso",
-        "../assets/shaders/font_ps.cso",
-        "../assets/textures/fonts/consolas.png");
-    text->GetTransform()->SetPosition(1, 1, 1);
-    text->GetTransform()->SetScale(0.005f);
-
-    if (engine.LoadScene(scene))
+  if (engine.Init(instance, L"Voodoo Sample")) {
+    if (engine.LoadScene(CreateScene(engine)))
       exit_code = engine.Run();
   }
 

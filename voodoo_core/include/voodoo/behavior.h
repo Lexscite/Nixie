@@ -22,11 +22,11 @@ namespace voodoo {
 class Behavior : public Component {
  public:
   virtual bool Init() final;
-  virtual bool Update() final;
+  virtual bool Tick() final;
 
  private:
-  virtual bool OnInit();
-  virtual bool OnUpdate();
+  virtual void Start();
+  virtual void Update();
 };
 }  // namespace voodoo
 

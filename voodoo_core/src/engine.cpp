@@ -77,7 +77,7 @@ bool Engine::Update() {
     for (auto c : go->GetComponents()) {
       auto b = dynamic_pointer_cast<Behavior>(c);
       if (b) {
-        if (!b->Update()) {
+        if (!b->Tick()) {
           Log::Error("Failed to update behavior");
           return false;
         }

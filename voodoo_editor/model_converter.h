@@ -20,9 +20,9 @@
 
 namespace voodoo {
 struct Face {
-  Vector3<int> v;
-  Vector3<int> t;
-  Vector3<int> n;
+  vec3<int> v;
+  vec3<int> t;
+  vec3<int> n;
 };
 
 class ModelConverter final {
@@ -47,9 +47,9 @@ class ModelConverter final {
 
   int v_count_, t_count_, n_count_, f_count_;
 
-  std::vector<Vector3<float>> v_coords_;
-  std::vector<Vector3<float>> t_coords_;
-  std::vector<Vector3<float>> n_coords_;
+  std::vector<vec3<float>> v_coords_;
+  std::vector<vec3<float>> t_coords_;
+  std::vector<vec3<float>> n_coords_;
   std::vector<Face> faces_;
 };
 }  // namespace voodoo
