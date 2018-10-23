@@ -48,7 +48,7 @@ void Text::Start() {
 }
 
 shared_ptr<Mesh> Text::GenerateMesh() {
-  vector<VertexPTN> vs;
+  vector<vertex_ptn> vs;
   float offset = 0;
 
   for (auto& c : text_) {
@@ -61,31 +61,31 @@ shared_ptr<Mesh> Text::GenerateMesh() {
   return std::make_shared<Mesh>(vs);
 }
 
-vector<VertexPTN> Text::GenerateChar(Font::CharData c, const float& offset) {
+vector<vertex_ptn> Text::GenerateChar(Font::CharData c, const float& offset) {
   float width = font_->GetWidth();
   float height = font_->GetHeight();
 
-  float right = c.x / width;
-  float left = (c.x + c.width) / width;
-  float bottom = c.y / height;
-  float top = (c.y + c.height) / height;
+  float r = c.x / width;
+  float l = (c.x + c.width) / width;
+  float b = c.y / height;
+  float t = (c.y + c.height) / height;
 
-  auto v_lt = VertexPTN(vec3f(-offset, 0, 0),
-                        vec2f(left, top),
-                        vec3f(0.0f, 0.0f, 1.0f));
+  auto lt = vertex_ptn(vec3f(-offset, 0, 0),
+                       vec2f(l, t),
+                       vec3f(0.0f, 0.0f, 1.0f));
 
-  auto v_rt = VertexPTN(vec3f(-offset + c.width, 0, 0),
-                        vec2f(right, top),
-                        vec3f(0.0f, 0.0f, 1.0f));
+  auto rt = vertex_ptn(vec3f(-offset + c.width, 0, 0),
+                       vec2f(r, t),
+                       vec3f(0.0f, 0.0f, 1.0f));
 
-  auto v_lb = VertexPTN(vec3f(-offset, c.height, 0),
-                        vec2f(left, bottom),
-                        vec3f(0.0f, 0.0f, 1.0f));
+  auto lb = vertex_ptn(vec3f(-offset, c.height, 0),
+                       vec2f(l, b),
+                       vec3f(0.0f, 0.0f, 1.0f));
 
-  auto v_rb = VertexPTN(vec3f(-offset + c.width, c.height, 0),
-                        vec2f(right, bottom),
-                        vec3f(0.0f, 0.0f, 1.0f));
+  auto rb = vertex_ptn(vec3f(-offset + c.width, c.height, 0),
+                       vec2f(r, b),
+                       vec3f(0.0f, 0.0f, 1.0f));
 
-  return vector<VertexPTN>({v_lt, v_rb, v_lb, v_lt, v_rt, v_rb});
+  return vector<vertex_ptn>({lt, rb, lb, lt, rt, rb});
 }
 }  // namespace voodoo

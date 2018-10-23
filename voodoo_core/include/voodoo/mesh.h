@@ -21,28 +21,53 @@
 #include <vector>
 
 namespace voodoo {
+struct MeshSubset {
+  MeshSubset()
+      : id(-1),
+        vertex_start(0),
+        vertex_count(0),
+        face_start(0),
+        face_count(0) {}
+
+  MeshSubset(uint id, uint vertex_start, uint vertex_count,
+             uint face_start, uint face_count)
+      : id(id),
+        vertex_start(vertex_start),
+        vertex_count(vertex_count),
+        face_start(face_start),
+        face_count(face_count) {}
+
+  uint id;
+  uint vertex_start;
+  uint vertex_count;
+  uint face_start;
+  uint face_count;
+};
+
 struct Mesh {
  public:
-  Mesh() : vertices(),
-           vertex_count(0),
-           indices(),
-           index_count(0) {}
+  Mesh()
+      : vertices(),
+        vertex_count(0),
+        indices(),
+        index_count(0) {}
 
-  Mesh(std::vector<VertexPTN> v) : vertices(v),
-                                   indices(),
-                                   vertex_count(unsigned long(v.size())),
-                                   index_count(vertex_count) {
-    for (unsigned long i = 0; i < index_count; i++)
+  Mesh(vector<vertex_ptn> vertices)
+      : vertices(vertices),
+        indices(),
+        vertex_count(uint(vertices.size())),
+        index_count(vertex_count) {
+    for (uint i = 0; i < index_count; i++)
       indices.push_back(i);
   }
 
  public:
-  unsigned long vertex_count;
-  unsigned long index_count;
+  vector<vertex_ptn> vertices;
+  uint vertex_count;
 
-  std::vector<VertexPTN> vertices;
-  std::vector<unsigned long> indices;
+  vector<uint> indices;
+  uint index_count;
 };
 }  // namespace voodoo
 
-#endif
+#endif  // VOODOO_MESH_H_

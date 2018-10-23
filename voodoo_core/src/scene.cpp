@@ -33,7 +33,11 @@ color Scene::GetClearColor() {
   return clear_color_;
 }
 
-std::shared_ptr<GameObject> Scene::AddGameObject(const string& name) {
+shared_ptr<GameObject> Scene::AddGameObject(shared_ptr<GameObject> game_object) {
+  return InsertGameObject(game_object);
+}
+
+shared_ptr<GameObject> Scene::AddGameObject(const string& name) {
   using namespace std;
   if (GetGameObject(name)) {
     Log::Warning("GameObject with name \"" + name + "\" already exists");
@@ -41,22 +45,28 @@ std::shared_ptr<GameObject> Scene::AddGameObject(const string& name) {
   }
 
   auto game_object = make_shared<GameObject>(name, shared_from_this());
-  game_objects_.insert(pair<string, shared_ptr<GameObject>>(name, game_object));
   game_object->AddComponent<Transform>();
-
-  return game_object;
+  return InsertGameObject(game_object);
 }
 
-std::shared_ptr<GameObject> Scene::GetGameObject(const string& name) {
+shared_ptr<GameObject> Scene::GetGameObject(const string& name) {
   auto it = game_objects_.find(name);
   return it != game_objects_.end() ? it->second : nullptr;
 }
 
-std::vector<std::shared_ptr<GameObject>> Scene::GetGameObjects() {
+vector<shared_ptr<GameObject>> Scene::GetGameObjects() {
   vector<shared_ptr<GameObject>> game_objects;
   for (auto it : game_objects_)
     game_objects.push_back(it.second);
 
   return game_objects;
+}
+
+shared_ptr<GameObject> Scene::InsertGameObject(shared_ptr<GameObject> game_object) {
+  using namespace std;
+  auto name = game_object->GetName();
+  auto record = pair<string, shared_ptr<GameObject>>(name, game_object);
+  game_objects_.insert(record);
+  return game_object;
 }
 }  // namespace voodoo

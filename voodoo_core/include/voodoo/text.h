@@ -41,7 +41,7 @@ class Text : public Behavior {
   virtual void Start() override;
 
   shared_ptr<Mesh> GenerateMesh();
-  vector<VertexPTN> GenerateChar(Font::CharData c, const float& offset);
+  vector<vertex_ptn> GenerateChar(Font::CharData c, const float& offset);
 
  private:
   string text_;

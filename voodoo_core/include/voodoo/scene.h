@@ -31,9 +31,13 @@ class Scene final : public EnableSharedFromThis<Scene> {
 
   color GetClearColor();
 
+  shared_ptr<GameObject> AddGameObject(shared_ptr<GameObject> game_object);
   shared_ptr<GameObject> AddGameObject(const string& name);
   shared_ptr<GameObject> GetGameObject(const string& name);
   vector<shared_ptr<GameObject>> GetGameObjects();
+
+ private:
+  shared_ptr<GameObject> InsertGameObject(shared_ptr<GameObject>);
 
  private:
   color clear_color_;

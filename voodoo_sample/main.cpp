@@ -25,8 +25,17 @@
 #include <voodoo/transform.h>
 
 std::shared_ptr<voodoo::Scene> CreateScene(voodoo::Engine engine) {
+  using namespace std;
   using namespace voodoo;
   auto scene = std::make_shared<Scene>();
+
+  auto default_shader = make_shared<Shader>(
+      engine.GetGraphicsAPI()->GetDevice(),
+      engine.GetGraphicsAPI()->GetDeviceContext());
+  default_shader->Init(
+      "../assets/shaders/default_vs.cso",
+      "../assets/shaders/default_ps.cso",
+      true);
 
   // Camera
   auto camera = scene->AddGameObject("Camera");
@@ -42,20 +51,30 @@ std::shared_ptr<voodoo::Scene> CreateScene(voodoo::Engine engine) {
   auto cube_mesh_filter = cube->AddComponent<MeshFilter>();
   auto cube_mesh = MeshManager::Get().Retrieve("../assets/meshes/cube.mesh");
   cube_mesh_filter->SetMesh(cube_mesh);
-
-  auto cube_shader = std::make_shared<Shader>(
+  auto cube_texture = make_shared<Texture>(
       engine.GetGraphicsAPI()->GetDevice(),
-      engine.GetGraphicsAPI()->GetDeviceContext());
-  cube_shader->Init(
-      "../assets/shaders/default_vs.cso",
-      "../assets/shaders/default_ps.cso",
-      true);
-  auto cube_texture = std::make_shared<Texture>(
-      engine.GetGraphicsAPI()->GetDevice(),
-      ImageManager::Get().Retrieve("../assets/textures/placeholder.png"));
-  auto cube_material = std::make_shared<Material>(cube_shader, cube_texture);
+      ImageManager::Get().Retrieve("../assets/textures/placeholder_blue.jpg"));
+  auto cube_material = make_shared<Material>(default_shader, cube_texture);
   cube_mesh_filter->SetMaterial(cube_material);
-  cube->GetTransform()->SetPosition(0, 0, 0);
+  cube->GetTransform()->SetPosition(-1, 0, 0);
+
+  // Cube 2
+  auto cube_2 = scene->AddGameObject(make_shared<GameObject>(*cube));
+  cube_2->GetTransform()->SetPosition(0, 0, 1);
+
+  // Mario
+  auto mario = scene->AddGameObject("Mario");
+  mario->AddComponent<Renderer>();
+
+  auto mario_mesh_filter = mario->AddComponent<MeshFilter>();
+  auto mario_mesh = MeshManager::Get().Retrieve("../assets/meshes/mario.mesh");
+  mario_mesh_filter->SetMesh(mario_mesh);
+  auto mario_texture = make_shared<Texture>(
+      engine.GetGraphicsAPI()->GetDevice(),
+      ImageManager::Get().Retrieve("../assets/textures/checker.jpg"));
+  auto mario_material = make_shared<Material>(default_shader, mario_texture);
+  mario_mesh_filter->SetMaterial(mario_material);
+  mario->GetTransform()->SetPosition(1, 0, 0);
 
   // Text
   auto text = scene->AddGameObject("Text");
@@ -63,19 +82,19 @@ std::shared_ptr<voodoo::Scene> CreateScene(voodoo::Engine engine) {
 
   auto text_text = text->AddComponent<Text>();
   text_text->SetText("Voodoo");
-  text_text->SetFont(std::make_shared<Font>());
+  text_text->SetFont(make_shared<Font>());
 
-  auto text_shader = std::make_shared<Shader>(
+  auto text_shader = make_shared<Shader>(
       engine.GetGraphicsAPI()->GetDevice(),
       engine.GetGraphicsAPI()->GetDeviceContext());
   text_shader->Init(
       "../assets/shaders/font_vs.cso",
       "../assets/shaders/font_ps.cso",
       false);
-  auto text_texture = std::make_shared<Texture>(
+  auto text_texture = make_shared<Texture>(
       engine.GetGraphicsAPI()->GetDevice(),
       ImageManager::Get().Retrieve("../assets/textures/fonts/consolas.png"));
-  auto text_material = std::make_shared<Material>(text_shader, text_texture);
+  auto text_material = make_shared<Material>(text_shader, text_texture);
   text_text->SetMaterial(text_material);
   text->GetTransform()->SetPosition(1.0f, 0, 1.0f);
   text->GetTransform()->SetScale(0.01f);

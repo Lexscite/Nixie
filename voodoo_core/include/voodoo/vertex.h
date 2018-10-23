@@ -19,31 +19,107 @@
 #include "math.h"
 
 namespace voodoo {
-struct VertexP {
-  VertexP() = default;
+// Potition
+struct vertex_p {
+  vertex_p() = default;
 
-  VertexP(const vec3<float>& position) : position(position) {}
+  vertex_p(const float3& position)
+    : position(position) {}
 
-  vec3<float> position;
+  float3 position;
 };
 
-struct VertexPT : public VertexP {
-  VertexPT() = default;
+// Position, color
+struct vertex_pc : public vertex_p {
+  vertex_pc() = default;
 
-  VertexPT(const vec3<float>& position, const vec2<float>& texture)
-      : VertexP(position), texture(texture) {}
+  vertex_pc(const float3& position,
+    const float4& color)
+    : vertex_p(position),
+    color(color) {}
 
-  vec2<float> texture;
+  float4 color;
 };
 
-struct VertexPTN : public VertexPT {
-  VertexPTN() = default;
+// Position, texture
+struct vertex_pt : public vertex_p {
+  vertex_pt() = default;
 
-  VertexPTN(const vec3<float>& position, const vec2<float>& texture,
-            const vec3<float>& normal)
-      : VertexPT(position, texture), normal(normal) {}
+  vertex_pt(const float3& position,
+    const float2& texture)
+    : vertex_p(position),
+    texture(texture) {}
 
-  vec3<float> normal;
+  float2 texture;
+};
+
+// Position, color, texture
+struct vertex_pct : public vertex_pc {
+  vertex_pct() = default;
+
+  vertex_pct(const float3& position,
+    const float4& color,
+    const float2& texture)
+    : vertex_pc(position, color),
+    texture(texture) {}
+
+  float2 texture;
+};
+
+// Position, texture, normal
+struct vertex_ptn : public vertex_pt {
+  vertex_ptn() = default;
+
+  vertex_ptn(const float3& position,
+    const float2& texture,
+    const float3& normal)
+    : vertex_pt(position, texture),
+    normal(normal) {}
+
+  float3 normal;
+};
+
+// Position, color, texture, normal
+struct vertex_pctn : public vertex_pct {
+  vertex_pctn() = default;
+
+  vertex_pctn(const float3& position,
+    const float4& color,
+    const float2& texture,
+    const float3& normal)
+    : vertex_pct(position, color, texture),
+    normal(normal) {}
+
+  float3 normal;
+};
+
+// Position, texture, normal, tangent
+struct vertex_ptnt : public vertex_ptn {
+  vertex_ptnt() = default;
+
+  vertex_ptnt(const float3& position,
+    const float2& texture,
+    const float3& normal,
+    const float4& tangent)
+    : vertex_ptn(position, texture, normal),
+    tangent(tangent) {}
+
+  float4 tangent;
+};
+
+// Position, color, texture, normal, tangent
+struct vertex_pctnt : public vertex_pctn {
+  vertex_pctnt() = default;
+
+  vertex_pctnt(const float3& position,
+    const float4& color,
+    const float2& texture,
+    const float3& normal,
+    const float4& tangent)
+    : vertex_pctn(position, color, texture, normal),
+    tangent(tangent) {}
+
+  float4 tangent;
 };
 }  // namespace voodoo
 

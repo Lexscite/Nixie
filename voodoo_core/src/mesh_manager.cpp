@@ -18,7 +18,7 @@
 #include <fstream>
 
 namespace voodoo {
-std::shared_ptr<Mesh> MeshManager::Load(std::string filename) {
+std::shared_ptr<Mesh> MeshManager::Load(string filename) {
   std::ifstream fin;
   fin.open(filename);
 
@@ -40,7 +40,7 @@ std::shared_ptr<Mesh> MeshManager::Load(std::string filename) {
   fin.get(input);
   fin.get(input);
 
-  std::vector<VertexPTN> vertices;
+  std::vector<vertex_ptn> vertices;
   vertices.resize(v_count);
 
   for (unsigned int i = 0; i < v_count; i++) {
