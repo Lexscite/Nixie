@@ -24,6 +24,8 @@ Object::Object(const string& name) : Object() {
   name_ = name;
 }
 
+Object::Object(const Object& other) : Object(other.name_) {}
+
 uint Object::GetInstanceId() {
   return instance_id_;
 }

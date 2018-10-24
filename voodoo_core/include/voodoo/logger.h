@@ -29,6 +29,8 @@
 #include <iostream>
 #include <string>
 
+#include "std_mappings.h"
+
 namespace voodoo {
 #ifdef VOODOO_LOG_CONSOLE_ENABLED
 class ConsoleBuffer : public std::streambuf {
@@ -47,24 +49,18 @@ enum LogEntryLevel {
   kLogEntryLevelError = 2,
 };
 
-struct LogEntry {
-public:
-  std::string body;
-  LogEntryLevel level;
-};
-
 class Log final {
  public:
   ~Log();
 
-  static void Info(std::string message);
-  static void Warning(std::string message);
-  static void Error(std::string message);
+  static void Info(string message);
+  static void Warning(string message);
+  static void Error(string message);
 
-  static void Write(std::string message);
-  static void Write(std::string message, LogEntryLevel level);
+  static void Write(string message);
+  static void Write(string message, LogEntryLevel level);
 
-  static void Throw(std::string message);
+  static void Throw(string message);
 
  private:
   Log();

@@ -26,90 +26,59 @@
 
 namespace voodoo {
 class Component : public Object {
-public:
-  Component();
+ public:
   virtual ~Component() = default;
 
-  shared_ptr<GameObject> GetGameObject();
-  void SetGameObject(shared_ptr<GameObject> game_object);
+  sptr<GameObject> GetGameObject();
+  void SetGameObject(sptr<GameObject> game_object);
 
-  shared_ptr<GameObject> GetParent();
-  void SetParent(shared_ptr<GameObject> parent);
+  sptr<GameObject> GetParent();
+  void SetParent(sptr<GameObject> parent);
 
-  shared_ptr<Scene> GetScene();
-  shared_ptr<Transform> GetTransform();
+  sptr<Scene> GetScene();
+  sptr<Transform> GetTransform();
 
-  template <class T>
-  shared_ptr<T> GetComponent() {
+  template <class T, enable_if_component_t<T> = 0>
+  sptr<T> GetComponent() {
     return game_object_->GetComponent<T>();
   }
 
-  template <class T, class... Types>
-  shared_ptr<T> AddComponent(Types&&... args) {
+  template <class T, class... Types, enable_if_component_t<T> = 0>
+  sptr<T> AddComponent(Types&&... args) {
     using namespace std;
     return game_object_->AddComponent(forward<Types>(args)...);
   }
 
-  template <class T>
-  static shared_ptr<T> Instantiate() {
-    auto factory = ComponentFactoryRegistry::template Retrieve<T>();
-    return factory->Create();
+  template <class T, class... Types, enable_if_component_t<T> = 0>
+  static sptr<T> Create(Types&&... args) {
+    using namespace std;
+    auto component = make_shared<T>(forward<Types>(args)...);
+    auto name = string(typeid(T).name()).erase(0, 14);
+    component->SetName(name);
+    return component;
   }
 
  protected:
-  shared_ptr<GameObject> game_object_;
-};
-
-// Empty class to store each factory in single registry map
-// TODO: Find out a way to get rid of this shoot
-class ComponentFactory {};
-
-template <class T>
-class IComponentFactory
-    : public ComponentFactory,
-      public std::enable_shared_from_this<ComponentFactory> {
- public:
-  virtual std::shared_ptr<T> Create() = 0;
-};
-
-class ComponentFactoryRegistry {
- private:
-  using FactoryPtr = std::shared_ptr<ComponentFactory>;
-  using FactoryMap = std::unordered_map<std::string, FactoryPtr>;
-
- public:
-  static bool Register(std::string name, FactoryPtr factory) {
-    auto it = registry_.find(name);
-    if (it == registry_.end()) return false;
-    registry_[name] = factory;
-    return true;
-  }
-
-  template <class T>
-  static FactoryPtr Retrieve() {
-    using namespace std;
-    auto name = string(typeid(T).name()).erase(0, 14);
-    return registry_[name];
-  }
+  Component() = default;
 
  private:
-  static FactoryMap registry_;
+  void SetName(string name);
+
+ protected:
+  sptr<GameObject> game_object_;
 };
+
+// Defined here to avoid circular dependency
+template <class T, class... Types>
+sptr<T> GameObject::AddComponent(Types&&... args) {
+  using namespace std;
+  auto name = string(typeid(T).name()).erase(0, 14);
+  if (GetComponent(name)) {
+    Log::Warning("GameObject " + GetName() + " already have " + name + " component");
+    return nullptr;
+  }
+  auto component = Component::Create<T>(forward<Types>(args)...);
+  return d_cast<T>(InsertComponent(component));
+}
 }  // namespace voodoo
-
-// Macro each component should call after it's definition
-// in order to register itself in system.
-#define VOODOO_REGISTER_COMPONENT(component_name)                              \
-  namespace voodoo {                                                           \
-  class component_name##Factory : public IComponentFactory<component_name> {   \
-    component_name##Factory() {                                                \
-      ComponentFactoryRegistry::Register(#component_name, shared_from_this()); \
-    }                                                                          \
-                                                                               \
-    virtual std::shared_ptr<component_name> Create() {                         \
-      return std::make_shared<component_name>();                               \
-    }                                                                          \
-  };                                                                           \
-  }
-
-#endif
+#endif  // VOODOO_COMPONENT_H_

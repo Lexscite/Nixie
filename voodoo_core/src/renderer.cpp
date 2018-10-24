@@ -18,19 +18,19 @@
 #include "../include/voodoo/image_manager.h"
 
 namespace voodoo {
-shared_ptr<Mesh> Renderer::GetMesh() {
+sptr<Mesh> Renderer::GetMesh() {
   return mesh_;
 }
 
-void Renderer::SetMesh(shared_ptr<Mesh> mesh) {
+void Renderer::SetMesh(sptr<Mesh> mesh) {
   mesh_ = mesh;
 }
 
-shared_ptr<Material> Renderer::GetMaterial() {
+sptr<Material> Renderer::GetMaterial() {
   return material_;
 }
 
-void Renderer::SetMaterial(shared_ptr<Material> material) {
+void Renderer::SetMaterial(sptr<Material> material) {
   material_ = material;
 }
 }  // namespace voodoo

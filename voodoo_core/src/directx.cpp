@@ -96,7 +96,7 @@ bool DirectX::Init(std::shared_ptr<Window> window) {
 
 bool DirectX::Render(std::shared_ptr<Scene> scene) {
   using namespace std;
-  vector<shared_ptr<Renderer>> renderers;
+  vector<sptr<Renderer>> renderers;
   auto camera = scene->GetCamera();
 
   BeginScene(scene->GetClearColor());

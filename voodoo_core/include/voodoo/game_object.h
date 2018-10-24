@@ -23,44 +23,43 @@ class Scene;
 class Component;
 class Transform;
 
+template <class T>
+using enable_if_component_t = std::enable_if_t<std::is_base_of_v<Component, T>, int>;
+
 class GameObject : public Object {
  public:
-  GameObject(const string& name, shared_ptr<Scene> scene);
+  GameObject() = delete;
+  GameObject(const string& name, sptr<Scene> scene);
 
-  shared_ptr<GameObject> GetParent();
-  void SetParent(shared_ptr<GameObject> parent);
+  sptr<GameObject> GetParent();
+  void SetParent(sptr<GameObject> parent);
 
-  shared_ptr<Scene> GetScene();
-  shared_ptr<Transform> GetTransform();
-  vector<shared_ptr<Component>> GetComponents();
+  sptr<Scene> GetScene();
+  sptr<Transform> GetTransform();
 
-  template <class T>
-  shared_ptr<T> GetComponent() {
+  sptr<Component> GetComponent(const string& name);
+  sptr<Component> AddComponent(sptr<Component> component);
+
+  vector<sptr<Component>> GetComponents() const;
+
+  template <class T, enable_if_component_t<T> = 0>
+  sptr<T> GetComponent() {
     using namespace std;
     auto name = string(typeid(T).name()).erase(0, 14);
-    auto it = components_.find(name);
-    bool exists = it != components_.end();
-    return exists ? static_pointer_cast<T>(it->second) : nullptr;
+    auto component = GetComponent(name);
+    return component ? static_pointer_cast<T>(component) : nullptr;
   }
 
   template <class T, class... Types>
-  shared_ptr<T> AddComponent(Types&&... args) {
-    using namespace std;
-    auto name = string(typeid(T).name()).erase(0, 14);
-    if (GetComponent<T>()) {
-      Log::Warning("GameObject " + GetName() + " already have " + name + " component");
-      return nullptr;
-    }
-    auto component = make_shared<T>(forward<Types>(args)...);
-    component->SetGameObject(dynamic_pointer_cast<GameObject>(shared_from_this()));
-    components_.insert(pair<string, shared_ptr<Component>>(name, component));
-    return component;
-  }
+  sptr<T> AddComponent(Types&&... args);
 
  private:
-  shared_ptr<Scene> scene_;
-  shared_ptr<GameObject> parent_;
-  map<string, shared_ptr<Component>> components_;
+  sptr<Component> InsertComponent(sptr<Component> component);
+
+ private:
+  sptr<Scene> scene_;
+  sptr<GameObject> parent_;
+  map<string, sptr<Component>> components_;
 };
 }  // namespace voodoo
 

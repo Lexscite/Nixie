@@ -24,19 +24,19 @@ void Text::SetText(const string& text) {
   text_ = text;
 }
 
-shared_ptr<Font> Text::GetFont() {
+sptr<Font> Text::GetFont() {
   return font_;
 }
 
-void Text::SetFont(shared_ptr<Font> font) {
+void Text::SetFont(sptr<Font> font) {
   font_ = font;
 }
 
-shared_ptr<Material> Text::GetMaterial() {
+sptr<Material> Text::GetMaterial() {
   return material_;
 }
 
-void Text::SetMaterial(shared_ptr<Material> material) {
+void Text::SetMaterial(sptr<Material> material) {
   material_ = material;
 }
 
@@ -47,7 +47,7 @@ void Text::Start() {
   renderer_->SetMaterial(material_);
 }
 
-shared_ptr<Mesh> Text::GenerateMesh() {
+sptr<Mesh> Text::GenerateMesh() {
   vector<vertex_ptn> vs;
   float offset = 0;
 

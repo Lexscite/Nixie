@@ -47,7 +47,7 @@ class Shader {
   };
 
  public:
-  Shader(shared_ptr<ID3D11Device> device, shared_ptr<ID3D11DeviceContext> device_context);
+  Shader(sptr<ID3D11Device> device, sptr<ID3D11DeviceContext> device_context);
   ~Shader();
 
   bool Init(string vs_path, string ps_path, bool light);
@@ -57,7 +57,7 @@ class Shader {
               ID3D11ShaderResourceView* texture);
 
  private:
-  bool CreateInputLayout(shared_ptr<ShaderBuffer> buffer);
+  bool CreateInputLayout(sptr<ShaderBuffer> buffer);
   bool CreateMatrixBuffer();
   bool CreateLightBuffer();
   bool CreateSamplerState();

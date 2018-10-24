@@ -197,7 +197,7 @@ bool Shader::Update(const float4x4& world_matrix,
   return true;
 }
 
-bool Shader::CreateInputLayout(shared_ptr<ShaderBuffer> buffer) {
+bool Shader::CreateInputLayout(sptr<ShaderBuffer> buffer) {
   HRESULT hr;
 
   ID3D11ShaderReflection* reflection = nullptr;

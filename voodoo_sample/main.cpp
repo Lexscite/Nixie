@@ -58,10 +58,6 @@ std::shared_ptr<voodoo::Scene> CreateScene(voodoo::Engine engine) {
   cube_mesh_filter->SetMaterial(cube_material);
   cube->GetTransform()->SetPosition(-1, 0, 0);
 
-  // Cube 2
-  auto cube_2 = scene->AddGameObject(make_shared<GameObject>(*cube));
-  cube_2->GetTransform()->SetPosition(0, 0, 1);
-
   // Mario
   auto mario = scene->AddGameObject("Mario");
   mario->AddComponent<Renderer>();

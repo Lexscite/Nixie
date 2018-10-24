@@ -19,30 +19,50 @@
 #include "../include/voodoo/transform.h"
 
 namespace voodoo {
-GameObject::GameObject(const string& name, shared_ptr<Scene> scene)
+GameObject::GameObject(const string& name, sptr<Scene> scene)
     : Object(name),
       scene_(scene) {}
 
-shared_ptr<GameObject> GameObject::GetParent() {
+sptr<GameObject> GameObject::GetParent() {
   return parent_;
 }
 
-void GameObject::SetParent(shared_ptr<GameObject> parent) {
+void GameObject::SetParent(sptr<GameObject> parent) {
   parent_ = parent;
 }
 
-shared_ptr<Scene> GameObject::GetScene() {
+sptr<Scene> GameObject::GetScene() {
   return scene_;
 }
 
-shared_ptr<Transform> GameObject::GetTransform() {
+sptr<Transform> GameObject::GetTransform() {
   return GetComponent<Transform>();
 }
 
-vector<shared_ptr<Component>> GameObject::GetComponents() {
-  vector<shared_ptr<Component>> components;
-  for (auto it : components_)
+vector<sptr<Component>> GameObject::GetComponents() const {
+  vector<sptr<Component>> components;
+  for (auto& it : components_)
     components.push_back(it.second);
   return components;
+}
+
+sptr<Component> GameObject::AddComponent(sptr<Component> component) {
+  auto name = component->GetName();
+  if (GetComponent(name)) {
+    Log::Warning("GameObject " + GetName() + " already have " + name + " component");
+    return nullptr;
+  }
+  return InsertComponent(component);
+}
+
+sptr<Component> GameObject::GetComponent(const string& name) {
+  auto it = components_.find(name);
+  return it != components_.end() ? it->second : nullptr;
+}
+
+sptr<Component> GameObject::InsertComponent(sptr<Component> component) {
+  component->SetGameObject(d_cast<GameObject>(shared_from_this()));
+  components_.insert(pair<string, sptr<Component>>(component->GetName(), component));
+  return component;
 }
 }  // namespace voodoo

@@ -61,6 +61,12 @@ struct Mesh {
       indices.push_back(i);
   }
 
+  Mesh(const Mesh& other)
+      : vertices(other.vertices),
+        vertex_count(other.vertex_count),
+        indices(other.indices),
+        index_count(other.index_count) {}
+
  public:
   vector<vertex_ptn> vertices;
   uint vertex_count;

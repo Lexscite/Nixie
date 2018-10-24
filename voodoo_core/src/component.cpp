@@ -16,31 +16,31 @@
 #include "../include/voodoo/component.h"
 
 namespace voodoo {
-Component::Component() {
-  name_ = string(typeid(*this).name()).erase(0, 14);
-}
-
-shared_ptr<GameObject> Component::GetGameObject() {
+sptr<GameObject> Component::GetGameObject() {
   return game_object_;
 }
 
-void Component::SetGameObject(shared_ptr<GameObject> game_object) {
+void Component::SetGameObject(sptr<GameObject> game_object) {
   game_object_ = game_object;
 }
 
-shared_ptr<GameObject> Component::GetParent() {
+sptr<GameObject> Component::GetParent() {
   return game_object_->GetParent();
 }
 
-void Component::SetParent(shared_ptr<GameObject> parent) {
+void Component::SetParent(sptr<GameObject> parent) {
   game_object_->SetParent(parent);
 }
 
-shared_ptr<Scene> Component::GetScene() {
+sptr<Scene> Component::GetScene() {
   return game_object_->GetScene();
 }
 
-shared_ptr<Transform> Component::GetTransform() {
+sptr<Transform> Component::GetTransform() {
   return game_object_->GetTransform();
+}
+
+void Component::SetName(string name) {
+  name_ = name;
 }
 }  // namespace voodoo

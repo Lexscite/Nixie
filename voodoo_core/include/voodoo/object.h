@@ -19,10 +19,11 @@
 #include "std_mappings.h"
 
 namespace voodoo {
-class Object : public EnableSharedFromThis<Object> {
+class Object : public enable_shared_from_this<Object> {
  public:
   Object();
   Object(const string& name);
+  Object(const Object& other);
   virtual ~Object() = default;
 
   uint GetInstanceId();
@@ -37,4 +38,4 @@ class Object : public EnableSharedFromThis<Object> {
 };
 }  // namespace voodoo
 
-#endif
+#endif  // VOODOO_OBJECT_H_

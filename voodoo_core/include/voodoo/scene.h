@@ -22,27 +22,28 @@ namespace voodoo {
 class GameObject;
 class Camera;
 
-class Scene final : public EnableSharedFromThis<Scene> {
+class Scene final : public enable_shared_from_this<Scene> {
  public:
   Scene();
 
-  shared_ptr<Camera> GetCamera();
-  void SetCamera(shared_ptr<Camera> camera);
+  sptr<Camera> GetCamera();
+  void SetCamera(sptr<Camera> camera);
 
   color GetClearColor();
 
-  shared_ptr<GameObject> AddGameObject(shared_ptr<GameObject> game_object);
-  shared_ptr<GameObject> AddGameObject(const string& name);
-  shared_ptr<GameObject> GetGameObject(const string& name);
-  vector<shared_ptr<GameObject>> GetGameObjects();
+  sptr<GameObject> AddGameObject(sptr<GameObject> game_object);
+  sptr<GameObject> AddGameObject(const string& name);
+  sptr<GameObject> GetGameObject(const string& name);
+
+  vector<sptr<GameObject>> GetGameObjects() const;
 
  private:
-  shared_ptr<GameObject> InsertGameObject(shared_ptr<GameObject>);
+  sptr<GameObject> InsertGameObject(sptr<GameObject> game_object);
 
  private:
   color clear_color_;
-  shared_ptr<Camera> camera_;
-  map<string, shared_ptr<GameObject>> game_objects_;
+  sptr<Camera> camera_;
+  map<string, sptr<GameObject>> game_objects_;
 };
 }  // namespace voodoo
 

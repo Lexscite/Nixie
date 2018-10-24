@@ -16,19 +16,25 @@
 #include "../include/voodoo/mesh_filter.h"
 
 namespace voodoo {
-shared_ptr<Mesh> MeshFilter::GetMesh() {
+MeshFilter::MeshFilter(const MeshFilter& other) {
+  using namespace std;
+  mesh_ = make_shared<Mesh>(*other.mesh_);
+  material_ = make_shared<Material>(*other.material_);
+}
+
+sptr<Mesh> MeshFilter::GetMesh() {
   return mesh_;
 }
 
-void MeshFilter::SetMesh(shared_ptr<Mesh> mesh) {
+void MeshFilter::SetMesh(sptr<Mesh> mesh) {
   mesh_ = mesh;
 }
 
-shared_ptr<Material> MeshFilter::GetMaterial() {
+sptr<Material> MeshFilter::GetMaterial() {
   return material_;
 }
 
-void MeshFilter::SetMaterial(shared_ptr<Material> material) {
+void MeshFilter::SetMaterial(sptr<Material> material) {
   material_ = material;
 }
 

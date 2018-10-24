@@ -31,16 +31,16 @@ class Text : public Behavior {
   string GetText();
   void SetText(const string& text);
 
-  shared_ptr<Font> GetFont();
-  void SetFont(shared_ptr<Font> font);
+  sptr<Font> GetFont();
+  void SetFont(sptr<Font> font);
 
-  shared_ptr<Material> GetMaterial();
-  void SetMaterial(shared_ptr<Material> material);
+  sptr<Material> GetMaterial();
+  void SetMaterial(sptr<Material> material);
 
  private:
   virtual void Start() override;
 
-  shared_ptr<Mesh> GenerateMesh();
+  sptr<Mesh> GenerateMesh();
   vector<vertex_ptn> GenerateChar(Font::CharData c, const float& offset);
 
  private:
@@ -50,10 +50,10 @@ class Text : public Behavior {
   string ps_path_;
   string texture_path_;
 
-  shared_ptr<Font> font_;
-  shared_ptr<Renderer> renderer_;
-  shared_ptr<Mesh> mesh_;
-  shared_ptr<Material> material_;
+  sptr<Font> font_;
+  sptr<Renderer> renderer_;
+  sptr<Mesh> mesh_;
+  sptr<Material> material_;
 };
 }  // namespace voodoo
 

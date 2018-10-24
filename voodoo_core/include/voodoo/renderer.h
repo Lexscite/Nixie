@@ -31,8 +31,8 @@ class Renderer : public Component {
   void SetMaterial(std::shared_ptr<Material> material);
 
  private:
-  shared_ptr<Mesh> mesh_;
-  shared_ptr<Material> material_;
+  sptr<Mesh> mesh_;
+  sptr<Material> material_;
 };
 }  // namespace voodoo
 

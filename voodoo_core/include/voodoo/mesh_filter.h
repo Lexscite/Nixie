@@ -25,19 +25,22 @@
 namespace voodoo {
 class MeshFilter : public Behavior {
  public:
-  shared_ptr<Mesh> GetMesh();
-  void SetMesh(shared_ptr<Mesh> mesh);
+   MeshFilter() = default;
+   MeshFilter(const MeshFilter& other);
 
-  shared_ptr<Material> GetMaterial();
-  void SetMaterial(shared_ptr<Material> material);
+  sptr<Mesh> GetMesh();
+  void SetMesh(sptr<Mesh> mesh);
+
+  sptr<Material> GetMaterial();
+  void SetMaterial(sptr<Material> material);
 
  private:
   virtual void Start() override;
 
  private:
-  shared_ptr<Mesh> mesh_;
-  shared_ptr<Material> material_;
-  shared_ptr<Renderer> renderer_;
+  sptr<Mesh> mesh_;
+  sptr<Material> material_;
+  sptr<Renderer> renderer_;
 };
 }  // namespace voodoo
 

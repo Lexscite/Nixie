@@ -21,11 +21,11 @@
 namespace voodoo {
 Scene::Scene() : clear_color_(color(100, 100, 100)) {}
 
-shared_ptr<Camera> Scene::GetCamera() {
+sptr<Camera> Scene::GetCamera() {
   return camera_;
 }
 
-void Scene::SetCamera(shared_ptr<Camera> camera) {
+void Scene::SetCamera(sptr<Camera> camera) {
   camera_ = camera;
 }
 
@@ -33,11 +33,17 @@ color Scene::GetClearColor() {
   return clear_color_;
 }
 
-shared_ptr<GameObject> Scene::AddGameObject(shared_ptr<GameObject> game_object) {
+sptr<GameObject> Scene::AddGameObject(sptr<GameObject> game_object) {
+  auto name = game_object->GetName();
+  if (!GetGameObject(name)) {
+    Log::Warning("GameObject with name \"" + name + "\" already exists");
+    return nullptr;
+  }
+
   return InsertGameObject(game_object);
 }
 
-shared_ptr<GameObject> Scene::AddGameObject(const string& name) {
+sptr<GameObject> Scene::AddGameObject(const string& name) {
   using namespace std;
   if (GetGameObject(name)) {
     Log::Warning("GameObject with name \"" + name + "\" already exists");
@@ -49,24 +55,21 @@ shared_ptr<GameObject> Scene::AddGameObject(const string& name) {
   return InsertGameObject(game_object);
 }
 
-shared_ptr<GameObject> Scene::GetGameObject(const string& name) {
+sptr<GameObject> Scene::GetGameObject(const string& name) {
   auto it = game_objects_.find(name);
   return it != game_objects_.end() ? it->second : nullptr;
 }
 
-vector<shared_ptr<GameObject>> Scene::GetGameObjects() {
-  vector<shared_ptr<GameObject>> game_objects;
-  for (auto it : game_objects_)
+vector<sptr<GameObject>> Scene::GetGameObjects() const {
+  vector<sptr<GameObject>> game_objects;
+  for (auto& it : game_objects_)
     game_objects.push_back(it.second);
-
   return game_objects;
 }
 
-shared_ptr<GameObject> Scene::InsertGameObject(shared_ptr<GameObject> game_object) {
-  using namespace std;
+sptr<GameObject> Scene::InsertGameObject(sptr<GameObject> game_object) {
   auto name = game_object->GetName();
-  auto record = pair<string, shared_ptr<GameObject>>(name, game_object);
-  game_objects_.insert(record);
+  game_objects_.insert(pair<string, sptr<GameObject>>(name, game_object));
   return game_object;
 }
 }  // namespace voodoo

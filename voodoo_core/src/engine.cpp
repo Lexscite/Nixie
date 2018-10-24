@@ -60,9 +60,7 @@ int Engine::Run() {
     } else {
       time_->Tick();
       UpdateCaption();
-      if(!Update()) {
-        return false;
-      }
+      if (!Update()) return false;
       graphics_api_->Render(scene_);
     }
   }
@@ -71,13 +69,10 @@ int Engine::Run() {
 }
 
 bool Engine::Update() {
-  using namespace std;
-
-  for (auto go : scene_->GetGameObjects()) {
-    for (auto c : go->GetComponents()) {
-      auto b = dynamic_pointer_cast<Behavior>(c);
-      if (b) {
-        if (!b->Tick()) {
+  for (auto& game_object : scene_->GetGameObjects()) {
+    for (auto& component : game_object->GetComponents()) {
+      if (auto behavior = d_cast<Behavior>(component)) {
+        if (!behavior->Tick()) {
           Log::Error("Failed to update behavior");
           return false;
         }
@@ -110,17 +105,15 @@ void Engine::UpdateCaption() {
 }
 
 bool Engine::LoadScene(std::shared_ptr<Scene> scene) {
-  using namespace std;
   scene_ = scene;
-  vector<std::shared_ptr<Renderer>> renderers;
-
-  for (auto go : scene_->GetGameObjects()) {
-    auto r = go->GetComponent<Renderer>();
-    if (r) renderers.push_back(r);
-    for (auto c : go->GetComponents()) {
-      auto b = dynamic_pointer_cast<Behavior>(c);
-      if (b) {
-        if (!b->Init()) {
+  vector<sptr<Renderer>> renderers;
+  for (auto& game_object : scene_->GetGameObjects()) {
+    if (auto renderer = game_object->GetComponent<Renderer>()) {
+      renderers.push_back(renderer);
+    }
+    for (auto& component : game_object->GetComponents()) {
+      if (auto behavior = d_cast<Behavior>(component)) {
+        if (!behavior->Init()) {
           Log::Error("Failed to init object");
           return false;
         }
@@ -128,16 +121,20 @@ bool Engine::LoadScene(std::shared_ptr<Scene> scene) {
     }
   }
 
-  for (auto r : renderers) {
-    graphics_api_->CreateMeshBuffers(r->GetMesh());
+  for (auto& renderer : renderers) {
+    graphics_api_->CreateMeshBuffers(renderer->GetMesh());
   }
 
   return true;
 }
 
-std::wstring Engine::GetName() { return name_; }
-std::shared_ptr<Time> Engine::GetTime() { return time_; }
-std::shared_ptr<Window> Engine::GetWindow() { return window_; }
-std::shared_ptr<GraphicsAPI> Engine::GetGraphicsAPI() { return graphics_api_; }
-std::shared_ptr<Scene> Engine::GetScene() { return scene_; }
+wstring Engine::GetName() { return name_; }
+
+sptr<Time> Engine::GetTime() { return time_; }
+
+sptr<Window> Engine::GetWindow() { return window_; }
+
+sptr<GraphicsAPI> Engine::GetGraphicsAPI() { return graphics_api_; }
+
+sptr<Scene> Engine::GetScene() { return scene_; }
 }  // namespace voodoo
