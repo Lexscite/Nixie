@@ -32,7 +32,7 @@ class Component : public Object {
   sptr<GameObject> GetGameObject();
   void SetGameObject(sptr<GameObject> game_object);
 
-  sptr<GameObject> GetParent();
+  sptr<GameObject> GetParent() const;
   void SetParent(sptr<GameObject> parent);
 
   sptr<Scene> GetScene();

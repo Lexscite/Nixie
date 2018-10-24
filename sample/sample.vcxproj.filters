@@ -4,6 +4,9 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{105da953-ac5f-40ab-bb72-5565dd929577}</UniqueIdentifier>
     </Filter>
+    <Filter Include="components">
+      <UniqueIdentifier>{058a314a-5025-4da9-8035-1227307cde76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\shaders\default_ps.hlsl">
@@ -21,5 +24,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\rotatable.cpp">
+      <Filter>components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\rotatable.h">
+      <Filter>components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

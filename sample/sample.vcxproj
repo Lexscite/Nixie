@@ -61,7 +61,11 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\rotatable.cpp" />
     <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\rotatable.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

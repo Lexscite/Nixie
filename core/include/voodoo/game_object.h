@@ -40,7 +40,7 @@ class GameObject : public Object {
   void Disable();
   bool IsActive();
 
-  sptr<GameObject> GetParent();
+  sptr<GameObject> GetParent() const;
   void SetParent(sptr<GameObject> parent);
 
   sptr<Scene> GetScene();

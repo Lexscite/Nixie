@@ -37,7 +37,7 @@ bool GameObject::IsActive() {
   return active_;
 }
 
-sptr<GameObject> GameObject::GetParent() {
+sptr<GameObject> GameObject::GetParent() const {
   return parent_;
 }
 

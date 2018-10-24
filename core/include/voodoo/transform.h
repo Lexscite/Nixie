@@ -25,6 +25,8 @@ class Transform : public Component {
  public:
   Transform();
 
+  bool HasChanged();
+
   float4x4 GetWorldMatrix();
 
   vec3f GetUp();
@@ -34,15 +36,15 @@ class Transform : public Component {
   vec3f GetRight();
   vec3f GetLeft();
 
-  vec3f GetPosition();
-  vec3f GetLocalPosition();
+  vec3f GetPosition() const;
+  vec3f GetLocalPosition() const;
   void SetPosition(const float& x, const float& y, const float& z);
   void SetPosition(const vec3f& v);
   void Translate(const float& x, const float& y, const float& z);
   void Translate(const vec3f& v);
 
-  quatf GetRotation();
-  quatf GetLocalRotation();
+  quatf GetRotation() const;
+  quatf GetLocalRotation() const;
   void SetRotation(const float& x, const float& y, const float& z);
   void SetRotation(const vec3f& v);
   void SetRotation(const quatf& q);
@@ -55,8 +57,8 @@ class Transform : public Component {
   void RotateByDegrees(const float& x, const float& y, const float& z);
   void RotateByDegrees(const vec3f v);
 
-  vec3f GetScale();
-  vec3f GetLocalScale();
+  vec3f GetScale() const;
+  vec3f GetLocalScale() const;
   void SetScale(const float& s);
   void SetScale(const float& x, const float& y, const float& z);
   void SetScale(const vec3f& v);
@@ -65,9 +67,16 @@ class Transform : public Component {
   void Scale(const vec3f& v);
 
  private:
+  void CalculateWorldMatrix();
+
+ private:
+  float4x4 world_matrix_;
+
   vec3f position_;
   quatf rotation_;
   vec3f scale_;
+
+  bool changed_;
 };
 }  // namespace voodoo
 

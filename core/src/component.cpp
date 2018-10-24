@@ -24,7 +24,7 @@ void Component::SetGameObject(sptr<GameObject> game_object) {
   game_object_ = game_object;
 }
 
-sptr<GameObject> Component::GetParent() {
+sptr<GameObject> Component::GetParent() const {
   return game_object_->GetParent();
 }
 

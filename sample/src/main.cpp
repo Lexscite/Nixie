@@ -24,6 +24,8 @@
 #include <voodoo/text.h>
 #include <voodoo/transform.h>
 
+#include "rotatable.h"
+
 std::shared_ptr<voodoo::Scene> CreateScene(voodoo::Engine engine) {
   using namespace std;
   using namespace voodoo;
@@ -60,6 +62,7 @@ std::shared_ptr<voodoo::Scene> CreateScene(voodoo::Engine engine) {
 
   // Mario
   auto mario = scene->AddGameObject("Mario");
+  mario->AddComponent<Rotatable>();
   mario->AddComponent<Renderer>();
 
   auto mario_mesh_filter = mario->AddComponent<MeshFilter>();
