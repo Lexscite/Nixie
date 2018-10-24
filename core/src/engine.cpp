@@ -70,11 +70,13 @@ int Engine::Run() {
 
 bool Engine::Update() {
   for (auto& game_object : scene_->GetGameObjects()) {
-    for (auto& component : game_object->GetComponents()) {
-      if (auto behavior = d_cast<Behavior>(component)) {
-        if (!behavior->Tick()) {
-          Log::Error("Failed to update behavior");
-          return false;
+    if (game_object->IsActive()) {
+      for (auto& component : game_object->GetComponents()) {
+        if (auto behavior = d_cast<Behavior>(component)) {
+          if (!behavior->Tick()) {
+            Log::Error("Failed to update behavior");
+            return false;
+          }
         }
       }
     }

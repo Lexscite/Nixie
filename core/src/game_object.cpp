@@ -21,7 +21,21 @@
 namespace voodoo {
 GameObject::GameObject(const string& name, sptr<Scene> scene)
     : Object(name),
-      scene_(scene) {}
+      scene_(scene),
+      parent_(nullptr),
+      active_(true) {}
+
+void GameObject::Enable() {
+  active_ = true;
+}
+
+void GameObject::Disable() {
+  active_ = false;
+}
+
+bool GameObject::IsActive() {
+  return active_;
+}
 
 sptr<GameObject> GameObject::GetParent() {
   return parent_;

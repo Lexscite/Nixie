@@ -95,18 +95,18 @@ bool DirectX::Init(std::shared_ptr<Window> window) {
 }
 
 bool DirectX::Render(std::shared_ptr<Scene> scene) {
-  using namespace std;
   vector<sptr<Renderer>> renderers;
   auto camera = scene->GetCamera();
-
   BeginScene(scene->GetClearColor());
 
-  for (auto go : scene->GetGameObjects()) {
-    auto r = go->GetComponent<Renderer>();
-    if (r) renderers.push_back(r);
+  for (auto& game_object : scene->GetGameObjects()) {
+    if (game_object->IsActive()) {
+      auto r = game_object->GetComponent<Renderer>();
+      if (r) renderers.push_back(r);
+    }
   }
 
-  for (auto renderer : renderers) {
+  for (auto& renderer : renderers) {
     auto wm = renderer->GetTransform()->GetWorldMatrix();
     auto vm = camera->GetViewMatrix();
     auto pm = camera->GetProjectionMatrix();
@@ -123,8 +123,8 @@ bool DirectX::Render(std::shared_ptr<Scene> scene) {
       throw std::runtime_error("Failed to update shader");
     }
 
-    unsigned int stride = sizeof(mesh->vertices[0]);
-    unsigned int offset = 0;
+    uint stride = sizeof(mesh->vertices[0]);
+    uint offset = 0;
 
     device_context_->IASetVertexBuffers(0, 1, &v_buffer, &stride, &offset);
     device_context_->IASetIndexBuffer(i_buffer, DXGI_FORMAT_R32_UINT, 0);

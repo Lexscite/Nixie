@@ -36,6 +36,10 @@ class GameObject : public Object {
   GameObject() = delete;
   GameObject(const string& name, sptr<Scene> scene);
 
+  void Enable();
+  void Disable();
+  bool IsActive();
+
   sptr<GameObject> GetParent();
   void SetParent(sptr<GameObject> parent);
 
@@ -62,6 +66,8 @@ class GameObject : public Object {
   sptr<Scene> scene_;
   sptr<GameObject> parent_;
   map<string, sptr<Component>> components_;
+
+  bool active_;
 };
 }  // namespace voodoo
 
