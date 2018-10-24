@@ -26,6 +26,11 @@ class Transform;
 template <class T>
 using enable_if_component_t = std::enable_if_t<std::is_base_of_v<Component, T>, int>;
 
+template<class T>
+string get_class_name() {
+  return string(typeid(T).name()).erase(0, 14);
+}
+
 class GameObject : public Object {
  public:
   GameObject() = delete;
@@ -36,25 +41,22 @@ class GameObject : public Object {
 
   sptr<Scene> GetScene();
   sptr<Transform> GetTransform();
-
-  sptr<Component> GetComponent(const string& name);
-  sptr<Component> AddComponent(sptr<Component> component);
-
   vector<sptr<Component>> GetComponents() const;
+  sptr<Component> AddComponent(sptr<Component> component);
 
   template <class T, enable_if_component_t<T> = 0>
   sptr<T> GetComponent() {
-    using namespace std;
-    auto name = string(typeid(T).name()).erase(0, 14);
-    auto component = GetComponent(name);
-    return component ? static_pointer_cast<T>(component) : nullptr;
+    auto name = get_class_name<T>();
+    auto component = GetComponentByName(name);
+    return component ? s_cast<T>(component) : nullptr;
   }
 
-  template <class T, class... Types>
+  template <class T, class... Types, enable_if_component_t<T> = 0>
   sptr<T> AddComponent(Types&&... args);
 
  private:
-  sptr<Component> InsertComponent(sptr<Component> component);
+   sptr<Component> GetComponentByName(const string& name);
+   sptr<Component> InsertComponent(sptr<Component> component);
 
  private:
   sptr<Scene> scene_;

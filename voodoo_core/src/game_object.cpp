@@ -48,14 +48,14 @@ vector<sptr<Component>> GameObject::GetComponents() const {
 
 sptr<Component> GameObject::AddComponent(sptr<Component> component) {
   auto name = component->GetName();
-  if (GetComponent(name)) {
+  if (GetComponentByName(name)) {
     Log::Warning("GameObject " + GetName() + " already have " + name + " component");
     return nullptr;
   }
   return InsertComponent(component);
 }
 
-sptr<Component> GameObject::GetComponent(const string& name) {
+sptr<Component> GameObject::GetComponentByName(const string& name) {
   auto it = components_.find(name);
   return it != components_.end() ? it->second : nullptr;
 }

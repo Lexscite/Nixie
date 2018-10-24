@@ -37,6 +37,7 @@ class Component : public Object {
 
   sptr<Scene> GetScene();
   sptr<Transform> GetTransform();
+  sptr<Component> AddComponent(sptr<Component> component);
 
   template <class T, enable_if_component_t<T> = 0>
   sptr<T> GetComponent() {
@@ -53,7 +54,7 @@ class Component : public Object {
   static sptr<T> Create(Types&&... args) {
     using namespace std;
     auto component = make_shared<T>(forward<Types>(args)...);
-    auto name = string(typeid(T).name()).erase(0, 14);
+    auto name = get_class_name<T>();
     component->SetName(name);
     return component;
   }
@@ -69,11 +70,11 @@ class Component : public Object {
 };
 
 // Defined here to avoid circular dependency
-template <class T, class... Types>
+template <class T, class... Types, enable_if_component_t<T>>
 sptr<T> GameObject::AddComponent(Types&&... args) {
   using namespace std;
-  auto name = string(typeid(T).name()).erase(0, 14);
-  if (GetComponent(name)) {
+  auto name = get_class_name<T>();
+  if (GetComponentByName(name)) {
     Log::Warning("GameObject " + GetName() + " already have " + name + " component");
     return nullptr;
   }

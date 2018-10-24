@@ -40,6 +40,10 @@ sptr<Transform> Component::GetTransform() {
   return game_object_->GetTransform();
 }
 
+sptr<Component> Component::AddComponent(sptr<Component> component) {
+  return game_object_->AddComponent(component);
+}
+
 void Component::SetName(string name) {
   name_ = name;
 }
