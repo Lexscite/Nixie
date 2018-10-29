@@ -29,8 +29,8 @@
 #include <vector>
 
 namespace voodoo {
-Shader::Shader(std::shared_ptr<ID3D11Device> device,
-               std::shared_ptr<ID3D11DeviceContext> device_context)
+Shader::Shader(sptr<ID3D11Device> device,
+               sptr<ID3D11DeviceContext> device_context)
     : vertex_shader_(nullptr),
       pixel_shader_(nullptr),
       input_layout_(nullptr),
@@ -72,7 +72,7 @@ Shader::~Shader() {
   }
 }
 
-bool Shader::Init(std::string vs_path, std::string ps_path, bool light) {
+bool Shader::Init(const string& vs_path, const string& ps_path, bool light) {
   HRESULT hr;
 
   light_ = light;
@@ -214,7 +214,7 @@ bool Shader::CreateInputLayout(sptr<ShaderBuffer> buffer) {
     return false;
   }
 
-  std::vector<D3D11_INPUT_ELEMENT_DESC> ieds;
+  vector<D3D11_INPUT_ELEMENT_DESC> ie_descs;
 
   for (unsigned int i = 0; i < shader_desc.InputParameters; i++) {
     D3D11_SIGNATURE_PARAMETER_DESC param_desc;
@@ -224,51 +224,50 @@ bool Shader::CreateInputLayout(sptr<ShaderBuffer> buffer) {
       return false;
     }
 
-    D3D11_INPUT_ELEMENT_DESC ied;
-    ied.SemanticName = param_desc.SemanticName;
-    ied.SemanticIndex = param_desc.SemanticIndex;
-    ied.InputSlot = 0;
-    ied.AlignedByteOffset = i == 0 ? 0 : D3D11_APPEND_ALIGNED_ELEMENT;
-    ied.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-    ied.InstanceDataStepRate = 0;
+    D3D11_INPUT_ELEMENT_DESC ie_desc;
+    ie_desc.SemanticName = param_desc.SemanticName;
+    ie_desc.SemanticIndex = param_desc.SemanticIndex;
+    ie_desc.InputSlot = 0;
+    ie_desc.AlignedByteOffset = i == 0 ? 0 : D3D11_APPEND_ALIGNED_ELEMENT;
+    ie_desc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+    ie_desc.InstanceDataStepRate = 0;
 
-    if (lstrcmpA(ied.SemanticName, LPCSTR("POSITION")) == 0) {
-      ied.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+    if (lstrcmpA(ie_desc.SemanticName, LPCSTR("POSITION")) == 0) {
+      ie_desc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
     } else if (param_desc.Mask == 1) {
       if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32)
-        ied.Format = DXGI_FORMAT_R32_UINT;
+        ie_desc.Format = DXGI_FORMAT_R32_UINT;
       else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32)
-        ied.Format = DXGI_FORMAT_R32_SINT;
+        ie_desc.Format = DXGI_FORMAT_R32_SINT;
       else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32)
-        ied.Format = DXGI_FORMAT_R32_FLOAT;
+        ie_desc.Format = DXGI_FORMAT_R32_FLOAT;
     } else if (param_desc.Mask <= 3) {
       if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32)
-        ied.Format = DXGI_FORMAT_R32G32_UINT;
+        ie_desc.Format = DXGI_FORMAT_R32G32_UINT;
       else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32)
-        ied.Format = DXGI_FORMAT_R32G32_SINT;
+        ie_desc.Format = DXGI_FORMAT_R32G32_SINT;
       else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32)
-        ied.Format = DXGI_FORMAT_R32G32_FLOAT;
+        ie_desc.Format = DXGI_FORMAT_R32G32_FLOAT;
     } else if (param_desc.Mask <= 7) {
       if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32)
-        ied.Format = DXGI_FORMAT_R32G32B32_UINT;
+        ie_desc.Format = DXGI_FORMAT_R32G32B32_UINT;
       else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32)
-        ied.Format = DXGI_FORMAT_R32G32B32_SINT;
+        ie_desc.Format = DXGI_FORMAT_R32G32B32_SINT;
       else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32)
-        ied.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+        ie_desc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
     } else if (param_desc.Mask <= 15) {
       if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_UINT32)
-        ied.Format = DXGI_FORMAT_R32G32B32A32_UINT;
+        ie_desc.Format = DXGI_FORMAT_R32G32B32A32_UINT;
       else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_SINT32)
-        ied.Format = DXGI_FORMAT_R32G32B32A32_SINT;
+        ie_desc.Format = DXGI_FORMAT_R32G32B32A32_SINT;
       else if (param_desc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32)
-        ied.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        ie_desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
     }
 
-    ieds.push_back(ied);
+    ie_descs.push_back(ie_desc);
   }
 
-  hr = device_->CreateInputLayout(ieds.data(),
-                                  static_cast<unsigned int>(ieds.size()),
+  hr = device_->CreateInputLayout(ie_descs.data(), static_cast<uint>(ie_descs.size()),
                                   buffer->data, buffer->size, &input_layout_);
   if (FAILED(hr)) {
     return false;

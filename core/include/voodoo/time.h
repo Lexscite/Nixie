@@ -16,31 +16,40 @@
 #ifndef VOODOO_TIME_H_
 #define VOODOO_TIME_H_
 
+#include "std_mappings.h"
+
 namespace voodoo {
+class Engine;
+
 class Time {
+ private:
+  friend Engine;
+
  public:
-  Time();
-
-  void Start();
-  void Stop();
-  void Reset();
-  void Tick();
-
-  float GetTime() const;
-  float GetDeltaTime();
+  static float GetTime();
+  static float GetDeltaTime();
 
  private:
-  double seconds_per_count_;
-  float delta_time_;
+  static void Start();
+  static void Stop();
+  static void Reset();
+  static void Tick();
 
-  __int64 base_time_;
-  __int64 paused_time_;
-  __int64 stop_time_;
-  __int64 previous_time_;
-  __int64 current_time_;
+  static int64 GetCurrentTimestamp();
+  static double GetPerTickTime();
 
-  bool is_stopped_;
+ private:
+  static double per_tick_;
+  static float delta_;
+
+  static int64 base_;
+  static int64 pause_;
+  static int64 stop_;
+  static int64 previous_;
+  static int64 current_;
+
+  static bool stopped_;
 };
 }  // namespace voodoo
 
-#endif
+#endif  // VOODOO_TIME_H_

@@ -22,76 +22,69 @@
 #endif  // _WIN32
 
 namespace voodoo {
-Time::Time()
-    : seconds_per_count_(0),
-      delta_time_(-1),
-      base_time_(0),
-      paused_time_(0),
-      previous_time_(0),
-      current_time_(0),
-      is_stopped_(false) {
-  __int64 counts_per_second;
-  QueryPerformanceFrequency((LARGE_INTEGER*)&counts_per_second);
-  seconds_per_count_ = 1 / (double)counts_per_second;
-  Reset();
+double Time::per_tick_ = GetPerTickTime();
+float Time::delta_ = -1;
+int64 Time::current_ = GetCurrentTimestamp();
+int64 Time::previous_ = Time::current_;
+int64 Time::base_ = Time::current_;
+int64 Time::pause_ = 0;
+int64 Time::stop_ = 0;
+bool Time::stopped_ = false;
+
+int64 Time::GetCurrentTimestamp() {
+  int64 timestamp;
+  QueryPerformanceCounter((LARGE_INTEGER*)&timestamp);
+  return timestamp;
+}
+
+double Time::GetPerTickTime() {
+  int64 frequency;
+  QueryPerformanceFrequency((LARGE_INTEGER*)&frequency);
+  return 1 / static_cast<double>(frequency);
 }
 
 void Time::Start() {
-  __int64 start_time;
-  QueryPerformanceCounter((LARGE_INTEGER*)&start_time);
-
-  if (is_stopped_) {
-    paused_time_ += (start_time - stop_time_);
-    previous_time_ = start_time;
-    stop_time_ = 0;
-    is_stopped_ = false;
+  if (stopped_) {
+    auto start_time = GetCurrentTimestamp();
+    pause_ += (start_time - stop_);
+    previous_ = start_time;
+    stop_ = 0;
+    stopped_ = false;
   }
 }
 
 void Time::Stop() {
-  if (!is_stopped_) {
-    __int64 current_time;
-    QueryPerformanceCounter((LARGE_INTEGER*)&current_time);
-
-    stop_time_ = current_time;
-    is_stopped_ = true;
+  if (!stopped_) {
+    stop_ = GetCurrentTimestamp();
+    stopped_ = true;
   }
 }
 
 void Time::Reset() {
-  __int64 current_time;
-  QueryPerformanceCounter((LARGE_INTEGER*)&current_time);
-
-  base_time_ = current_time;
-  previous_time_ = current_time;
-  stop_time_ = 0;
-  is_stopped_ = false;
+  auto current_time = GetCurrentTimestamp();
+  base_ = current_time;
+  previous_ = current_time;
+  stop_ = 0;
+  stopped_ = false;
 }
 
 void Time::Tick() {
-  if (is_stopped_) {
-    delta_time_ = 0;
-    return;
+  if (stopped_) {
+    delta_ = 0;
+  } else {
+    current_ = GetCurrentTimestamp();
+    delta_ = static_cast<float>((current_ - previous_) * per_tick_);
+    previous_ = current_;
+    if (delta_ < 0) delta_ = 0;
   }
-
-  __int64 current_time;
-  QueryPerformanceCounter((LARGE_INTEGER*)&current_time);
-  current_time_ = current_time;
-  delta_time_ = static_cast<float>((current_time_ - previous_time_) *
-                                   seconds_per_count_);
-  previous_time_ = current_time_;
-
-  if (delta_time_ < 0) delta_time_ = 0;
 }
 
-float Time::GetDeltaTime() { return delta_time_; }
+float Time::GetDeltaTime() {
+  return delta_;
+}
 
-float Time::GetTime() const {
-  if (is_stopped_)
-    return static_cast<float>(((stop_time_ - paused_time_) - base_time_) *
-                              seconds_per_count_);
-  else
-    return static_cast<float>(((current_time_ - paused_time_) - base_time_) *
-                              seconds_per_count_);
+float Time::GetTime() {
+  auto from = stopped_ ? stop_ : current_;
+  return static_cast<float>(((from - pause_) - base_) * per_tick_);
 }
 }  // namespace voodoo

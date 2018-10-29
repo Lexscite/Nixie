@@ -25,27 +25,24 @@
 namespace voodoo {
 class Engine {
  public:
-  bool Init(HINSTANCE instance, std::wstring name);
-  void Release();
+  bool Init(HINSTANCE instance, const wstring& name);
+  bool LoadScene(sptr<Scene> scene);
   int Run();
-  bool LoadScene(std::shared_ptr<Scene> scene);
 
-  std::wstring GetName();
-  std::shared_ptr<Time> GetTime();
-  std::shared_ptr<Window> GetWindow();
-  std::shared_ptr<GraphicsAPI> GetGraphicsAPI();
-  std::shared_ptr<Scene> GetScene();
+  wstring GetName() const;
+  sptr<Window> GetWindow() const;
+  sptr<GraphicsAPI> GetGraphicsAPI() const;
+  sptr<Scene> GetScene() const;
 
  private:
   void UpdateCaption();
   bool Update();
 
  private:
-  std::wstring name_;
-  std::shared_ptr<Time> time_;
-  std::shared_ptr<Window> window_;
-  std::shared_ptr<GraphicsAPI> graphics_api_;
-  std::shared_ptr<Scene> scene_;
+  wstring name_;
+  sptr<Window> window_;
+  sptr<GraphicsAPI> graphics_api_;
+  sptr<Scene> scene_;
 };
 }  // namespace voodoo
 

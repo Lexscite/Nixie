@@ -16,42 +16,38 @@
 #ifndef VOODOO_ASSET_MANAGER_H_
 #define VOODOO_ASSET_MANAGER_H_
 
-#include <map>
-#include <string>
+#include "std_mappings.h"
 
 namespace voodoo {
 template <class T>
 class AssetManager {
  public:
-  std::shared_ptr<T> Retrieve(std::string filename) {
+  sptr<T> Retrieve(const string& filename) {
     auto it = resources_.find(filename);
-
     if (it != resources_.end()) {
       return it->second;
     } else {
       auto resource = Load(filename);
-      resources_.insert(
-          std::pair<std::string, std::shared_ptr<T>>(filename, resource));
+      resources_.insert(pair<string, sptr<T>>(filename, resource));
       return resource;
     }
   }
 
  protected:
-  virtual std::shared_ptr<T> Load(std::string) = 0;
+  virtual sptr<T> Load(const string& filename) = 0;
 
-  void Unload(std::string filename) {
+  void Unload(const string& filename) {
+    using namespace std;
     auto it = resources_.find(filename);
-
     if (it == resources_.end()) {
-      throw std::runtime_error("Trying to unload non-existing resource: \"" +
-                               filename + "\"");
+      throw runtime_error("Failed to load resource: \"" + filename + "\"");
     } else {
       resources_.erase(it);
     }
   }
 
  protected:
-  std::map<std::string, std::shared_ptr<T>> resources_;
+  map<string, sptr<T>> resources_;
 };
 }  // namespace voodoo
 

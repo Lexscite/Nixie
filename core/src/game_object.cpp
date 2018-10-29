@@ -45,11 +45,11 @@ void GameObject::SetParent(sptr<GameObject> parent) {
   parent_ = parent;
 }
 
-sptr<Scene> GameObject::GetScene() {
+sptr<Scene> GameObject::GetScene() const {
   return scene_;
 }
 
-sptr<Transform> GameObject::GetTransform() {
+sptr<Transform> GameObject::GetTransform() const {
   return GetComponent<Transform>();
 }
 
@@ -69,7 +69,7 @@ sptr<Component> GameObject::AddComponent(sptr<Component> component) {
   return InsertComponent(component);
 }
 
-sptr<Component> GameObject::GetComponentByName(const string& name) {
+sptr<Component> GameObject::GetComponentByName(const string& name) const {
   auto it = components_.find(name);
   return it != components_.end() ? it->second : nullptr;
 }

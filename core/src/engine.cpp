@@ -23,10 +23,8 @@
 #include <sstream>
 
 namespace voodoo {
-bool Engine::Init(HINSTANCE instance, std::wstring name) {
+bool Engine::Init(HINSTANCE instance, const wstring& name) {
   name_ = name;
-
-  time_ = std::make_shared<Time>();
 
   window_ = std::make_shared<Window>();
   if (!window_->Init(instance, 640, 480, name)) {
@@ -43,70 +41,7 @@ bool Engine::Init(HINSTANCE instance, std::wstring name) {
   return true;
 }
 
-void Engine::Release() {
-  if (graphics_api_) {
-    graphics_api_->Release();
-    graphics_api_ = nullptr;
-  }
-}
-
-int Engine::Run() {
-  MSG msg;
-  memset(&msg, 0, sizeof(msg));
-  while (msg.message != WM_QUIT) {
-    if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE)) {
-      TranslateMessage(&msg);
-      DispatchMessage(&msg);
-    } else {
-      time_->Tick();
-      UpdateCaption();
-      if (!Update()) return false;
-      graphics_api_->Render(scene_);
-    }
-  }
-
-  return static_cast<int>(msg.wParam);
-}
-
-bool Engine::Update() {
-  for (auto& game_object : scene_->GetGameObjects()) {
-    if (game_object->IsActive()) {
-      for (auto& component : game_object->GetComponents()) {
-        if (auto behavior = d_cast<Behavior>(component)) {
-          if (!behavior->Tick()) {
-            Log::Error("Failed to update behavior");
-            return false;
-          }
-        }
-      }
-    }
-  }
-
-  return true;
-}
-
-void Engine::UpdateCaption() {
-  using namespace std;
-  static int frame_count = 0;
-  static float time_elapsed = 0;
-
-  frame_count++;
-
-  if ((time_->GetTime() - time_elapsed) >= 1) {
-    float fps = static_cast<float>(frame_count);
-    float ms_per_frame = 1000 / fps;
-
-    wostringstream caption;
-    caption.precision(6);
-    caption << name_ << " | FPS: " << fps << " Frame time: " << ms_per_frame << "ms";
-    SetWindowText(window_->GetHandle(), caption.str().c_str());
-
-    frame_count = 0;
-    time_elapsed++;
-  }
-}
-
-bool Engine::LoadScene(std::shared_ptr<Scene> scene) {
+bool Engine::LoadScene(sptr<Scene> scene) {
   scene_ = scene;
   vector<sptr<Renderer>> renderers;
   for (auto& game_object : scene_->GetGameObjects()) {
@@ -130,13 +65,62 @@ bool Engine::LoadScene(std::shared_ptr<Scene> scene) {
   return true;
 }
 
-wstring Engine::GetName() { return name_; }
+int Engine::Run() {
+  MSG msg;
+  memset(&msg, 0, sizeof(msg));
+  while (msg.message != WM_QUIT) {
+    if (PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE)) {
+      TranslateMessage(&msg);
+      DispatchMessage(&msg);
+    } else {
+      Time::Tick();
+      UpdateCaption();
+      if (!Update()) return false;
+      graphics_api_->Render(scene_);
+    }
+  }
 
-sptr<Time> Engine::GetTime() { return time_; }
+  return static_cast<int>(msg.wParam);
+}
 
-sptr<Window> Engine::GetWindow() { return window_; }
+void Engine::UpdateCaption() {
+  static float fps;
+  static float time;
 
-sptr<GraphicsAPI> Engine::GetGraphicsAPI() { return graphics_api_; }
+  if ((Time::GetTime() - time) >= 1) {
+    wostringstream caption;
+    caption.precision(6);
+    caption << name_ << " | FPS: " << fps << " (" << 1000 / fps << "ms)";
+    SetWindowText(window_->GetHandle(), caption.str().c_str());
+    fps = 0;
+    time = Time::GetTime();
+  } else {
+    fps++;
+  }
+}
 
-sptr<Scene> Engine::GetScene() { return scene_; }
+bool Engine::Update() {
+  for (auto& game_object : scene_->GetGameObjects()) {
+    if (game_object->IsActive()) {
+      for (auto& component : game_object->GetComponents()) {
+        if (auto behavior = d_cast<Behavior>(component)) {
+          if (!behavior->Tick()) {
+            Log::Error("Failed to update behavior");
+            return false;
+          }
+        }
+      }
+    }
+  }
+
+  return true;
+}
+
+wstring Engine::GetName() const { return name_; }
+
+sptr<Window> Engine::GetWindow() const { return window_; }
+
+sptr<GraphicsAPI> Engine::GetGraphicsAPI() const { return graphics_api_; }
+
+sptr<Scene> Engine::GetScene() const { return scene_; }
 }  // namespace voodoo

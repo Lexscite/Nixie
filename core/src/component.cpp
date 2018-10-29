@@ -16,7 +16,7 @@
 #include "../include/voodoo/component.h"
 
 namespace voodoo {
-sptr<GameObject> Component::GetGameObject() {
+sptr<GameObject> Component::GetGameObject() const {
   return game_object_;
 }
 
@@ -32,11 +32,11 @@ void Component::SetParent(sptr<GameObject> parent) {
   game_object_->SetParent(parent);
 }
 
-sptr<Scene> Component::GetScene() {
+sptr<Scene> Component::GetScene() const {
   return game_object_->GetScene();
 }
 
-sptr<Transform> Component::GetTransform() {
+sptr<Transform> Component::GetTransform() const {
   return game_object_->GetTransform();
 }
 
@@ -44,7 +44,7 @@ sptr<Component> Component::AddComponent(sptr<Component> component) {
   return game_object_->AddComponent(component);
 }
 
-void Component::SetName(string name) {
+void Component::SetName(const string& name) {
   name_ = name;
 }
 }  // namespace voodoo

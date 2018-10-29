@@ -33,7 +33,24 @@ DirectX::DirectX()
       bs_default_(nullptr),
       bs_no_blend_(nullptr) {}
 
-bool DirectX::Init(std::shared_ptr<Window> window) {
+DirectX::~DirectX() {
+  if (swap_chain_) {
+    swap_chain_->SetFullscreenState(false, NULL);
+  }
+
+  safe_release(bs_default_);
+  safe_release(bs_no_blend_);
+  safe_release(rs_default_);
+  safe_release(ds_view_);
+  safe_release(dss_default_);
+  safe_release(ds_buffer_);
+  safe_release(rt_view_);
+  safe_release(device_context_);
+  safe_release(device_);
+  safe_release(swap_chain_);
+}
+
+bool DirectX::Init(const sptr<Window>& window) {
   vsync_enabled_ = true;
   fullscreen_enabled_ = false;
   msaa_enabled_ = false;
@@ -94,8 +111,8 @@ bool DirectX::Init(std::shared_ptr<Window> window) {
   return true;
 }
 
-bool DirectX::Render(std::shared_ptr<Scene> scene) {
-  vector<sptr<Renderer>> renderers;
+bool DirectX::Render(const sptr<Scene>& scene) {
+  vector<sptr<const Renderer>> renderers;
   auto camera = scene->GetCamera();
   BeginScene(scene->GetClearColor());
 
@@ -138,7 +155,7 @@ bool DirectX::Render(std::shared_ptr<Scene> scene) {
   return true;
 }
 
-bool DirectX::CreateMeshBuffers(std::shared_ptr<Mesh> mesh) {
+bool DirectX::CreateMeshBuffers(sptr<Mesh> mesh) {
   HRESULT hr;
 
   D3D11_BUFFER_DESC desc;
@@ -171,63 +188,10 @@ bool DirectX::CreateMeshBuffers(std::shared_ptr<Mesh> mesh) {
     return false;
   }
 
-  auto v_buffer = MeshBufferPtr(v);
-  auto i_buffer = MeshBufferPtr(i);
-  auto buffers = MeshBufferPair(v, i);
-
-  mesh_buffers_.insert(std::pair<std::shared_ptr<Mesh>,
-                                 MeshBufferPair>(mesh, buffers));
+  auto mesh_buffer = MeshBuffer(Buffer(v), Buffer(i));
+  mesh_buffers_.insert(pair<sptr<Mesh>, MeshBuffer>(mesh, mesh_buffer));
 
   return true;
-}
-
-void DirectX::Release() {
-  if (swap_chain_) {
-    swap_chain_->SetFullscreenState(false, NULL);
-  }
-
-  if (bs_default_) {
-    bs_default_->Release();
-    bs_default_ = nullptr;
-  }
-
-  if (bs_no_blend_) {
-    bs_no_blend_->Release();
-    bs_no_blend_ = nullptr;
-  }
-
-  if (rs_default_) {
-    rs_default_->Release();
-    rs_default_ = nullptr;
-  }
-
-  if (ds_view_) {
-    ds_view_->Release();
-    ds_view_ = nullptr;
-  }
-
-  if (dss_default_) {
-    dss_default_->Release();
-    dss_default_ = nullptr;
-  }
-
-  if (ds_buffer_) {
-    ds_buffer_->Release();
-    ds_buffer_ = nullptr;
-  }
-
-  if (rt_view_) {
-    rt_view_->Release();
-    rt_view_ = nullptr;
-  }
-
-  device_context_->Release();
-  device_->Release();
-
-  if (swap_chain_) {
-    swap_chain_->Release();
-    swap_chain_ = nullptr;
-  }
 }
 
 void DirectX::ToggleWireframeMode() {
@@ -299,17 +263,14 @@ bool DirectX::CreateDevice() {
     }
   }
 
-  if (FAILED(hr)) {
-    Log::Info("Failed to create DirectX device");
-    delete device;
-    delete device_context;
-    return false;
-  }
+  Log::Info("Failed to create DirectX device");
+  delete device;
+  delete device_context;
 
-  return true;
+  return false;
 }
 
-bool DirectX::CreateSwapChain(std::shared_ptr<Window> window) {
+bool DirectX::CreateSwapChain(const sptr<Window>& window) {
   HRESULT hr;
 
   IDXGIFactory* factory;
@@ -429,7 +390,7 @@ bool DirectX::CreateRenderTargetView() {
   return true;
 }
 
-bool DirectX::CreateDepthBuffer(std::shared_ptr<Window> window) {
+bool DirectX::CreateDepthBuffer(const sptr<Window>& window) {
   HRESULT hr;
 
   D3D11_TEXTURE2D_DESC desc;
@@ -561,7 +522,7 @@ bool DirectX::CreateBlendStates() {
   return true;
 }
 
-bool DirectX::CreateViewport(std::shared_ptr<Window> window) {
+bool DirectX::CreateViewport(const sptr<Window>& window) {
   D3D11_VIEWPORT viewport;
   memset(&viewport, 0, sizeof(viewport));
   viewport.Width = static_cast<float>(window->GetWidth());

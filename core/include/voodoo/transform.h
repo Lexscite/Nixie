@@ -29,12 +29,12 @@ class Transform : public Component {
 
   float4x4 GetWorldMatrix();
 
-  vec3f GetUp();
-  vec3f GetDown();
-  vec3f GetForward();
-  vec3f GetBackward();
-  vec3f GetRight();
-  vec3f GetLeft();
+  vec3f GetUp() const;
+  vec3f GetDown() const;
+  vec3f GetForward() const;
+  vec3f GetBackward() const;
+  vec3f GetRight() const;
+  vec3f GetLeft() const;
 
   vec3f GetPosition() const;
   vec3f GetLocalPosition() const;

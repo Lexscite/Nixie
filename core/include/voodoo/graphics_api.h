@@ -29,9 +29,7 @@
 #include <d3d11.h>
 #endif  // VOODOO_DIRECTX
 
-#include <map>
-#include <memory>
-#include <vector>
+#include "memory.h"
 
 namespace voodoo {
 struct Mesh;
@@ -40,26 +38,27 @@ class Window;
 
 class GraphicsAPI {
  protected:
-  using DevicePtr = std::shared_ptr<ID3D11Device>;
-  using DeviceContextPtr = std::shared_ptr<ID3D11DeviceContext>;
+  using Device = ID3D11Device;
+  using DeviceContext = ID3D11DeviceContext;
 
-  using MeshBufferPtr = ID3D11Buffer*;
-  using MeshBufferPair = std::pair<MeshBufferPtr, MeshBufferPtr>;
-  using MeshBufferMap = std::map<std::shared_ptr<Mesh>, MeshBufferPair>;
+  using Buffer = ID3D11Buffer*;
+  using MeshBuffer = pair<Buffer, Buffer>;
+  using MeshBufferMap = map<sptr<Mesh>, MeshBuffer>;
 
  public:
-  virtual bool Init(std::shared_ptr<Window> window) = 0;
-  virtual bool Render(std::shared_ptr<Scene> scene) = 0;
-  virtual bool CreateMeshBuffers(std::shared_ptr<Mesh> mesh) = 0;
-  virtual void Release() = 0;
+  virtual ~GraphicsAPI() = default;
 
-  DevicePtr GetDevice() { return device_; }
-  DeviceContextPtr GetDeviceContext() { return device_context_; }
+  virtual bool Init(const sptr<Window>& window) = 0;
+  virtual bool Render(const sptr<Scene>& scene) = 0;
+  virtual bool CreateMeshBuffers(sptr<Mesh> mesh) = 0;
+
+  sptr<Device> GetDevice() { return device_; }
+  sptr<DeviceContext> GetDeviceContext() { return device_context_; }
   MeshBufferMap GetMeshBuffers() { return mesh_buffers_; }
 
  protected:
-  DevicePtr device_;
-  DeviceContextPtr device_context_;
+  sptr<Device> device_;
+  sptr<DeviceContext> device_context_;
 
   MeshBufferMap mesh_buffers_;
 };

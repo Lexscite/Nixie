@@ -26,8 +26,8 @@ class Object : public enable_shared_from_this<Object> {
   Object(const Object& other);
   virtual ~Object() = default;
 
-  uint GetInstanceId();
-  string GetName();
+  uint GetInstanceId() const;
+  string GetName() const;
 
  private:
   static uint GenerateInstanceId();

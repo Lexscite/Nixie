@@ -24,11 +24,11 @@ namespace voodoo {
 class DirectX : public GraphicsAPI {
  public:
   DirectX();
+  ~DirectX();
 
-  virtual bool Init(std::shared_ptr<Window> window) override;
-  virtual bool Render(std::shared_ptr<Scene>) override;
-  virtual bool CreateMeshBuffers(std::shared_ptr<Mesh> mesh) override;
-  virtual void Release() override;
+  virtual bool Init(const sptr<Window>& window) override;
+  virtual bool Render(const sptr<Scene>& scene) override;
+  virtual bool CreateMeshBuffers(sptr<Mesh> mesh) override;
 
   void ToggleWireframeMode();
   void ToggleBlendMode();
@@ -38,14 +38,14 @@ class DirectX : public GraphicsAPI {
   void EndScene();
 
   bool CreateDevice();
-  bool CreateSwapChain(std::shared_ptr<Window> window);
+  bool CreateSwapChain(const sptr<Window>& window);
   bool CreateRenderTargetView();
-  bool CreateDepthBuffer(std::shared_ptr<Window> window);
+  bool CreateDepthBuffer(const sptr<Window>& window);
   bool CreateDepthStencilView();
   bool CreateDepthStencilStates();
   bool CreateRasterizerStates();
   bool CreateBlendStates();
-  bool CreateViewport(std::shared_ptr<Window> window);
+  bool CreateViewport(const sptr<Window>& window);
 
  private:
   bool vsync_enabled_;
@@ -62,15 +62,11 @@ class DirectX : public GraphicsAPI {
   IDXGISwapChain* swap_chain_;
 
   ID3D11RenderTargetView* rt_view_;
-
   ID3D11Texture2D* ds_buffer_;
   ID3D11DepthStencilView* ds_view_;
-
   ID3D11DepthStencilState* dss_default_;
-
   ID3D11RasterizerState* rs_default_;
   ID3D11RasterizerState* rs_wireframe_;
-
   ID3D11BlendState* bs_default_;
   ID3D11BlendState* bs_no_blend_;
 };

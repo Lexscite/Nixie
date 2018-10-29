@@ -19,11 +19,13 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <sstream>
 #include <unordered_map>
 #include <vector>
 
 namespace voodoo {
 // Fundamentals
+typedef __int64 int64;
 typedef unsigned int uint;
 typedef unsigned long ulong;
 typedef long long llong;
@@ -36,7 +38,14 @@ typedef ulong dword;
 // Types
 typedef std::string string;
 typedef std::wstring wstring;
+typedef std::stringstream stringstream;
+typedef std::ostringstream ostringstream;
+typedef std::istringstream istringstream;
+typedef std::wstringstream wstringstream;
+typedef std::wostringstream wostringstream;
+typedef std::wistringstream wistringstream;
 
+// Containers
 template <class T>
 using vector = std::vector<T>;
 
@@ -52,6 +61,7 @@ using multimap = std::multimap<Key_T, Value_T>;
 template <class Key_T, class Value_T>
 using unordered_map = std::unordered_map<Key_T, Value_T>;
 
+// Smart pointers
 template <class T>
 using sptr = std::shared_ptr<T>;
 

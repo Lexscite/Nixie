@@ -13,11 +13,28 @@
 // You should have received a copy of the GNU General Public License
 // along with Voodoo Engine.  If not, see <https://www.gnu.org/licenses/>.
 
-#include "rotatable.h"
+#ifndef VOODOO_MEMORY_H_
+#define VOODOO_MEMORY_H_
 
-#include <voodoo/transform.h>
+#include "std_mappings.h"
 
-void Rotatable::Update() {
-  using namespace voodoo;
-  GetTransform()->RotateByDegrees(0, 30 * Time::GetDeltaTime(), 0);
+namespace voodoo {
+class Releasable {
+ public:
+  virtual ~Releasable() = default;
+  virtual void Release() = 0;
+};
+
+template <class T>
+using enable_if_releasable_t = enable_if_t<is_base_of_v<Releasable, T>, int>;
+
+template <class T>
+void safe_release(T p) {
+  if (p) {
+    p->Release();
+    p = nullptr;
+  }
 }
+}  // namespace voodoo
+
+#endif  // VOODOO_MEMORY_H_

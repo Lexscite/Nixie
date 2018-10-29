@@ -20,18 +20,17 @@
 #include "stb_image.h"
 
 namespace voodoo {
-std::shared_ptr<Image> ImageManager::Load(std::string filename) {
+sptr<Image> ImageManager::Load(const string& filename) {
+  using namespace std;
   // Image data will always be stored in 4-chanelled format
   // but despite this actual channels count will be stored
   // as member value.
   int width, height, channels;
-  unsigned char* data =
-      stbi_load(filename.c_str(), &width, &height, &channels, 4);
+  byte* data = stbi_load(filename.c_str(), &width, &height, &channels, 4);
   if (data == NULL) {
-    throw std::runtime_error("Failed to read image file: \"" + filename + "\"");
+    throw runtime_error("Failed to read image file: \"" + filename + "\"");
   }
-  auto image = std::make_shared<Image>(width, height, channels, data);
 
-  return image;
+  return make_shared<Image>(width, height, channels, data);
 }
 }  // namespace voodoo

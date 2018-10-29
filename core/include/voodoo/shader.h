@@ -21,10 +21,10 @@
 
 namespace voodoo {
 struct ShaderBuffer {
-  ShaderBuffer(unsigned int size) : data(new byte[size]), size(size) {}
+  ShaderBuffer(const uint& size) : data(new byte[size]), size(size) {}
 
   byte* data;
-  unsigned int size;
+  uint size;
 };
 
 class Shader {
@@ -50,7 +50,7 @@ class Shader {
   Shader(sptr<ID3D11Device> device, sptr<ID3D11DeviceContext> device_context);
   ~Shader();
 
-  bool Init(string vs_path, string ps_path, bool light);
+  bool Init(const string& vs_path, const string& ps_path, bool light);
   bool Update(const float4x4& world_matrix,
               const float4x4& view_matrix,
               const float4x4& projection_matrix,
@@ -63,8 +63,8 @@ class Shader {
   bool CreateSamplerState();
 
  private:
-  std::shared_ptr<ID3D11Device> device_;
-  std::shared_ptr<ID3D11DeviceContext> device_context_;
+  sptr<ID3D11Device> device_;
+  sptr<ID3D11DeviceContext> device_context_;
 
   ID3D11VertexShader* vertex_shader_;
   ID3D11PixelShader* pixel_shader_;
@@ -79,4 +79,4 @@ class Shader {
 };
 }  // namespace voodoo
 
-#endif
+#endif  // VOODOO_SHADER_H_

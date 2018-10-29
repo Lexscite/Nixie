@@ -22,25 +22,27 @@
 #include "logger.h"
 #include "scene.h"
 
+// Not necessary but widely-used dependencies
 #include "math.h"
+#include "time.h"
 
 namespace voodoo {
 class Component : public Object {
  public:
   virtual ~Component() = default;
 
-  sptr<GameObject> GetGameObject();
+  sptr<GameObject> GetGameObject() const;
   void SetGameObject(sptr<GameObject> game_object);
 
   sptr<GameObject> GetParent() const;
   void SetParent(sptr<GameObject> parent);
 
-  sptr<Scene> GetScene();
-  sptr<Transform> GetTransform();
+  sptr<Scene> GetScene() const;
+  sptr<Transform> GetTransform() const;
   sptr<Component> AddComponent(sptr<Component> component);
 
   template <class T, enable_if_component_t<T> = 0>
-  sptr<T> GetComponent() {
+  sptr<T> GetComponent() const {
     return game_object_->GetComponent<T>();
   }
 
@@ -63,7 +65,7 @@ class Component : public Object {
   Component() = default;
 
  private:
-  void SetName(string name);
+  void SetName(const string& name);
 
  protected:
   sptr<GameObject> game_object_;

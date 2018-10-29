@@ -32,27 +32,27 @@ float4x4 Transform::GetWorldMatrix() {
   return world_matrix_;
 }
 
-vec3f Transform::GetUp() {
+vec3f Transform::GetUp() const {
   return rotation_.ToMatrix4() * kVec3fY;
 }
 
-vec3f Transform::GetDown() {
+vec3f Transform::GetDown() const {
   return rotation_.ToMatrix4() * -kVec3fY;
 }
 
-vec3f Transform::GetForward() {
+vec3f Transform::GetForward() const {
   return rotation_.ToMatrix4() * kVec3fZ;
 }
 
-vec3f Transform::GetBackward() {
+vec3f Transform::GetBackward() const {
   return rotation_.ToMatrix4() * -kVec3fZ;
 }
 
-vec3f Transform::GetRight() {
+vec3f Transform::GetRight() const {
   return rotation_.ToMatrix4() * kVec3fX;
 }
 
-vec3f Transform::GetLeft() {
+vec3f Transform::GetLeft() const {
   return rotation_.ToMatrix4() * -kVec3fX;
 }
 

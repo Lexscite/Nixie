@@ -26,11 +26,11 @@ Object::Object(const string& name) : Object() {
 
 Object::Object(const Object& other) : Object(other.name_) {}
 
-uint Object::GetInstanceId() {
+uint Object::GetInstanceId() const {
   return instance_id_;
 }
 
-string Object::GetName() {
+string Object::GetName() const {
   return name_;
 }
 

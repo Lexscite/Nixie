@@ -18,7 +18,7 @@
 #include "../include/voodoo/image_manager.h"
 
 namespace voodoo {
-sptr<Mesh> Renderer::GetMesh() {
+sptr<Mesh> Renderer::GetMesh() const {
   return mesh_;
 }
 
@@ -26,7 +26,7 @@ void Renderer::SetMesh(sptr<Mesh> mesh) {
   mesh_ = mesh;
 }
 
-sptr<Material> Renderer::GetMaterial() {
+sptr<Material> Renderer::GetMaterial() const {
   return material_;
 }
 

@@ -106,13 +106,11 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, LPSTR cmd_line, 
   int exit_code = 1;
 
   auto engine = Engine();
-  if (engine.Init(instance, L"Voodoo Sample")) {
+  if (engine.Init(instance, L"Sample")) {
     if (engine.LoadScene(CreateScene(engine))) {
       exit_code = engine.Run();
     }
   }
-
-  engine.Release();
 
   return exit_code;
 }

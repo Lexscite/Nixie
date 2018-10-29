@@ -30,7 +30,7 @@ public:
   }
 
 private:
-  virtual std::shared_ptr<ShaderBuffer> Load(std::string filename) override;
+  virtual sptr<ShaderBuffer> Load(const string& filename) override;
 };
 }
 

@@ -171,6 +171,9 @@
     <ClInclude Include="include\voodoo\window.h">
       <Filter>system</Filter>
     </ClInclude>
+    <ClInclude Include="include\voodoo\memory.h">
+      <Filter>system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="system">

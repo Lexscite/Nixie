@@ -30,7 +30,7 @@ class MeshManager : public AssetManager<Mesh> {
   }
 
  private:
-  virtual std::shared_ptr<Mesh> Load(std::string filename) override;
+  virtual sptr<Mesh> Load(const string& filename) override;
 };
 }  // namespace voodoo
 

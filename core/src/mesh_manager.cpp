@@ -18,16 +18,16 @@
 #include <fstream>
 
 namespace voodoo {
-std::shared_ptr<Mesh> MeshManager::Load(string filename) {
-  std::ifstream fin;
+sptr<Mesh> MeshManager::Load(const string& filename) {
+  using namespace std;
+  ifstream fin;
   fin.open(filename);
 
-  if (fin.fail())
-    throw std::runtime_error("Failed to process mesh file: \"" + filename +
-                             "\"");
+  if (fin.fail()) {
+    throw runtime_error("Failed to process mesh file: \"" + filename + "\"");
+  }
 
   char input;
-
   unsigned long v_count;
 
   fin.get(input);
@@ -40,7 +40,7 @@ std::shared_ptr<Mesh> MeshManager::Load(string filename) {
   fin.get(input);
   fin.get(input);
 
-  std::vector<vertex_ptn> vertices;
+  vector<vertex_ptn> vertices;
   vertices.resize(v_count);
 
   for (unsigned int i = 0; i < v_count; i++) {
@@ -52,6 +52,6 @@ std::shared_ptr<Mesh> MeshManager::Load(string filename) {
 
   fin.close();
 
-  return std::make_shared<Mesh>(vertices);
+  return make_shared<Mesh>(vertices);
 }
 }  // namespace voodoo

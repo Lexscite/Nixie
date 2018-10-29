@@ -19,8 +19,7 @@
 namespace voodoo {
 struct Image {
  public:
-  Image(const int& width, const int& height, const int& channels,
-        unsigned char* data)
+  Image(const int& width, const int& height, const int& channels, byte* data)
       : width(width), height(height), channels(channels), data(data) {}
 
   ~Image() {
@@ -31,7 +30,7 @@ struct Image {
 
  public:
   int width, height, channels;
-  unsigned char* data;
+  byte* data;
 };
 }  // namespace voodoo
 

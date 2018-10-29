@@ -29,7 +29,7 @@ class ImageManager : public AssetManager<Image> {
   }
 
  private:
-  virtual std::shared_ptr<Image> Load(std::string filename) override;
+  virtual sptr<Image> Load(const string& filename) override;
 };
 }  // namespace voodoo
 

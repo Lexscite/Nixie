@@ -24,11 +24,11 @@
 namespace voodoo {
 class Renderer : public Component {
  public:
-  std::shared_ptr<Mesh> GetMesh();
-  void SetMesh(std::shared_ptr<Mesh> mesh);
+  sptr<Mesh> GetMesh() const;
+  void SetMesh(sptr<Mesh> mesh);
 
-  std::shared_ptr<Material> GetMaterial();
-  void SetMaterial(std::shared_ptr<Material> material);
+  sptr<Material> GetMaterial() const;
+  void SetMaterial(sptr<Material> material);
 
  private:
   sptr<Mesh> mesh_;
@@ -36,4 +36,4 @@ class Renderer : public Component {
 };
 }  // namespace voodoo
 
-#endif
+#endif  // VOODOO_RENDERER_H_
