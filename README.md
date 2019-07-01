@@ -1,5 +1,5 @@
 # Voodoo Engine
-[![Build Status](https://travis-ci.org/lexscite/nixie.svg?branch=master)](https://travis-ci.org/lexscite/nixie)
+[![Build Status](https://travis-ci.org/lexscite/voodoo-engine.svg?branch=master)](https://travis-ci.org/lexscite/voodoo-engine)
 
 Simple DirectX11 client/server game engine.
 
